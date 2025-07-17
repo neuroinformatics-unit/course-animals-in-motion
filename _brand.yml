@@ -1,16 +1,14 @@
 meta:
   name:
-    short: NIU
-    full: Neuroinformatics Unit
+    short: AiM
+    full: Animals in Motion
   link:
-    home: https://neuroinformatics.dev
-    github: https://github.com/neuroinformatics-unit
-    bluesky: https://bsky.app/profile/neuroinformatics.dev
-    mastodon: https://mastodon.online/@neuroinformatics
-    zulip: https://neuroinformatics.zulipchat.com
+    home: https://neuroinformatics.dev/course-animals-in-motion
+    github: https://github.com/neuroinformatics-unit/course-animals-in-motion
+    zulip: https://neuroinformatics.zulipchat.com/#narrow/channel/497885-Open-Software-Week
 
 logo:
-  medium: "img/logo_niu_light.png"  # change to logo_niu_dark.png for dark mode
+  medium: "img/animals-in-motion-logo.png"
 
 color:
   palette:
@@ -23,9 +21,9 @@ color:
   # Flip the background/foregroud colors for dark mode
   background: white
   foreground: dark-grey
-  primary: niu-green     # use niu-green-dark for dark mode
+  primary: niu-green
   info: blue
-  success: niu-green     # use niu-green-dark for dark mode
+  success: niu-green
   warning: bg-orange
 
 
