@@ -1,0 +1,7 @@
+index.html
+index_files/
+_book/
+.quarto/
+.DS_Store
+.ipynb_checkpoints/
+.idea/

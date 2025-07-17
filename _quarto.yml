@@ -1,0 +1,28 @@
+project:
+  type: book
+
+book:
+  title: "Animals In Motion"
+  author:
+    - Niko Sirmpilatze
+    - Sofía Miñano
+    - Chang Huan Lo
+  date: "2025-08-11"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: scrreprt
+
+
+
