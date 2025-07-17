@@ -14,19 +14,19 @@
     "href": "intro.html",
     "title": "1  Introduction",
     "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "We’ll provide an overview of the approaches used for quantifying animal behaviour, and we’ll narrow down into Computer Vision (CV) methods for detecting and tracking animals in videos.\nSee Luxem et al. (2023) for an overview of the field.\n\n\n\n\nLuxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric Yttri, Jan Zimmermann, Talmo D Pereira, and Mark Laubach. 2023. “Open-Source Tools for Behavioral Video Analysis: Setup, Methods, and Best Practices.” Edited by Denise J Cai and Laura L Colgin. eLife 12 (March): e79305. https://doi.org/10.7554/eLife.79305.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
-    "objectID": "summary.html",
-    "href": "summary.html",
-    "title": "2  Summary",
+    "objectID": "neural-networks.html",
+    "href": "neural-networks.html",
+    "title": "2  Neural Network Primer",
     "section": "",
-    "text": "In summary, this book has no content whatsoever.",
+    "text": "All you need to know about neural networks to understand the rest of the course.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Neural Network Primer</span>"
     ]
   },
   {
@@ -34,7 +34,7 @@
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "Luxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric\nYttri, Jan Zimmermann, Talmo D Pereira, and Mark Laubach. 2023.\n“Open-Source Tools for Behavioral Video Analysis: Setup, Methods,\nand Best Practices.” Edited by Denise J Cai and Laura L Colgin.\neLife 12 (March): e79305. https://doi.org/10.7554/eLife.79305.",
     "crumbs": [
       "References"
     ]
