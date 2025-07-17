@@ -11,7 +11,9 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    - summary.qmd
+    - neural-networks.qmd
+    - sleap-tutorial.qmd
+    - movement-tutorial.qmd
     - references.qmd
 
 bibliography: references.bib
