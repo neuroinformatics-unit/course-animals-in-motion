@@ -1,8 +1,9 @@
-index.html
-index_files/
+# Quarto
+/.quarto/
 _book/
-.quarto/
+
+# Other
 .DS_Store
 .ipynb_checkpoints/
 .idea/
-/.quarto/
+
