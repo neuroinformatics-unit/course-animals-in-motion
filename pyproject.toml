@@ -1,0 +1,11 @@
+[project]
+name = "animals-in-motion"
+version = "0.1.0"
+description = "A handbook for analysing animal motions based on videos."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "jupyter-book==2.0.0b1",
+    "movement>=0.8.0",
+    "xarray>=2025.7.1",
+]
