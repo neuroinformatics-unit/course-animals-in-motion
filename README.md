@@ -24,11 +24,7 @@ uv run quarto render
 
 ## Deployment
 
-The book is deployed in two places for now:
-
-- [GitHub Pages](https://neuroinformatics.dev/animals-in-motion/). This deployment is handled by the [render_and_deploy.yaml](.github/workflows/render_and_deploy.yaml) workflow and corresponds to the `main` branch.
-- [Read the Docs](https://animals-in-motion.readthedocs.io/en/latest/). This is configured in the [.readthedocs.yaml](.readthedocs.yaml) file and has the advantage of enabling multiple versions of the book, e.g. `latest` and `v0.1.0`.
-
+The book is deployed via [Read the Docs](https://animals-in-motion.readthedocs.io/en/latest/) to [animals-in-motion.readthedocs.io](https://animals-in-motion.readthedocs.io).
 
 
 ## License
