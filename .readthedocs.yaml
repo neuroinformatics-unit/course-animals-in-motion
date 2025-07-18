@@ -1,0 +1,23 @@
+version: 2
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "3.12"
+  jobs:
+    install:
+      - pip install .
+    post_install:
+      # Import matplotlib to build the font cache
+      # Otherwise, the first time it's imported cell execution can timeout
+      - python -c "import matplotlib"
+    build:
+      commands:
+        # Download and install Quarto CLI
+        - wget "https://github.com/quarto-dev/quarto-cli/releases/download/v1.7.32/quarto-1.7.32-linux-amd64.tar.gz"
+        - "mkdir ~/opt && tar -C ~/opt -xvzf quarto*.tar.gz"
+        - "mkdir ~/bin && ln -s ~/opt/quarto-1.7.32/bin/quarto ~/bin/quarto"
+        # Build the Quarto book
+        - "~/bin/quarto render"
+        # Ensure output directory exists and move built files
+        - "mkdir --parents $READTHEDOCS_OUTPUT/html/"
+        - "mv _book/* $READTHEDOCS_OUTPUT/html/."
