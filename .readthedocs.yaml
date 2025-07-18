@@ -11,7 +11,7 @@ build:
       # Otherwise, the first time it's imported cell execution can timeout
       - python -c "import matplotlib"
     build:
-      commands:
+      html:
         # Download and install Quarto CLI
         - wget "https://github.com/quarto-dev/quarto-cli/releases/download/v1.7.32/quarto-1.7.32-linux-amd64.tar.gz"
         - "mkdir ~/opt && tar -C ~/opt -xvzf quarto*.tar.gz"
