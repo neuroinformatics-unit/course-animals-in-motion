@@ -6,3 +6,20 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.12.4
+    hooks:
+      # Run the linter.
+      - id: ruff-check
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format
+        args: [ --fix ]
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.8.0
+    hooks:
+      # Auto-update the lockfile.
+      - id: uv-lock
