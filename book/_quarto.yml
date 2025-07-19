@@ -10,10 +10,11 @@ book:
   date: "2025-08-11"
   chapters:
     - index.qmd
-    - intro.qmd
-    - neural-networks.qmd
-    - sleap-tutorial.qmd
-    - movement-tutorial.qmd
+    - 01-intro.qmd
+    - 02-neural-networks.qmd
+    - 03-sleap-tutorial.qmd
+    - 04-movement-mouse.qmd
+    - 05-movement-zebras.qmd
     - references.qmd
 
 bibliography: references.bib
