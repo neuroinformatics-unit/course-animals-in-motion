@@ -18,6 +18,9 @@ book:
 
 bibliography: references.bib
 
+# Explicitly disable PDF rendering
+pdf: false
+
 format:
   html:
     theme:
