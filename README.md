@@ -23,6 +23,8 @@ uv sync --locked --all-extras
 uv run quarto render book
 ```
 
+The rendered book can be viewed by opening the `book/_book/index.html` file in your browser.
+
 ## Deployment
 
 The book is deployed via [Read the Docs](https://animals-in-motion.readthedocs.io/en/latest/) to [animals-in-motion.readthedocs.io](https://animals-in-motion.readthedocs.io).
