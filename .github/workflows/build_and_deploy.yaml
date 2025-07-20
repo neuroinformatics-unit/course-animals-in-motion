@@ -115,7 +115,6 @@ jobs:
       - name: Copy to latest
         if: steps.context.outputs.is_release == 'true' || (steps.context.outputs.is_release == 'false' && steps.gh-pages-meta.outputs.releases_exist == 'false')
         run: |
-          cp .github/templates/redirect.html gh-pages/index.html
 
           cd gh-pages
           echo "Copying ${{ steps.context.outputs.destination_dir }} to latest/"
