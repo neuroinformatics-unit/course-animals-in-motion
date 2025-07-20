@@ -3,3 +3,12 @@
 This is a Quarto book.
 
 To learn more about Quarto books visit <https://quarto.org/docs/books>.
+
+## View other versions
+
+This book is available in other versions:
+
+- [latest](latest/): latest release version
+- [dev](dev/): latest development version, corresponding to the `main` branch
+
+
