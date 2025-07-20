@@ -1,0 +1,126 @@
+name: Build Quarto book and deploy to GitHub Pages
+
+# This workflow builds the Quarto book and deploys it to GitHub Pages.
+# The "build" job is triggered by pull requests, pushes to the main branch,
+# releases (tags starting with "v", e.g., v2025.08), or manually,
+# and ends with uploading the book artifact.
+# The "deploy" job is only triggered by pushes to main and releases.
+# It copies the book artifact to an appropriate folder in the gh-pages branch,
+# e.g., v2025.08 for a release or dev for pushes to main. It also
+# creates a redirect file pointing the home page to the "latest/" folder,
+# which always points to the most recent release if available,
+# or to dev/ otherwise.
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: neuroinformatics-unit/actions/lint@v2
+
+  build:
+    name: Build Quarto book
+    runs-on: ubuntu-latest
+    needs: linting
+    outputs:
+      book-artifact: book-${{ github.sha }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install dependencies
+        run: uv sync --locked --all-extras
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render book
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: book
+
+      - name: Upload book artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: book-${{ github.sha }}
+          path: book/_book
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    permissions:
+      contents: write
+    steps:
+      # If the ref is a tag, destination_dir has a release version number
+      # Otherwise, destination_dir is called "dev"
+      - name: Determine deploy context
+        id: context
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+            echo "is_release=true" >> $GITHUB_OUTPUT
+            echo "destination_dir=${VERSION}" >> $GITHUB_OUTPUT
+          else
+            echo "is_release=false" >> $GITHUB_OUTPUT
+            echo "destination_dir=dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download book artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.book-artifact }}
+          path: _book
+
+      - name: Upload to appropriate folder
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _book
+          destination_dir: ${{ steps.context.outputs.destination_dir }}
+
+      # Clone gh-pages branch
+      - name: Clone gh-pages branch
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+      
+      # Check if any release folders exist yet
+      - name: Check if any releases exist
+        id: gh-pages-meta
+        run: |
+          if ls -d gh-pages/v* 2>/dev/null | grep -q .; then
+            echo "releases_exist=true" >> $GITHUB_OUTPUT
+          else
+            echo "releases_exist=false" >> $GITHUB_OUTPUT
+          fi
+      # Copy release contents to "latest" and redirect home to point there
+      # If no releases exist, "dev" is copied to "latest"
+      - name: Copy to latest
+        if: steps.context.outputs.is_release == 'true' || ( steps.context.outputs.is_release == 'false' && steps.gh-pages-meta.outputs.releases_exist == 'false')
+        run: |
+          cd gh-pages
+          echo "Copying ${{ steps.context.outputs.destination_dir }} to latest/"
+          rm -rf latest
+          cp -r ${{ steps.context.outputs.destination_dir }} latest
+          cp ../.github/templates/redirect.html index.html
+
+          git add latest index.html
+          git commit -m "Update latest/ to ${{ steps.context.outputs.destination_dir }}" || echo "No changes to commit"
+          git push
