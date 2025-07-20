@@ -113,13 +113,14 @@ jobs:
       # Copy release contents to "latest" and redirect home to point there
       # If no releases exist, "dev" is copied to "latest"
       - name: Copy to latest
-        if: steps.context.outputs.is_release == 'true' || ( steps.context.outputs.is_release == 'false' && steps.gh-pages-meta.outputs.releases_exist == 'false')
+        if: steps.context.outputs.is_release == 'true' || (steps.context.outputs.is_release == 'false' && steps.gh-pages-meta.outputs.releases_exist == 'false')
         run: |
+          cp .github/templates/redirect.html gh-pages/index.html
+
           cd gh-pages
           echo "Copying ${{ steps.context.outputs.destination_dir }} to latest/"
           rm -rf latest
           cp -r ${{ steps.context.outputs.destination_dir }} latest
-          cp ../.github/templates/redirect.html index.html
 
           git add latest index.html
           git commit -m "Update latest/ to ${{ steps.context.outputs.destination_dir }}" || echo "No changes to commit"
