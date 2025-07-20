@@ -110,8 +110,9 @@ jobs:
           else
             echo "releases_exist=false" >> $GITHUB_OUTPUT
           fi
-      # Copy release contents to "latest" and redirect home to point there
+      # Copy release contents to "latest"
       # If no releases exist, "dev" is copied to "latest"
+      # The gh-pages branch root already contains an index.html file that redirects to latest/
       - name: Copy to latest
         if: steps.context.outputs.is_release == 'true' || (steps.context.outputs.is_release == 'false' && steps.gh-pages-meta.outputs.releases_exist == 'false')
         run: |
