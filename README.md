@@ -27,7 +27,7 @@ The rendered book can be viewed by opening the `book/_book/index.html` file in y
 
 ## Deployment
 
-The book is deployed via [Read the Docs](https://animals-in-motion.readthedocs.io/en/latest/) to [animals-in-motion.readthedocs.io](https://animals-in-motion.readthedocs.io).
+The book is deployed to GitHub Pages via the [build_and_deploy.yaml](.github/workflows/build_and_deploy.yaml) workflow.
 
 
 ## License
