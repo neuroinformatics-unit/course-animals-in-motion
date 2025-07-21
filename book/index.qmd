@@ -6,6 +6,6 @@ This is a Quarto book, see <https://quarto.org/docs/books> for more information.
 
 This book is available in other versions:
 
-- [latest](../latest/): latest release version
-- [dev](../dev/): development version, corresponding to the `main` branch
-
+- [latest](https://animals-in-motion.neuroinformatics.dev/latest/): latest release version
+- [dev](https://animals-in-motion.neuroinformatics.dev/dev/): development version, corresponding to the `main` branch
+- [v2025.08a0](https://animals-in-motion.neuroinformatics.dev/v2025.08a0/): alpha version for the 2025.08 release
