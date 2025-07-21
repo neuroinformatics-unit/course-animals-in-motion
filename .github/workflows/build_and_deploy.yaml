@@ -110,6 +110,11 @@ jobs:
           else
             echo "releases_exist=false" >> $GITHUB_OUTPUT
           fi
+      
+
+      - name: Ensure CNAME file is present in gh-pages root
+        run: echo "animals-in-motion.neuroinformatics.dev" > gh-pages/CNAME
+
       # Copy release contents to "latest"
       # If no releases exist, "dev" is copied to "latest"
       # The gh-pages branch root already contains an index.html file that redirects to latest/
@@ -122,6 +127,6 @@ jobs:
           rm -rf latest
           cp -r ${{ steps.context.outputs.destination_dir }} latest
 
-          git add latest index.html
+          git add latest index.html CNAME
           git commit -m "Update latest/ to ${{ steps.context.outputs.destination_dir }}" || echo "No changes to commit"
           git push
