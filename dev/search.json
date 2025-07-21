@@ -14,7 +14,7 @@
     "href": "index.html#view-other-versions",
     "title": "Animals In Motion",
     "section": "View other versions",
-    "text": "View other versions\nThis book is available in other versions:\n\nlatest: latest release version\ndev: development version, corresponding to the main branch\nv2025.08a0: an alpha release to test the deployment workflow.",
+    "text": "View other versions\nThis book is available in other versions:\n\nlatest: latest release version\ndev: development version, corresponding to the main branch",
     "crumbs": [
       "Preface"
     ]
