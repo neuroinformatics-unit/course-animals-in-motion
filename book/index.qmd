@@ -10,5 +10,6 @@ This book is available in other versions:
 
 - [latest](../latest/): latest release version
 - [dev](../dev/): development version, corresponding to the `main` branch
+- [v2025.08a0](../v2025.08a0/): an alpha release to test the deployment workflow.
 
 
