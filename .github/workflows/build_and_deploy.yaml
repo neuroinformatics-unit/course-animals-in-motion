@@ -58,7 +58,7 @@ jobs:
         uses: mmkal/artifact.ci/upload@main
         with:
           name: book-${{ github.sha }}
-          path: book/_book
+          path: book/_book/*
 
       - name: Print book preview URL to step summary
         shell: bash
@@ -91,7 +91,7 @@ jobs:
       - name: Download book artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.build.outputs.book-artifact }}
+          name: book-${{ github.sha }} 
           path: _book
 
       - name: Upload to appropriate folder
