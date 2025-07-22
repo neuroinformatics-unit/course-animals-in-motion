@@ -97,4 +97,4 @@ To do so:
 2. Click on the "Build and Deploy Quarto Book" section on the left.
 3. If the "Build Quarto book" action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.
 4. Click on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.
-5. Once the upload is complete, look for `book/_book/html/index.html` under the "Detected Entrypoints" section.
+5. Once the upload is complete, look for `book/_book/index.html` under the "Detected Entrypoints" section.

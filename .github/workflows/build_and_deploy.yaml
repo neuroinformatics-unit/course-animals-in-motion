@@ -92,13 +92,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: book-${{ github.sha }} 
-          path: _book
+          path: downloaded-artifact
 
       - name: Upload to appropriate folder
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _book
+          publish_dir: downloaded-artifact/book/_book
           destination_dir: ${{ steps.context.outputs.destination_dir }}
 
       # Clone gh-pages branch
