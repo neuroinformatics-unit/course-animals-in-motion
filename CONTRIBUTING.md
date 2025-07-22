@@ -1,5 +1,3 @@
-# Contributing to Animals In Motion
-
 Thank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, feature requests, and code contributions.
 
 ## Getting Started
