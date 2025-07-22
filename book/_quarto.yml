@@ -16,6 +16,8 @@ book:
     - 03-sleap-tutorial.qmd
     - 04-movement-mouse.qmd
     - 05-movement-zebras.qmd
+  appendices:
+    - contributing.qmd
     - references.qmd
 
 bibliography: references.bib

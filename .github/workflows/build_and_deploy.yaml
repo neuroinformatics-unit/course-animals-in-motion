@@ -1,4 +1,4 @@
-name: Build Quarto book and deploy to GitHub Pages
+name: Build and Deploy Quarto Book
 
 # This workflow builds the Quarto book and deploys it to GitHub Pages.
 # The "build" job is triggered by pull requests, pushes to the main branch,
