@@ -28,6 +28,7 @@ uv run quarto render book
 
 You can view the rendered book by opening the `book/_book/index.html` file in your browser.
 
+
 ## Pre-commit hooks
 
 We use [pre-commit](https://pre-commit.com/) to run checks on the codebase before committing.
@@ -59,10 +60,14 @@ To create a new release, first update the `book/index.qmd` file. Specifically, a
 - [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/): Version used for the inaugural workshop in August 2025
 ```
 
-Commit
+You also need to create a new tag with the format `vYYYY.0M`, and push it to the repository. Don't forget the `v` prefix for the tag name!
 
-you need to create a new tag with the format `vYYYY.0M`, and push it to the repository, or use the GitHub UI. Don't forget the `v` prefix for the tag name!
+For example:
 
+```bash
+git tag v2025.08
+git push origin --tags
+```
 
 ## Continuous integration (CI)
 The CI workflow is defined in the [build_and_deploy.yaml](.github/workflows/build_and_deploy.yaml) file and can be triggered by:
@@ -78,15 +83,6 @@ The workflow is built using [GitHub actions](https://docs.github.com/en/actions)
 - **build**: rendering the Quarto book and uploading an artifact
 - **deploy**: deploying the book artifact to the `gh-pages` branch (only for pushes to the `main` branch and releases)
 
-We use [artifact.ci](https://artifact.ci/) to preview the book that is rendered as part of our GitHub Actions workflow.
-To do so:
-
-1. Go to the "Checks" tab in the GitHub PR.
-2. Click on the "Docs" section on the left.
-3. If the "Build Sphinx Docs" action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.
-4. Click on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.
-5. Once the upload is complete, look for `book/_book/html/index.html` under the "Detected Entrypoints" section.
-
 Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08/`).
 There's also a special folder called `dev/` that is deployed for pushes to the `main` branch.
 
@@ -94,7 +90,13 @@ The contents of the latest release are also copied to the `latest/` folder, wher
 
 Links to previous versions can be added to the book's `index.qmd` file, under the "View other versions" section. Note that these links will only work on the deployed version of the book, not on the local version.
 
+### Previewing the book in CI
+We use [artifact.ci](https://artifact.ci/) to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR.
 
+To do so:
 
-
-
+1. Go to the "Checks" tab in the GitHub PR.
+2. Click on the "Build and Deploy Quarto Book" section on the left.
+3. If the "Build Quarto book" action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.
+4. Click on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.
+5. Once the upload is complete, look for `book/_book/html/index.html` under the "Detected Entrypoints" section.
