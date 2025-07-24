@@ -1,6 +1,6 @@
 Thank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, feature requests, and code contributions.
 
-## Getting Started
+## Setting up the development environment
 
 Begin by cloning the repository and navigating to its root directory:
 
@@ -9,44 +9,57 @@ git clone https://github.com/neuroinformatics-unit/animals-in-motion.git
 cd animals-in-motion
 ```
 
-We use [uv](https://docs.astral.sh/uv/) to manage dependencies. Ensure you have `uv` installed, then run:
+We use `conda` to manage dependencies.
+First, create a development environment using the `environment-dev.yaml` file, and activate it:
 
 ```bash
-uv sync --locked --all-extras
+conda env create -n animals-in-motion-dev -f environment-dev.yaml
+conda activate animals-in-motion-dev
 ```
 
-This is a [Quarto book](https://quarto.org/docs/books/index.html), project. The source code for the book can be found within the
-`book/` directory. We refer you to the [Quarto documentation](https://quarto.org/docs/books/index.html) for more information on how to edit the book.
-
-To build the Quarto book locally, ensure you have the [Quarto CLI](https://quarto.org/docs/get-started/) installed. Then, render the book using:
+To enable the [pre-commit hooks](#pre-commit-hooks), run the following command once:
 
 ```bash
-uv run quarto render book
+pre-commit install
+```
+
+This is a [Quarto book](https://quarto.org/docs/books/index.html) project, with its source code located in the `book/` directory.
+We refer you to the [Quarto documentation](https://quarto.org/docs/books/index.html) books are structured.
+
+To render/preview the book locally, you'll need the [Quarto CLI](https://quarto.org/docs/get-started/) installed,
+as well as the [VSCode Quarto extension](https://quarto.org/docs/get-started/hello/vscode.html)
+
+You will also need to make sure that the `QUARTO_PYTHON` environment variable is set to the path of the `python` executable in the development `conda` environment.
+This guarantees that the Quarto CLI will use the correct Python interpreter when rendering the book.
+
+```bash
+export QUARTO_PYTHON=$(which python)
+```
+
+Then, you can render the book using:
+
+```bash
+quarto render book
+# or if you want to run executable code blocks before rendering to html
+quarto render book --execute
 ```
 
 You can view the rendered book by opening the `book/_book/index.html` file in your browser.
-
 
 ## Pre-commit hooks
 
 We use [pre-commit](https://pre-commit.com/) to run checks on the codebase before committing.
 
-To enable the pre-commit hooks, run the following command once:
-
-```bash
-uv run pre-commit install
-```
 Current hooks include:
 - [codespell](https://github.com/codespell-project/codespell) for catching common spelling mistakes
 - [ruff](https://github.com/astral-sh/ruff) for code linting and formatting
-- [uv-pre-commit](https://github.com/astral-sh/uv-pre-commit) for auto-updating the `uv.lock` file.
 
 These will prevent code from being committed if any of these hooks fail.
 To run all the hooks before committing:
 
 ```sh
-uv run pre-commit run  # for staged files
-uv run pre-commit run -a  # for all files in the repository
+pre-commit run  # for staged files
+pre-commit run -a  # for all files in the repository
 ```
 
 ## Versioning and releasing

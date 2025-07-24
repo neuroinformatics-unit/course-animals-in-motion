@@ -1,5 +1,7 @@
 project:
   type: book
+  resources:
+    - "*.ipynb"  # Include jupyter notebooks in the rendered book
 
 book:
   title: "Animals In Motion"
@@ -14,7 +16,7 @@ book:
     - 01-intro.qmd
     - 02-neural-networks.qmd
     - 03-sleap-tutorial.qmd
-    - 04-movement-mouse.qmd
+    - 04-movement-mouse.ipynb
     - 05-movement-zebras.qmd
   appendices:
     - prerequisites.qmd
@@ -39,4 +41,7 @@ format:
       - brand
 
 
-
+# Options for code execution: https://quarto.org/docs/computations/caching.html
+execute: 
+  cache: true
+jupyter: python3

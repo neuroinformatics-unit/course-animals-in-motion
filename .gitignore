@@ -2,8 +2,16 @@
 /.quarto/
 _book/
 
+# Environment
+env/
+.venv/
+
+# Caches
+__pycache__/
+*.ipynb_checkpoints/
+*.jupyter_cache/
+
 # Other
 .DS_Store
 .ipynb_checkpoints/
 .idea/
-

@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+dependencies:
+  - movement>=0.8.1
+  - napari
+  - pyqt
+  - jupyter
+  - python>3.11
+  - pip

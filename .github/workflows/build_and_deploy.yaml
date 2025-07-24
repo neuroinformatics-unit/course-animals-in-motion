@@ -34,19 +34,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version-file: "pyproject.toml"
-
-      - name: Install dependencies
-        run: uv sync --locked --all-extras
+          environment-file: environment.yaml
+          activate-environment: animals-in-motion-env
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+
+      # Ensure QUARTO_PYTHON is set to the correct Python interpreter
+      - name: Set QUARTO_PYTHON
+        run: echo "QUARTO_PYTHON=$(which python)" >> $GITHUB_ENV
 
       - name: Render book
         uses: quarto-dev/quarto-actions/render@v2

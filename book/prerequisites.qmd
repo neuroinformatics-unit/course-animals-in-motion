@@ -31,7 +31,7 @@ If you are already have one installed and configured, stick with it. Otherwise, 
   - [JupyterLab](https://jupyter.org/install)
 
 
-### Specific software tools
+### Specific software tools {#sec-software-tools}
 
 You will need to install two software packages, [SLEAP](https://sleap.ai/) and [movement](https://movement.neuroinformatics.dev/),
 in separate conda environments.

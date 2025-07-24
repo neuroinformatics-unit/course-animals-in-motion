@@ -6,6 +6,7 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
+        args: [ --skip=*.bib ]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
@@ -16,10 +17,3 @@ repos:
         args: [ --fix ]
       # Run the formatter.
       - id: ruff-format
-        args: [ --fix ]
-
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.8.0
-    hooks:
-      # Auto-update the lockfile.
-      - id: uv-lock
