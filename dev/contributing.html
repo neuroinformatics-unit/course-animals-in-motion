@@ -223,7 +223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started"><span class="header-section-number">B.1</span> Getting Started</a></li>
+  <li><a href="#setting-up-the-development-environment" id="toc-setting-up-the-development-environment" class="nav-link active" data-scroll-target="#setting-up-the-development-environment"><span class="header-section-number">B.1</span> Setting up the development environment</a></li>
   <li><a href="#pre-commit-hooks" id="toc-pre-commit-hooks" class="nav-link" data-scroll-target="#pre-commit-hooks"><span class="header-section-number">B.2</span> Pre-commit hooks</a></li>
   <li><a href="#versioning-and-releasing" id="toc-versioning-and-releasing" class="nav-link" data-scroll-target="#versioning-and-releasing"><span class="header-section-number">B.3</span> Versioning and releasing</a></li>
   <li><a href="#continuous-integration-ci" id="toc-continuous-integration-ci" class="nav-link" data-scroll-target="#continuous-integration-ci"><span class="header-section-number">B.4</span> Continuous integration (CI)</a>
@@ -256,37 +256,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Thank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, feature requests, and code contributions.</p>
-<section id="getting-started" class="level2" data-number="B.1">
-<h2 data-number="B.1" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">B.1</span> Getting Started</h2>
+<section id="setting-up-the-development-environment" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="setting-up-the-development-environment"><span class="header-section-number">B.1</span> Setting up the development environment</h2>
 <p>Begin by cloning the repository and navigating to its root directory:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/neuroinformatics-unit/animals-in-motion.git</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> animals-in-motion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We use <a href="https://docs.astral.sh/uv/">uv</a> to manage dependencies. Ensure you have <code>uv</code> installed, then run:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync <span class="at">--locked</span> <span class="at">--all-extras</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This is a <a href="https://quarto.org/docs/books/index.html">Quarto book</a>, project. The source code for the book can be found within the <code>book/</code> directory. We refer you to the <a href="https://quarto.org/docs/books/index.html">Quarto documentation</a> for more information on how to edit the book.</p>
-<p>To build the Quarto book locally, ensure you have the <a href="https://quarto.org/docs/get-started/">Quarto CLI</a> installed. Then, render the book using:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run quarto render book</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We use <code>conda</code> to manage dependencies. First, create a development environment using the <code>environment-dev.yaml</code> file, and activate it:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> animals-in-motion-dev <span class="at">-f</span> environment-dev.yaml</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate animals-in-motion-dev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To enable the <a href="#pre-commit-hooks">pre-commit hooks</a>, run the following command once:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is a <a href="https://quarto.org/docs/books/index.html">Quarto book</a> project, with its source code located in the <code>book/</code> directory. We refer you to the <a href="https://quarto.org/docs/books/index.html">Quarto documentation</a> books are structured.</p>
+<p>To render/preview the book locally, you’ll need the <a href="https://quarto.org/docs/get-started/">Quarto CLI</a> installed, as well as the <a href="https://quarto.org/docs/get-started/hello/vscode.html">VSCode Quarto extension</a></p>
+<p>You will also need to make sure that the <code>QUARTO_PYTHON</code> environment variable is set to the path of the <code>python</code> executable in the development <code>conda</code> environment. This guarantees that the Quarto CLI will use the correct Python interpreter when rendering the book.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">QUARTO_PYTHON</span><span class="op">=</span><span class="va">$(</span><span class="fu">which</span> python<span class="va">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, you can render the book using:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or if you want to run executable code blocks before rendering to html</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can view the rendered book by opening the <code>book/_book/index.html</code> file in your browser.</p>
 </section>
 <section id="pre-commit-hooks" class="level2" data-number="B.2">
 <h2 data-number="B.2" class="anchored" data-anchor-id="pre-commit-hooks"><span class="header-section-number">B.2</span> Pre-commit hooks</h2>
 <p>We use <a href="https://pre-commit.com/">pre-commit</a> to run checks on the codebase before committing.</p>
-<p>To enable the pre-commit hooks, run the following command once:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run pre-commit install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Current hooks include: - <a href="https://github.com/codespell-project/codespell">codespell</a> for catching common spelling mistakes - <a href="https://github.com/astral-sh/ruff">ruff</a> for code linting and formatting - <a href="https://github.com/astral-sh/uv-pre-commit">uv-pre-commit</a> for auto-updating the <code>uv.lock</code> file.</p>
+<p>Current hooks include: - <a href="https://github.com/codespell-project/codespell">codespell</a> for catching common spelling mistakes - <a href="https://github.com/astral-sh/ruff">ruff</a> for code linting and formatting</p>
 <p>These will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run pre-commit run  <span class="co"># for staged files</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run pre-commit run <span class="at">-a</span>  <span class="co"># for all files in the repository</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run  <span class="co"># for staged files</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run <span class="at">-a</span>  <span class="co"># for all files in the repository</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="versioning-and-releasing" class="level2" data-number="B.3">
 <h2 data-number="B.3" class="anchored" data-anchor-id="versioning-and-releasing"><span class="header-section-number">B.3</span> Versioning and releasing</h2>
 <p>We use <a href="https://calver.org/">Calendar Versioning (CalVer)</a> and specifically the <code>YYYY.0M</code> scheme (e.g.&nbsp;<code>2025.08</code> for August 2025).</p>
 <p>To create a new release, first update the <code>book/index.qmd</code> file. Specifically, add an entry like the following under the “Versions” section:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">v2025.08</span><span class="co">](https://animals-in-motion.neuroinformatics.dev/v2025.08/)</span>: Version used for the inaugural workshop in August 2025</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">v2025.08</span><span class="co">](https://animals-in-motion.neuroinformatics.dev/v2025.08/)</span>: Version used for the inaugural workshop in August 2025</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You also need to create a new tag with the format <code>vYYYY.0M</code>, and push it to the repository. Don’t forget the <code>v</code> prefix for the tag name!</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v2025.08</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v2025.08</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="continuous-integration-ci" class="level2" data-number="B.4">
 <h2 data-number="B.4" class="anchored" data-anchor-id="continuous-integration-ci"><span class="header-section-number">B.4</span> Continuous integration (CI)</h2>

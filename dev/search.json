@@ -60,6 +60,16 @@
     ]
   },
   {
+    "objectID": "04-movement-mouse.html",
+    "href": "04-movement-mouse.html",
+    "title": "4  A mouse’s daily activity log",
+    "section": "",
+    "text": "Before we start, make sure you have the movement package installed, see prerequisites Section A.3.2.\n📥 Download this notebook\nLet’s download some sample data from the movement package.\n\nfrom movement import sample_data\n\nDownloading data from 'https://gin.g-node.org/neuroinformatics/movement-test-data/raw/master/metadata.yaml' to file '/Users/nsirmpilatze/.movement/data/temp_metadata.yaml'.\nSHA256 hash of downloaded file: cf2876bab4f754d48d3c9f113ce5ac91787304cc587d33d8bf1124d5358e957f\nUse this value as the 'known_hash' argument of 'pooch.retrieve' to ensure that the file hasn't changed if it is downloaded again in the future.\n\n\nWe will use the following 3 files:\n\nDLC_smart-kage3_datetime-20240417T090006.predictions.h5\nDLC_smart-kage3_datetime-20240417T100006.predictions.h5\nDLC_smart-kage3_datetime-20240417T110006.predictions.h5\n\nEach file corresponds to a 1-hour segment of a video recording of a mouse in its home cage. The start date and time of each file is indicated in the filename, in the format YYYYMMDDTHHMMSS.\n\nfilemame_list = [\n    \"DLC_smart-kage3_datetime-20240417T090006.predictions.h5\",\n    \"DLC_smart-kage3_datetime-20240417T100006.predictions.h5\",\n    \"DLC_smart-kage3_datetime-20240417T110006.predictions.h5\",\n]\n\nds_list = []  # list of loaded datasets\nfor filename in filemame_list:\n    ds = sample_data.fetch_dataset(filename, with_video=True)\n    ds_list.append(ds)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>A mouse's daily activity log</span>"
+    ]
+  },
+  {
     "objectID": "prerequisites.html",
     "href": "prerequisites.html",
     "title": "Appendix A — Prerequisites",
@@ -108,18 +118,18 @@
     "href": "contributing.html",
     "title": "Appendix B — Contributing",
     "section": "",
-    "text": "B.1 Getting Started\nThank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, feature requests, and code contributions.\nBegin by cloning the repository and navigating to its root directory:\nWe use uv to manage dependencies. Ensure you have uv installed, then run:\nThis is a Quarto book, project. The source code for the book can be found within the book/ directory. We refer you to the Quarto documentation for more information on how to edit the book.\nTo build the Quarto book locally, ensure you have the Quarto CLI installed. Then, render the book using:\nYou can view the rendered book by opening the book/_book/index.html file in your browser.",
+    "text": "B.1 Setting up the development environment\nThank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, feature requests, and code contributions.\nBegin by cloning the repository and navigating to its root directory:\nWe use conda to manage dependencies. First, create a development environment using the environment-dev.yaml file, and activate it:\nTo enable the pre-commit hooks, run the following command once:\nThis is a Quarto book project, with its source code located in the book/ directory. We refer you to the Quarto documentation books are structured.\nTo render/preview the book locally, you’ll need the Quarto CLI installed, as well as the VSCode Quarto extension\nYou will also need to make sure that the QUARTO_PYTHON environment variable is set to the path of the python executable in the development conda environment. This guarantees that the Quarto CLI will use the correct Python interpreter when rendering the book.\nThen, you can render the book using:\nYou can view the rendered book by opening the book/_book/index.html file in your browser.",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
     ]
   },
   {
-    "objectID": "contributing.html#getting-started",
-    "href": "contributing.html#getting-started",
+    "objectID": "contributing.html#setting-up-the-development-environment",
+    "href": "contributing.html#setting-up-the-development-environment",
     "title": "Appendix B — Contributing",
     "section": "",
-    "text": "git clone https://github.com/neuroinformatics-unit/animals-in-motion.git\ncd animals-in-motion\n\nuv sync --locked --all-extras\n\n\nuv run quarto render book",
+    "text": "git clone https://github.com/neuroinformatics-unit/animals-in-motion.git\ncd animals-in-motion\n\nconda env create -n animals-in-motion-dev -f environment-dev.yaml\nconda activate animals-in-motion-dev\n\npre-commit install\n\n\n\nexport QUARTO_PYTHON=$(which python)\n\nquarto render book\n# or if you want to run executable code blocks before rendering to html\nquarto render book --execute",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
@@ -130,7 +140,7 @@
     "href": "contributing.html#pre-commit-hooks",
     "title": "Appendix B — Contributing",
     "section": "B.2 Pre-commit hooks",
-    "text": "B.2 Pre-commit hooks\nWe use pre-commit to run checks on the codebase before committing.\nTo enable the pre-commit hooks, run the following command once:\nuv run pre-commit install\nCurrent hooks include: - codespell for catching common spelling mistakes - ruff for code linting and formatting - uv-pre-commit for auto-updating the uv.lock file.\nThese will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:\nuv run pre-commit run  # for staged files\nuv run pre-commit run -a  # for all files in the repository",
+    "text": "B.2 Pre-commit hooks\nWe use pre-commit to run checks on the codebase before committing.\nCurrent hooks include: - codespell for catching common spelling mistakes - ruff for code linting and formatting\nThese will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:\npre-commit run  # for staged files\npre-commit run -a  # for all files in the repository",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
