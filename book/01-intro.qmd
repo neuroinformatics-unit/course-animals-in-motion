@@ -1,5 +1,10 @@
 # Introduction {#sec-intro}
 
-We'll provide an overview of the approaches used for quantifying animal behaviour, and we'll narrow down into Computer Vision (CV) methods for detecting and tracking animals in videos.
 
-See @luxem2023 for an overview of the field.
+Machine learning methods for motion tracking have transformed a wide range of scientific disciplines—from neuroscience and biomechanics to conservation and ethology.
+Tools such as [DeepLabCut](https://www.mackenziemathislab.org/deeplabcut/) [@mathis_deeplabcut_2018] and [SLEAP](https://sleap.ai/) [@pereira_sleap_2022] enable researchers to track animal movements in video recordings with impressive accuracy, without the need for physical markers.
+
+However, the variety of available tools can be overwhelming [@luxem_open-source_2023].
+It's often unclear which tool is best suited to a given application, or how to get started.
+We'll provide an overview of the approaches used for quantifying animal behaviour,
+and we'll narrow down into Computer Vision (CV) methods for detecting and tracking animals in videos.
