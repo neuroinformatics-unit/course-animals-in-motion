@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Zebra escape trajectories – Animals In Motion</title>
+<title>Appendix A — Prerequisites – Animals In Motion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./prerequisites.html" rel="next">
-<link href="./04-movement-mouse.html" rel="prev">
+<link href="./contributing.html" rel="next">
+<link href="./05-movement-zebras.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-movement-zebras.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./prerequisites.html">Appendices</a></li><li class="breadcrumb-item"><a href="./prerequisites.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -145,7 +180,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-movement-zebras.html" class="sidebar-item-text sidebar-link active">
+  <a href="./05-movement-zebras.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span></a>
   </div>
 </li>
@@ -160,7 +195,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></span></a>
   </div>
 </li>
@@ -183,15 +218,28 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#knowledge" id="toc-knowledge" class="nav-link active" data-scroll-target="#knowledge"><span class="header-section-number">A.1</span> Knowledge</a></li>
+  <li><a href="#hardware" id="toc-hardware" class="nav-link" data-scroll-target="#hardware"><span class="header-section-number">A.2</span> Hardware</a></li>
+  <li><a href="#software" id="toc-software" class="nav-link" data-scroll-target="#software"><span class="header-section-number">A.3</span> Software</a>
+  <ul class="collapse">
+  <li><a href="#coding-environment" id="toc-coding-environment" class="nav-link" data-scroll-target="#coding-environment"><span class="header-section-number">A.3.1</span> Coding environment</a></li>
+  <li><a href="#specific-software-tools" id="toc-specific-software-tools" class="nav-link" data-scroll-target="#specific-software-tools"><span class="header-section-number">A.3.2</span> Specific software tools</a></li>
+  </ul></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">A.4</span> Data</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/prerequisites.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/prerequisites.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./prerequisites.html">Appendices</a></li><li class="breadcrumb-item"><a href="./prerequisites.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-movement-zebras" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span></h1>
+<h1 class="title"><span id="sec-prerequisites" class="quarto-section-identifier">Appendix A — Prerequisites</span></h1>
 </div>
 
 
@@ -208,8 +256,83 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="knowledge" class="level2" data-number="A.1">
+<h2 data-number="A.1" class="anchored" data-anchor-id="knowledge"><span class="header-section-number">A.1</span> Knowledge</h2>
+<p>We expect a basic familiarity with Python and ideally, with its core scientific libraries like NumPy, Pandas, Matplotlib, and Jupyter.</p>
+</section>
+<section id="hardware" class="level2" data-number="A.2">
+<h2 data-number="A.2" class="anchored" data-anchor-id="hardware"><span class="header-section-number">A.2</span> Hardware</h2>
+<p>This is a hands-on course, so please bring your own <strong>laptop</strong> and <strong>charger</strong>. A <strong>mouse</strong> is also strongly recommended to facilitate tasks like image annotation. A dedicated <strong>GPU is not required</strong>, though it will speed up some of the computations.</p>
+</section>
+<section id="software" class="level2" data-number="A.3">
+<h2 data-number="A.3" class="anchored" data-anchor-id="software"><span class="header-section-number">A.3</span> Software</h2>
+<section id="coding-environment" class="level3" data-number="A.3.1">
+<h3 data-number="A.3.1" class="anchored" data-anchor-id="coding-environment"><span class="header-section-number">A.3.1</span> Coding environment</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you already have a working Anaconda/miniconda installation, and have used it to run Python scripts and/or Jupyter notebooks, you can probably skip the following steps.</p>
+</div>
+</div>
+<p>To make your computer ready for coding in Python, we recommend following the <a href="https://carpentries.github.io/workshop-template/install_instructions">Software Carpentries install instructions</a>, and more specifically the following steps:</p>
+<ul>
+<li><a href="https://carpentries.github.io/workshop-template/install_instructions/#shell">Bash Shell</a>, so you can run commands in your terminal.</li>
+<li><a href="https://carpentries.github.io/workshop-template/install_instructions/#git">Git</a>, including a GitHub account.</li>
+<li><a href="https://carpentries.github.io/workshop-template/install_instructions/#python">Python</a>, which will set you up with the <a href="https://conda-forge.org/download/">conda-forge installer</a>.</li>
+</ul>
+<p>Additionally, you will need a code editor (an IDE) that is configured for Python use. If you are already have one installed and configured, stick with it. Otherwise, we recommend one of the following:</p>
+<ul>
+<li><a href="https://code.visualstudio.com/">Visual Studio Code</a> with the <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python extension</a></li>
+<li><a href="https://jupyter.org/install">JupyterLab</a></li>
+</ul>
+</section>
+<section id="specific-software-tools" class="level3" data-number="A.3.2">
+<h3 data-number="A.3.2" class="anchored" data-anchor-id="specific-software-tools"><span class="header-section-number">A.3.2</span> Specific software tools</h3>
+<p>You will need to install two software packages, <a href="https://sleap.ai/">SLEAP</a> and <a href="https://movement.neuroinformatics.dev/">movement</a>, in separate conda environments.</p>
+<p>For SLEAP, you can find the installation instructions here: <a href="https://sleap.ai/installation.html" class="uri">https://sleap.ai/installation.html</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For this workshop, we will be using SLEAP version 1.3.3, so make sure to replace the latest version number (e.g.&nbsp;<code>1.4.1</code>) with <code>1.3.3</code> in the instructions.</p>
+</div>
+</div>
+<p>The installation instructions for <code>movement</code> are available here: <a href="https://movement.neuroinformatics.dev/user_guide/installation.html" class="uri">https://movement.neuroinformatics.dev/user_guide/installation.html</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Any version of <code>movement</code> greater than or equal to 0.8.1 will work for this workshop. You will also need to use <code>movement</code>’s GUI, so make sure to follow the appropriate instructions for your operating system. If you’re looking for a one-line command, the following will probably work:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> movement-env <span class="at">-c</span> conda-forge <span class="st">"movement&gt;=0.8.1"</span> napari pyqt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="data" class="level2" data-number="A.4">
+<h2 data-number="A.4" class="anchored" data-anchor-id="data"><span class="header-section-number">A.4</span> Data</h2>
+<p>Bringing your own data is encouraged but not required. This could include video recordings of animal behaviour and/or motion tracks you’ve already generated. If you don’t have your own data, we will provide example datasets for you to work with.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -613,13 +736,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./04-movement-mouse.html" class="pagination-link" aria-label="A mouse's daily activity log">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A mouse’s daily activity log</span></span>
+      <a href="./05-movement-zebras.html" class="pagination-link" aria-label="Zebra escape trajectories">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./prerequisites.html" class="pagination-link" aria-label="Prerequisites">
-        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./contributing.html" class="pagination-link" aria-label="Contributing">
+        <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Contributing</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -631,7 +754,7 @@ ul.task-list li input[type="checkbox"] {
     </div>   
     <div class="nav-footer-center">
 <p>This website is made with <a href="https://quarto.org/docs/books">Quarto Book</a>, see <a href="contributing.html" class="quarto-xref"><span>Appendix B</span></a>.</p>
-<div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/05-movement-zebras.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/05-movement-zebras.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/prerequisites.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/prerequisites.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

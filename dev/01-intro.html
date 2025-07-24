@@ -121,6 +121,9 @@ div.csl-indent {
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Animals In Motion</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/neuroinformatics-unit/animals-in-motion/tree/main/book/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -145,7 +148,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-neural-networks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Neural Network Primer</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Neural Networks Primer</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -177,14 +180,20 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./contributing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Contributing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Contributing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">References</span></span></a>
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">References</span></span></a>
   </div>
 </li>
       </ul>
@@ -202,7 +211,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title"><span id="sec-intro" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></h1>
 </div>
 
 
@@ -219,13 +228,19 @@ div.csl-indent {
 </header>
 
 
-<p>We’ll provide an overview of the approaches used for quantifying animal behaviour, and we’ll narrow down into Computer Vision (CV) methods for detecting and tracking animals in videos.</p>
-<p>See <span class="citation" data-cites="luxem2023">Luxem et al. (<a href="references.html#ref-luxem2023" role="doc-biblioref">2023</a>)</span> for an overview of the field.</p>
+<p>Machine learning methods for motion tracking have transformed a wide range of scientific disciplines—from neuroscience and biomechanics to conservation and ethology. Tools such as <a href="https://www.mackenziemathislab.org/deeplabcut/">DeepLabCut</a> <span class="citation" data-cites="mathis_deeplabcut_2018">(<a href="references.html#ref-mathis_deeplabcut_2018" role="doc-biblioref">Mathis et al. 2018</a>)</span> and <a href="https://sleap.ai/">SLEAP</a> <span class="citation" data-cites="pereira_sleap_2022">(<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">Pereira et al. 2022</a>)</span> enable researchers to track animal movements in video recordings with impressive accuracy, without the need for physical markers.</p>
+<p>However, the variety of available tools can be overwhelming <span class="citation" data-cites="luxem_open-source_2023">(<a href="references.html#ref-luxem_open-source_2023" role="doc-biblioref">Luxem et al. 2023</a>)</span>. It’s often unclear which tool is best suited to a given application, or how to get started. We’ll provide an overview of the approaches used for quantifying animal behaviour, and we’ll narrow down into Computer Vision (CV) methods for detecting and tracking animals in videos.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-luxem2023" class="csl-entry" role="listitem">
-Luxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric Yttri, Jan Zimmermann, Talmo D Pereira, and Mark Laubach. 2023. <span>“Open-Source Tools for Behavioral Video Analysis: Setup, Methods, and Best Practices.”</span> Edited by Denise J Cai and Laura L Colgin. <em>eLife</em> 12 (March): e79305. <a href="https://doi.org/10.7554/eLife.79305">https://doi.org/10.7554/eLife.79305</a>.
+<div id="ref-luxem_open-source_2023" class="csl-entry" role="listitem">
+Luxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric Yttri, Jan Zimmermann, Talmo D Pereira, and Mark Laubach. 2023. <span>“Open-Source Tools for Behavioral Video Analysis: <span>Setup</span>, Methods, and Best Practices.”</span> Edited by Denise J Cai and Laura L Colgin. <em>eLife</em> 12 (March): e79305. <a href="https://doi.org/10.7554/eLife.79305">https://doi.org/10.7554/eLife.79305</a>.
+</div>
+<div id="ref-mathis_deeplabcut_2018" class="csl-entry" role="listitem">
+Mathis, Alexander, Pranav Mamidanna, Kevin M. Cury, Taiga Abe, Venkatesh N. Murthy, Mackenzie Weygandt Mathis, and Matthias Bethge. 2018. <span>“<span>DeepLabCut</span>: Markerless Pose Estimation of User-Defined Body Parts with Deep Learning.”</span> <em>Nature Neuroscience</em> 21 (9): 1281–89. <a href="https://doi.org/10.1038/s41593-018-0209-y">https://doi.org/10.1038/s41593-018-0209-y</a>.
+</div>
+<div id="ref-pereira_sleap_2022" class="csl-entry" role="listitem">
+Pereira, Talmo D., Nathaniel Tabris, Arie Matsliah, David M. Turner, Junyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, et al. 2022. <span>“<span>SLEAP</span>: <span>A</span> Deep Learning System for Multi-Animal Pose Tracking.”</span> <em>Nature Methods</em> 19 (4): 486–95. <a href="https://doi.org/10.1038/s41592-022-01426-1">https://doi.org/10.1038/s41592-022-01426-1</a>.
 </div>
 </div>
 
@@ -636,12 +651,25 @@ Luxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric Yttri, Jan 
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02-neural-networks.html" class="pagination-link" aria-label="Neural Network Primer">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Neural Network Primer</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./02-neural-networks.html" class="pagination-link" aria-label="Neural Networks Primer">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Neural Networks Primer</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>This website is made with <a href="https://quarto.org/docs/books">Quarto Book</a>, see <a href="contributing.html" class="quarto-xref"><span>Appendix B</span></a>.</p>
+<div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/01-intro.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/01-intro.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 

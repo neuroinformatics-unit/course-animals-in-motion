@@ -4,17 +4,37 @@
     "href": "index.html",
     "title": "Animals In Motion",
     "section": "",
-    "text": "Preface\nThis is a Quarto book, see https://quarto.org/docs/books for more information.",
+    "text": "Preface\nThis website hosts the course materials for the Animals in Motion workshop, part of the inauguaral Neuroinformatics Unit Open Software Week.\nWhether you are attending the workshop in person, or following along the materials at your own pace, be sure to check out Appendix A — Prerequisites.",
     "crumbs": [
       "Preface"
     ]
   },
   {
-    "objectID": "index.html#view-other-versions",
-    "href": "index.html#view-other-versions",
+    "objectID": "index.html#preface",
+    "href": "index.html#preface",
     "title": "Animals In Motion",
-    "section": "View other versions",
-    "text": "View other versions\nThis book is available in other versions:\n\nlatest: latest release version\ndev: development version, corresponding to the main branch\nv2025.08a0: alpha version for the 2025.08 release",
+    "section": "",
+    "text": "Target audience\n\n\n\nThis course is designed for researchers and students interested in learning about free open-source tools for tracking animal motion from video footage and extracting quantitative descriptions of behaviour from motion tracks.\n\n\n\n\nWorkshop schedule\n\n\nTime\nTopics\n\n\n\n\nDay 1: morning\n1  Introduction & 2  Neural Networks Primer\n\n\nDay 1: afternoon\n3  Pose estimation with SLEAP\n\n\nDay 2: morning\n4  A mouse’s daily activity log\n\n\nDay 2: afternoon\n5  Zebra escape trajectories",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#versions",
+    "href": "index.html#versions",
+    "title": "Animals In Motion",
+    "section": "Versions",
+    "text": "Versions\nThis website is available in multiple versions:\n\nlatest: latest release version\ndev: development version, corresponding to the main branch\nv2025.08a0: alpha version for the 2025.08 release",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#funding-acknowledgements",
+    "href": "index.html#funding-acknowledgements",
+    "title": "Animals In Motion",
+    "section": "Funding & acknowledgements",
+    "text": "Funding & acknowledgements\nThe first edition of this workshop was made possible by a Software Sustainability Institute fellowship to Niko Sirmpilatze, as well as further funding support by the Sainsbury Wellcome Centre, the Society for Research Software Engineering and AIBIO-UK. We thank the Sainsbury Wellcome Centre and the Gatsby Computational Neuroscience Unit for providing facilities for the event.\n\n\n\nLogos of workshop sponsors",
     "crumbs": [
       "Preface"
     ]
@@ -24,7 +44,7 @@
     "href": "01-intro.html",
     "title": "1  Introduction",
     "section": "",
-    "text": "We’ll provide an overview of the approaches used for quantifying animal behaviour, and we’ll narrow down into Computer Vision (CV) methods for detecting and tracking animals in videos.\nSee Luxem et al. (2023) for an overview of the field.\n\n\n\n\nLuxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric Yttri, Jan Zimmermann, Talmo D Pereira, and Mark Laubach. 2023. “Open-Source Tools for Behavioral Video Analysis: Setup, Methods, and Best Practices.” Edited by Denise J Cai and Laura L Colgin. eLife 12 (March): e79305. https://doi.org/10.7554/eLife.79305.",
+    "text": "Machine learning methods for motion tracking have transformed a wide range of scientific disciplines—from neuroscience and biomechanics to conservation and ethology. Tools such as DeepLabCut (Mathis et al. 2018) and SLEAP (Pereira et al. 2022) enable researchers to track animal movements in video recordings with impressive accuracy, without the need for physical markers.\nHowever, the variety of available tools can be overwhelming (Luxem et al. 2023). It’s often unclear which tool is best suited to a given application, or how to get started. We’ll provide an overview of the approaches used for quantifying animal behaviour, and we’ll narrow down into Computer Vision (CV) methods for detecting and tracking animals in videos.\n\n\n\n\nLuxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric Yttri, Jan Zimmermann, Talmo D Pereira, and Mark Laubach. 2023. “Open-Source Tools for Behavioral Video Analysis: Setup, Methods, and Best Practices.” Edited by Denise J Cai and Laura L Colgin. eLife 12 (March): e79305. https://doi.org/10.7554/eLife.79305.\n\n\nMathis, Alexander, Pranav Mamidanna, Kevin M. Cury, Taiga Abe, Venkatesh N. Murthy, Mackenzie Weygandt Mathis, and Matthias Bethge. 2018. “DeepLabCut: Markerless Pose Estimation of User-Defined Body Parts with Deep Learning.” Nature Neuroscience 21 (9): 1281–89. https://doi.org/10.1038/s41593-018-0209-y.\n\n\nPereira, Talmo D., Nathaniel Tabris, Arie Matsliah, David M. Turner, Junyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, et al. 2022. “SLEAP: A Deep Learning System for Multi-Animal Pose Tracking.” Nature Methods 19 (4): 486–95. https://doi.org/10.1038/s41592-022-01426-1.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -32,77 +52,121 @@
   {
     "objectID": "02-neural-networks.html",
     "href": "02-neural-networks.html",
-    "title": "2  Neural Network Primer",
+    "title": "2  Neural Networks Primer",
     "section": "",
     "text": "All you need to know about neural networks to understand the rest of the course.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Neural Network Primer</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Neural Networks Primer</span>"
+    ]
+  },
+  {
+    "objectID": "prerequisites.html",
+    "href": "prerequisites.html",
+    "title": "Appendix A — Prerequisites",
+    "section": "",
+    "text": "A.1 Knowledge\nWe expect a basic familiarity with Python and ideally, with its core scientific libraries like NumPy, Pandas, Matplotlib, and Jupyter.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Prerequisites</span>"
+    ]
+  },
+  {
+    "objectID": "prerequisites.html#hardware",
+    "href": "prerequisites.html#hardware",
+    "title": "Appendix A — Prerequisites",
+    "section": "A.2 Hardware",
+    "text": "A.2 Hardware\nThis is a hands-on course, so please bring your own laptop and charger. A mouse is also strongly recommended to facilitate tasks like image annotation. A dedicated GPU is not required, though it will speed up some of the computations.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Prerequisites</span>"
+    ]
+  },
+  {
+    "objectID": "prerequisites.html#software",
+    "href": "prerequisites.html#software",
+    "title": "Appendix A — Prerequisites",
+    "section": "A.3 Software",
+    "text": "A.3 Software\n\nA.3.1 Coding environment\n\n\n\n\n\n\nNote\n\n\n\nIf you already have a working Anaconda/miniconda installation, and have used it to run Python scripts and/or Jupyter notebooks, you can probably skip the following steps.\n\n\nTo make your computer ready for coding in Python, we recommend following the Software Carpentries install instructions, and more specifically the following steps:\n\nBash Shell, so you can run commands in your terminal.\nGit, including a GitHub account.\nPython, which will set you up with the conda-forge installer.\n\nAdditionally, you will need a code editor (an IDE) that is configured for Python use. If you are already have one installed and configured, stick with it. Otherwise, we recommend one of the following:\n\nVisual Studio Code with the Python extension\nJupyterLab\n\n\n\nA.3.2 Specific software tools\nYou will need to install two software packages, SLEAP and movement, in separate conda environments.\nFor SLEAP, you can find the installation instructions here: https://sleap.ai/installation.html.\n\n\n\n\n\n\nNote\n\n\n\nFor this workshop, we will be using SLEAP version 1.3.3, so make sure to replace the latest version number (e.g. 1.4.1) with 1.3.3 in the instructions.\n\n\nThe installation instructions for movement are available here: https://movement.neuroinformatics.dev/user_guide/installation.html.\n\n\n\n\n\n\nNote\n\n\n\nAny version of movement greater than or equal to 0.8.1 will work for this workshop. You will also need to use movement’s GUI, so make sure to follow the appropriate instructions for your operating system. If you’re looking for a one-line command, the following will probably work:\nconda create -n movement-env -c conda-forge \"movement&gt;=0.8.1\" napari pyqt",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Prerequisites</span>"
+    ]
+  },
+  {
+    "objectID": "prerequisites.html#data",
+    "href": "prerequisites.html#data",
+    "title": "Appendix A — Prerequisites",
+    "section": "A.4 Data",
+    "text": "A.4 Data\nBringing your own data is encouraged but not required. This could include video recordings of animal behaviour and/or motion tracks you’ve already generated. If you don’t have your own data, we will provide example datasets for you to work with.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Prerequisites</span>"
     ]
   },
   {
     "objectID": "contributing.html",
     "href": "contributing.html",
-    "title": "Appendix A — Contributing",
+    "title": "Appendix B — Contributing",
     "section": "",
-    "text": "A.1 Getting Started\nThank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, feature requests, and code contributions.\nBegin by cloning the repository and navigating to its root directory:\nWe use uv to manage dependencies. Ensure you have uv installed, then run:\nThis is a Quarto book, project. The source code for the book can be found within the book/ directory. We refer you to the Quarto documentation for more information on how to edit the book.\nTo build the Quarto book locally, ensure you have the Quarto CLI installed. Then, render the book using:\nYou can view the rendered book by opening the book/_book/index.html file in your browser.",
+    "text": "B.1 Getting Started\nThank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, feature requests, and code contributions.\nBegin by cloning the repository and navigating to its root directory:\nWe use uv to manage dependencies. Ensure you have uv installed, then run:\nThis is a Quarto book, project. The source code for the book can be found within the book/ directory. We refer you to the Quarto documentation for more information on how to edit the book.\nTo build the Quarto book locally, ensure you have the Quarto CLI installed. Then, render the book using:\nYou can view the rendered book by opening the book/_book/index.html file in your browser.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Contributing</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
     ]
   },
   {
     "objectID": "contributing.html#getting-started",
     "href": "contributing.html#getting-started",
-    "title": "Appendix A — Contributing",
+    "title": "Appendix B — Contributing",
     "section": "",
     "text": "git clone https://github.com/neuroinformatics-unit/animals-in-motion.git\ncd animals-in-motion\n\nuv sync --locked --all-extras\n\n\nuv run quarto render book",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Contributing</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
     ]
   },
   {
     "objectID": "contributing.html#pre-commit-hooks",
     "href": "contributing.html#pre-commit-hooks",
-    "title": "Appendix A — Contributing",
-    "section": "A.2 Pre-commit hooks",
-    "text": "A.2 Pre-commit hooks\nWe use pre-commit to run checks on the codebase before committing.\nTo enable the pre-commit hooks, run the following command once:\nuv run pre-commit install\nCurrent hooks include: - codespell for catching common spelling mistakes - ruff for code linting and formatting - uv-pre-commit for auto-updating the uv.lock file.\nThese will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:\nuv run pre-commit run  # for staged files\nuv run pre-commit run -a  # for all files in the repository",
+    "title": "Appendix B — Contributing",
+    "section": "B.2 Pre-commit hooks",
+    "text": "B.2 Pre-commit hooks\nWe use pre-commit to run checks on the codebase before committing.\nTo enable the pre-commit hooks, run the following command once:\nuv run pre-commit install\nCurrent hooks include: - codespell for catching common spelling mistakes - ruff for code linting and formatting - uv-pre-commit for auto-updating the uv.lock file.\nThese will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:\nuv run pre-commit run  # for staged files\nuv run pre-commit run -a  # for all files in the repository",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Contributing</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
     ]
   },
   {
     "objectID": "contributing.html#versioning-and-releasing",
     "href": "contributing.html#versioning-and-releasing",
-    "title": "Appendix A — Contributing",
-    "section": "A.3 Versioning and releasing",
-    "text": "A.3 Versioning and releasing\nWe use Calendar Versioning (CalVer) and specifically the YYYY.0M scheme (e.g. 2025.08 for August 2025).\nTo create a new release, first update the book/index.qmd file. Specifically, add an entry like the following under the “View other versions” section:\n- [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/): Version used for the inaugural workshop in August 2025\nYou also need to create a new tag with the format vYYYY.0M, and push it to the repository. Don’t forget the v prefix for the tag name!\nFor example:\ngit tag v2025.08\ngit push origin --tags",
+    "title": "Appendix B — Contributing",
+    "section": "B.3 Versioning and releasing",
+    "text": "B.3 Versioning and releasing\nWe use Calendar Versioning (CalVer) and specifically the YYYY.0M scheme (e.g. 2025.08 for August 2025).\nTo create a new release, first update the book/index.qmd file. Specifically, add an entry like the following under the “Versions” section:\n- [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/): Version used for the inaugural workshop in August 2025\nYou also need to create a new tag with the format vYYYY.0M, and push it to the repository. Don’t forget the v prefix for the tag name!\nFor example:\ngit tag v2025.08\ngit push origin --tags",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Contributing</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
     ]
   },
   {
     "objectID": "contributing.html#continuous-integration-ci",
     "href": "contributing.html#continuous-integration-ci",
-    "title": "Appendix A — Contributing",
-    "section": "A.4 Continuous integration (CI)",
-    "text": "A.4 Continuous integration (CI)\nThe CI workflow is defined in the build_and_deploy.yaml file and can be triggered by:\n\nPushes to the main branch\nPull requests\nReleases, i.e. tags starting with v (e.g., v2025.08)\nManual dispatches\n\nThe workflow is built using GitHub actions and includes three jobs:\n\nlinting: running the pre-commit hooks\nbuild: rendering the Quarto book and uploading an artifact\ndeploy: deploying the book artifact to the gh-pages branch (only for pushes to the main branch and releases)\n\nEach release version is deployed to a folder in the gh-pages branch, with the same name as the release tag (e.g., v2025.08/). There’s also a special folder called dev/ that is deployed for pushes to the main branch.\nThe contents of the latest release are also copied to the latest/ folder, where the home page is redirected to.\nLinks to previous versions can be added to the book’s index.qmd file, under the “View other versions” section. Note that these links will only work on the deployed version of the book, not on the local version.\n\nA.4.1 Previewing the book in CI\nWe use artifact.ci to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR.\nTo do so:\n\nGo to the “Checks” tab in the GitHub PR.\nClick on the “Build and Deploy Quarto Book” section on the left.\nIf the “Build Quarto book” action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.\nClick on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.\nOnce the upload is complete, look for book/_book/index.html under the “Detected Entrypoints” section.",
+    "title": "Appendix B — Contributing",
+    "section": "B.4 Continuous integration (CI)",
+    "text": "B.4 Continuous integration (CI)\nThe CI workflow is defined in the build_and_deploy.yaml file and can be triggered by:\n\nPushes to the main branch\nPull requests\nReleases, i.e. tags starting with v (e.g., v2025.08)\nManual dispatches\n\nThe workflow is built using GitHub actions and includes three jobs:\n\nlinting: running the pre-commit hooks\nbuild: rendering the Quarto book and uploading an artifact\ndeploy: deploying the book artifact to the gh-pages branch (only for pushes to the main branch and releases)\n\nEach release version is deployed to a folder in the gh-pages branch, with the same name as the release tag (e.g., v2025.08/). There’s also a special folder called dev/ that is deployed for pushes to the main branch.\nThe contents of the latest release are also copied to the latest/ folder, where the home page is redirected to.\nLinks to previous versions can be added to the book’s index.qmd file, under the “View other versions” section. Note that these links will only work on the deployed version of the book, not on the local version.\n\nB.4.1 Previewing the book in CI\nWe use artifact.ci to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR. To do so:\n\nGo to the “Checks” tab in the GitHub PR.\nClick on the “Build and Deploy Quarto Book” section on the left.\nIf the “Build Quarto book” action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.\nClick on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.\nOnce the upload is complete, look for book/_book/index.html under the “Detected Entrypoints” section.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Contributing</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
     ]
   },
   {
     "objectID": "references.html",
     "href": "references.html",
-    "title": "Appendix B — References",
+    "title": "Appendix C — References",
     "section": "",
-    "text": "Luxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric\nYttri, Jan Zimmermann, Talmo D Pereira, and Mark Laubach. 2023.\n“Open-Source Tools for Behavioral Video Analysis: Setup, Methods,\nand Best Practices.” Edited by Denise J Cai and Laura L Colgin.\neLife 12 (March): e79305. https://doi.org/10.7554/eLife.79305.",
+    "text": "Luxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric\nYttri, Jan Zimmermann, Talmo D Pereira, and Mark Laubach. 2023.\n“Open-Source Tools for Behavioral Video Analysis:\nSetup, Methods, and Best Practices.” Edited by\nDenise J Cai and Laura L Colgin. eLife 12 (March): e79305. https://doi.org/10.7554/eLife.79305.\n\n\nMathis, Alexander, Pranav Mamidanna, Kevin M. Cury, Taiga Abe, Venkatesh\nN. Murthy, Mackenzie Weygandt Mathis, and Matthias Bethge. 2018.\n“DeepLabCut: Markerless Pose Estimation of\nUser-Defined Body Parts with Deep Learning.” Nature\nNeuroscience 21 (9): 1281–89. https://doi.org/10.1038/s41593-018-0209-y.\n\n\nPereira, Talmo D., Nathaniel Tabris, Arie Matsliah, David M. Turner,\nJunyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, et al. 2022.\n“SLEAP: A Deep Learning System for\nMulti-Animal Pose Tracking.” Nature Methods 19 (4):\n486–95. https://doi.org/10.1038/s41592-022-01426-1.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>References</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>References</span>"
     ]
   }
 ]
