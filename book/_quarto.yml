@@ -17,6 +17,7 @@ book:
     - 04-movement-mouse.qmd
     - 05-movement-zebras.qmd
   appendices:
+    - prerequisites.qmd
     - contributing.qmd
     - references.qmd
 
