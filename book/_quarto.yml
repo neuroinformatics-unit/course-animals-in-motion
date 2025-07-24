@@ -20,6 +20,12 @@ book:
     - prerequisites.qmd
     - contributing.qmd
     - references.qmd
+  page-footer: "This website is made with [Quarto Book](https://quarto.org/docs/books), see @sec-contributing." 
+  # Options for GitHub repository links
+  repo-url: https://github.com/neuroinformatics-unit/animals-in-motion
+  repo-subdir: book
+  repo-actions: [edit, source, issue]
+  repo-link-target: _blank  # open in new tab
 
 bibliography: references.bib
 

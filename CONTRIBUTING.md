@@ -53,7 +53,7 @@ uv run pre-commit run -a  # for all files in the repository
 
 We use [Calendar Versioning (CalVer)](https://calver.org/) and specifically the `YYYY.0M` scheme (e.g. `2025.08` for August 2025).
 
-To create a new release, first update the `book/index.qmd` file. Specifically, add an entry like the following under the "View other versions" section:
+To create a new release, first update the `book/index.qmd` file. Specifically, add an entry like the following under the "Versions" section:
 ```md
 - [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/): Version used for the inaugural workshop in August 2025
 ```
@@ -89,9 +89,7 @@ The contents of the latest release are also copied to the `latest/` folder, wher
 Links to previous versions can be added to the book's `index.qmd` file, under the "View other versions" section. Note that these links will only work on the deployed version of the book, not on the local version.
 
 ### Previewing the book in CI
-We use [artifact.ci](https://artifact.ci/) to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR.
-
-To do so:
+We use [artifact.ci](https://artifact.ci/) to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR. To do so:
 
 1. Go to the "Checks" tab in the GitHub PR.
 2. Click on the "Build and Deploy Quarto Book" section on the left.

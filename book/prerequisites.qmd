@@ -1,4 +1,4 @@
-# Prerequisites
+# Prerequisites {#sec-prerequisites}
 
 ## Knowledge
 We expect a basic familiarity with Python and ideally, with its core

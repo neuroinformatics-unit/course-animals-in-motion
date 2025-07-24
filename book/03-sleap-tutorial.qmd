@@ -1,1 +1,1 @@
-# Pose estimation with SLEAP
+# Pose estimation with SLEAP {#sec-sleap}
