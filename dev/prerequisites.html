@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./contributing.html" rel="next">
-<link href="./05-movement-zebras.html" rel="prev">
+<link href="./06-movement-zebras.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -174,14 +174,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-movement-mouse.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A mouse’s daily activity log</span></span></a>
+  <a href="./04-movement-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysing tracks with movement</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-movement-zebras.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span></a>
+  <a href="./05-movement-mouse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A mouse’s daily activity log</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-movement-zebras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -227,8 +233,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#hardware" id="toc-hardware" class="nav-link" data-scroll-target="#hardware"><span class="header-section-number">A.2</span> Hardware</a></li>
   <li><a href="#software" id="toc-software" class="nav-link" data-scroll-target="#software"><span class="header-section-number">A.3</span> Software</a>
   <ul class="collapse">
-  <li><a href="#coding-environment" id="toc-coding-environment" class="nav-link" data-scroll-target="#coding-environment"><span class="header-section-number">A.3.1</span> Coding environment</a></li>
-  <li><a href="#sec-software-tools" id="toc-sec-software-tools" class="nav-link" data-scroll-target="#sec-software-tools"><span class="header-section-number">A.3.2</span> Specific software tools</a></li>
+  <li><a href="#sec-install-devtools" id="toc-sec-install-devtools" class="nav-link" data-scroll-target="#sec-install-devtools"><span class="header-section-number">A.3.1</span> General development tools</a></li>
+  <li><a href="#sec-install-sleap" id="toc-sec-install-sleap" class="nav-link" data-scroll-target="#sec-install-sleap"><span class="header-section-number">A.3.2</span> For the SLEAP tutorial</a></li>
+  <li><a href="#sec-install-movement" id="toc-sec-install-movement" class="nav-link" data-scroll-target="#sec-install-movement"><span class="header-section-number">A.3.3</span> For the interactive notebooks</a></li>
   </ul></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">A.4</span> Data</a></li>
   </ul>
@@ -258,16 +265,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="knowledge" class="level2" data-number="A.1">
 <h2 data-number="A.1" class="anchored" data-anchor-id="knowledge"><span class="header-section-number">A.1</span> Knowledge</h2>
-<p>We expect a basic familiarity with Python and ideally, with its core scientific libraries like NumPy, Pandas, Matplotlib, and Jupyter.</p>
+<p>We assume basic familiarity with Python, ideally including its core scientific libraries such as NumPy, Pandas, Matplotlib, and Jupyter.</p>
 </section>
 <section id="hardware" class="level2" data-number="A.2">
 <h2 data-number="A.2" class="anchored" data-anchor-id="hardware"><span class="header-section-number">A.2</span> Hardware</h2>
-<p>This is a hands-on course, so please bring your own <strong>laptop</strong> and <strong>charger</strong>. A <strong>mouse</strong> is also strongly recommended to facilitate tasks like image annotation. A dedicated <strong>GPU is not required</strong>, though it will speed up some of the computations.</p>
+<p>This is a hands-on course, so please bring your own <strong>laptop</strong> and <strong>charger</strong>.<br>
+A <strong>mouse</strong> is strongly recommended, especially for tasks like image annotation.<br>
+A dedicated <strong>GPU is not required</strong>, though it may speed up some computations.</p>
 </section>
 <section id="software" class="level2" data-number="A.3">
 <h2 data-number="A.3" class="anchored" data-anchor-id="software"><span class="header-section-number">A.3</span> Software</h2>
-<section id="coding-environment" class="level3" data-number="A.3.1">
-<h3 data-number="A.3.1" class="anchored" data-anchor-id="coding-environment"><span class="header-section-number">A.3.1</span> Coding environment</h3>
+<p>You’ll need both general tools for Python programming and specific software required for the course, as detailed below.</p>
+<section id="sec-install-devtools" class="level3" data-number="A.3.1">
+<h3 data-number="A.3.1" class="anchored" data-anchor-id="sec-install-devtools"><span class="header-section-number">A.3.1</span> General development tools</h3>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -278,25 +288,25 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you already have a working Anaconda/miniconda installation, and have used it to run Python scripts and/or Jupyter notebooks, you can probably skip the following steps.</p>
+<p>If you already have a working Anaconda or Miniconda installation and have used it to run Python scripts or Jupyter notebooks, you can likely skip the steps below.</p>
 </div>
 </div>
-<p>To make your computer ready for coding in Python, we recommend following the <a href="https://carpentries.github.io/workshop-template/install_instructions">Software Carpentries install instructions</a>, and more specifically the following steps:</p>
+<p>To prepare your computer for Python development, we recommend following the <a href="https://carpentries.github.io/workshop-template/install_instructions">Software Carpentries installation instructions</a>, in particular:</p>
 <ul>
-<li><a href="https://carpentries.github.io/workshop-template/install_instructions/#shell">Bash Shell</a>, so you can run commands in your terminal.</li>
-<li><a href="https://carpentries.github.io/workshop-template/install_instructions/#git">Git</a>, including a GitHub account.</li>
-<li><a href="https://carpentries.github.io/workshop-template/install_instructions/#python">Python</a>, which will set you up with the <a href="https://conda-forge.org/download/">conda-forge installer</a>.</li>
+<li><a href="https://carpentries.github.io/workshop-template/install_instructions/#shell">Bash Shell</a>, to run terminal commands</li>
+<li><a href="https://carpentries.github.io/workshop-template/install_instructions/#git">Git</a>, including a GitHub account</li>
+<li><a href="https://carpentries.github.io/workshop-template/install_instructions/#python">Python</a>, via the <a href="https://conda-forge.org/download/">conda-forge installer</a></li>
 </ul>
-<p>Additionally, you will need a code editor (an IDE) that is configured for Python use. If you are already have one installed and configured, stick with it. Otherwise, we recommend one of the following:</p>
+<p>You’ll also need a code editor (IDE) configured for Python.<br>
+If you already have one you’re comfortable with, feel free to use it. Otherwise, we recommend:</p>
 <ul>
 <li><a href="https://code.visualstudio.com/">Visual Studio Code</a> with the <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python extension</a></li>
 <li><a href="https://jupyter.org/install">JupyterLab</a></li>
 </ul>
 </section>
-<section id="sec-software-tools" class="level3" data-number="A.3.2">
-<h3 data-number="A.3.2" class="anchored" data-anchor-id="sec-software-tools"><span class="header-section-number">A.3.2</span> Specific software tools</h3>
-<p>You will need to install two software packages, <a href="https://sleap.ai/">SLEAP</a> and <a href="https://movement.neuroinformatics.dev/">movement</a>, in separate conda environments.</p>
-<p>For SLEAP, you can find the installation instructions here: <a href="https://sleap.ai/installation.html" class="uri">https://sleap.ai/installation.html</a>.</p>
+<section id="sec-install-sleap" class="level3" data-number="A.3.2">
+<h3 data-number="A.3.2" class="anchored" data-anchor-id="sec-install-sleap"><span class="header-section-number">A.3.2</span> For the SLEAP tutorial</h3>
+<p>Please install <a href="https://sleap.ai/">SLEAP</a> following the official instructions <a href="https://sleap.ai/installation.html">here</a>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -307,10 +317,25 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For this workshop, we will be using SLEAP version 1.3.3, so make sure to replace the latest version number (e.g.&nbsp;<code>1.4.1</code>) with <code>1.3.3</code> in the instructions.</p>
+<p>For this workshop, use <strong>SLEAP version 1.3.3</strong>. Be sure to replace the default version number (e.g.&nbsp;<code>1.4.1</code>) in the instructions with <code>1.3.3</code>.</p>
 </div>
 </div>
-<p>The installation instructions for <code>movement</code> are available here: <a href="https://movement.neuroinformatics.dev/user_guide/installation.html" class="uri">https://movement.neuroinformatics.dev/user_guide/installation.html</a>.</p>
+<p>This should create a <code>conda</code> environment named <code>sleap</code> with the necessary dependencies. You can verify the installation by running:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate sleap</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sleap-label</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should launch the SLEAP graphical user interface (GUI).</p>
+</section>
+<section id="sec-install-movement" class="level3" data-number="A.3.3">
+<h3 data-number="A.3.3" class="anchored" data-anchor-id="sec-install-movement"><span class="header-section-number">A.3.3</span> For the interactive notebooks</h3>
+<p>You will also need a separate <code>conda</code> environment with everything required for the interactive exercises, including the <a href="https://movement.neuroinformatics.dev/">movement</a> and <a href="https://jupyter.org/">jupyter</a> packages.</p>
+<p>We recommend cloning this workshop’s repository and creating the environment using the provided <code>environment.yaml</code> file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/neuroinformatics-unit/animals-in-motion.git</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> animals-in-motion</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> animals-in-motion-env <span class="at">-f</span> environment.yaml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To test your setup, run:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate animals-in-motion-env</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">movement</span> launch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should open the <a href="https://movement.neuroinformatics.dev/user_guide/gui.html">movement GUI</a>, i.e.&nbsp;the <a href="https://napari.org/">napari</a> image viewer with the <code>movement</code> plugin docked on the right.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -321,15 +346,17 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Any version of <code>movement</code> greater than or equal to 0.8.1 will work for this workshop. You will also need to use <code>movement</code>’s GUI, so make sure to follow the appropriate instructions for your operating system. If you’re looking for a one-line command, the following will probably work:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> movement-env <span class="at">-c</span> conda-forge <span class="st">"movement&gt;=0.8.1"</span> napari pyqt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can find full installation instructions for <code>movement</code> <a href="https://movement.neuroinformatics.dev/user_guide/installation.html">here</a>.<br>
+However, For this workshop, we recommend using the <code>environment.yaml</code> file to ensure that all necessary dependencies, including those beyond <code>movement</code>, are included.</p>
 </div>
 </div>
 </section>
 </section>
 <section id="data" class="level2" data-number="A.4">
 <h2 data-number="A.4" class="anchored" data-anchor-id="data"><span class="header-section-number">A.4</span> Data</h2>
-<p>Bringing your own data is encouraged but not required. This could include video recordings of animal behaviour and/or motion tracks you’ve already generated. If you don’t have your own data, we will provide example datasets for you to work with.</p>
+<p>Bringing your own data is encouraged but not required.<br>
+This could include video recordings of animal behaviour and/or motion tracking data you’ve previously generated.</p>
+<p>If you don’t have your own data, we’ll provide example datasets for you to use during the workshop.</p>
 
 
 </section>
@@ -736,8 +763,8 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./05-movement-zebras.html" class="pagination-link" aria-label="Zebra escape trajectories">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span>
+      <a href="./06-movement-zebras.html" class="pagination-link" aria-label="Zebra escape trajectories">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
