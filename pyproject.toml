@@ -4,10 +4,7 @@ version = "0.1.0"
 description = "A handbook for analysing animal motions based on videos."
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "movement>=0.8.0",
-    "napari<=2.3",
-]
+dependencies = ["movement>=0.8.1",]
 
 
 [project.optional-dependencies]
