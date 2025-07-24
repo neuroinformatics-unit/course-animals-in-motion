@@ -13,8 +13,8 @@ Whether you are attending the workshop in person, or following along the materia
 |------|--------|
 | Day 1: morning | @sec-intro & @sec-neural-networks |
 | Day 1: afternoon | @sec-sleap |
-| Day 2: morning | @sec-movement-mouse |
-| Day 2: afternoon | @sec-movement-zebras |
+| Day 2: morning | @sec-movement-intro |
+| Day 2: afternoon | @sec-movement-mouse & @sec-movement-zebras |
 
 : Workshop schedule {.striped #tbl-schedule}
 

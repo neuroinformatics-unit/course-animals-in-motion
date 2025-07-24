@@ -16,8 +16,9 @@ book:
     - 01-intro.qmd
     - 02-neural-networks.qmd
     - 03-sleap-tutorial.qmd
-    - 04-movement-mouse.ipynb
-    - 05-movement-zebras.ipynb
+    - 04-movement-intro.qmd
+    - 05-movement-mouse.ipynb
+    - 06-movement-zebras.ipynb
   appendices:
     - prerequisites.qmd
     - contributing.qmd

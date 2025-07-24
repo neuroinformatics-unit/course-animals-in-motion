@@ -1,0 +1,7 @@
+# Analysing tracks with movement {#sec-movement-intro}
+
+In this tutorial, we will first introduce the `movement` package
+by walking through parts of its [documentation](https://movement.neuroinformatics.dev/).
+
+After that you will be given a set of tasks to complete—using `movement` to analyse the pose tracks you've generated in @sec-sleap.
+
