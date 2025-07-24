@@ -1,1 +1,3 @@
 # Pose estimation with SLEAP {#sec-sleap}
+
+Before we proceed, make sure you have installed SLEAP and activated the corresponding `conda` environment (see [prerequisites @sec-install-sleap]).

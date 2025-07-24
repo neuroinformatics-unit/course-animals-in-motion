@@ -1,60 +1,85 @@
 # Prerequisites {#sec-prerequisites}
 
 ## Knowledge
-We expect a basic familiarity with Python and ideally, with its core
-scientific libraries like NumPy, Pandas, Matplotlib, and Jupyter.
+
+We assume basic familiarity with Python, ideally including its core scientific libraries such as NumPy, Pandas, Matplotlib, and Jupyter.
 
 ## Hardware
-This is a hands-on course, so please bring your own **laptop** and **charger**. 
-A **mouse** is also strongly recommended to facilitate tasks like image annotation.
-A dedicated **GPU is not required**, though it will speed up some of the computations.
+
+This is a hands-on course, so please bring your own **laptop** and **charger**.  
+A **mouse** is strongly recommended, especially for tasks like image annotation.  
+A dedicated **GPU is not required**, though it may speed up some computations.
 
 ## Software
 
-### Coding environment
+You'll need both general tools for Python programming and specific software required for the course, as detailed below.
 
-::: {.callout-note}
-If you already have a working Anaconda/miniconda installation, and have used it to run Python scripts and/or Jupyter notebooks, you can probably skip the following steps.
+### General development tools {#sec-install-devtools}
+
+::: {.callout-note}  
+If you already have a working Anaconda or Miniconda installation and have used it to run Python scripts or Jupyter notebooks, you can likely skip the steps below.  
 :::
 
-To make your computer ready for coding in Python, we recommend following the [Software Carpentries install instructions](https://carpentries.github.io/workshop-template/install_instructions), and more specifically the following steps:
+To prepare your computer for Python development, we recommend following the [Software Carpentries installation instructions](https://carpentries.github.io/workshop-template/install_instructions), in particular:
 
-- [Bash Shell](https://carpentries.github.io/workshop-template/install_instructions/#shell), so you can run commands in your terminal.
-- [Git](https://carpentries.github.io/workshop-template/install_instructions/#git), including a GitHub account.
-- [Python](https://carpentries.github.io/workshop-template/install_instructions/#python), which will set you up with the [conda-forge installer](https://conda-forge.org/download/).
+- [Bash Shell](https://carpentries.github.io/workshop-template/install_instructions/#shell), to run terminal commands
+- [Git](https://carpentries.github.io/workshop-template/install_instructions/#git), including a GitHub account
+- [Python](https://carpentries.github.io/workshop-template/install_instructions/#python), via the [conda-forge installer](https://conda-forge.org/download/)
+    
 
+You'll also need a code editor (IDE) configured for Python.  
+If you already have one you're comfortable with, feel free to use it. Otherwise, we recommend:
 
-Additionally, you will need a code editor (an IDE) that is configured for Python use.
-If you are already have one installed and configured, stick with it. Otherwise, we recommend one of the following:
+- [Visual Studio Code](https://code.visualstudio.com/) with the [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+- [JupyterLab](https://jupyter.org/install)
+    
 
-  - [Visual Studio Code](https://code.visualstudio.com/) with the [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-  - [JupyterLab](https://jupyter.org/install)
+### For the SLEAP tutorial {#sec-install-sleap}
 
+Please install [SLEAP](https://sleap.ai/) following the official instructions [here](https://sleap.ai/installation.html).
 
-### Specific software tools {#sec-software-tools}
-
-You will need to install two software packages, [SLEAP](https://sleap.ai/) and [movement](https://movement.neuroinformatics.dev/),
-in separate conda environments.
-
-For SLEAP, you can find the installation instructions here: <https://sleap.ai/installation.html>.
-
-::: {.callout-note}
-For this workshop, we will be using SLEAP version 1.3.3, so make sure to replace the latest version number (e.g. `1.4.1`) with `1.3.3` in the instructions.
+::: {.callout-note}  
+For this workshop, use **SLEAP version 1.3.3**. Be sure to replace the default version number (e.g. `1.4.1`) in the instructions with `1.3.3`.  
 :::
 
-The installation instructions for `movement` are available here: <https://movement.neuroinformatics.dev/user_guide/installation.html>.
-
-::: {.callout-note}
-Any version of `movement` greater than or equal to 0.8.1 will work for this workshop.
-You will also need to use `movement`'s GUI, so make sure to follow the appropriate instructions for your operating system.
-If you're looking for a one-line command, the following will probably work:
+This should create a `conda` environment named `sleap` with the necessary dependencies. You can verify the installation by running:
 
 ```bash
-conda create -n movement-env -c conda-forge "movement>=0.8.1" napari pyqt
+conda activate sleap
+sleap-label
 ```
+
+This should launch the SLEAP graphical user interface (GUI).
+
+### For the interactive notebooks {#sec-install-movement}
+
+You will also need a separate `conda` environment with everything required for the interactive exercises, including the [movement](https://movement.neuroinformatics.dev/) and [jupyter](https://jupyter.org/) packages.
+
+We recommend cloning this workshop's repository and creating the environment using the provided `environment.yaml` file:
+
+```bash
+git clone https://github.com/neuroinformatics-unit/animals-in-motion.git
+cd animals-in-motion
+conda env create -n animals-in-motion-env -f environment.yaml
+```
+
+To test your setup, run:
+
+```bash
+conda activate animals-in-motion-env
+movement launch
+```
+
+This should open the [movement GUI](https://movement.neuroinformatics.dev/user_guide/gui.html), i.e. the [napari](https://napari.org/) image viewer with the `movement` plugin docked on the right.
+
+::: {.callout-note}  
+You can find full installation instructions for `movement` [here](https://movement.neuroinformatics.dev/user_guide/installation.html).  
+However, For this workshop, we recommend using the `environment.yaml` file to ensure that all necessary dependencies, including those beyond `movement`, are included.  
 :::
 
 ## Data
-Bringing your own data is encouraged but not required.
-This could include video recordings of animal behaviour and/or motion tracks you've already generated.
-If you don't have your own data, we will provide example datasets for you to work with.
+
+Bringing your own data is encouraged but not required.  
+This could include video recordings of animal behaviour and/or motion tracking data you've previously generated.
+
+If you don't have your own data, we'll provide example datasets for you to use during the workshop.
