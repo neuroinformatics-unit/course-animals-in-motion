@@ -48,6 +48,18 @@ quarto render book --execute
 
 You can view the rendered book by opening the `book/_book/index.html` file in your browser.
 
+## Authoring content
+
+Book chapters are written either as [Quarto Markdown](https://quarto.org/docs/authoring/markdown-basics.html) files (`.qmd`) or as Jupyter Notebooks (`.ipynb`). The latter are especially convenient for interactive content, such as code exercises, but note that both types of documents may contain executable code blocks (see [Quarto computations > Using Python](https://quarto.org/docs/computations/python.html)).
+
+The chapter source files reside in the `book/` directory and have to be linked in the `book/_quarto.yml` file for them to show up.
+See [Book Crossrefs](https://quarto.org/docs/books/book-crossrefs.html) on how to reference other chapters.
+
+Bibliographical references should be added to the `book/references.bib` file in BibTeX format.
+See [Quarto authoring > Citations](https://quarto.org/docs/manuscripts/authoring/vscode.html#citations) for more information.
+
+In general, [cross-referencing objects](https://quarto.org/docs/manuscripts/authoring/vscode.html#cross-ref) (e.g. figures, tables, chapters, equations, citations, etc.) should be done using the `@ref` syntax, e.g. `See @fig-overview for more details`.
+
 ## Pre-commit hooks
 
 We use [pre-commit](https://pre-commit.com/) to run checks on the codebase before committing.
