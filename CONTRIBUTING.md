@@ -1,4 +1,5 @@
-Thank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, requests for
+Thank you for considering contributing to the Animals In Motion project!
+We welcome contributions in various forms, including bug reports, requests for
 content improvement, as well as new tutorials or case studies.
 
 ## Setting up the development environment
@@ -54,6 +55,7 @@ We use [pre-commit](https://pre-commit.com/) to run checks on the codebase befor
 Current hooks include:
 
 - [codespell](https://github.com/codespell-project/codespell) for catching common spelling mistakes.
+- [markdownlint](https://github.com/igorshubovych/markdownlint-cli) for (Quarto) Markdown linting and formatting.
 - [ruff](https://github.com/astral-sh/ruff) for code linting and formatting.
 
 These will prevent code from being committed if any of these hooks fail.
@@ -69,6 +71,7 @@ pre-commit run -a  # for all files in the repository
 We use [Calendar Versioning (CalVer)](https://calver.org/) and specifically the `YYYY.0M` scheme (e.g. `2025.08` for August 2025).
 
 To create a new release, first update the `book/index.qmd` file. Specifically, add an entry like the following under the "Versions" section:
+
 ```md
 - [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/): Version used for the inaugural workshop in August 2025
 ```
@@ -83,6 +86,7 @@ git push origin --tags
 ```
 
 ## Continuous integration (CI)
+
 The CI workflow is defined in the `.github/workflows/build_and_deploy.yaml` file and can be triggered by:
 
 - Pushes to the `main` branch
@@ -104,6 +108,7 @@ The contents of the latest release are also copied to the `latest/` folder, wher
 Links to previous versions can be added to the book's `index.qmd` file, under the "View other versions" section. Note that these links will only work on the deployed version of the book, not on the local version.
 
 ### Previewing the book in CI
+
 We use [artifact.ci](https://artifact.ci/) to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR. To do so:
 
 1. Go to the "Checks" tab in the GitHub PR.

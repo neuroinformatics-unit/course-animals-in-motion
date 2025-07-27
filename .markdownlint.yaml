@@ -1,0 +1,8 @@
+# Default state for all rules
+default: true
+
+# MD013/line-length : Line length : https://github.com/DavidAnson/markdownlint/blob/v0.38.0/doc/md013.md
+MD013: false
+
+# MD041/first-line-heading/first-line-h1 First line in a file should be a top-level heading
+MD041: false

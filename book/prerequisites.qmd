@@ -25,18 +25,16 @@ To prepare your computer for Python development, we recommend following the [Sof
 - [Bash Shell](https://carpentries.github.io/workshop-template/install_instructions/#shell), to run terminal commands
 - [Git](https://carpentries.github.io/workshop-template/install_instructions/#git), including a GitHub account
 - [Python](https://carpentries.github.io/workshop-template/install_instructions/#python), via the [conda-forge installer](https://conda-forge.org/download/)
-    
 
 You'll also need a code editor (IDE) configured for Python.  
 If you already have one you're comfortable with, feel free to use it. Otherwise, we recommend:
 
 - [Visual Studio Code](https://code.visualstudio.com/) with the [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
 - [JupyterLab](https://jupyter.org/install)
-    
 
 ### For the SLEAP tutorial {#sec-install-sleap}
 
-Please install [SLEAP](https://sleap.ai/) following the official instructions [here](https://sleap.ai/installation.html).
+Please install [SLEAP](https://sleap.ai/) following the [official installation instructions](https://sleap.ai/installation.html).
 
 ::: {.callout-note}  
 For this workshop, use **SLEAP version 1.3.3**. Be sure to replace the default version number (e.g. `1.4.1`) in the instructions with `1.3.3`.  
@@ -73,8 +71,8 @@ movement launch
 This should open the [movement GUI](https://movement.neuroinformatics.dev/user_guide/gui.html), i.e. the [napari](https://napari.org/) image viewer with the `movement` plugin docked on the right.
 
 ::: {.callout-note}  
-You can find full installation instructions for `movement` [here](https://movement.neuroinformatics.dev/user_guide/installation.html).  
-However, For this workshop, we recommend using the `environment.yaml` file to ensure that all necessary dependencies, including those beyond `movement`, are included.  
+There are other ways to [install the movement package](https://movement.neuroinformatics.dev/user_guide/installation.html).  
+However, for this workshop, we recommend using the `environment.yaml` file to ensure that all necessary dependencies, including those beyond `movement`, are included.  
 :::
 
 ## Data
