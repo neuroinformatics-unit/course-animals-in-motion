@@ -14,7 +14,7 @@
     "href": "index.html#preface",
     "title": "Animals In Motion",
     "section": "",
-    "text": "Target audience\n\n\n\nThis course is designed for researchers and students interested in learning about free open-source tools for tracking animal motion from video footage and extracting quantitative descriptions of behaviour from motion tracks.\n\n\n\n\nWorkshop schedule\n\n\nTime\nTopics\n\n\n\n\nDay 1: morning\n1  Introduction & 2  Neural Networks Primer\n\n\nDay 1: afternoon\n3  Pose estimation with SLEAP\n\n\nDay 2: morning\n4  Analysing tracks with movement\n\n\nDay 2: afternoon\n5  A mouse’s daily activity log & 6  Zebra escape trajectories",
+    "text": "Target audience\n\n\n\nThis course is designed for researchers and students interested in learning about free open-source tools for tracking animal motion from video footage and extracting quantitative descriptions of behaviour from motion tracks.\n\n\n\n\nWorkshop schedule\n\n\nTime\nTopics\n\n\n\n\nDay 1: morning\n1  Introduction  2  Neural Networks Primer\n\n\nDay 1: afternoon\n3  Pose estimation with SLEAP\n\n\nDay 2: morning\n4  Analysing tracks with movement\n\n\nDay 2: afternoon\n5  A mouse’s daily activity log  6  Zebra escape trajectories",
     "crumbs": [
       "Preface"
     ]
@@ -34,7 +34,7 @@
     "href": "index.html#funding-acknowledgements",
     "title": "Animals In Motion",
     "section": "Funding & acknowledgements",
-    "text": "Funding & acknowledgements\nThe first edition of this workshop was made possible by a Software Sustainability Institute fellowship to Niko Sirmpilatze, as well as further funding support by the Sainsbury Wellcome Centre, the Society for Research Software Engineering and AIBIO-UK. We thank the Sainsbury Wellcome Centre and the Gatsby Computational Neuroscience Unit for providing facilities for the event.\n\n\n\nLogos of workshop sponsors",
+    "text": "Funding & acknowledgements\nThe first edition of this workshop was made possible by a Software Sustainability Institute fellowship to Niko Sirmpilatze, as well as further funding support by the Sainsbury Wellcome Centre, the Society for Research Software Engineering and AIBIO-UK.\nWe thank the Sainsbury Wellcome Centre and the Gatsby Computational Neuroscience Unit for providing facilities for the event.\n\n\n\nLogos of workshop sponsors",
     "crumbs": [
       "Preface"
     ]
@@ -166,11 +166,22 @@
     ]
   },
   {
+    "objectID": "contributing.html#authoring-content",
+    "href": "contributing.html#authoring-content",
+    "title": "Appendix B — Contributing",
+    "section": "B.2 Authoring content",
+    "text": "B.2 Authoring content\nBook chapters are written either as Quarto Markdown files (.qmd) or as Jupyter Notebooks (.ipynb). The latter are especially convenient for interactive content, such as code exercises, but note that both types of documents may contain executable code blocks (see Quarto computations &gt; Using Python).\nThe chapter source files reside in the book/ directory and have to be linked in the book/_quarto.yml file for them to show up. See Book Crossrefs on how to reference other chapters.\nBibliographical references should be added to the book/references.bib file in BibTeX format. See Quarto authoring &gt; Citations for more information.\nIn general, cross-referencing objects (e.g. figures, tables, chapters, equations, citations, etc.) should be done using the @ref syntax, e.g. See @fig-overview for more details.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
+    ]
+  },
+  {
     "objectID": "contributing.html#pre-commit-hooks",
     "href": "contributing.html#pre-commit-hooks",
     "title": "Appendix B — Contributing",
-    "section": "B.2 Pre-commit hooks",
-    "text": "B.2 Pre-commit hooks\nWe use pre-commit to run checks on the codebase before committing.\nCurrent hooks include:\n\ncodespell for catching common spelling mistakes.\nmarkdownlint for (Quarto) Markdown linting and formatting.\nruff for code linting and formatting.\n\nThese will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:\npre-commit run  # for staged files\npre-commit run -a  # for all files in the repository",
+    "section": "B.3 Pre-commit hooks",
+    "text": "B.3 Pre-commit hooks\nWe use pre-commit to run checks on the codebase before committing.\nCurrent hooks include:\n\ncodespell for catching common spelling mistakes.\nmarkdownlint for (Quarto) Markdown linting and formatting.\nruff for code linting and formatting.\n\nThese will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:\npre-commit run  # for staged files\npre-commit run -a  # for all files in the repository",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
@@ -180,8 +191,8 @@
     "objectID": "contributing.html#versioning-and-releasing",
     "href": "contributing.html#versioning-and-releasing",
     "title": "Appendix B — Contributing",
-    "section": "B.3 Versioning and releasing",
-    "text": "B.3 Versioning and releasing\nWe use Calendar Versioning (CalVer) and specifically the YYYY.0M scheme (e.g. 2025.08 for August 2025).\nTo create a new release, first update the book/index.qmd file. Specifically, add an entry like the following under the “Versions” section:\n- [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/): Version used for the inaugural workshop in August 2025\nYou also need to create a new tag with the format vYYYY.0M, and push it to the repository. Don’t forget the v prefix for the tag name!\nFor example:\ngit tag v2025.08\ngit push origin --tags",
+    "section": "B.4 Versioning and releasing",
+    "text": "B.4 Versioning and releasing\nWe use Calendar Versioning (CalVer) and specifically the YYYY.0M scheme (e.g. 2025.08 for August 2025).\nTo create a new release, first update the book/index.qmd file. Specifically, add an entry like the following under the “Versions” section:\n- [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/): Version used for the inaugural workshop in August 2025\nYou also need to create a new tag with the format vYYYY.0M, and push it to the repository. Don’t forget the v prefix for the tag name!\nFor example:\ngit tag v2025.08\ngit push origin --tags",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
@@ -191,8 +202,8 @@
     "objectID": "contributing.html#continuous-integration-ci",
     "href": "contributing.html#continuous-integration-ci",
     "title": "Appendix B — Contributing",
-    "section": "B.4 Continuous integration (CI)",
-    "text": "B.4 Continuous integration (CI)\nThe CI workflow is defined in the .github/workflows/build_and_deploy.yaml file and can be triggered by:\n\nPushes to the main branch\nPull requests\nReleases, i.e. tags starting with v (e.g., v2025.08)\nManual dispatches\n\nThe workflow is built using GitHub actions and includes three jobs:\n\nlinting: running the pre-commit hooks\nbuild: rendering the Quarto book and uploading an artifact\ndeploy: deploying the book artifact to the gh-pages branch (only for pushes to the main branch and releases)\n\nEach release version is deployed to a folder in the gh-pages branch, with the same name as the release tag (e.g., v2025.08). There’s also a special folder called dev that is deployed for pushes to the main branch.\nThe contents of the latest release are also copied to the latest/ folder, where the home page is redirected to.\nLinks to previous versions can be added to the book’s index.qmd file, under the “View other versions” section. Note that these links will only work on the deployed version of the book, not on the local version.\n\nB.4.1 Previewing the book in CI\nWe use artifact.ci to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR. To do so:\n\nGo to the “Checks” tab in the GitHub PR.\nClick on the “Build and Deploy Quarto Book” section on the left.\nIf the “Build Quarto book” action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.\nClick on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.\nOnce the upload is complete, look for book/_book/index.html under the “Detected Entrypoints” section.",
+    "section": "B.5 Continuous integration (CI)",
+    "text": "B.5 Continuous integration (CI)\nThe CI workflow is defined in the .github/workflows/build_and_deploy.yaml file and can be triggered by:\n\nPushes to the main branch\nPull requests\nReleases, i.e. tags starting with v (e.g., v2025.08)\nManual dispatches\n\nThe workflow is built using GitHub actions and includes three jobs:\n\nlinting: running the pre-commit hooks\nbuild: rendering the Quarto book and uploading an artifact\ndeploy: deploying the book artifact to the gh-pages branch (only for pushes to the main branch and releases)\n\nEach release version is deployed to a folder in the gh-pages branch, with the same name as the release tag (e.g., v2025.08). There’s also a special folder called dev that is deployed for pushes to the main branch.\nThe contents of the latest release are also copied to the latest/ folder, where the home page is redirected to.\nLinks to previous versions can be added to the book’s index.qmd file, under the “View other versions” section. Note that these links will only work on the deployed version of the book, not on the local version.\n\nB.5.1 Previewing the book in CI\nWe use artifact.ci to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR. To do so:\n\nGo to the “Checks” tab in the GitHub PR.\nClick on the “Build and Deploy Quarto Book” section on the left.\nIf the “Build Quarto book” action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.\nClick on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.\nOnce the upload is complete, look for book/_book/index.html under the “Detected Entrypoints” section.",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>B</span>  <span class='chapter-title'>Contributing</span>"
