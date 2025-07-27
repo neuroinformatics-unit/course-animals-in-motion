@@ -261,7 +261,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Thank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, feature requests, and code contributions.</p>
+<p>Thank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, requests for content improvement, as well as new tutorials or case studies.</p>
 <section id="setting-up-the-development-environment" class="level2" data-number="B.1">
 <h2 data-number="B.1" class="anchored" data-anchor-id="setting-up-the-development-environment"><span class="header-section-number">B.1</span> Setting up the development environment</h2>
 <p>Begin by cloning the repository and navigating to its root directory:</p>
@@ -272,7 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate animals-in-motion-dev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To enable the <a href="#pre-commit-hooks">pre-commit hooks</a>, run the following command once:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This is a <a href="https://quarto.org/docs/books/index.html">Quarto book</a> project, with its source code located in the <code>book/</code> directory. We refer you to the <a href="https://quarto.org/docs/books/index.html">Quarto documentation</a> books are structured.</p>
+<p>This is a <a href="https://quarto.org/docs/books/index.html">Quarto book</a> project, with its source code located in the <code>book/</code> directory. We refer you to the <a href="https://quarto.org/docs/books/index.html">Quarto documentation</a> for more information on how books are structured and configured.</p>
 <p>To render/preview the book locally, you’ll need the <a href="https://quarto.org/docs/get-started/">Quarto CLI</a> installed, as well as the <a href="https://quarto.org/docs/get-started/hello/vscode.html">VSCode Quarto extension</a></p>
 <p>You will also need to make sure that the <code>QUARTO_PYTHON</code> environment variable is set to the path of the <code>python</code> executable in the development <code>conda</code> environment. This guarantees that the Quarto CLI will use the correct Python interpreter when rendering the book.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">QUARTO_PYTHON</span><span class="op">=</span><span class="va">$(</span><span class="fu">which</span> python<span class="va">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -285,7 +285,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pre-commit-hooks" class="level2" data-number="B.2">
 <h2 data-number="B.2" class="anchored" data-anchor-id="pre-commit-hooks"><span class="header-section-number">B.2</span> Pre-commit hooks</h2>
 <p>We use <a href="https://pre-commit.com/">pre-commit</a> to run checks on the codebase before committing.</p>
-<p>Current hooks include: - <a href="https://github.com/codespell-project/codespell">codespell</a> for catching common spelling mistakes - <a href="https://github.com/astral-sh/ruff">ruff</a> for code linting and formatting</p>
+<p>Current hooks include:</p>
+<ul>
+<li><a href="https://github.com/codespell-project/codespell">codespell</a> for catching common spelling mistakes.</li>
+<li><a href="https://github.com/igorshubovych/markdownlint-cli">markdownlint</a> for (Quarto) Markdown linting and formatting.</li>
+<li><a href="https://github.com/astral-sh/ruff">ruff</a> for code linting and formatting.</li>
+</ul>
 <p>These will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run  <span class="co"># for staged files</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run <span class="at">-a</span>  <span class="co"># for all files in the repository</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -302,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="continuous-integration-ci" class="level2" data-number="B.4">
 <h2 data-number="B.4" class="anchored" data-anchor-id="continuous-integration-ci"><span class="header-section-number">B.4</span> Continuous integration (CI)</h2>
-<p>The CI workflow is defined in the <a href=".github/workflows/build_and_deploy.yaml">build_and_deploy.yaml</a> file and can be triggered by:</p>
+<p>The CI workflow is defined in the <code>.github/workflows/build_and_deploy.yaml</code> file and can be triggered by:</p>
 <ul>
 <li>Pushes to the <code>main</code> branch</li>
 <li>Pull requests</li>
@@ -315,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>build</strong>: rendering the Quarto book and uploading an artifact</li>
 <li><strong>deploy</strong>: deploying the book artifact to the <code>gh-pages</code> branch (only for pushes to the <code>main</code> branch and releases)</li>
 </ul>
-<p>Each release version is deployed to a folder in the <code>gh-pages</code> branch, with the same name as the release tag (e.g., <code>v2025.08/</code>). There’s also a special folder called <code>dev/</code> that is deployed for pushes to the <code>main</code> branch.</p>
+<p>Each release version is deployed to a folder in the <code>gh-pages</code> branch, with the same name as the release tag (e.g., <code>v2025.08</code>). There’s also a special folder called <code>dev</code> that is deployed for pushes to the <code>main</code> branch.</p>
 <p>The contents of the latest release are also copied to the <code>latest/</code> folder, where the home page is redirected to.</p>
 <p>Links to previous versions can be added to the book’s <code>index.qmd</code> file, under the “View other versions” section. Note that these links will only work on the deployed version of the book, not on the local version.</p>
 <section id="previewing-the-book-in-ci" class="level3" data-number="B.4.1">
