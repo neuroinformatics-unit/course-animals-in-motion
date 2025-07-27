@@ -1,4 +1,5 @@
-Thank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, feature requests, and code contributions.
+Thank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, requests for
+content improvement, as well as new tutorials or case studies.
 
 ## Setting up the development environment
 
@@ -24,7 +25,7 @@ pre-commit install
 ```
 
 This is a [Quarto book](https://quarto.org/docs/books/index.html) project, with its source code located in the `book/` directory.
-We refer you to the [Quarto documentation](https://quarto.org/docs/books/index.html) books are structured.
+We refer you to the [Quarto documentation](https://quarto.org/docs/books/index.html) for more information on how books are structured and configured.
 
 To render/preview the book locally, you'll need the [Quarto CLI](https://quarto.org/docs/get-started/) installed,
 as well as the [VSCode Quarto extension](https://quarto.org/docs/get-started/hello/vscode.html)
@@ -51,8 +52,9 @@ You can view the rendered book by opening the `book/_book/index.html` file in yo
 We use [pre-commit](https://pre-commit.com/) to run checks on the codebase before committing.
 
 Current hooks include:
-- [codespell](https://github.com/codespell-project/codespell) for catching common spelling mistakes
-- [ruff](https://github.com/astral-sh/ruff) for code linting and formatting
+
+- [codespell](https://github.com/codespell-project/codespell) for catching common spelling mistakes.
+- [ruff](https://github.com/astral-sh/ruff) for code linting and formatting.
 
 These will prevent code from being committed if any of these hooks fail.
 To run all the hooks before committing:
@@ -81,7 +83,7 @@ git push origin --tags
 ```
 
 ## Continuous integration (CI)
-The CI workflow is defined in the [build_and_deploy.yaml](.github/workflows/build_and_deploy.yaml) file and can be triggered by:
+The CI workflow is defined in the `.github/workflows/build_and_deploy.yaml` file and can be triggered by:
 
 - Pushes to the `main` branch
 - Pull requests
@@ -94,8 +96,8 @@ The workflow is built using [GitHub actions](https://docs.github.com/en/actions)
 - **build**: rendering the Quarto book and uploading an artifact
 - **deploy**: deploying the book artifact to the `gh-pages` branch (only for pushes to the `main` branch and releases)
 
-Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08/`).
-There's also a special folder called `dev/` that is deployed for pushes to the `main` branch.
+Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08`).
+There's also a special folder called `dev` that is deployed for pushes to the `main` branch.
 
 The contents of the latest release are also copied to the `latest/` folder, where the home page is redirected to.
 
