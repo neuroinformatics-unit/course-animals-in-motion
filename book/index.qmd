@@ -11,10 +11,10 @@ Whether you are attending the workshop in person, or following along the materia
 
 | Time | Topics |
 |------|--------|
-| Day 1: morning | @sec-intro & @sec-neural-networks |
+| Day 1: morning | @sec-intro <br> @sec-neural-networks |
 | Day 1: afternoon | @sec-sleap |
 | Day 2: morning | @sec-movement-intro |
-| Day 2: afternoon | @sec-movement-mouse & @sec-movement-zebras |
+| Day 2: afternoon | @sec-movement-mouse <br> @sec-movement-zebras |
 
 : Workshop schedule {.striped #tbl-schedule}
 
@@ -28,6 +28,8 @@ This website is available in multiple versions:
 
 ## Funding & acknowledgements
 
-The first edition of this workshop was made possible by a [Software Sustainability Institute](https://www.software.ac.uk/) fellowship to **Niko Sirmpilatze**, as well as further funding support by the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/), the [Society for Research Software Engineering](https://society-rse.org/) and [AIBIO-UK](https://aibio.ac.uk/). We thank the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/) and the [Gatsby Computational Neuroscience Unit](https://www.ucl.ac.uk/gatsby/gatsby-computational-neuroscience-unit) for providing facilities for the event.
+The first edition of this workshop was made possible by a [Software Sustainability Institute](https://www.software.ac.uk/) fellowship to **Niko Sirmpilatze**, as well as further funding support by the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/), the [Society for Research Software Engineering](https://society-rse.org/) and [AIBIO-UK](https://aibio.ac.uk/).
+
+We thank the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/) and the [Gatsby Computational Neuroscience Unit](https://www.ucl.ac.uk/gatsby/gatsby-computational-neuroscience-unit) for providing facilities for the event.
 
 ![Logos of workshop sponsors](img/sponsor-logos.png)
