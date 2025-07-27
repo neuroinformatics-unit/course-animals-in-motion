@@ -11,6 +11,7 @@ book:
     - Chang Huan Lo
   date: today
   date-format: long
+  favicon: "img/logo_niu_light.png"
   chapters:
     - index.qmd
     - 01-intro.qmd
