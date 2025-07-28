@@ -24,7 +24,7 @@ To prepare your computer for Python development, we recommend following the [Sof
 
 - [Bash Shell](https://carpentries.github.io/workshop-template/install_instructions/#shell), to run terminal commands
 - [Git](https://carpentries.github.io/workshop-template/install_instructions/#git), including a GitHub account
-- [Python](https://carpentries.github.io/workshop-template/install_instructions/#python), via the [conda-forge installer](https://conda-forge.org/download/)
+- [Python](https://carpentries.github.io/workshop-template/install_instructions/#python), via the [conda-forge installer](https://conda-forge.org/download/). Please make sure you install a **Python version >= 3.12** (e.g. 3.12 is fine, 3.10 is not).
 
 You'll also need a code editor (IDE) configured for Python.  
 If you already have one you're comfortable with, feel free to use it. Otherwise, we recommend:
