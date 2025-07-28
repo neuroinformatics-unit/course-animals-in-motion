@@ -32,4 +32,4 @@ The first edition of this workshop was made possible by a [Software Sustainabili
 
 We thank the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/) and the [Gatsby Computational Neuroscience Unit](https://www.ucl.ac.uk/gatsby/gatsby-computational-neuroscience-unit) for providing facilities for the event.
 
-![Logos of workshop sponsors](img/sponsor-logos.png)
+![Logos of workshop sponsors](img/all_sponsor_logos.png)
