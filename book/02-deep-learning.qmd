@@ -1,0 +1,3 @@
+# Deep learning for computer vision primer {#sec-dl-cv}
+
+All you need to know about Deep learning and its applications to computer vision to understand the rest of the course.

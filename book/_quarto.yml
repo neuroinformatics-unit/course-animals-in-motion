@@ -15,7 +15,7 @@ book:
   chapters:
     - index.qmd
     - 01-intro.qmd
-    - 02-neural-networks.qmd
+    - 02-deep-learning.qmd
     - 03-sleap-tutorial.qmd
     - 04-movement-intro.qmd
     - 05-movement-mouse.ipynb

@@ -1,3 +1,0 @@
-# Neural Networks Primer {#sec-neural-networks}
-
-All you need to know about neural networks to understand the rest of the course.

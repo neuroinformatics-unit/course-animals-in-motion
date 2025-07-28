@@ -11,7 +11,7 @@ Whether you are attending the workshop in person, or following along the materia
 
 | Time | Topics |
 |------|--------|
-| Day 1: morning | @sec-intro <br> @sec-neural-networks |
+| Day 1: morning | @sec-intro <br> @sec-dl-cv |
 | Day 1: afternoon | @sec-sleap |
 | Day 2: morning | @sec-movement-intro |
 | Day 2: afternoon | @sec-movement-mouse <br> @sec-movement-zebras |
