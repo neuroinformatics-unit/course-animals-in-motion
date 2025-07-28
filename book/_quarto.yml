@@ -13,7 +13,8 @@ book:
       orcid: 0000-0003-1778-2427
       corresponding: true
       affiliations:
-        - name: Sainsbury Wellcome Centre, UCL
+        - id: SWC
+          name: Sainsbury Wellcome Centre, UCL
           department: Sainsbury Wellcome Centre
           group: Neuroinformatics Unit
           city: London
@@ -22,10 +23,13 @@ book:
     - name: Sofía Miñano
       url: https://github.com/sfmig
       orcid: 0000-0001-6363-1545
+      affiliations:
+        - ref: SWC
     - name: Chang Huan Lo
       url: https://github.com/lochhh
       orcid: 0000-0002-8262-7258
-
+      affiliations:
+        - ref: SWC
   date: today
   date-format: long
   favicon: "img/logo_niu_light.png"
@@ -64,3 +68,11 @@ format:
 execute: 
   cache: true
 jupyter: python3
+
+license: "CC BY"
+
+funding:
+  statement: >
+    The first edition of this workshop was made possible by a Software Sustainability Institute
+    fellowship to Niko Sirmpilatze, as well as further funding support by the Sainsbury Wellcome Centre,
+    the Society for Research Software Engineering and AIBIO-UK.
