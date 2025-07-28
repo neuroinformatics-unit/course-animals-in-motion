@@ -5,10 +5,27 @@ project:
 
 book:
   title: "Animals In Motion"
+  # For Authors and Affiliations schemas see https://quarto.org/docs/journals/authors.html
   author:
-    - Niko Sirmpilatze
-    - Sofía Miñano
-    - Chang Huan Lo
+    - name: Niko Sirmpilatze
+      url: https://nikosirmpilatze.com/
+      email: n.sirmpilatze@ucl.ac.uk
+      orcid: 0000-0003-1778-2427
+      corresponding: true
+      affiliations:
+        - name: Sainsbury Wellcome Centre, UCL
+          department: Sainsbury Wellcome Centre
+          group: Neuroinformatics Unit
+          city: London
+          country: United Kingdom
+          url: https://www.sainsburywellcome.org/web/
+    - name: Sofía Miñano
+      url: https://github.com/sfmig
+      orcid: 0000-0001-6363-1545
+    - name: Chang Huan Lo
+      url: https://github.com/lochhh
+      orcid: 0000-0002-8262-7258
+
   date: today
   date-format: long
   favicon: "img/logo_niu_light.png"
