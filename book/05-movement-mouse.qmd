@@ -66,7 +66,6 @@ for filename in filename_list:
 
 Let's inspect the first dataset.
 
-
 ```{python}
 ds_list[0]   # Change 0 to 1 or 2 to inspect the other datasets
 ```
@@ -93,7 +92,7 @@ can work with the data as a single time series.
 However, if we do this naively, we will get a dataset with a time dimension
 that goes back to 0 every time a new segment starts.
 
-Ideally, we want a continuously increasing time dimension, expressed in 
+Ideally, we want a continuously increasing time dimension, expressed in
 "calendar time.
 
 The following code block assigns datetime coordinates to each dataset,
@@ -158,7 +157,6 @@ print(f"First 5 'seconds_elapsed' coords: {ds_3hr.coords["seconds_elapsed"].valu
 This is quite convenient, because we can now select time windows in
 various ways.
 
-
 ```{python}
 # 1. Select a time window by frame number.
 ds_3hr.isel(time=slice(100, 200))
@@ -170,7 +168,6 @@ ds_3hr.sel(time=slice("2024-04-17 09:30:00", "2024-04-17 10:00:00"))
 #    (we have to change the time coordinates to "seconds_elapsed" first).
 ds_3hr.set_index(time="seconds_elapsed").sel(time=slice(0, 1800))
 ```
-
 
 ## Filtering out low-confidence predictions
 
@@ -270,12 +267,14 @@ reliable_keypoints = ["neck", "bodycenter", "spine1", "spine2"]
 ## Plot the speed of the mouse over time
 
 Let's compute the centroid of the 4 reliable body keypoints
+
 ```{python}
 body_centroid = ds_3hr.position_filtered.sel(
     individuals="individual_0",  # the only individual in the dataset
     keypoints=reliable_keypoints
 ).mean(dim="keypoints")
 ```
+
 Now let's the body centroid speed as a proxy of the mouse's speed.
 
 ```{python}
@@ -320,4 +319,3 @@ ax.set_ylim([height - 1, 0])
 ax.set_xlim([0, width])
 ax.set_title(f"Body centroid occupancy (log scale)")
 ```
-
