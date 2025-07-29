@@ -1,0 +1,323 @@
+# A mouse's daily activity log {#sec-movement-mouse}
+
+In this case study, we will use the `movement` package to analyse mouse home cage monitoring data acquired in [Smart-Kages](https://cambridgephenotyping.com/products) and tracked with [DeepLabCut](https://www.deeplabcut.org/). Specifically, we'll look at how the mouse's activity levels vary during the data.
+
+Before we start, make sure you have created the `animals-in-motion-env` environment (see [prerequisites @sec-install-movement]), and are using it to run this notebook.
+
+## Import libraries
+
+```{python}
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import xarray as xr
+
+from movement import sample_data
+from movement.filtering import filter_by_confidence
+from movement.kinematics import compute_speed
+from movement.plots import plot_occupancy
+
+```
+
+```{python}
+#| include: false
+
+xr.set_options(
+    display_expand_attrs=False,
+    display_expand_coords=False,
+    keep_attrs=True,
+)
+```
+
+## Load data
+
+For this example we will use some home cage recordings of a mouse.
+The mouse is house in a specialised [Smart-Kage](https://cambridgephenotyping.com/products)
+and is being continuously monitored via a camera from the top.
+
+The system acquired video frames at 2 frames per second and saves a video
+segment for each hour of the day. A pre-trained DeepLabCut model is then
+used to predict 8 keypoints on the mouse's body.
+
+We will use the following 3 files:
+
+- DLC_smart-kage3_datetime-20240417T090006.predictions.h5
+- DLC_smart-kage3_datetime-20240417T100006.predictions.h5
+- DLC_smart-kage3_datetime-20240417T110006.predictions.h5
+
+The start date and time of each file is indicated in the filename, in the format `YYYYMMDDTHHMMSS`.
+
+We can fetch these files from `movement`'s `sample_data` module.
+
+```{python}
+filename_list = [
+    "DLC_smart-kage3_datetime-20240417T090006.predictions.h5",
+    "DLC_smart-kage3_datetime-20240417T100006.predictions.h5",
+    "DLC_smart-kage3_datetime-20240417T110006.predictions.h5",
+]
+
+ds_list = []  # list of loaded datasets
+for filename in filename_list:
+    ds = sample_data.fetch_dataset(filename, with_video=True)
+    ds_list.append(ds)
+```
+
+Let's inspect the first dataset.
+
+
+```{python}
+ds_list[0]   # Change 0 to 1 or 2 to inspect the other datasets
+```
+
+Let's view an example video frame.
+
+```{python}
+#| label: fig-example-frame
+#| fig-cap: "Example video frame"
+
+example_frame = plt.imread(ds_list[0].frame_path)
+plt.imshow(example_frame)
+plt.axis("off")
+plt.show()
+```
+
+## Assign datetime coordinates
+
+The time coordinates are given in seconds since the start of each video segment,
+i.e. the coordinates represent "elapsed time" since the start of the video segment.
+
+We would like to concatenate the datasets along the time dimension, so that we
+can work with the data as a single time series.
+However, if we do this naively, we will get a dataset with a time dimension
+that goes back to 0 every time a new segment starts.
+
+Ideally, we want a continuously increasing time dimension, expressed in 
+"calendar time.
+
+The following code block assigns datetime coordinates to each dataset,
+using the start datetime of each video segment as the reference point
+and assuming a constant frame rate.
+
+```{python}
+ds_list_dt = []  # list of datasets with datetime coordinates
+
+for i, ds in enumerate(ds_list):
+    # Extract the datetime string from the filename
+    start_datetime_str = filename_list[i].split(".")[0].split("-")[-1]
+    # Convert it to a pandas Timestamp object
+    start_datetime = pd.Timestamp(start_datetime_str)
+    print("Extracted start datetime: ", start_datetime)
+
+    # Create an array of timestamps, one for each frame
+    timestamps = pd.date_range(
+        start=start_datetime,
+        periods=ds.sizes["time"],
+        freq=pd.Timedelta(seconds=1 / ds.attrs["fps"]),
+    )
+
+    # Assign timestamp coordinates to the "time" dimension
+    # (overwrites elapsed time coordinates)
+    ds_dt = ds.assign_coords(time=timestamps)
+    ds_dt.attrs["time_unit"] = "datetime64[ns]"   # metadata
+    ds_list_dt.append(ds_dt)
+    print(f"Assigned {len(timestamps)} timestamps to the 'time' dimension.\n")
+
+```
+
+Now let's inspect the first dataset with datetime coordinates.
+
+```{python}
+ds_list_dt[0]
+```
+
+We can now concatenate the datasets along the time dimension.
+
+```{python}
+ds_3hr = xr.concat(ds_list_dt, dim="time")
+ds_3hr
+```
+
+For some computations, it's still useful to also know the total time elapsed
+since the start of the first video segment. Therefore, we'll assign a secondary
+time coordinate to the dataset, called `seconds_elapsed`, to store
+that information.
+
+```{python}
+first_segment_start = ds_3hr.time.isel(time=0).data
+seconds_since_start = (
+    ds_3hr.time.data - np.datetime64(first_segment_start)
+) / pd.Timedelta("1s")
+ds_3hr = ds_3hr.assign_coords(seconds_elapsed=("time", seconds_since_start))
+
+print(f"First 5 'time' coords: {ds_3hr.coords["time"].values[:5]}")
+print(f"First 5 'seconds_elapsed' coords: {ds_3hr.coords["seconds_elapsed"].values[:5]}")
+```
+
+This is quite convenient, because we can now select time windows in
+various ways.
+
+
+```{python}
+# 1. Select a time window by frame number.
+ds_3hr.isel(time=slice(100, 200))
+
+# 2. Select a time window by datetime.
+ds_3hr.sel(time=slice("2024-04-17 09:30:00", "2024-04-17 10:00:00"))
+
+# 3. Select a time window by seconds elapsed since the start
+#    (we have to change the time coordinates to "seconds_elapsed" first).
+ds_3hr.set_index(time="seconds_elapsed").sel(time=slice(0, 1800))
+```
+
+
+## Filtering out low-confidence predictions
+
+Let's examine the confidence histograms for each keypoint.
+
+```{python}
+#| label: fig-confidence-histograms
+#| fig-cap: "Confidence histograms by keypoint"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+def plot_confidence_hist_by_keypoint(
+    ds: xr.Dataset,
+    save_path: Path | None = None,
+) -> None:
+    """
+    Plot histograms of confidence values for each keypoint in the dataset.
+
+    Parameters
+    ----------
+    ds : xr.Dataset
+        The dataset containing keypoint positions and confidence values.
+    save_path : Path | None
+        Optional path to save the plot. If None, the plot will not be saved.
+    """
+    n_keypoints = ds.sizes["keypoints"]
+
+    # Create subplots for each keypoint
+    fig, axes = plt.subplots(
+        nrows=2,
+        ncols=(n_keypoints + 1) // 2,
+        figsize=(n_keypoints * 1.5, n_keypoints * 0.75),
+        sharey=True,
+        sharex=True,
+    )
+
+    # Loop through each keypoint and plot its confidence histogram
+    for i, kpt in enumerate(ds.keypoints.values):
+        ax = axes[i % 2, i // 2]
+        ds.confidence.sel(keypoints=kpt).plot.hist(
+            bins=20,
+            ax=ax,
+            label=kpt,
+            histtype="stepfilled",
+            density=True,
+        )
+        ax.set_ylabel("Density")
+        ax.set_xlabel("")
+        ax.set_xlabel("Confidence")
+        ax.set_title(kpt)
+
+    plt.suptitle("Confidence Histograms by Keypoint")
+    plt.tight_layout()
+
+    if save_path:
+        plt.savefig(save_path, dpi=128)
+
+
+plot_confidence_hist_by_keypoint(ds_3hr)
+```
+
+It looks like the "neck", "bodycenter", "spine1", and "spine2" keypoints
+are the most confidently detected.
+
+Let's run the numbers:
+
+```{python}
+#| label: fig-median-confidence
+#| fig-cap: "Median confidence by keypoint"
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ds_3hr.confidence.median(dim="time").squeeze().plot.line("o-", ax=ax)
+ax.set_title("Median confidence by keypoint")
+plt.show()
+```
+
+We can filter out low-confidence predictions.
+
+```{python}
+confidence_threshold = 0.5
+
+ds_3hr["position_filtered"] = filter_by_confidence(
+    ds_3hr.position,
+    ds_3hr.confidence,
+    threshold=confidence_threshold,
+    print_report=True,
+)
+```
+
+Let us define a list of "reliable" keypoints for later use.
+These are all on the mouse's body.
+
+```{python}
+reliable_keypoints = ["neck", "bodycenter", "spine1", "spine2"]
+```
+
+## Plot the speed of the mouse over time
+
+Let's compute the centroid of the 4 reliable body keypoints
+```{python}
+body_centroid = ds_3hr.position_filtered.sel(
+    individuals="individual_0",  # the only individual in the dataset
+    keypoints=reliable_keypoints
+).mean(dim="keypoints")
+```
+Now let's the body centroid speed as a proxy of the mouse's speed.
+
+```{python}
+body_speed = compute_speed(body_centroid.set_index(time="seconds_elapsed"))
+body_speed = body_speed.assign_coords(time=body_centroid.time)
+```
+
+Let's plot the speed over time.
+
+```{python}
+#| label: fig-body-speed
+#| fig-cap: "Body centroid speed"
+
+fig, ax = plt.subplots(figsize=(10, 3))
+body_speed.plot.line(ax=ax)
+ax.set_title("Body centroid speed (pixels per second)")
+plt.show()
+```
+
+## Plot the occupancy heatmap
+
+For the heatamp calculation to properly work, we need to temporarily
+set the time coordinates to "elapsed time".
+
+```{python}
+fig, ax = plt.subplots()
+
+height, width = example_frame.shape[:2]
+
+ax.imshow(example_frame)
+plot_occupancy(
+    ds_3hr.position_filtered.set_index(time="seconds_elapsed"),
+    keypoints=reliable_keypoints,
+    ax=ax,
+    cmap="turbo",
+    norm="log",  # log scale the colormap
+    cmin=0,      # only show occupancy above this number of frames
+    alpha=0.6,   # some transparency
+)
+# invert y-axis to match the video frame
+ax.set_ylim([height - 1, 0])
+ax.set_xlim([0, width])
+ax.set_title(f"Body centroid occupancy (log scale)")
+```
+
