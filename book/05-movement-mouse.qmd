@@ -39,7 +39,7 @@ and unzipped it.
 
 ```{python}
 # Replace with the path to the unzipped Smart-Kages folder on your machine
-smart_kages_path = Path.home() / "Downloads" / "Smart-Kages"
+smart_kages_path = Path.home() / ".movement" / "Smart-Kages"
 
 # Let's visualise the contents of the folder
 files = [f.name for f in smart_kages_path.iterdir()]
