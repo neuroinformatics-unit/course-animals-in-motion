@@ -60,9 +60,8 @@ jobs:
 
       - name: Render book
         env:
-          QUARTO_PYTHON: ${{ env.CONDA_PREFIX }}/bin/python
+          QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
         run: |
-          which python
           echo "Using QUARTO_PYTHON=$QUARTO_PYTHON"
           quarto render book --execute     
 
