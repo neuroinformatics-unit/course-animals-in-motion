@@ -34,7 +34,7 @@ xr.set_options(
 ## Load Smart-Kages data
 
 For this example we wull use the data we shared over dropbox.
-We assume that you've downloaded the `Smart-Kages.zip` archive 
+We assume that you've downloaded the `Smart-Kages.zip` archive
 and unzipped it.
 
 ```{python}
@@ -47,7 +47,6 @@ files.sort()
 print(f"Found {len(files)} files in {smart_kages_path}:")
 print(*files, sep="\n")
 ```
-
 
 ## Load data
 
