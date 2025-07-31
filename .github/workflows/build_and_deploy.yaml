@@ -57,10 +57,10 @@ jobs:
       - name: Set QUARTO_PYTHON
         run: echo "QUARTO_PYTHON=$(which python)" >> $GITHUB_ENV
 
-      - name: Render book
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          path: book
+      - name: Render book manually
+        shell: bash -l {0}   # use a login shell to ensure the correct Python is used
+        run: |
+          quarto render book --execute     
 
       - name: Upload rendered book using artifact.ci
         id: artifactci-upload
