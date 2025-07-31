@@ -55,7 +55,10 @@ jobs:
 
       - name: Render book
         shell: bash -l {0}   # use a login shell to ensure the correct Python is used
+        env:
+          QUARTO_PYTHON: ${{ env.CONDA_PREFIX }}/bin/python
         run: |
+          echo "Using QUARTO_PYTHON=$QUARTO_PYTHON"
           quarto render book --execute     
 
       - name: Upload rendered book using artifact.ci
