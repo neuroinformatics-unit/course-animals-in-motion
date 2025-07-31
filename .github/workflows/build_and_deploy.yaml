@@ -50,7 +50,7 @@ jobs:
       - name: Set up Conda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          environment-file: environment.yaml
+          environment-file: environment-dev.yaml
           activate-environment: animals-in-motion-env
           channel-priority: strict
           channels: conda-forge
@@ -60,10 +60,11 @@ jobs:
 
       - name: Render book
         env:
+          # Make sure to quarto usese the activated conda environment
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
         run: |
           echo "Using QUARTO_PYTHON=$QUARTO_PYTHON"
-          quarto render book --execute     
+          quarto render book --execute    
 
       - name: Upload rendered book using artifact.ci
         id: artifactci-upload
