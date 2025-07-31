@@ -33,6 +33,24 @@ xr.set_options(
 
 ## Load data
 
+For this example we wull use the data we shared over dropbox.
+We assume that you've downloaded the `Smart-Kages.zip` archive 
+and unzipped it.
+
+```{python}
+# Replace with the path to the unzipped Smart-Kages folder on your machine
+smart_kages_path = Path.home() / ".movement" / "Smart-Kages"
+
+# Let's visualise the contents of the folder
+files = [f.name for f in smart_kages_path.iterdir()]
+files.sort()
+print(f"Found {len(files)} files in {smart_kages_path}:")
+print(*files, sep="\n")
+```
+
+
+## Load data
+
 For this example we will use some home cage recordings of a mouse.
 The mouse is house in a specialised [Smart-Kage](https://cambridgephenotyping.com/products)
 and is being continuously monitored via a camera from the top.

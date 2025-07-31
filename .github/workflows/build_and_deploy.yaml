@@ -47,6 +47,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Download Smart-Kages data from Dropbox
+        run: |
+          curl -L https://www.dropbox.com/scl/fi/0levhgg6fpclhqos14zgz/Smart-Kages.zip?rlkey=e2x9i0gvxpv00t0ppzkezvp3n&st=nyufmg8u&dl=1 -o ~/.movement/Smart-Kages.zip
+          unzip ~/.movement/Smart-Kages.zip
+          ls -R ~/.movement/Smart-Kages
+
       - name: Set up Conda
         uses: conda-incubator/setup-miniconda@v3
         with:
