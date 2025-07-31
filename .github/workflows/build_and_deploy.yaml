@@ -27,6 +27,11 @@ jobs:
   build:
     name: Build Quarto book
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        # use a login shell to ensure conda is activated
+        # and the correct python is used by quarto
+        shell: bash -el {0}
     needs: linting
     outputs:
       book-artifact: book-${{ github.sha }}
@@ -54,10 +59,10 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Render book
-        shell: bash -l {0}   # use a login shell to ensure the correct Python is used
         env:
           QUARTO_PYTHON: ${{ env.CONDA_PREFIX }}/bin/python
         run: |
+          which python
           echo "Using QUARTO_PYTHON=$QUARTO_PYTHON"
           quarto render book --execute     
 
