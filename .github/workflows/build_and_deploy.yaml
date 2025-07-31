@@ -53,11 +53,7 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      # Ensure QUARTO_PYTHON is set to the correct Python interpreter
-      - name: Set QUARTO_PYTHON
-        run: echo "QUARTO_PYTHON=$(which python)" >> $GITHUB_ENV
-
-      - name: Render book manually
+      - name: Render book
         shell: bash -l {0}   # use a login shell to ensure the correct Python is used
         run: |
           quarto render book --execute     
