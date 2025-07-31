@@ -36,7 +36,7 @@ jobs:
     outputs:
       book-artifact: book-${{ github.sha }}
     steps:
-      - name: Cache sample data
+      - name: Cache movement sample data
         uses: actions/cache@v4
         with:
           path: |
@@ -44,14 +44,23 @@ jobs:
           key: cached-sample-data
           restore-keys: cached-sample-data
 
+      - name: Cache Smart-Kages data
+        id: cache-smartkages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Downloads/Smart-Kages
+          key: smart-kages-data-v1
+
       - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Download Smart-Kages data from Dropbox
+        if: steps.cache-smartkages.outputs.cache-hit != 'true'
         run: |
-          curl -L https://www.dropbox.com/scl/fi/0levhgg6fpclhqos14zgz/Smart-Kages.zip?rlkey=e2x9i0gvxpv00t0ppzkezvp3n&st=nyufmg8u&dl=1 -o ~/.movement/Smart-Kages.zip
-          unzip ~/.movement/Smart-Kages.zip
-          ls -R ~/.movement/Smart-Kages
+          curl -L "https://www.dropbox.com/scl/fi/0levhgg6fpclhqos14zgz/Smart-Kages.zip?rlkey=e2x9i0gvxpv00t0ppzkezvp3n&st=nyufmg8u&dl=1" -o ~/Downloads/Smart-Kages.zip
+          unzip ~/Downloads/Smart-Kages.zip -d ~/Downloads/Smart-Kages
+          rm ~/Downloads/Smart-Kages.zip
 
       - name: Set up Conda
         uses: conda-incubator/setup-miniconda@v3
