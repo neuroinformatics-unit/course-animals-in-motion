@@ -37,7 +37,7 @@ If you already have one you're comfortable with, feel free to use it. Otherwise,
 Please install [SLEAP](https://sleap.ai/) following the [official installation instructions](https://sleap.ai/installation.html).
 
 ::: {.callout-note}  
-For this workshop, use **SLEAP version 1.3.3**. Be sure to replace the default version number (e.g. `1.4.1`) in the instructions with `1.3.3`.  
+For this workshop, use **SLEAP version 1.3.4**. Be sure to replace the default version number (e.g. `1.4.1`) in the instructions with `1.3.4`.  
 :::
 
 This should create a `conda` environment named `sleap` with the necessary dependencies. You can verify the installation by running:
@@ -75,9 +75,10 @@ There are other ways to [install the movement package](https://movement.neuroinf
 However, for this workshop, we recommend using the `environment.yaml` file to ensure that all necessary dependencies, including those beyond `movement`, are included.  
 :::
 
-## Data
+## Data {#sec-data}
 
-Bringing your own data is encouraged but not required.  
-This could include video recordings of animal behaviour and/or motion tracking data you've previously generated.
+Bringing your own data is encouraged but not required. This could include video recordings of animal behaviour and/or motion tracking data you've previously generated.
 
-If you don't have your own data, we'll provide example datasets for you to use during the workshop.
+We also provide some example datasets for you to use during the workshop.
+Please download these from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0) before the workshop starts (they are a few GB in size).
+
