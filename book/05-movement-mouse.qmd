@@ -1,8 +1,9 @@
 # A mouse's daily activity log {#sec-movement-mouse}
 
-In this case study, we will use the `movement` package to analyse mouse home cage monitoring data acquired in [Smart-Kages](https://cambridgephenotyping.com/products) and tracked with [DeepLabCut](https://www.deeplabcut.org/). Specifically, we'll look at how the mouse's activity levels vary during the data.
+In this case study, we will use the `movement` package to analyse mouse home cage monitoring data acquired in [Smart-Kages](https://cambridgephenotyping.com/products) and tracked with [DeepLabCut](https://www.deeplabcut.org/). Specifically, we'll look at how the mouse's activity levels vary during the day.
 
 Before we start, make sure you have created the `animals-in-motion-env` environment (see [prerequisites @sec-install-movement]), and are using it to run this notebook.
+Also, make sure you've downloaded the `Smart-Kages.zip` archive from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0) (see [prerequisites @sec-data]) and unzipped it.
 
 ## Import libraries
 
@@ -31,11 +32,22 @@ xr.set_options(
 )
 ```
 
-## Load Smart-Kages data
+## The Smart-Kages dataset
 
-For this example we wull use the data we shared over dropbox.
-We assume that you've downloaded the `Smart-Kages.zip` archive
-and unzipped it.
+::: {.callout-note title="Acknowledgement"}
+This dataset was kindly shared by [Loukia Katsouri](https://www.sainsburywellcome.org/web/people/loukia-katsouri) from the [O'Keefe Lab](https://www.sainsburywellcome.org/web/groups/okeefe-lab), with permission to use for this workshop.
+:::
+
+The Smart-Kages dataset contains home cage recordings from two mice,
+each housed in a specialised [Smart-Kage](https://cambridgephenotyping.com/products) [@ho_fully_2023]—a home cage
+monitoring system that includes a camera attached to the top of the cage.
+
+The system acquires video frames at 2 frames per second and saves a video
+segment for each hour of the day. A pre-trained DeepLabCut model is then
+used to predict 8 keypoints on the mouse's body.
+
+Let's see what's in the downloaded data.
+You will need to specify the path to the unzipped `Smart-Kages` folder on your machine.
 
 ```{python}
 # Replace with the path to the unzipped Smart-Kages folder on your machine
@@ -44,62 +56,74 @@ smart_kages_path = Path.home() / ".movement" / "Smart-Kages"
 # Let's visualise the contents of the folder
 files = [f.name for f in smart_kages_path.iterdir()]
 files.sort()
-print(f"Found {len(files)} files in {smart_kages_path}:")
-print(*files, sep="\n")
+for file in files:
+    print(file)
 ```
 
-## Load data
+The tracking data are stored in two`.nc` (NetCDF) files (one per mouse): `kage14` and `kage17`.
+NetCDF is an HDF5-based file format that can be natively saved/loaded by the `xarray` library,
+and is therefore [convenient to use with `movement`](https://movement.neuroinformatics.dev/user_guide/input_output.html#native-saving-and-loading-with-netcdf).
 
-For this example we will use some home cage recordings of a mouse.
-The mouse is house in a specialised [Smart-Kage](https://cambridgephenotyping.com/products)
-and is being continuously monitored via a camera from the top.
+Apart from these, we also have two `.png` files: `kage14_background.png` and `kage17_background.png`,
+which constitute frames extracted from the videos.
 
-The system acquired video frames at 2 frames per second and saves a video
-segment for each hour of the day. A pre-trained DeepLabCut model is then
-used to predict 8 keypoints on the mouse's body.
-
-We will use the following 3 files:
-
-- DLC_smart-kage3_datetime-20240417T090006.predictions.h5
-- DLC_smart-kage3_datetime-20240417T100006.predictions.h5
-- DLC_smart-kage3_datetime-20240417T110006.predictions.h5
-
-The start date and time of each file is indicated in the filename, in the format `YYYYMMDDTHHMMSS`.
-
-We can fetch these files from `movement`'s `sample_data` module.
+Let's take a look at them.
 
 ```{python}
-filename_list = [
-    "DLC_smart-kage3_datetime-20240417T090006.predictions.h5",
-    "DLC_smart-kage3_datetime-20240417T100006.predictions.h5",
-    "DLC_smart-kage3_datetime-20240417T110006.predictions.h5",
-]
+#| label: fig-background-frames
+#| fig-cap: "Top-down camera views of the Smart-Kage habitats"
+#| code-fold: true
 
-ds_list = []  # list of loaded datasets
-for filename in filename_list:
-    ds = sample_data.fetch_dataset(filename, with_video=True)
-    ds_list.append(ds)
+kages = ["kage14", "kage17"]
+img_paths = [smart_kages_path / f"{kage}_background.png" for kage in kages]
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+
+for i, img_path in enumerate(img_paths):
+    img = plt.imread(img_path)
+    axes[i].imshow(img)
+    axes[i].set_title(f"{kages[i]}")
+    axes[i].axis("off")
+
 ```
 
-Let's inspect the first dataset.
+::: {.callout-tip title="Question"}
+Now that you've seen these habitats:
+
+What challenges do you anticipate with tracking a mouse in this type of environment?
+:::
+
+Let's load and inspect the tracking data:
+
 
 ```{python}
-ds_list[0]   # Change 0 to 1 or 2 to inspect the other datasets
+ds_kages = {}
+
+for kage in ["kage14", "kage17"]:
+    ds_kages[kage] = xr.open_dataset(smart_kages_path / f"{kage}.nc")
+
+ds_kages["kage14"]   # Change to "kage17" to inspect the other dataset
 ```
 
-Let's view an example video frame.
+We see that each dataset contains a huge amount of data!
 
 ```{python}
-#| label: fig-example-frame
-#| fig-cap: "Example video frame"
+#| code-fold: true
 
-example_frame = plt.imread(ds_list[0].frame_path)
-plt.imshow(example_frame)
-plt.axis("off")
-plt.show()
+start_date_k14 = pd.to_datetime(ds_kages["kage14"].time.data[0])
+end_date_k14 = pd.to_datetime(ds_kages["kage14"].time.data[-1])
+duration_k14 = end_date_k14 - start_date_k14
+
+start_date_k17 = pd.to_datetime(ds_kages["kage17"].time.data[0])
+end_date_k17 = pd.to_datetime(ds_kages["kage17"].time.data[-1])
+duration_k17 = end_date_k17 - start_date_k17
+
+print("Experiment durations:")
+print(f"kage-14: from {start_date_k14} to {end_date_k14} ({duration_k14.days} days)")
+print(f"kage-17: from {start_date_k17} to {end_date_k17} ({duration_k17.days} days)")
 ```
 
-## Assign datetime coordinates
+## Datetime coordinates
 
 The time coordinates are given in seconds since the start of each video segment,
 i.e. the coordinates represent "elapsed time" since the start of the video segment.
@@ -116,51 +140,13 @@ The following code block assigns datetime coordinates to each dataset,
 using the start datetime of each video segment as the reference point
 and assuming a constant frame rate.
 
-```{python}
-ds_list_dt = []  # list of datasets with datetime coordinates
-
-for i, ds in enumerate(ds_list):
-    # Extract the datetime string from the filename
-    start_datetime_str = filename_list[i].split(".")[0].split("-")[-1]
-    # Convert it to a pandas Timestamp object
-    start_datetime = pd.Timestamp(start_datetime_str)
-    print("Extracted start datetime: ", start_datetime)
-
-    # Create an array of timestamps, one for each frame
-    timestamps = pd.date_range(
-        start=start_datetime,
-        periods=ds.sizes["time"],
-        freq=pd.Timedelta(seconds=1 / ds.attrs["fps"]),
-    )
-
-    # Assign timestamp coordinates to the "time" dimension
-    # (overwrites elapsed time coordinates)
-    ds_dt = ds.assign_coords(time=timestamps)
-    ds_dt.attrs["time_unit"] = "datetime64[ns]"   # metadata
-    ds_list_dt.append(ds_dt)
-    print(f"Assigned {len(timestamps)} timestamps to the 'time' dimension.\n")
-
-```
-
-Now let's inspect the first dataset with datetime coordinates.
-
-```{python}
-ds_list_dt[0]
-```
-
-We can now concatenate the datasets along the time dimension.
-
-```{python}
-ds_3hr = xr.concat(ds_list_dt, dim="time")
-ds_3hr
-```
 
 For some computations, it's still useful to also know the total time elapsed
-since the start of the first video segment. Therefore, we'll assign a secondary
+since the start of the experiment. Therefore, we'll assign a secondary
 time coordinate to the dataset, called `seconds_elapsed`, to store
 that information.
 
-```{python}
+```{.python}
 first_segment_start = ds_3hr.time.isel(time=0).data
 seconds_since_start = (
     ds_3hr.time.data - np.datetime64(first_segment_start)
@@ -174,7 +160,7 @@ print(f"First 5 'seconds_elapsed' coords: {ds_3hr.coords["seconds_elapsed"].valu
 This is quite convenient, because we can now select time windows in
 various ways.
 
-```{python}
+```{.python}
 # 1. Select a time window by frame number.
 ds_3hr.isel(time=slice(100, 200))
 
@@ -190,7 +176,7 @@ ds_3hr.set_index(time="seconds_elapsed").sel(time=slice(0, 1800))
 
 Let's examine the confidence histograms for each keypoint.
 
-```{python}
+```{.python}
 #| label: fig-confidence-histograms
 #| fig-cap: "Confidence histograms by keypoint"
 #| code-fold: true
@@ -251,7 +237,7 @@ are the most confidently detected.
 
 Let's run the numbers:
 
-```{python}
+```{.python}
 #| label: fig-median-confidence
 #| fig-cap: "Median confidence by keypoint"
 
@@ -263,7 +249,7 @@ plt.show()
 
 We can filter out low-confidence predictions.
 
-```{python}
+```{.python}
 confidence_threshold = 0.5
 
 ds_3hr["position_filtered"] = filter_by_confidence(
@@ -277,7 +263,7 @@ ds_3hr["position_filtered"] = filter_by_confidence(
 Let us define a list of "reliable" keypoints for later use.
 These are all on the mouse's body.
 
-```{python}
+```{.python}
 reliable_keypoints = ["neck", "bodycenter", "spine1", "spine2"]
 ```
 
@@ -285,7 +271,7 @@ reliable_keypoints = ["neck", "bodycenter", "spine1", "spine2"]
 
 Let's compute the centroid of the 4 reliable body keypoints
 
-```{python}
+```{.python}
 body_centroid = ds_3hr.position_filtered.sel(
     individuals="individual_0",  # the only individual in the dataset
     keypoints=reliable_keypoints
@@ -294,14 +280,14 @@ body_centroid = ds_3hr.position_filtered.sel(
 
 Now let's the body centroid speed as a proxy of the mouse's speed.
 
-```{python}
+```{.python}
 body_speed = compute_speed(body_centroid.set_index(time="seconds_elapsed"))
 body_speed = body_speed.assign_coords(time=body_centroid.time)
 ```
 
 Let's plot the speed over time.
 
-```{python}
+```{.python}
 #| label: fig-body-speed
 #| fig-cap: "Body centroid speed"
 
@@ -316,7 +302,7 @@ plt.show()
 For the heatamp calculation to properly work, we need to temporarily
 set the time coordinates to "elapsed time".
 
-```{python}
+```{.python}
 fig, ax = plt.subplots()
 
 height, width = example_frame.shape[:2]
