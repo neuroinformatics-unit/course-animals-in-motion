@@ -1,9 +1,9 @@
 # Animals In Motion
 
-This repository contains the course materials for ["Animals In Motion"](https://neuroinformatics.dev/open-software-week/animals-in-motion.html),
+This repository contains the course materials for ["Animals In Motion"](https://animals-in-motion.neuroinformatics.dev/),
 a workshop developed by the [Neuroinformatics Unit (NIU)](https://neuroinformatics.dev), as part of the [Open Software Week](https://neuroinformatics.dev/open-software-week/).
 
-See the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to contribute to the project.
+Contributions are welcome! See the [contributing guide](https://animals-in-motion.neuroinformatics.dev/dev/contributing.html).
 
 ## License
 
