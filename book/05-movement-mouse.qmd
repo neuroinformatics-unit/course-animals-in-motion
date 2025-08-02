@@ -97,7 +97,6 @@ for i, img_path in enumerate(img_paths):
 
 Let's load and inspect the tracking data:
 
-
 ```{python}
 ds_kages = {}  # a dictionary to store kage name -> xarray dataset
 
@@ -157,7 +156,6 @@ ds_14.sel(time=slice("2024-04-17 00:00:00", "2024-04-17 23:59:59"))
 # Select a half-hour window
 ds_14.sel(time=slice("2024-04-17 09:30:00", "2024-04-17 10:00:00"))
 ```
-
 
 That said, it's still useful to also know the total time elapsed since the start of the experiment.
 In fact, many `movement` functions will expect "elapsed time" and may not work with datetime coordinates (for now).
@@ -224,7 +222,6 @@ for i, kage in enumerate(["kage14", "kage17"]):
     axes[i].set_title(f"{kage} body center x")
 ```
 
-
 ```{python}
 #| code-fold: true
 
@@ -285,7 +282,6 @@ for kage, ds in ds_kages.items():
     )
     print("\n")
 ```
-
 
 ## Plot the mouse's speed over time
 
@@ -358,7 +354,6 @@ lights_on = "21:30:00"
 time_window = slice("2024-04-22 00:00:00", "2024-04-25 23:59:59")
 ```
 
-
 ```{python}
 #| code-fold: true
 
@@ -396,7 +391,6 @@ and seems to be somewhat disrupted in kage17. The mouse in kage17
 seems to be more active overall, both during the day and at night.
 
 :::
-
 
 ## Plot the occupancy heatmap
 
