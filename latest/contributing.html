@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Pose estimation with SLEAP – Animals In Motion</title>
+<title>Appendix B — Contributing – Animals In Motion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./04-movement-intro.html" rel="next">
-<link href="./02-deep-learning.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./prerequisites.html" rel="prev">
 <link href="./img/logo_niu_light.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -83,7 +118,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-sleap-tutorial.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./prerequisites.html">Appendices</a></li><li class="breadcrumb-item"><a href="./contributing.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Contributing</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -134,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-sleap-tutorial.html" class="sidebar-item-text sidebar-link active">
+  <a href="./03-sleap-tutorial.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></span></a>
   </div>
 </li>
@@ -173,7 +208,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./contributing.html" class="sidebar-item-text sidebar-link">
+  <a href="./contributing.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Contributing</span></span></a>
   </div>
 </li>
@@ -190,15 +225,31 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#setting-up-the-development-environment" id="toc-setting-up-the-development-environment" class="nav-link active" data-scroll-target="#setting-up-the-development-environment"><span class="header-section-number">B.1</span> Setting up the development environment</a></li>
+  <li><a href="#authoring-content" id="toc-authoring-content" class="nav-link" data-scroll-target="#authoring-content"><span class="header-section-number">B.2</span> Authoring content</a>
+  <ul class="collapse">
+  <li><a href="#adding-answers-to-exercises" id="toc-adding-answers-to-exercises" class="nav-link" data-scroll-target="#adding-answers-to-exercises"><span class="header-section-number">B.2.1</span> Adding answers to exercises</a></li>
+  </ul></li>
+  <li><a href="#pre-commit-hooks" id="toc-pre-commit-hooks" class="nav-link" data-scroll-target="#pre-commit-hooks"><span class="header-section-number">B.3</span> Pre-commit hooks</a></li>
+  <li><a href="#sec-versioning" id="toc-sec-versioning" class="nav-link" data-scroll-target="#sec-versioning"><span class="header-section-number">B.4</span> Versioning and releasing</a></li>
+  <li><a href="#continuous-integration-ci" id="toc-continuous-integration-ci" class="nav-link" data-scroll-target="#continuous-integration-ci"><span class="header-section-number">B.5</span> Continuous integration (CI)</a>
+  <ul class="collapse">
+  <li><a href="#previewing-the-book-in-ci" id="toc-previewing-the-book-in-ci" class="nav-link" data-scroll-target="#previewing-the-book-in-ci"><span class="header-section-number">B.5.1</span> Previewing the book in CI</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/contributing.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/contributing.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./prerequisites.html">Appendices</a></li><li class="breadcrumb-item"><a href="./contributing.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Contributing</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-sleap" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></span></h1>
+<h1 class="title"><span id="sec-contributing" class="quarto-section-identifier">Appendix B — Contributing</span></h1>
 </div>
 
 
@@ -215,9 +266,118 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Before we proceed, make sure you have installed SLEAP and activated the corresponding <code>conda</code> environment (see <a href="prerequisites.html#sec-install-sleap" class="quarto-xref">prerequisites&nbsp;<span>A.3.2</span></a>).</p>
+<p>Thank you for considering contributing to the Animals In Motion project! We welcome contributions in various forms, including bug reports, requests for content improvement, as well as new tutorials or case studies.</p>
+<section id="setting-up-the-development-environment" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="setting-up-the-development-environment"><span class="header-section-number">B.1</span> Setting up the development environment</h2>
+<p>Begin by cloning the repository and navigating to its root directory:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/neuroinformatics-unit/animals-in-motion.git</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> animals-in-motion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We use <code>conda</code> to manage dependencies. First, create a development environment using the <code>environment-dev.yaml</code> file, and activate it:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> animals-in-motion-dev <span class="at">-f</span> environment-dev.yaml</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate animals-in-motion-dev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To enable the <a href="#pre-commit-hooks">pre-commit hooks</a>, run the following command once:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is a <a href="https://quarto.org/docs/books/index.html">Quarto book</a> project, with its source code located in the <code>book/</code> directory. We refer you to the <a href="https://quarto.org/docs/books/index.html">Quarto documentation</a> for more information on how books are structured and configured.</p>
+<p>To render/preview the book locally, you’ll need the <a href="https://quarto.org/docs/get-started/">Quarto CLI</a> installed, as well as the <a href="https://quarto.org/docs/get-started/hello/vscode.html">VSCode Quarto extension</a></p>
+<p>You will also need to make sure that the <code>QUARTO_PYTHON</code> environment variable is set to the path of the <code>python</code> executable in the development <code>conda</code> environment. This guarantees that the Quarto CLI will use the correct Python interpreter when rendering the book.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">QUARTO_PYTHON</span><span class="op">=</span><span class="va">$(</span><span class="fu">which</span> python<span class="va">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, you can render the book using:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or if you want to run executable code blocks before rendering to html</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can view the rendered book by opening the <code>book/_book/index.html</code> file in your browser.</p>
+</section>
+<section id="authoring-content" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="authoring-content"><span class="header-section-number">B.2</span> Authoring content</h2>
+<p>Book chapters are written primarily as <a href="https://quarto.org/docs/authoring/markdown-basics.html">Quarto Markdown</a> files (<code>.qmd</code>). These can contain a mix of narrative and interactive content, such as code exercises. See <a href="https://quarto.org/docs/computations/python.html">Quarto computations &gt; Using Python</a> to learn more about executable code blocks.</p>
+<p>We recommend using the <a href="https://marketplace.visualstudio.com/items?itemName=quarto.quarto">Quarto VSCode extension</a> for authoring and previewing content.</p>
+<p>Alternatively, you may also use JupyterLab, with Jupyter Notebooks (<code>.ipynb</code>) as source files—see <a href="https://quarto.org/docs/tools/jupyter-lab.html">Quarto tools &gt; JupyterLab</a> for more information.</p>
+<p>The chapter source files reside in the <code>book/</code> directory and have to be linked in the <code>book/_quarto.yml</code> file for them to show up. See <a href="https://quarto.org/docs/books/book-crossrefs.html">Book Crossrefs</a> on how to reference other chapters.</p>
+<p>Bibliographical references should be added to the <code>book/references.bib</code> file in BibTeX format. See <a href="https://quarto.org/docs/manuscripts/authoring/vscode.html#citations">Quarto authoring &gt; Citations</a> for more information.</p>
+<p>In general, <a href="https://quarto.org/docs/manuscripts/authoring/vscode.html#cross-ref">cross-referencing objects</a> (e.g.&nbsp;figures, tables, chapters, equations, citations, etc.) should be done using the <code>@ref</code> syntax, e.g.&nbsp;<code>See @fig-overview for more details</code>.</p>
+<section id="adding-answers-to-exercises" class="level3" data-number="B.2.1">
+<h3 data-number="B.2.1" class="anchored" data-anchor-id="adding-answers-to-exercises"><span class="header-section-number">B.2.1</span> Adding answers to exercises</h3>
+<p>This book is configured to be rendered with or without answers to exercises, using a combination of <a href="https://quarto.org/docs/projects/profiles.html">Quarto profiles</a> and custom metadata fields.</p>
+<p>The <code>_quarto.yml</code> file contains the default metadata for the book, including a custom metadata field called <code>show-answers</code> that is set to <code>false</code> by default.</p>
+<p>In the <code>_quarto-answers.yml</code> file, which defines the “answers” profile, the <code>show-answers</code> field is set to <code>true</code>.</p>
+<p>To add answers to code exercises, please enclose them in a block of the following form:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:::{.content-hidden</span> unless-meta=<span class="st">"show-answers"</span>}</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">### Solutions: Exercise A</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Write</span> your solution here.</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then you can control whether the answers are shown or not by passing the appropriate Quarto profile to the <code>quarto render</code> command:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> default  <span class="co"># equivalent to no profile</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> answers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can achieve the same effect by setting the <code>QUARTO_PROFILE</code> environment variable before rendering the book:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">QUARTO_PROFILE</span><span class="op">=</span>answers</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In general, it’s most convenient to show the answers while you are developing the content, and then hide them to preview the book as a student would see it.</p>
+<p>See the <a href="#sec-versioning" class="quarto-xref"><span>Section B.4</span></a> for more information on how to create releases with or without answers.</p>
+</section>
+</section>
+<section id="pre-commit-hooks" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="pre-commit-hooks"><span class="header-section-number">B.3</span> Pre-commit hooks</h2>
+<p>We use <a href="https://pre-commit.com/">pre-commit</a> to run checks on the codebase before committing.</p>
+<p>Current hooks include:</p>
+<ul>
+<li><a href="https://github.com/codespell-project/codespell">codespell</a> for catching common spelling mistakes.</li>
+<li><a href="https://github.com/igorshubovych/markdownlint-cli">markdownlint</a> for (Quarto) Markdown linting and formatting.</li>
+<li><a href="https://github.com/astral-sh/ruff">ruff</a> for code linting and formatting.</li>
+</ul>
+<p>These will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run  <span class="co"># for staged files</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run <span class="at">-a</span>  <span class="co"># for all files in the repository</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sec-versioning" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="sec-versioning"><span class="header-section-number">B.4</span> Versioning and releasing</h2>
+<p>We use <a href="https://calver.org/">Calendar Versioning (CalVer)</a> and specifically the <code>YYYY.0M</code> scheme (e.g.&nbsp;<code>2025.08</code> for August 2025).</p>
+<p>To create a new release, first update the <code>book/index.qmd</code> file. Specifically, add an entry like the following under the “Versions” section:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">v2025.08</span><span class="co">](https://animals-in-motion.neuroinformatics.dev/v2025.08/)</span>: Version used for the inaugural workshop in August 2025</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You also need to create a new tag in one of the following formats:</p>
+<ul>
+<li><code>vYYYY.0M</code> (without answers)</li>
+<li><code>vYYYY.0M-answers</code> (with answers)</li>
+</ul>
+<p>and push it to the repository. Don’t forget the <code>v</code> prefix for the tag name!</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v2025.08</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="continuous-integration-ci" class="level2" data-number="B.5">
+<h2 data-number="B.5" class="anchored" data-anchor-id="continuous-integration-ci"><span class="header-section-number">B.5</span> Continuous integration (CI)</h2>
+<p>The CI workflow is defined in the <code>.github/workflows/build_and_deploy.yaml</code> file and can be triggered by:</p>
+<ul>
+<li>Pushes to the <code>main</code> branch</li>
+<li>Pull requests</li>
+<li>Releases, i.e.&nbsp;tags starting with <code>v</code> (e.g., <code>v2025.08</code> or <code>v2025.08-answers</code>)</li>
+<li>Manual dispatches</li>
+</ul>
+<p>The workflow is built using <a href="https://docs.github.com/en/actions">GitHub actions</a> and includes three jobs:</p>
+<ul>
+<li><strong>linting</strong>: running the <a href="#pre-commit-hooks">pre-commit hooks</a></li>
+<li><strong>build</strong>: rendering the Quarto book and uploading an artifact</li>
+<li><strong>deploy</strong>: deploying the book artifact to the <code>gh-pages</code> branch (only for pushes to the <code>main</code> branch and releases)</li>
+</ul>
+<p>Each release version is deployed to a folder in the <code>gh-pages</code> branch, with the same name as the release tag (e.g., <code>v2025.08</code>). There’s also a special folder called <code>dev</code> that is deployed for pushes to the <code>main</code> branch.</p>
+<p>The contents of the latest release (without answers) are also copied to the <code>latest/</code> folder, where the home page is redirected to.</p>
+<p>Links to previous versions can be added to the book’s <code>index.qmd</code> file, under the “View other versions” section. Note that these links will only work on the deployed version of the book, not on the local version.</p>
+<section id="previewing-the-book-in-ci" class="level3" data-number="B.5.1">
+<h3 data-number="B.5.1" class="anchored" data-anchor-id="previewing-the-book-in-ci"><span class="header-section-number">B.5.1</span> Previewing the book in CI</h3>
+<p>We use <a href="https://artifact.ci/">artifact.ci</a> to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR. To do so:</p>
+<ol type="1">
+<li>Go to the “Checks” tab in the GitHub PR.</li>
+<li>Click on the “Build and Deploy Quarto Book” section on the left.</li>
+<li>If the “Build Quarto book” action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.</li>
+<li>Click on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.</li>
+<li>Once the upload is complete, look for <code>book/_book/index.html</code> under the “Detected Entrypoints” section.</li>
+</ol>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -621,13 +781,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./02-deep-learning.html" class="pagination-link" aria-label="Deep learning for computer vision primer">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Deep learning for computer vision primer</span></span>
+      <a href="./prerequisites.html" class="pagination-link" aria-label="Prerequisites">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./04-movement-intro.html" class="pagination-link" aria-label="Analysing tracks with movement">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysing tracks with movement</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">References</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -638,8 +798,8 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>This website is made with <a href="https://quarto.org/docs/books">Quarto Book</a>, see <a href="contributing.html" class="quarto-xref"><span>Appendix B</span></a>.</p>
-<div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/03-sleap-tutorial.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/03-sleap-tutorial.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+<p>This website is made with <a href="https://quarto.org/docs/books">Quarto Book</a>, see <a href="#sec-contributing" class="quarto-xref"><span>Appendix B</span></a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/contributing.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/contributing.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
