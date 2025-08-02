@@ -24,7 +24,8 @@ This website is available in multiple versions:
 
 - [latest](https://animals-in-motion.neuroinformatics.dev/latest/): latest release version
 - [dev](https://animals-in-motion.neuroinformatics.dev/dev/): development version, corresponding to the `main` branch
-- [v2025.08a0](https://animals-in-motion.neuroinformatics.dev/v2025.08a0/): alpha version for the 2025.08 release
+- [v2025.08a1](https://animals-in-motion.neuroinformatics.dev/v2025.08a1/): alpha version for the 2025.08 release
+- [v2025.08a1-answers](https://animals-in-motion.neuroinformatics.dev/v2025.08a1-answers/): alpha version for the 2025.08 release with answers to exercises
 
 ## Funding & acknowledgements
 

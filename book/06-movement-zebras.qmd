@@ -1,0 +1,3 @@
+# Zebra escape trajectories {#sec-movement-zebras}
+
+Before we start, make sure you have created the `animals-in-motion-env` environment (see [prerequisites @sec-install-movement]), and are using it to run this notebook.

@@ -4,11 +4,15 @@ name: Build and Deploy Quarto Book
 # The "build" job is triggered by pull requests, pushes to the main branch,
 # releases (tags starting with "v", e.g., v2025.08), or manually,
 # and ends with uploading the book artifact.
+# If the release tag ends with "-answers" (e.g., v2025.08-answers),
+# the book is rendered with the "answers" Quarto profile, otherwise
+# it is rendered with the "default" profile.
+#
 # The "deploy" job is only triggered by pushes to main and releases.
 # It copies the book artifact to an appropriate folder in the gh-pages branch,
-# e.g., v2025.08 for a release or dev for pushes to main. It also
-# creates a redirect file pointing the home page to the "latest/" folder,
-# which always points to the most recent release if available,
+# e.g., v2025.08 / v2025.08-answers for a release or dev for pushes to main.
+# It creates a redirect file pointing the home page to the "latest/" folder,
+# which always points to the most recent release without answers, if available,
 # or to dev/ otherwise.
 
 on:
@@ -75,10 +79,19 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      - name: Determine if answers should be shown
+        id: show-answers
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v*-answers ]]; then
+            echo "profile=answers" >> $GITHUB_OUTPUT
+          else
+            echo "profile=default" >> $GITHUB_OUTPUT
+
       - name: Render book
         env:
-          # Make sure to quarto usese the activated conda environment
+          # Make sure quarto uses the activated conda environment
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
+          QUARTO_PROFILE: ${{ steps.show-answers.outputs.profile }}
         run: |
           echo "Using QUARTO_PYTHON=$QUARTO_PYTHON"
           quarto render book --execute    
@@ -106,6 +119,7 @@ jobs:
     steps:
       # If the ref is a tag, destination_dir has a release version number
       # Otherwise, destination_dir is called "dev"
+      # Also determine if the release tag contains "-answers" or not
       - name: Determine deploy context
         id: context
         run: |
@@ -116,6 +130,12 @@ jobs:
           else
             echo "is_release=false" >> $GITHUB_OUTPUT
             echo "destination_dir=dev" >> $GITHUB_OUTPUT
+          fi
+
+          if [[ "${GITHUB_REF}" == refs/tags/v*-answers ]]; then
+            echo "show-answers=true" >> $GITHUB_OUTPUT
+          else
+            echo "show-answers=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Download book artifact
@@ -152,11 +172,13 @@ jobs:
       - name: Ensure CNAME file is present in gh-pages root
         run: echo "animals-in-motion.neuroinformatics.dev" > gh-pages/CNAME
 
-      # Copy release contents to "latest"
+      # Copy release contents to "latest" if it's one without answers
       # If no releases exist, "dev" is copied to "latest"
       # The gh-pages branch root already contains an index.html file that redirects to latest/
       - name: Copy to latest
-        if: steps.context.outputs.is_release == 'true' || (steps.context.outputs.is_release == 'false' && steps.gh-pages-meta.outputs.releases_exist == 'false')
+        if: |
+          (steps.context.outputs.is_release == 'true' && steps.context.outputs.show-answers == 'false') ||
+          (steps.context.outputs.is_release == 'false' && steps.gh-pages-meta.outputs.releases_exist == 'false')
         run: |
 
           cd gh-pages

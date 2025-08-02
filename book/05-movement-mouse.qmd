@@ -1,7 +1,3 @@
----
-hide-answers: false
----
-
 # A mouse's daily activity log {#sec-movement-mouse}
 
 In this case study, we'll be using the [`movement` package](https://movement.neuroinformatics.dev/) to dive into mouse home cage monitoring data acquired in [Smart-Kages](https://cambridgephenotyping.com/products) and tracked with [DeepLabCut](https://www.deeplabcut.org/). We'll explore how mouse activity levels fluctuate throughout the day.
@@ -202,7 +198,7 @@ For each of the two kages:
 2. Plot the median confidence of the body center for each day, over the entire duration of the experiment.
 :::
 
-:::{.content-hidden when-meta="hide-answers"}
+:::{.content-hidden unless-meta="show-answers"}
 
 ### Solutions: Exercise A
 
@@ -333,7 +329,7 @@ plt.show()
 3. Do you think there are any differences between the two kages? Feel free to "zoom in" on specific time windows to investigate this.
 :::
 
-:::{.content-hidden when-meta="hide-answers"}
+:::{.content-hidden unless-meta="show-answers"}
 
 ### Solutions: Exercise B
 

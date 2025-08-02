@@ -50,7 +50,12 @@ You can view the rendered book by opening the `book/_book/index.html` file in yo
 
 ## Authoring content
 
-Book chapters are written either as [Quarto Markdown](https://quarto.org/docs/authoring/markdown-basics.html) files (`.qmd`) or as Jupyter Notebooks (`.ipynb`). The latter are especially convenient for interactive content, such as code exercises, but note that both types of documents may contain executable code blocks (see [Quarto computations > Using Python](https://quarto.org/docs/computations/python.html)).
+Book chapters are written primarily as [Quarto Markdown](https://quarto.org/docs/authoring/markdown-basics.html) files (`.qmd`).
+These can contain a mix of narrative and interactive content, such as code exercises. See [Quarto computations > Using Python](https://quarto.org/docs/computations/python.html) to learn more about executable code blocks.
+
+We recommend using the [Quarto VSCode extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) for authoring and previewing content.
+
+Alternatively, you may also use JupyterLab, with Jupyter Notebooks (`.ipynb`) as source files—see [Quarto tools > JupyterLab](https://quarto.org/docs/tools/jupyter-lab.html) for more information.
 
 The chapter source files reside in the `book/` directory and have to be linked in the `book/_quarto.yml` file for them to show up.
 See [Book Crossrefs](https://quarto.org/docs/books/book-crossrefs.html) on how to reference other chapters.
@@ -59,6 +64,48 @@ Bibliographical references should be added to the `book/references.bib` file in 
 See [Quarto authoring > Citations](https://quarto.org/docs/manuscripts/authoring/vscode.html#citations) for more information.
 
 In general, [cross-referencing objects](https://quarto.org/docs/manuscripts/authoring/vscode.html#cross-ref) (e.g. figures, tables, chapters, equations, citations, etc.) should be done using the `@ref` syntax, e.g. `See @fig-overview for more details`.
+
+### Adding answers to exercises
+
+This book is configured to be rendered with or without answers to exercises,
+using a combination of [Quarto profiles](https://quarto.org/docs/projects/profiles.html) and custom metadata fields.
+
+The `_quarto.yml` file contains the default metadata for the book,
+including a custom metadata field called `show-answers` that is set to `false` by default.
+
+In the `_quarto-answers.yml` file, which defines the "answers" profile,
+the `show-answers` field is set to `true`.
+
+To add answers to code exercises, please enclose them in a block of the following form:
+
+```{.bash}
+:::{.content-hidden unless-meta="show-answers"}
+
+### Solutions: Exercise A
+
+Write your solution here.
+
+:::
+```
+
+Then you can control whether the answers are shown or not by passing the appropriate Quarto profile to the `quarto render` command:
+
+```bash
+quarto render book --execute --profile default  # equivalent to no profile
+quarto render book --execute --profile answers
+```
+
+You can achieve the same effect by setting the `QUARTO_PROFILE` environment variable before rendering the book:
+
+```bash
+export QUARTO_PROFILE=answers
+quarto render book --execute
+```
+
+In general, it's most convenient to show the answers while you are developing the content,
+and then hide them to preview the book as a student would see it.
+
+See the [@sec-versioning] for more information on how to create releases with or without answers.
 
 ## Pre-commit hooks
 
@@ -78,7 +125,7 @@ pre-commit run  # for staged files
 pre-commit run -a  # for all files in the repository
 ```
 
-## Versioning and releasing
+## Versioning and releasing {#sec-versioning}
 
 We use [Calendar Versioning (CalVer)](https://calver.org/) and specifically the `YYYY.0M` scheme (e.g. `2025.08` for August 2025).
 
@@ -88,7 +135,12 @@ To create a new release, first update the `book/index.qmd` file. Specifically, a
 - [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/): Version used for the inaugural workshop in August 2025
 ```
 
-You also need to create a new tag with the format `vYYYY.0M`, and push it to the repository. Don't forget the `v` prefix for the tag name!
+You also need to create a new tag in one of the following formats:
+
+- `vYYYY.0M` (without answers)
+- `vYYYY.0M-answers` (with answers)
+
+and push it to the repository. Don't forget the `v` prefix for the tag name!
 
 For example:
 
@@ -103,7 +155,7 @@ The CI workflow is defined in the `.github/workflows/build_and_deploy.yaml` file
 
 - Pushes to the `main` branch
 - Pull requests
-- Releases, i.e. tags starting with `v` (e.g., `v2025.08`)
+- Releases, i.e. tags starting with `v` (e.g., `v2025.08` or `v2025.08-answers`)
 - Manual dispatches
 
 The workflow is built using [GitHub actions](https://docs.github.com/en/actions) and includes three jobs:
@@ -115,7 +167,7 @@ The workflow is built using [GitHub actions](https://docs.github.com/en/actions)
 Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08`).
 There's also a special folder called `dev` that is deployed for pushes to the `main` branch.
 
-The contents of the latest release are also copied to the `latest/` folder, where the home page is redirected to.
+The contents of the latest release (without answers) are also copied to the `latest/` folder, where the home page is redirected to.
 
 Links to previous versions can be added to the book's `index.qmd` file, under the "View other versions" section. Note that these links will only work on the deployed version of the book, not on the local version.
 
