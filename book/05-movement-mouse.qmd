@@ -196,7 +196,7 @@ Whenever we want to switch to "elapsed time" mode, we can simply set the `second
 ds_14.set_index(time="seconds_elapsed").sel(time=slice(0, 1800))
 ```
 
-::: {.callout-tip title="Exercise"}
+::: {.callout-tip title="Exercise A"}
 
 For each of the two kages:
 
@@ -206,7 +206,7 @@ For each of the two kages:
 
 :::{.content-hidden when-meta="hide-answers"}
 
-### Solutions
+### Solutions: Exercise A
 
 ```{python}
 #| code-fold: true
@@ -330,7 +330,7 @@ for i, kage in enumerate(["kage14", "kage17"]):
 plt.show()
 ```
 
-::: {.callout-tip title="Exercise"}
+::: {.callout-tip title="Exercise B"}
 
 1. What do you notice about the overall speed fluctuations over time?
 2. What do you think is the reason for this?
@@ -339,9 +339,9 @@ plt.show()
 
 :::{.content-hidden when-meta="hide-answers"}
 
-### Solutions
+### Solutions: Exercise B
 
-The speed seems to fluctuate in a circadian pattern.
+The speed seems to fluctuate in a circadian pattern, especially apparent in kage14.
 This will become clearer if we zoom in on a time window of a few days
 and we plot speed alongside the light cycle.
 
@@ -390,6 +390,11 @@ for i, kage in enumerate(["kage14", "kage17"]):
 plt.show()
 
 ```
+
+We also note that the circadian pattern is more pronounced in kage14,
+and seems to be somewhat disrupted in kage17. The mouse in kage17
+seems to be more active overall, both during the day and at night.
+
 :::
 
 
@@ -416,7 +421,7 @@ for i, kage in enumerate(["kage14", "kage17"]):
         ax=axes[i],
         cmap="turbo",
         norm="log",  # log scale the colormap
-        cmin=0,      # only show occupancy above this number of frames
+        vmax=10**6,
         alpha=0.6,   # some transparency
     )
     # invert y-axis to match the video frame
