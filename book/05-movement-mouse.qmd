@@ -198,7 +198,7 @@ For each of the two kages:
 2. Plot the median confidence of the body center for each day, over the entire duration of the experiment.
 :::
 
-:::{.content-hidden unless-meta="show-answers"}
+::: {.content-visible when-profile="answers"}
 
 ### Solutions: Exercise A
 
@@ -329,7 +329,7 @@ plt.show()
 3. Do you think there are any differences between the two kages? Feel free to "zoom in" on specific time windows to investigate this.
 :::
 
-:::{.content-hidden unless-meta="show-answers"}
+::: {.content-visible when-profile="answers"}
 
 ### Solutions: Exercise B
 

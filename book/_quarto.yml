@@ -74,6 +74,3 @@ funding:
     The first edition of this workshop was made possible by a Software Sustainability Institute
     fellowship to Niko Sirmpilatze, as well as further funding support by the Sainsbury Wellcome Centre,
     the Society for Research Software Engineering and AIBIO-UK.
-
-# Custom metadata
-show-answers: false   # do NOT show answers to exercises by default

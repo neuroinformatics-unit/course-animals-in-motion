@@ -68,18 +68,18 @@ In general, [cross-referencing objects](https://quarto.org/docs/manuscripts/auth
 ### Adding answers to exercises
 
 This book is configured to be rendered with or without answers to exercises,
-using a combination of [Quarto profiles](https://quarto.org/docs/projects/profiles.html) and custom metadata fields.
+using [Quarto profiles](https://quarto.org/docs/projects/profiles.html).
 
-The `_quarto.yml` file contains the default metadata for the book,
-including a custom metadata field called `show-answers` that is set to `false` by default.
-
-In the `_quarto-answers.yml` file, which defines the "answers" profile,
-the `show-answers` field is set to `true`.
+- The `_quarto.yml` file defines the "default" profile for the book, which
+  does not show the answers to exercises.
+- The `_quarto-answers.yml` file defines the "answers" profile, which
+  is identical to the "default" profile, but also includes solutions
+  to code exercises.
 
 To add answers to code exercises, please enclose them in a block of the following form:
 
 ```{.bash}
-:::{.content-hidden unless-meta="show-answers"}
+::: {.content-visible when-profile="answers"}
 
 ### Solutions: Exercise A
 
