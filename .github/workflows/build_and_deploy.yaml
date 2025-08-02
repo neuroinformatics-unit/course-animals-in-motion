@@ -86,6 +86,7 @@ jobs:
             echo "profile=answers" >> $GITHUB_OUTPUT
           else
             echo "profile=default" >> $GITHUB_OUTPUT
+          fi
 
       - name: Render book
         env:
