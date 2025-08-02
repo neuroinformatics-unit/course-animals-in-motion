@@ -231,9 +231,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#setting-up-the-development-environment" id="toc-setting-up-the-development-environment" class="nav-link active" data-scroll-target="#setting-up-the-development-environment"><span class="header-section-number">B.1</span> Setting up the development environment</a></li>
-  <li><a href="#authoring-content" id="toc-authoring-content" class="nav-link" data-scroll-target="#authoring-content"><span class="header-section-number">B.2</span> Authoring content</a></li>
+  <li><a href="#authoring-content" id="toc-authoring-content" class="nav-link" data-scroll-target="#authoring-content"><span class="header-section-number">B.2</span> Authoring content</a>
+  <ul class="collapse">
+  <li><a href="#adding-answers-to-exercises" id="toc-adding-answers-to-exercises" class="nav-link" data-scroll-target="#adding-answers-to-exercises"><span class="header-section-number">B.2.1</span> Adding answers to exercises</a></li>
+  </ul></li>
   <li><a href="#pre-commit-hooks" id="toc-pre-commit-hooks" class="nav-link" data-scroll-target="#pre-commit-hooks"><span class="header-section-number">B.3</span> Pre-commit hooks</a></li>
-  <li><a href="#versioning-and-releasing" id="toc-versioning-and-releasing" class="nav-link" data-scroll-target="#versioning-and-releasing"><span class="header-section-number">B.4</span> Versioning and releasing</a></li>
+  <li><a href="#sec-versioning" id="toc-sec-versioning" class="nav-link" data-scroll-target="#sec-versioning"><span class="header-section-number">B.4</span> Versioning and releasing</a></li>
   <li><a href="#continuous-integration-ci" id="toc-continuous-integration-ci" class="nav-link" data-scroll-target="#continuous-integration-ci"><span class="header-section-number">B.5</span> Continuous integration (CI)</a>
   <ul class="collapse">
   <li><a href="#previewing-the-book-in-ci" id="toc-previewing-the-book-in-ci" class="nav-link" data-scroll-target="#previewing-the-book-in-ci"><span class="header-section-number">B.5.1</span> Previewing the book in CI</a></li>
@@ -286,10 +289,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="authoring-content" class="level2" data-number="B.2">
 <h2 data-number="B.2" class="anchored" data-anchor-id="authoring-content"><span class="header-section-number">B.2</span> Authoring content</h2>
-<p>Book chapters are written either as <a href="https://quarto.org/docs/authoring/markdown-basics.html">Quarto Markdown</a> files (<code>.qmd</code>) or as Jupyter Notebooks (<code>.ipynb</code>). The latter are especially convenient for interactive content, such as code exercises, but note that both types of documents may contain executable code blocks (see <a href="https://quarto.org/docs/computations/python.html">Quarto computations &gt; Using Python</a>).</p>
+<p>Book chapters are written primarily as <a href="https://quarto.org/docs/authoring/markdown-basics.html">Quarto Markdown</a> files (<code>.qmd</code>). These can contain a mix of narrative and interactive content, such as code exercises. See <a href="https://quarto.org/docs/computations/python.html">Quarto computations &gt; Using Python</a> to learn more about executable code blocks.</p>
+<p>We recommend using the <a href="https://marketplace.visualstudio.com/items?itemName=quarto.quarto">Quarto VSCode extension</a> for authoring and previewing content.</p>
+<p>Alternatively, you may also use JupyterLab, with Jupyter Notebooks (<code>.ipynb</code>) as source files—see <a href="https://quarto.org/docs/tools/jupyter-lab.html">Quarto tools &gt; JupyterLab</a> for more information.</p>
 <p>The chapter source files reside in the <code>book/</code> directory and have to be linked in the <code>book/_quarto.yml</code> file for them to show up. See <a href="https://quarto.org/docs/books/book-crossrefs.html">Book Crossrefs</a> on how to reference other chapters.</p>
 <p>Bibliographical references should be added to the <code>book/references.bib</code> file in BibTeX format. See <a href="https://quarto.org/docs/manuscripts/authoring/vscode.html#citations">Quarto authoring &gt; Citations</a> for more information.</p>
 <p>In general, <a href="https://quarto.org/docs/manuscripts/authoring/vscode.html#cross-ref">cross-referencing objects</a> (e.g.&nbsp;figures, tables, chapters, equations, citations, etc.) should be done using the <code>@ref</code> syntax, e.g.&nbsp;<code>See @fig-overview for more details</code>.</p>
+<section id="adding-answers-to-exercises" class="level3" data-number="B.2.1">
+<h3 data-number="B.2.1" class="anchored" data-anchor-id="adding-answers-to-exercises"><span class="header-section-number">B.2.1</span> Adding answers to exercises</h3>
+<p>This book is configured to be rendered with or without answers to exercises, using a combination of <a href="https://quarto.org/docs/projects/profiles.html">Quarto profiles</a> and custom metadata fields.</p>
+<p>The <code>_quarto.yml</code> file contains the default metadata for the book, including a custom metadata field called <code>show-answers</code> that is set to <code>false</code> by default.</p>
+<p>In the <code>_quarto-answers.yml</code> file, which defines the “answers” profile, the <code>show-answers</code> field is set to <code>true</code>.</p>
+<p>To add answers to code exercises, please enclose them in a block of the following form:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:::{.content-hidden</span> unless-meta=<span class="st">"show-answers"</span>}</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">### Solutions: Exercise A</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Write</span> your solution here.</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then you can control whether the answers are shown or not by passing the appropriate Quarto profile to the <code>quarto render</code> command:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> default  <span class="co"># equivalent to no profile</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> answers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can achieve the same effect by setting the <code>QUARTO_PROFILE</code> environment variable before rendering the book:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">QUARTO_PROFILE</span><span class="op">=</span>answers</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In general, it’s most convenient to show the answers while you are developing the content, and then hide them to preview the book as a student would see it.</p>
+<p>See the <a href="#sec-versioning" class="quarto-xref"><span>Section B.4</span></a> for more information on how to create releases with or without answers.</p>
+</section>
 </section>
 <section id="pre-commit-hooks" class="level2" data-number="B.3">
 <h2 data-number="B.3" class="anchored" data-anchor-id="pre-commit-hooks"><span class="header-section-number">B.3</span> Pre-commit hooks</h2>
@@ -301,18 +328,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://github.com/astral-sh/ruff">ruff</a> for code linting and formatting.</li>
 </ul>
 <p>These will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run  <span class="co"># for staged files</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run <span class="at">-a</span>  <span class="co"># for all files in the repository</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run  <span class="co"># for staged files</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run <span class="at">-a</span>  <span class="co"># for all files in the repository</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="versioning-and-releasing" class="level2" data-number="B.4">
-<h2 data-number="B.4" class="anchored" data-anchor-id="versioning-and-releasing"><span class="header-section-number">B.4</span> Versioning and releasing</h2>
+<section id="sec-versioning" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="sec-versioning"><span class="header-section-number">B.4</span> Versioning and releasing</h2>
 <p>We use <a href="https://calver.org/">Calendar Versioning (CalVer)</a> and specifically the <code>YYYY.0M</code> scheme (e.g.&nbsp;<code>2025.08</code> for August 2025).</p>
 <p>To create a new release, first update the <code>book/index.qmd</code> file. Specifically, add an entry like the following under the “Versions” section:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">v2025.08</span><span class="co">](https://animals-in-motion.neuroinformatics.dev/v2025.08/)</span>: Version used for the inaugural workshop in August 2025</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You also need to create a new tag with the format <code>vYYYY.0M</code>, and push it to the repository. Don’t forget the <code>v</code> prefix for the tag name!</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">v2025.08</span><span class="co">](https://animals-in-motion.neuroinformatics.dev/v2025.08/)</span>: Version used for the inaugural workshop in August 2025</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You also need to create a new tag in one of the following formats:</p>
+<ul>
+<li><code>vYYYY.0M</code> (without answers)</li>
+<li><code>vYYYY.0M-answers</code> (with answers)</li>
+</ul>
+<p>and push it to the repository. Don’t forget the <code>v</code> prefix for the tag name!</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v2025.08</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v2025.08</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="continuous-integration-ci" class="level2" data-number="B.5">
 <h2 data-number="B.5" class="anchored" data-anchor-id="continuous-integration-ci"><span class="header-section-number">B.5</span> Continuous integration (CI)</h2>
@@ -320,7 +352,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Pushes to the <code>main</code> branch</li>
 <li>Pull requests</li>
-<li>Releases, i.e.&nbsp;tags starting with <code>v</code> (e.g., <code>v2025.08</code>)</li>
+<li>Releases, i.e.&nbsp;tags starting with <code>v</code> (e.g., <code>v2025.08</code> or <code>v2025.08-answers</code>)</li>
 <li>Manual dispatches</li>
 </ul>
 <p>The workflow is built using <a href="https://docs.github.com/en/actions">GitHub actions</a> and includes three jobs:</p>
@@ -330,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>deploy</strong>: deploying the book artifact to the <code>gh-pages</code> branch (only for pushes to the <code>main</code> branch and releases)</li>
 </ul>
 <p>Each release version is deployed to a folder in the <code>gh-pages</code> branch, with the same name as the release tag (e.g., <code>v2025.08</code>). There’s also a special folder called <code>dev</code> that is deployed for pushes to the <code>main</code> branch.</p>
-<p>The contents of the latest release are also copied to the <code>latest/</code> folder, where the home page is redirected to.</p>
+<p>The contents of the latest release (without answers) are also copied to the <code>latest/</code> folder, where the home page is redirected to.</p>
 <p>Links to previous versions can be added to the book’s <code>index.qmd</code> file, under the “View other versions” section. Note that these links will only work on the deployed version of the book, not on the local version.</p>
 <section id="previewing-the-book-in-ci" class="level3" data-number="B.5.1">
 <h3 data-number="B.5.1" class="anchored" data-anchor-id="previewing-the-book-in-ci"><span class="header-section-number">B.5.1</span> Previewing the book in CI</h3>
