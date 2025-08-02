@@ -321,7 +321,7 @@ fig, axes = plt.subplots(
 for i, kage in enumerate(["kage14", "kage17"]):
     ds_kages[kage].body_centroid_speed.plot.line(ax=axes[i])
     axes[i].set_title(f"{kage} body centroid")
-    axes[i].set_ylabel("speed (pixels per second)")
+    axes[i].set_ylabel("speed (pixels/sec)")
 
 plt.show()
 ```
@@ -342,7 +342,7 @@ This will become clearer if we zoom in on a time window of a few days
 and we plot speed alongside the light cycle.
 
 For this particular experiment, lights are turned off at 9:30 and turned on
-at a "dawn" setting of 20:30, and then turned fully on at 21:30.
+at a "dawn" setting at 20:30, and then turned fully on at 21:30.
 
 ```{python}
 # Define the light cycle
@@ -380,7 +380,8 @@ for i, kage in enumerate(["kage14", "kage17"]):
             color="0.75", alpha=0.5
         )
 
-    axes[i].set_title(f"{kage} body centroid speed (pixels per second)")
+    axes[i].set_title(f"{kage} body centroid")
+    axes[i].set_ylabel("speed (pixels/sec)")
 
 plt.show()
 
