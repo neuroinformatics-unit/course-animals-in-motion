@@ -297,11 +297,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In general, <a href="https://quarto.org/docs/manuscripts/authoring/vscode.html#cross-ref">cross-referencing objects</a> (e.g.&nbsp;figures, tables, chapters, equations, citations, etc.) should be done using the <code>@ref</code> syntax, e.g.&nbsp;<code>See @fig-overview for more details</code>.</p>
 <section id="adding-answers-to-exercises" class="level3" data-number="B.2.1">
 <h3 data-number="B.2.1" class="anchored" data-anchor-id="adding-answers-to-exercises"><span class="header-section-number">B.2.1</span> Adding answers to exercises</h3>
-<p>This book is configured to be rendered with or without answers to exercises, using a combination of <a href="https://quarto.org/docs/projects/profiles.html">Quarto profiles</a> and custom metadata fields.</p>
-<p>The <code>_quarto.yml</code> file contains the default metadata for the book, including a custom metadata field called <code>show-answers</code> that is set to <code>false</code> by default.</p>
-<p>In the <code>_quarto-answers.yml</code> file, which defines the “answers” profile, the <code>show-answers</code> field is set to <code>true</code>.</p>
+<p>This book is configured to be rendered with or without answers to exercises, using <a href="https://quarto.org/docs/projects/profiles.html">Quarto profiles</a>.</p>
+<ul>
+<li>The <code>_quarto.yml</code> file defines the “default” profile for the book, which does not show the answers to exercises.</li>
+<li>The <code>_quarto-answers.yml</code> file defines the “answers” profile, which is identical to the “default” profile, but also includes solutions to code exercises.</li>
+</ul>
 <p>To add answers to code exercises, please enclose them in a block of the following form:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:::{.content-hidden</span> unless-meta=<span class="st">"show-answers"</span>}</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span> {.content-visible when-profile=<span class="st">"answers"</span>}</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">### Solutions: Exercise A</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
