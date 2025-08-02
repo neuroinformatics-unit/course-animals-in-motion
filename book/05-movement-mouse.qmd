@@ -206,7 +206,7 @@ For each of the two kages:
 
 :::{.content-hidden when-meta="hide-answers"}
 
-**Solutions**
+### Solutions
 
 ```{python}
 #| code-fold: true
@@ -339,7 +339,7 @@ plt.show()
 
 :::{.content-hidden when-meta="hide-answers"}
 
-**Solutions**
+### Solutions
 
 The speed seems to fluctuate in a circadian pattern.
 This will become clearer if we zoom in on a time window of a few days
