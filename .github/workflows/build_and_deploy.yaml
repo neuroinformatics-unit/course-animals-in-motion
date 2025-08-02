@@ -27,25 +27,47 @@ jobs:
   build:
     name: Build Quarto book
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        # use a login shell to ensure conda is activated
+        # and the correct python is used by quarto
+        shell: bash -el {0}
     needs: linting
     outputs:
       book-artifact: book-${{ github.sha }}
     steps:
-      - name: Cache sample data
+      - name: Cache movement sample data
         uses: actions/cache@v4
         with:
           path: |
-            ~/.movement/*
+            ~/.movement/data/*
           key: cached-sample-data
           restore-keys: cached-sample-data
+
+      - name: Cache Smart-Kages data
+        id: cache-smartkages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.movement/Smart-Kages
+          key: smart-kages-data-v2
 
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Download Smart-Kages data from Dropbox
+        if: steps.cache-smartkages.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.movement
+          curl -L "https://www.dropbox.com/scl/fi/0levhgg6fpclhqos14zgz/Smart-Kages.zip?rlkey=e2x9i0gvxpv00t0ppzkezvp3n&st=nyufmg8u&dl=1" -o ~/.movement/Smart-Kages.zip
+          unzip ~/.movement/Smart-Kages.zip -d ~/.movement
+          rm ~/.movement/Smart-Kages.zip
+          ls -lR ~/.movement/Smart-Kages
+
       - name: Set up Conda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          environment-file: environment.yaml
+          environment-file: environment-dev.yaml
           activate-environment: animals-in-motion-env
           channel-priority: strict
           channels: conda-forge
@@ -53,14 +75,13 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      # Ensure QUARTO_PYTHON is set to the correct Python interpreter
-      - name: Set QUARTO_PYTHON
-        run: echo "QUARTO_PYTHON=$(which python)" >> $GITHUB_ENV
-
       - name: Render book
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          path: book
+        env:
+          # Make sure to quarto usese the activated conda environment
+          QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
+        run: |
+          echo "Using QUARTO_PYTHON=$QUARTO_PYTHON"
+          quarto render book --execute    
 
       - name: Upload rendered book using artifact.ci
         id: artifactci-upload

@@ -6,7 +6,9 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
-        args: [ --skip=*.bib ]
+        args: 
+          - --skip=*.bib
+          - -L fo  # ignore specific words
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.45.0
@@ -20,7 +22,7 @@ repos:
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.12.4
+    rev: v0.12.7
     hooks:
       # Run the linter.
       - id: ruff-check

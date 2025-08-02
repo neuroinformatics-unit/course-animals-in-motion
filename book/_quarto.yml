@@ -39,7 +39,7 @@ book:
     - 02-deep-learning.qmd
     - 03-sleap-tutorial.qmd
     - 04-movement-intro.qmd
-    - 05-movement-mouse.ipynb
+    - 05-movement-mouse.qmd
     - 06-movement-zebras.ipynb
   appendices:
     - prerequisites.qmd
