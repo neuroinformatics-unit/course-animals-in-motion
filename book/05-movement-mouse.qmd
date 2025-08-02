@@ -1,9 +1,12 @@
+---
+hide-answers: false
+---
+
 # A mouse's daily activity log {#sec-movement-mouse}
 
-In this case study, we will use the `movement` package to analyse mouse home cage monitoring data acquired in [Smart-Kages](https://cambridgephenotyping.com/products) and tracked with [DeepLabCut](https://www.deeplabcut.org/). Specifically, we'll look at how the mouse's activity levels vary during the day.
+In this case study, we'll be using the [`movement` package](https://movement.neuroinformatics.dev/) to dive into mouse home cage monitoring data acquired in [Smart-Kages](https://cambridgephenotyping.com/products) and tracked with [DeepLabCut](https://www.deeplabcut.org/). We'll explore how mouse activity levels fluctuate throughout the day.
 
-Before we start, make sure you have created the `animals-in-motion-env` environment (see [prerequisites @sec-install-movement]), and are using it to run this notebook.
-Also, make sure you've downloaded the `Smart-Kages.zip` archive from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0) (see [prerequisites @sec-data]) and unzipped it.
+Before you get started, make sure you've set up the `animals-in-motion-env` environment (refer to [prerequisites @sec-install-movement]) and are using it to run this notebook. You'll also need to download the `Smart-Kages.zip` archive from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0) (see [prerequisites @sec-data]) and unzip it.
 
 ## Import libraries
 
@@ -38,15 +41,15 @@ xr.set_options(
 This dataset was kindly shared by [Loukia Katsouri](https://www.sainsburywellcome.org/web/people/loukia-katsouri) from the [O'Keefe Lab](https://www.sainsburywellcome.org/web/groups/okeefe-lab), with permission to use for this workshop.
 :::
 
-The Smart-Kages dataset contains home cage recordings from two mice,
+The Smart-Kages dataset comprises home cage recordings from two mice,
 each housed in a specialised [Smart-Kage](https://cambridgephenotyping.com/products) [@ho_fully_2023]—a home cage
-monitoring system that includes a camera attached to the top of the cage.
+monitoring system equipped with a camera mounted atop the cage.
 
-The system acquires video frames at 2 frames per second and saves a video
-segment for each hour of the day. A pre-trained DeepLabCut model is then
-used to predict 8 keypoints on the mouse's body.
+The camera captures data around the clock at a rate of 2 frames per second, saving a video
+segment for each hour of the day. A pre-trained DeepLabCut model is subsequently employed
+to predict 8 keypoints on the mouse's body.
 
-Let's see what's in the downloaded data.
+Let's examine the contents of the downloaded data.
 You will need to specify the path to the unzipped `Smart-Kages` folder on your machine.
 
 ```{python}
@@ -60,12 +63,10 @@ for file in files:
     print(file)
 ```
 
-The tracking data are stored in two`.nc` (NetCDF) files (one per mouse): `kage14` and `kage17`.
-NetCDF is an HDF5-based file format that can be natively saved/loaded by the `xarray` library,
-and is therefore [convenient to use with `movement`](https://movement.neuroinformatics.dev/user_guide/input_output.html#native-saving-and-loading-with-netcdf).
+The tracking data are stored in two`.nc` (NetCDF) files: `kage14` and `kage17`.
+NetCDF is an HDF5-based file format that can be natively saved/loaded by the `xarray` library, and is therefore [convenient to use with `movement`](https://movement.neuroinformatics.dev/user_guide/input_output.html#native-saving-and-loading-with-netcdf).
 
-Apart from these, we also have two `.png` files: `kage14_background.png` and `kage17_background.png`,
-which constitute frames extracted from the videos.
+Apart from these, we also have two `.png` files: `kage14_background.png` and `kage17_background.png`, which constitute frames extracted from the videos.
 
 Let's take a look at them.
 
@@ -87,17 +88,18 @@ for i, img_path in enumerate(img_paths):
 
 ```
 
-::: {.callout-tip title="Question"}
-Now that you've seen these habitats:
+::: {.callout-tip title="Questions"}
 
-What challenges do you anticipate with tracking a mouse in this type of environment?
+1. What objects do you see in the habitat?
+2. What challenges do you anticipate with tracking a mouse in this environment?
+3. What are the trade-offs one has to consider when designing a continuous monitoring system?
 :::
 
 Let's load and inspect the tracking data:
 
 
 ```{python}
-ds_kages = {}
+ds_kages = {}  # a dictionary to store kage name -> xarray dataset
 
 for kage in ["kage14", "kage17"]:
     ds_kages[kage] = xr.open_dataset(smart_kages_path / f"{kage}.nc")
@@ -123,202 +125,302 @@ print(f"kage-14: from {start_date_k14} to {end_date_k14} ({duration_k14.days} da
 print(f"kage-17: from {start_date_k17} to {end_date_k17} ({duration_k17.days} days)")
 ```
 
-## Datetime coordinates
+## Datetime Coordinates
 
-The time coordinates are given in seconds since the start of each video segment,
-i.e. the coordinates represent "elapsed time" since the start of the video segment.
+You might notice something interesting about the time coordinates in these `xarray` datasets: they're given in `datetime64[ns]` format, which means they're precise timestamps expressed in "calendar time".
 
-We would like to concatenate the datasets along the time dimension, so that we
-can work with the data as a single time series.
-However, if we do this naively, we will get a dataset with a time dimension
-that goes back to 0 every time a new segment starts.
+This is different from what we've seen before in other `movement` datasets, where time coordinates are expressed as seconds elapsed since the start of the video, or "elapsed time".
 
-Ideally, we want a continuously increasing time dimension, expressed in
-"calendar time.
+::: {.callout-note title="How did we get these timestamps?" collapse="true"}
 
-The following code block assigns datetime coordinates to each dataset,
-using the start datetime of each video segment as the reference point
-and assuming a constant frame rate.
+Many recording systems can output timestamps for each video frame. In our case, the raw data from the Smart-Kage system included the start datetime of each 1-hour-long video segment and the precise time difference between the start of each segment and every frame within it.
 
+Using this information, we were able to reconstruct precise datetime coordinates for all frames throughout the entire experiment. We then concatenated the DeepLabCut predictions from all video segments and assigned the datetime coordinates to the resulting dataset. If you're interested in the details, you can find the code in the [smart-kages-movement GitHub repository](https://github.com/neuroinformatics-unit/smart-kages-movement).
 
-For some computations, it's still useful to also know the total time elapsed
-since the start of the experiment. Therefore, we'll assign a secondary
-time coordinate to the dataset, called `seconds_elapsed`, to store
-that information.
+:::
 
-```{.python}
-first_segment_start = ds_3hr.time.isel(time=0).data
-seconds_since_start = (
-    ds_3hr.time.data - np.datetime64(first_segment_start)
-) / pd.Timedelta("1s")
-ds_3hr = ds_3hr.assign_coords(seconds_elapsed=("time", seconds_since_start))
+Using "calendar time" is convenient for many applications.
+For example, we could cross-reference the tracking results against other data sources, such as body weight measurements.
+It also allows us to easily select time windows by datetime:
 
-print(f"First 5 'time' coords: {ds_3hr.coords["time"].values[:5]}")
-print(f"First 5 'seconds_elapsed' coords: {ds_3hr.coords["seconds_elapsed"].values[:5]}")
+```{python}
+#| output: false
+
+ds_14 = ds_kages["kage14"]
+
+# Select a specific month
+ds_14.sel(time=slice("2024-04-01", "2024-04-30"))
+
+# Select a specific day
+ds_14.sel(time=slice("2024-04-17 00:00:00", "2024-04-17 23:59:59"))
+
+# Select a half-hour window
+ds_14.sel(time=slice("2024-04-17 09:30:00", "2024-04-17 10:00:00"))
 ```
 
-This is quite convenient, because we can now select time windows in
-various ways.
 
-```{.python}
-# 1. Select a time window by frame number.
-ds_3hr.isel(time=slice(100, 200))
+That said, it's still useful to also know the total time elapsed since the start of the experiment.
+In fact, many `movement` functions will expect "elapsed time" and may not work with datetime coordinates (for now).
 
-# 2. Select a time window by datetime.
-ds_3hr.sel(time=slice("2024-04-17 09:30:00", "2024-04-17 10:00:00"))
+Luckily, it's easy to convert datetime coordinates to "elapsed time" by simply subtracting the start datetime of the whole experiment from each timestamp.
 
-# 3. Select a time window by seconds elapsed since the start
-#    (we have to change the time coordinates to "seconds_elapsed" first).
-ds_3hr.set_index(time="seconds_elapsed").sel(time=slice(0, 1800))
+```{python}
+#| code-fold: true
+#| code-summary: "Expand to see how this can be done"
+
+# Get the start datetime the experiment in kage14
+experiment_start = ds_14.time.isel(time=0).data
+
+# Subtract the start datetime from each timestamp
+time_elapsed = (ds_14.time.data - np.datetime64(experiment_start))
+
+# Convert to seconds
+seconds_elapsed = time_elapsed / pd.Timedelta("1s")
+
+# Assign the seconds_elapsed coordinate to the "time" dimension
+ds_14 = ds_14.assign_coords(seconds_elapsed=("time", seconds_elapsed))
 ```
+
+We've pre-computed this for convenience and stored it in a secondary time coordinate called `seconds_elapsed`.
+
+```{python}
+print(ds_14.coords["time"].values[:2])
+print(ds_14.coords["seconds_elapsed"].values[:2])
+```
+
+Whenever we want to switch to "elapsed time" mode, we can simply set the `seconds_elapsed` coordinates as the "index" of the `time` dimension. This means that `seconds_elapsed` will be used as the primary time coordinate, allowing us to select data by it.
+
+```{python}
+#| output: false
+
+ds_14.set_index(time="seconds_elapsed").sel(time=slice(0, 1800))
+```
+
+::: {.callout-tip title="Exercise"}
+
+For each of the two kages:
+
+1. Plot the x-axis position of the mouse's body center over time, for the week starting on April 15th. What do you notice?
+2. Plot the median confidence of the body center for each day, over the entire duration of the experiment.
+:::
+
+:::{.content-hidden when-meta="hide-answers"}
+
+**Solutions**
+
+```{python}
+#| code-fold: true
+
+fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(10, 6), sharex=True)
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    ds = ds_kages[kage].squeeze()  # remove redundant "individuals" dimension
+    body_center = ds.position.sel(
+        keypoints="bodycenter",
+        time=slice("2024-04-15 00:00:00", "2024-04-21 23:59:59"),
+        space="x"
+    )
+    body_center.plot.line(ax=axes[i])
+    axes[i].set_title(f"{kage} body center x")
+```
+
+
+```{python}
+#| code-fold: true
+
+fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(10, 6), sharex=True)
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    ds = ds_kages[kage].squeeze()
+    ds_daily = ds.resample(time="1D").median()
+    ds_daily.confidence.sel(keypoints="bodycenter").plot.line(ax=axes[i])
+    axes[i].set_title(f"{kage} body center")
+```
+
+:::
 
 ## Filtering out low-confidence predictions
 
-Let's examine the confidence histograms for each keypoint.
+Let's examine the range of confidence values for each keypoint.
 
-```{.python}
-#| label: fig-confidence-histograms
-#| fig-cap: "Confidence histograms by keypoint"
+```{python}
+#| label: fig-confidence-range
+#| fig-cap: "Confidence range by keypoint"
 #| code-fold: true
-#| code-summary: "Show the code"
 
-def plot_confidence_hist_by_keypoint(
-    ds: xr.Dataset,
-    save_path: Path | None = None,
-) -> None:
-    """
-    Plot histograms of confidence values for each keypoint in the dataset.
+kage = "kage14"
+confidence = ds_kages[kage].confidence.squeeze()
 
-    Parameters
-    ----------
-    ds : xr.Dataset
-        The dataset containing keypoint positions and confidence values.
-    save_path : Path | None
-        Optional path to save the plot. If None, the plot will not be saved.
-    """
-    n_keypoints = ds.sizes["keypoints"]
+fig, ax = plt.subplots(figsize=(8, 3))
+confidence.quantile(q=0.25, dim="time").plot.line("o--", color="gray", ax=ax, label="25% quantile")
+confidence.quantile(q=0.75, dim="time").plot.line("o--", color="gray", ax=ax, label="75% quantile")
+confidence.median(dim="time").plot.line("o-", color="black", ax=ax, label="median")
 
-    # Create subplots for each keypoint
-    fig, axes = plt.subplots(
-        nrows=2,
-        ncols=(n_keypoints + 1) // 2,
-        figsize=(n_keypoints * 1.5, n_keypoints * 0.75),
-        sharey=True,
-        sharex=True,
-    )
-
-    # Loop through each keypoint and plot its confidence histogram
-    for i, kpt in enumerate(ds.keypoints.values):
-        ax = axes[i % 2, i // 2]
-        ds.confidence.sel(keypoints=kpt).plot.hist(
-            bins=20,
-            ax=ax,
-            label=kpt,
-            histtype="stepfilled",
-            density=True,
-        )
-        ax.set_ylabel("Density")
-        ax.set_xlabel("")
-        ax.set_xlabel("Confidence")
-        ax.set_title(kpt)
-
-    plt.suptitle("Confidence Histograms by Keypoint")
-    plt.tight_layout()
-
-    if save_path:
-        plt.savefig(save_path, dpi=128)
-
-
-plot_confidence_hist_by_keypoint(ds_3hr)
+ax.legend()
+ax.set_title(f"{kage} confidence range")
+plt.show()
 ```
 
 It looks like the "neck", "bodycenter", "spine1", and "spine2" keypoints
 are the most confidently detected.
+Let us define a list of "reliable" keypoints for later use.
+These are all on the mouse's body.
 
-Let's run the numbers:
-
-```{.python}
-#| label: fig-median-confidence
-#| fig-cap: "Median confidence by keypoint"
-
-fig, ax = plt.subplots(figsize=(7, 3))
-ds_3hr.confidence.median(dim="time").squeeze().plot.line("o-", ax=ax)
-ax.set_title("Median confidence by keypoint")
-plt.show()
+```{python}
+reliable_keypoints = ["neck", "bodycenter", "spine1", "spine2"]
 ```
 
 We can filter out low-confidence predictions.
 
-```{.python}
-confidence_threshold = 0.5
+```{python}
+confidence_threshold = 0.95
 
-ds_3hr["position_filtered"] = filter_by_confidence(
-    ds_3hr.position,
-    ds_3hr.confidence,
-    threshold=confidence_threshold,
-    print_report=True,
-)
+for kage, ds in ds_kages.items():
+    print(f"Filtering {kage}...")
+    ds["position_filtered"] = filter_by_confidence(
+        ds.position,
+        ds.confidence,
+        threshold=confidence_threshold,
+        print_report=True,
+    )
+    print("\n")
 ```
 
-Let us define a list of "reliable" keypoints for later use.
-These are all on the mouse's body.
 
-```{.python}
-reliable_keypoints = ["neck", "bodycenter", "spine1", "spine2"]
+## Plot the mouse's speed over time
+
+Let's define a single-point representation of the mouse's position, which we'll call the `body_centroid`.
+We derive this by taking the mean of the 4 reliable keypoints, using their filtered positions.
+
+```{python}
+for kage, ds in ds_kages.items():
+    ds["body_centroid"] = ds.position_filtered.sel(
+        individuals="individual_0",  # the only individual in the dataset
+        keypoints=reliable_keypoints
+    ).mean(dim="keypoints")
 ```
 
-## Plot the speed of the mouse over time
+Now let's compute the body centroid speed as a proxy of the mouse's speed.
+For `compute_speed` to work properly, we'll temporarily switch to "elapsed time" mode.
 
-Let's compute the centroid of the 4 reliable body keypoints
+```{python}
+for kage, ds in ds_kages.items():
+    ds["body_centroid_speed"] = compute_speed(
+        ds.body_centroid.set_index(time="seconds_elapsed")
+    ).assign_coords(time=ds.body_centroid.time)
 
-```{.python}
-body_centroid = ds_3hr.position_filtered.sel(
-    individuals="individual_0",  # the only individual in the dataset
-    keypoints=reliable_keypoints
-).mean(dim="keypoints")
-```
-
-Now let's the body centroid speed as a proxy of the mouse's speed.
-
-```{.python}
-body_speed = compute_speed(body_centroid.set_index(time="seconds_elapsed"))
-body_speed = body_speed.assign_coords(time=body_centroid.time)
+ds_kages["kage14"].body_centroid_speed
 ```
 
 Let's plot the speed over time.
 
-```{.python}
+```{python}
 #| label: fig-body-speed
 #| fig-cap: "Body centroid speed"
 
-fig, ax = plt.subplots(figsize=(10, 3))
-body_speed.plot.line(ax=ax)
-ax.set_title("Body centroid speed (pixels per second)")
+fig, axes = plt.subplots(
+    nrows=2, ncols=1, figsize=(10, 6), sharex=True, sharey=True
+)
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    ds_kages[kage].body_centroid_speed.plot.line(ax=axes[i])
+    axes[i].set_title(f"{kage} body centroid")
+    axes[i].set_ylabel("speed (pixels per second)")
+
 plt.show()
 ```
+
+::: {.callout-tip title="Exercise"}
+
+1. What do you notice about the overall speed fluctuations over time?
+2. What do you think is the reason for this?
+3. Do you think there are any differences between the two kages? Feel free to "zoom in" on specific time windows to investigate this.
+:::
+
+:::{.content-hidden when-meta="hide-answers"}
+
+**Solutions**
+
+The speed seems to fluctuate in a circadian pattern.
+This will become clearer if we zoom in on a time window of a few days
+and we plot speed alongside the light cycle.
+
+For this particular experiment, lights are turned off at 9:30 and turned on
+at a "dawn" setting of 20:30, and then turned fully on at 21:30.
+
+```{python}
+# Define the light cycle
+lights_off = "09:30:00"
+dawn = "20:30:00"
+lights_on = "21:30:00"
+
+# Focus on a few days
+time_window = slice("2024-04-22 00:00:00", "2024-04-25 23:59:59")
+```
+
+
+```{python}
+#| code-fold: true
+
+fig, axes = plt.subplots(
+    nrows=2, ncols=1, figsize=(10, 6), sharex=True, sharey=True
+)
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    # Select the speed data
+    speed = ds_kages[kage].body_centroid_speed.sel(time=time_window)
+
+    # Plot the speed
+    speed.plot.line(ax=axes[i])
+
+    # Plot night-time and daw as gray areas
+    for date, day in speed.groupby("time.date"):
+        #night_slice = slice(f"{date} {lights_off}", f"{date} {lights_on}")
+        axes[i].axvspan(
+            f"{date} {lights_off}", f"{date} {dawn}",
+            color="0.5", alpha=0.5
+        )
+        axes[i].axvspan(
+            f"{date} {dawn}", f"{date} {lights_on}",
+            color="0.75", alpha=0.5
+        )
+
+    axes[i].set_title(f"{kage} body centroid speed (pixels per second)")
+
+plt.show()
+
+```
+:::
+
 
 ## Plot the occupancy heatmap
 
 For the heatamp calculation to properly work, we need to temporarily
 set the time coordinates to "elapsed time".
 
-```{.python}
-fig, ax = plt.subplots()
+```{python}
+#| code-fold: true
+#| fig-cap: "Occupancy heatmaps"
 
-height, width = example_frame.shape[:2]
-
-ax.imshow(example_frame)
-plot_occupancy(
-    ds_3hr.position_filtered.set_index(time="seconds_elapsed"),
-    keypoints=reliable_keypoints,
-    ax=ax,
-    cmap="turbo",
-    norm="log",  # log scale the colormap
-    cmin=0,      # only show occupancy above this number of frames
-    alpha=0.6,   # some transparency
+fig, axes = plt.subplots(
+    nrows=2, ncols=1, figsize=(8, 8), sharex=True, sharey=True
 )
-# invert y-axis to match the video frame
-ax.set_ylim([height - 1, 0])
-ax.set_xlim([0, width])
-ax.set_title(f"Body centroid occupancy (log scale)")
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    img = plt.imread(img_paths[i])
+    height, width = img.shape[:2]
+
+    axes[i].imshow(img)
+    plot_occupancy(
+        ds_kages[kage].body_centroid.set_index(time="seconds_elapsed"),
+        ax=axes[i],
+        cmap="turbo",
+        norm="log",  # log scale the colormap
+        cmin=0,      # only show occupancy above this number of frames
+        alpha=0.6,   # some transparency
+    )
+    # invert y-axis to match the video frame
+    axes[i].set_ylim([height - 1, 0])
+    axes[i].set_xlim([0, width])
+    axes[i].set_title(f"Body centroid occupancy (log scale)")
 ```
