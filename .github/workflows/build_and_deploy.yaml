@@ -2,14 +2,14 @@ name: Build and Deploy Quarto Book
 
 # This workflow builds the Quarto book and deploys it to GitHub Pages.
 # The "build" job is triggered by pull requests, pushes to the main branch,
-# releases (tags starting with "v", e.g., v2025.08), or manually,
-# and ends with uploading the book artifact.
-# If the release tag ends with "-answers" (e.g., v2025.08-answers),
-# the book is rendered with the "answers" Quarto profile, otherwise
-# it is rendered with the "default" profile.
+# releases (tags starting with "v", e.g., v2025.08), or manually.
+#
+# If the trigger is a release tag, the book is rendered with two profiles,
+# with and without answers, and each profile is uploaded as an artifact.
+# For other triggers, the book is rendered with the default profile only.
 #
 # The "deploy" job is only triggered by pushes to main and releases.
-# It copies the book artifact to an appropriate folder in the gh-pages branch,
+# It copies the book artifact(s) to an appropriate folder in the gh-pages branch,
 # e.g., v2025.08 / v2025.08-answers for a release or dev for pushes to main.
 # It creates a redirect file pointing the home page to the "latest/" folder,
 # which always points to the most recent release without answers, if available,
@@ -37,9 +37,24 @@ jobs:
         # and the correct python is used by quarto
         shell: bash -el {0}
     needs: linting
-    outputs:
-      book-artifact: book-${{ github.sha }}
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Determine build context
+        id: context
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+            echo "is_release=true"  >> $GITHUB_OUTPUT
+            echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          else
+            echo "is_release=false" >> $GITHUB_OUTPUT
+            echo "version=${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Cache movement sample data
         uses: actions/cache@v4
         with:
@@ -55,9 +70,6 @@ jobs:
           path: |
             ~/.movement/Smart-Kages
           key: smart-kages-data-v2
-
-      - name: Check out repository
-        uses: actions/checkout@v4
 
       - name: Download Smart-Kages data from Dropbox
         if: steps.cache-smartkages.outputs.cache-hit != 'true'
@@ -79,36 +91,46 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Determine if answers should be shown
-        id: show-answers
-        run: |
-          if [[ "${GITHUB_REF}" == refs/tags/v*-answers ]]; then
-            echo "profile=answers" >> $GITHUB_OUTPUT
-          else
-            echo "profile=default" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Render book
+      - name: Render book with default profile
         env:
           # Make sure quarto uses the activated conda environment
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
-          QUARTO_PROFILE: ${{ steps.show-answers.outputs.profile }}
         run: |
-          echo "Using QUARTO_PYTHON=$QUARTO_PYTHON"
-          quarto render book --execute    
-
-      - name: Upload rendered book using artifact.ci
+          quarto render book --execute --profile default --output-dir book/_book
+          
+      - name: Upload rendered default profile book using artifact.ci
         id: artifactci-upload
         uses: mmkal/artifact.ci/upload@main
         with:
-          name: book-${{ github.sha }}
+          name: book-${{ steps.context.outputs.version }}
           path: book/_book/*
 
-      - name: Print book preview URL to step summary
+      - name: Print default profile book preview URL to step summary
         shell: bash
         run: |
-          echo "Preview docs at ${{ steps.artifactci-upload.outputs.artifactci-run-url }}, " >> $GITHUB_STEP_SUMMARY
-          echo "under the _Detected Entrypoints_ section (requires GitHub sign-in)" >> $GITHUB_STEP_SUMMARY
+          echo "Preview book without answers at ${{ steps.artifactci-upload.outputs.artifactci-run-url }}, " >> $GITHUB_STEP_SUMMARY
+      
+      # The following steps are only executed for release tags
+      - name: Render book with answers profile
+        if: steps.context.outputs.is_release == 'true'
+        env:
+          QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
+        run: |
+          quarto render book --execute --profile answers --output-dir book/_book-answers
+      
+      - name: Upload rendered book with answers profile using artifact.ci
+        if: steps.context.outputs.is_release == 'true'
+        id: artifactci-upload-answers
+        uses: mmkal/artifact.ci/upload@main
+        with:
+          name: book-${{ steps.context.outputs.version }}-answers
+          path: book/_book-answers/*
+
+      - name: Print book with answers profile preview URL to step summary
+        if: steps.context.outputs.is_release == 'true'
+        shell: bash
+        run: |
+          echo "Preview book with answers at ${{ steps.artifactci-upload-answers.outputs.artifactci-run-url }}, " >> $GITHUB_STEP_SUMMARY
 
   deploy:
     name: Deploy to GitHub Pages
@@ -127,30 +149,41 @@ jobs:
           if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
             VERSION=${GITHUB_REF#refs/tags/}
             echo "is_release=true" >> $GITHUB_OUTPUT
+            echo "version=${VERSION}" >> $GITHUB_OUTPUT
             echo "destination_dir=${VERSION}" >> $GITHUB_OUTPUT
           else
             echo "is_release=false" >> $GITHUB_OUTPUT
             echo "destination_dir=dev" >> $GITHUB_OUTPUT
+            echo "version=${{ github.sha }}" >> $GITHUB_OUTPUT
           fi
 
-          if [[ "${GITHUB_REF}" == refs/tags/v*-answers ]]; then
-            echo "show-answers=true" >> $GITHUB_OUTPUT
-          else
-            echo "show-answers=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Download book artifact
+      - name: Download book with default profile artifact
         uses: actions/download-artifact@v4
         with:
-          name: book-${{ github.sha }} 
-          path: downloaded-artifact
-
-      - name: Upload to appropriate folder
+          name: book-${{ steps.context.outputs.version }}
+          path: default-artifact
+      
+      - name: Download book with answers profile artifact
+        if: steps.context.outputs.is_release == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: book-${{ steps.context.outputs.version }}-answers
+          path: answers-artifact
+      
+      - name: Deploy default version
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: downloaded-artifact/book/_book
+          publish_dir: default-artifact/book/_book
           destination_dir: ${{ steps.context.outputs.destination_dir }}
+  
+      - name: Deploy answers version
+        if: steps.context.outputs.is_release == 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: answers-artifact/book/_book-answers
+          destination_dir: ${{ steps.context.outputs.destination_dir }}-answers
 
       # Clone gh-pages branch
       - name: Clone gh-pages branch
@@ -173,12 +206,12 @@ jobs:
       - name: Ensure CNAME file is present in gh-pages root
         run: echo "animals-in-motion.neuroinformatics.dev" > gh-pages/CNAME
 
-      # Copy release contents to "latest" if it's one without answers
+      # Copy release without answers to "latest"
       # If no releases exist, "dev" is copied to "latest"
       # The gh-pages branch root already contains an index.html file that redirects to latest/
       - name: Copy to latest
         if: |
-          (steps.context.outputs.is_release == 'true' && steps.context.outputs.show-answers == 'false') ||
+          steps.context.outputs.is_release == 'true' ||
           (steps.context.outputs.is_release == 'false' && steps.gh-pages-meta.outputs.releases_exist == 'false')
         run: |
 

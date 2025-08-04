@@ -20,12 +20,19 @@ Whether you are attending the workshop in person, or following along the materia
 
 ## Versions
 
-This website is available in multiple versions:
+The latest release version is always available at the following URL:
 
-- [latest](https://animals-in-motion.neuroinformatics.dev/latest/): latest release version
-- [dev](https://animals-in-motion.neuroinformatics.dev/dev/): development version, corresponding to the `main` branch
-- [v2025.08a1](https://animals-in-motion.neuroinformatics.dev/v2025.08a1/): alpha version for the 2025.08 release
-- [v2025.08a1-answers](https://animals-in-motion.neuroinformatics.dev/v2025.08a1-answers/): alpha version for the 2025.08 release with answers to exercises
+<https://animals-in-motion.neuroinformatics.dev/latest/>
+
+To view other versions, replace `latest` in the URL with one of the following version names:
+
+| Version | Description |
+|---------|-------------|
+| `dev` | development version, corresponding to the `main` branch |
+| `v2025.08a2` | alpha version for the 2025.08 release |
+
+Non-development versions are also available with answers to exercises which can be accessed by appending `-answers` to the version name in the URL.
+For example, answers for the `v2025.08a2` version are available at <https://animals-in-motion.neuroinformatics.dev/v2025.08a2-answers/>.
 
 ## Funding & acknowledgements
 

@@ -129,17 +129,13 @@ pre-commit run -a  # for all files in the repository
 
 We use [Calendar Versioning (CalVer)](https://calver.org/) and specifically the `YYYY.0M` scheme (e.g. `2025.08` for August 2025).
 
-To create a new release, first update the `book/index.qmd` file. Specifically, add an entry like the following under the "Versions" section:
+To create a new release, first update the `book/index.qmd` file. Specifically, add a row like the following to the "Versions" table:
 
 ```md
-- [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/): Version used for the inaugural workshop in August 2025
+| `2025.08` | Version used for the inaugural workshop in August 2025 |
 ```
 
-You also need to create a new tag in one of the following formats:
-
-- `vYYYY.0M` (without answers)
-- `vYYYY.0M-answers` (with answers)
-
+You also need to create a new tag in the `vYYYY.0M` format (e.g. `v2025.08`)
 and push it to the repository. Don't forget the `v` prefix for the tag name!
 
 For example:
@@ -161,15 +157,12 @@ The CI workflow is defined in the `.github/workflows/build_and_deploy.yaml` file
 The workflow is built using [GitHub actions](https://docs.github.com/en/actions) and includes three jobs:
 
 - **linting**: running the [pre-commit hooks](#pre-commit-hooks)
-- **build**: rendering the Quarto book and uploading an artifact
-- **deploy**: deploying the book artifact to the `gh-pages` branch (only for pushes to the `main` branch and releases)
+- **build**: rendering the Quarto book with and without answers, and uploading the rendered artifacts
+- **deploy**: deploying the book artifact(s) to the `gh-pages` branch (only for pushes to the `main` branch and releases)
 
-Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08`).
+Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08`). This is accompanied by a `vYYYY.0M-answers` folder containing a version of the book with answers to exercises.
+
 There's also a special folder called `dev` that is deployed for pushes to the `main` branch.
-
-The contents of the latest release (without answers) are also copied to the `latest/` folder, where the home page is redirected to.
-
-Links to previous versions can be added to the book's `index.qmd` file, under the "View other versions" section. Note that these links will only work on the deployed version of the book, not on the local version.
 
 ### Previewing the book in CI
 
