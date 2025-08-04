@@ -96,7 +96,7 @@ jobs:
           # Make sure quarto uses the activated conda environment
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
         run: |
-          quarto render book --execute --profile default --output-dir book/_book
+          quarto render book --execute --profile default --output-dir _book
           
       - name: Upload rendered default profile book using artifact.ci
         id: artifactci-upload
@@ -116,7 +116,7 @@ jobs:
         env:
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
         run: |
-          quarto render book --execute --profile answers --output-dir book/_book-answers
+          quarto render book --execute --profile answers --output-dir _book-answers
       
       - name: Upload rendered book with answers profile using artifact.ci
         if: steps.context.outputs.is_release == 'true'
