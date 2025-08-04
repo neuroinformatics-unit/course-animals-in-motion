@@ -336,14 +336,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sec-versioning" class="level2" data-number="B.4">
 <h2 data-number="B.4" class="anchored" data-anchor-id="sec-versioning"><span class="header-section-number">B.4</span> Versioning and releasing</h2>
 <p>We use <a href="https://calver.org/">Calendar Versioning (CalVer)</a> and specifically the <code>YYYY.0M</code> scheme (e.g.&nbsp;<code>2025.08</code> for August 2025).</p>
-<p>To create a new release, first update the <code>book/index.qmd</code> file. Specifically, add an entry like the following under the “Versions” section:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">v2025.08</span><span class="co">](https://animals-in-motion.neuroinformatics.dev/v2025.08/)</span>: Version used for the inaugural workshop in August 2025</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You also need to create a new tag in one of the following formats:</p>
-<ul>
-<li><code>vYYYY.0M</code> (without answers)</li>
-<li><code>vYYYY.0M-answers</code> (with answers)</li>
-</ul>
-<p>and push it to the repository. Don’t forget the <code>v</code> prefix for the tag name!</p>
+<p>To create a new release, first update the <code>book/index.qmd</code> file. Specifically, add a row like the following to the “Versions” table:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`2025.08`</span> <span class="pp">|</span> Version used for the inaugural workshop in August 2025 <span class="pp">|</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You also need to create a new tag in the <code>vYYYY.0M</code> format (e.g.&nbsp;<code>v2025.08</code>) and push it to the repository. Don’t forget the <code>v</code> prefix for the tag name!</p>
 <p>For example:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v2025.08</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -360,12 +355,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The workflow is built using <a href="https://docs.github.com/en/actions">GitHub actions</a> and includes three jobs:</p>
 <ul>
 <li><strong>linting</strong>: running the <a href="#pre-commit-hooks">pre-commit hooks</a></li>
-<li><strong>build</strong>: rendering the Quarto book and uploading an artifact</li>
-<li><strong>deploy</strong>: deploying the book artifact to the <code>gh-pages</code> branch (only for pushes to the <code>main</code> branch and releases)</li>
+<li><strong>build</strong>: rendering the Quarto book with and without answers, and uploading the rendered artifacts</li>
+<li><strong>deploy</strong>: deploying the book artifact(s) to the <code>gh-pages</code> branch (only for pushes to the <code>main</code> branch and releases)</li>
 </ul>
-<p>Each release version is deployed to a folder in the <code>gh-pages</code> branch, with the same name as the release tag (e.g., <code>v2025.08</code>). There’s also a special folder called <code>dev</code> that is deployed for pushes to the <code>main</code> branch.</p>
-<p>The contents of the latest release (without answers) are also copied to the <code>latest/</code> folder, where the home page is redirected to.</p>
-<p>Links to previous versions can be added to the book’s <code>index.qmd</code> file, under the “View other versions” section. Note that these links will only work on the deployed version of the book, not on the local version.</p>
+<p>Each release version is deployed to a folder in the <code>gh-pages</code> branch, with the same name as the release tag (e.g., <code>v2025.08</code>). This is accompanied by a <code>vYYYY.0M-answers</code> folder containing a version of the book with answers to exercises.</p>
+<p>There’s also a special folder called <code>dev</code> that is deployed for pushes to the <code>main</code> branch.</p>
 <section id="previewing-the-book-in-ci" class="level3" data-number="B.5.1">
 <h3 data-number="B.5.1" class="anchored" data-anchor-id="previewing-the-book-in-ci"><span class="header-section-number">B.5.1</span> Previewing the book in CI</h3>
 <p>We use <a href="https://artifact.ci/">artifact.ci</a> to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR. To do so:</p>
