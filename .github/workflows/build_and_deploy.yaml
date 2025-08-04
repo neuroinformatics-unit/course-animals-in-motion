@@ -6,14 +6,13 @@ name: Build and Deploy Quarto Book
 #
 # If the trigger is a release tag, the book is rendered with two profiles,
 # with and without answers, and each profile is uploaded as an artifact.
-# For other triggers, the book is rendered with the default profile only.
+# For other triggers, the book is rendered with answers only.
 #
 # The "deploy" job is only triggered by pushes to main and releases.
 # It copies the book artifact(s) to an appropriate folder in the gh-pages branch,
 # e.g., v2025.08 / v2025.08-answers for a release or dev for pushes to main.
-# It creates a redirect file pointing the home page to the "latest/" folder,
-# which always points to the most recent release without answers, if available,
-# or to dev/ otherwise.
+# It also copies the most recent release version without answers to the
+# "latest/" folder where the home page is redirected to.
 
 on:
   push:
@@ -91,46 +90,40 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Render book with default profile
+      - name: Render book with answers profile
         env:
           # Make sure quarto uses the activated conda environment
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
         run: |
-          quarto render book --execute --profile default --output-dir _book
+          quarto render book --execute --profile answers --output-dir _book-answers
           
-      - name: Upload rendered default profile book using artifact.ci
-        id: artifactci-upload
+      - name: Upload rendered answers profile book using artifact.ci
+        id: artifactci-upload-answers
         uses: mmkal/artifact.ci/upload@main
         with:
           name: book-${{ steps.context.outputs.version }}
-          path: book/_book/*
+          path: book/_book-answers/*
 
-      - name: Print default profile book preview URL to step summary
+      - name: Print answers profile book preview URL to step summary
         shell: bash
         run: |
-          echo "Preview book without answers at ${{ steps.artifactci-upload.outputs.artifactci-run-url }}, " >> $GITHUB_STEP_SUMMARY
+          echo "Preview book with answers at ${{ steps.artifactci-upload-answers.outputs.artifactci-run-url }}, " >> $GITHUB_STEP_SUMMARY
       
       # The following steps are only executed for release tags
-      - name: Render book with answers profile
+      - name: Render book with default profile (no answerss)
         if: steps.context.outputs.is_release == 'true'
         env:
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
         run: |
-          quarto render book --execute --profile answers --output-dir _book-answers
+          quarto render book --execute --profile default --output-dir _book
       
-      - name: Upload rendered book with answers profile using artifact.ci
+      - name: Upload rendered book with default profile (no answers)
         if: steps.context.outputs.is_release == 'true'
-        id: artifactci-upload-answers
+        id: artifactci-upload-default
         uses: mmkal/artifact.ci/upload@main
         with:
-          name: book-${{ steps.context.outputs.version }}-answers
-          path: book/_book-answers/*
-
-      - name: Print book with answers profile preview URL to step summary
-        if: steps.context.outputs.is_release == 'true'
-        shell: bash
-        run: |
-          echo "Preview book with answers at ${{ steps.artifactci-upload-answers.outputs.artifactci-run-url }}, " >> $GITHUB_STEP_SUMMARY
+          name: book-${{ steps.context.outputs.version }}
+          path: book/_book/*
 
   deploy:
     name: Deploy to GitHub Pages
@@ -140,9 +133,8 @@ jobs:
     permissions:
       contents: write
     steps:
-      # If the ref is a tag, destination_dir has a release version number
+      # If the ref is a tag, destination_dir has a release version number.
       # Otherwise, destination_dir is called "dev"
-      # Also determine if the release tag contains "-answers" or not
       - name: Determine deploy context
         id: context
         run: |
@@ -156,34 +148,35 @@ jobs:
             echo "destination_dir=dev" >> $GITHUB_OUTPUT
             echo "version=${{ github.sha }}" >> $GITHUB_OUTPUT
           fi
-
-      - name: Download book with default profile artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: book-${{ steps.context.outputs.version }}
-          path: default-artifact
       
       - name: Download book with answers profile artifact
-        if: steps.context.outputs.is_release == 'true'
         uses: actions/download-artifact@v4
         with:
           name: book-${{ steps.context.outputs.version }}-answers
           path: answers-artifact
       
-      - name: Deploy default version
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: default-artifact/book/_book
-          destination_dir: ${{ steps.context.outputs.destination_dir }}
-  
       - name: Deploy answers version
-        if: steps.context.outputs.is_release == 'true'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: answers-artifact/book/_book-answers
           destination_dir: ${{ steps.context.outputs.destination_dir }}-answers
+      
+      # Default (no answers) version is only deployed for release tags
+      - name: Download book with default profile artifact
+        if: steps.context.outputs.is_release == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: book-${{ steps.context.outputs.version }}
+          path: default-artifact
+    
+      - name: Deploy default version
+        if: steps.context.outputs.is_release == 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: default-artifact/book/_book
+          destination_dir: ${{ steps.context.outputs.destination_dir }}
 
       # Clone gh-pages branch
       - name: Clone gh-pages branch
@@ -206,7 +199,7 @@ jobs:
       - name: Ensure CNAME file is present in gh-pages root
         run: echo "animals-in-motion.neuroinformatics.dev" > gh-pages/CNAME
 
-      # Copy release without answers to "latest"
+      # Copy release folder without answers to "latest"
       # If no releases exist, "dev" is copied to "latest"
       # The gh-pages branch root already contains an index.html file that redirects to latest/
       - name: Copy to latest
