@@ -1,3 +1,36 @@
 # Pose estimation with SLEAP {#sec-sleap}
 
-Before we proceed, make sure you have installed SLEAP and activated the corresponding `conda` environment (see [prerequisites @sec-install-sleap]).
+Before we proceed, make sure you have installed [SLEAP](https://sleap.ai/) [@pereira_sleap_2022] and activated the corresponding `conda` environment (see [prerequisites @sec-install-sleap]). You will also need to download the video file `mouse044_task1_annotator1.mp4` from the [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) [@sun_caltech_2021], available on [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0).
+
+## Resident&ndash;intruder assay
+
+The resident&ndash;intruder assay [@jove4367] is a behavioural test used to study social interactions, especially aggression and territoriality, in rodents. A resident mouse, habituated to its home cage, is confronted with an unfamiliar intruder, and their interactions&mdash;such as chasing, attacking, or investigating&mdash;are observed and quantified. This assay is widely used in neuroscience to explore the neural and genetic basis of social behaviour.
+
+## Dataset 
+
+In this tutorial, we will use [SLEAP](https://sleap.ai/) [@pereira_sleap_2022] to train a multi-animal top-down identity model to simultaneously perform pose estimation and identity tracking of two mice in a short video (`mouse044_task1_annotator1.mp4`) from the [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) [@sun_caltech_2021]. 
+
+This video captures a brief interaction between two mice in a resident&ndash;intruder assay, where one mouse (the resident) has established territory and the other (the intruder) is newly introduced into the resident's cage.
+ 
+## SLEAP workflow
+
+```{mermaid}
+graph LR
+    videos("Videos<br>(1,2,...,n)") --> |extract| frames[/Sampled<br>frames/]
+    frames --> |"label<br>body parts<br>and ID"| labels[/Training<br>dataset/]
+    labels --> |train| model[/Model/]
+
+    videos --> test[/Unseen<br>frames/]
+    test --> model
+    model --> |infer| predictions[/Predictions/]
+    
+    predictions --> |fix labels<br>and merge| labels
+```
+A typical SLEAP workflow for multi-animal pose estimation and identity tracking consists of the following key steps:
+
+1. **Sample frames**: Extract frames from your video(s) to create a set of frames for annotation. 
+2. **Label frames**: Define a `Skeleton` with `Nodes` (each representing a keypoint or body part of interest, e.g. nose, left ear, right ear) and `Edges` (each representing the connections between keypoints, e.g. nose&ndash;left ear, nose&ndash;right ear). Annotate the sampled frames by marking the body parts and assigning identities (`Tracks`) to each animal. These labelled frames together form the training dataset.
+3. **Train model**: Use the training dataset to train a pose estimation and identity tracking model. See [SLEAP's Configuring models guide](https://sleap.ai/guides/choosing-models.html) for more details on model types and training options.
+4. **Predict on new data**: Apply the trained model to new, unlabelled video frames to generate pose and identity predictions for each animal. 
+5. **Proofread predictions**: Review and correct the predictions as needed.
+6. **Refine model**: Corrected predictions can be merged back into the training dataset to retrain the model and improve its accuracy. See [SLEAP's Prediction-assisted labeling guide](https://sleap.ai/tutorials/assisted-labeling.html) for more details on this iterative process.
