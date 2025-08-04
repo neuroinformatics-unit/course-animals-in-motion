@@ -101,7 +101,7 @@ jobs:
         id: artifactci-upload-answers
         uses: mmkal/artifact.ci/upload@main
         with:
-          name: book-${{ steps.context.outputs.version }}
+          name: book-${{ steps.context.outputs.version }}-answers
           path: book/_book-answers/*
 
       - name: Print answers profile book preview URL to step summary
