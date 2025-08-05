@@ -4,3 +4,46 @@ In this tutorial, we will first introduce the `movement` package
 by walking through parts of its [documentation](https://movement.neuroinformatics.dev/).
 
 After that you will be given a set of tasks to complete—using `movement` to analyse the pose tracks you've generated in @sec-sleap.
+
+## What is `movement`?
+
+In [chapters @sec-intro] and [-@sec-dl-cv] we saw how the study of animal behaviour has profited from the rise of deep learning-based markerless motion tracking tools.
+
+In [@sec-sleap] we dove deeper into [SLEAP](https://sleap.ai/), a popular package for pose estimation and tracking.
+We saw how SLEAP and similar tools—like DeepLabCut and LightningPose—detect the positions of user-defined keypoints in video frames,
+group the keypoints into poses, and connect their identities across time into sequential collections we call pose tracks.
+
+The extraction of pose tracks is often just the beginning of the analysis.
+Researchers use these tracks to investigate various aspects of animal behaviour, such as kinematics, spatial navigation, social interactions, etc.
+Typically, these analyses involve custom, project-specific scripts that are hard to reuse across different projects and are rarely maintained after the project's conclusion.
+
+In response to these challenges, we saw the need for a versatile and easy-to-use toolbox that is compatible with a range of ML-based motion tracking frameworks and supports interactive data exploration and analysis.
+That's where `movement` comes in.
+We started building in early 2023 to answer the question: __what can I do now with these tracks?__
+
+::: {.callout-note title="movement's mission"}
+
+`movement`aims to facilitate the study of animal behaviour 
+by providing a consistent, modular interface for analysing motion tracks, 
+enabling steps such as data cleaning, visualisation, and motion quantification.
+
+See [movement's mission and scope statement](https://movement.neuroinformatics.dev/community/mission-scope.html) for more details.
+
+:::
+
+![Overview of the `movement` package](img/movement_overview.png){#fig-movement-overview}
+
+
+## A unified interface for motion tracks
+
+`movement` aims to support all popular animal tracking frameworks and file formats,
+in 2D and 3D, tracking single or multiple animals of any species.
+
+To achieve this level of versatility, we had to identify what's common across the outputs of motion tracking tools
+and how we can represent them in a standardised way.
+
+What we came up with takes the form of multi-dimensional arrays.
+Let's go through the [documentation on movement datasets](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html) for more details.
+
+![`movement`'s data structures](img/dataset_structure.png){#fig-data-structures}
+
