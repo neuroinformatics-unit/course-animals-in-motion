@@ -5,6 +5,17 @@ by walking through parts of its [documentation](https://movement.neuroinformatic
 
 After that you will be given a set of tasks to complete—using `movement` to analyse the pose tracks you've generated in @sec-sleap.
 
+```{python}
+#| include: false
+import xarray as xr
+
+xr.set_options(
+    display_expand_attrs=False,
+    display_expand_coords=False,
+    keep_attrs=True,
+)
+```
+
 ## What is `movement`?
 
 In [chapters @sec-intro] and [-@sec-dl-cv] we saw how the study of animal behaviour has profited from the rise of deep learning-based markerless motion tracking tools.
@@ -42,8 +53,98 @@ in 2D and 3D, tracking single or multiple animals of any species.
 To achieve this level of versatility, we had to identify what's common across the outputs of motion tracking tools
 and how we can represent them in a standardised way.
 
-What we came up with takes the form of multi-dimensional arrays.
+What we came up with takes the form of collections of multi-dimensional arrays—an `xarray.Dataset` object.
+Each array within a dataset is an `xarray.DataArray` object holding different aspects of the collected data (position, time, confidence scores…).
+You can think of a `xarray.DataArray` object as a multi-dimensional `numpy.ndarray` with pandas-style indexing and labelling.
+
+This may sound complicated but fear not, we'll build some understanding by exploring some example datasets
+that are included in the `movement` package.
+
+```{python}
+from movement import sample_data
+```
+
+### Poses datasets
+
+First let's see how `movement` represents pose tracks, like the ones we get with SLEAP.
+
+![The structure of a `movement` poses dataset](img/movement_poses_dataset_card.png){#fig-movement-ds-poses}
+
+Let's load an example dataset and explore its contents.
+
+```{python}
+poses_ds = sample_data.fetch_dataset("SLEAP_two-mice_octagon.analysis.h5")
+poses_ds
+```
+
+Since `poses_ds` is an `xarray.Dataset`, we can use all of `xarray`'s intuitive interface and rich
+[built-in functionalities](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html#using-xarrays-built-in-functionality)
+for data manipulation and analysis.
+
+Accessing data variables and attributes (metadata) is straightforward:
+
+```{python}
+print(f"Source software: {poses_ds.source_software}")
+print(f"Frames per second: {poses_ds.fps}")
+
+poses_ds.position
+```
+
+We can select a subset of data along any dimension in a variety of ways:
+by integer index (order) or coordinate label.
+
+```{python}
+# First individual, first time point
+poses_ds.position.isel(individuals=0, time=0)
+
+# 0-10 seconds, two specific keypoints
+poses_ds.position.sel(time=slice(0, 10), keypoints=["EarLeft", "EarRight"])
+```
+
+We can also compute statistics across any dimension.
+
+```{python}
+# Each point's median confidence score across time
+poses_ds.confidence.median(dim="time")
+
+# Take the block mean for every 10 frames.
+poses_ds.position.coarsen(time=10, boundary="trim").mean()
+```
+
+`xarray` also provides a rich set of built-in [plotting methods](https://docs.xarray.dev/en/stable/user-guide/plotting.html)
+for visualising the data.
+
+```{python}
+tail_base_pos = poses_ds.sel(keypoints="TailBase").position
+tail_base_pos.plot.line(x="time", row="individuals", hue="space", aspect=2, size=2.5)
+```
+
+You can also combine those with `matplotlib` figures.
+
+```{python}
+from matplotlib import pyplot as plt
+
+colors = plt.cm.tab10.colors
+
+fig, ax = plt.subplots()
+for kp, color in zip(poses_ds.keypoints, colors):
+    data = poses_ds.confidence.sel(keypoints=kp)
+    data.plot.hist(
+        bins=50, histtype="step", density=True, ax=ax, color=color, label=kp
+    )
+ax.set_ylabel("Density")
+ax.set_title("Confidence histograms per keypoint")
+plt.legend()
+```
+
+
+### Bounding boxes datasets
+
+![The structure of a `movement` bounding boxes dataset](img/movement_bboxes_dataset_card.png){#fig-movement-ds-bboxes}
+
+```{python}
+bboxes_ds = sample_data.fetch_dataset("VIA_single-crab_MOCA-crab-1_linear-interp.csv")
+bboxes_ds
+```
+
 Let's go through the [documentation on movement datasets](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html) for more details.
-
-![`movement`'s data structures](img/dataset_structure.png){#fig-data-structures}
-
