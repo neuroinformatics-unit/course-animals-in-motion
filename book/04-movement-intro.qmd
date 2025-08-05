@@ -34,8 +34,8 @@ We started building in early 2023 to answer the question: __what can I do now wi
 
 ::: {.callout-note title="movement's mission"}
 
-`movement`aims to facilitate the study of animal behaviour 
-by providing a consistent, modular interface for analysing motion tracks, 
+`movement`aims to facilitate the study of animal behaviour
+by providing a consistent, modular interface for analysing motion tracks,
 enabling steps such as data cleaning, visualisation, and motion quantification.
 
 See [movement's mission and scope statement](https://movement.neuroinformatics.dev/community/mission-scope.html) for more details.
@@ -43,7 +43,6 @@ See [movement's mission and scope statement](https://movement.neuroinformatics.d
 :::
 
 ![Overview of the `movement` package](img/movement_overview.png){#fig-movement-overview}
-
 
 ## A unified interface for motion tracks
 
@@ -136,7 +135,6 @@ ax.set_ylabel("Density")
 ax.set_title("Confidence histograms per keypoint")
 plt.legend()
 ```
-
 
 ### Bounding boxes datasets
 
