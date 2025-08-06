@@ -118,7 +118,7 @@ You may also find the following keyboard shortcuts and mouse actions helpful:
 | Delete instance | Select instance, then <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>Backspace</kbd> |
 | Navigate between frames | <kbd>Left</kbd>/<kbd>Right</kbd> |
 | Go to the next suggested frame | <kbd>Space</kbd> |
-| Go to the previous suggested frame | <kbd>Shift</kbd> + <kbd>Space</kbd> | 
+| Go to the previous suggested frame | <kbd>Shift</kbd> + <kbd>Space</kbd> |
 | Go to the next labelled frame | <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>right</kbd> |
 | Go to the previous labelled frame | <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd> |
 
@@ -141,14 +141,14 @@ Here, we will select **"multi-animal top-down id"** as the "Training Pipeline Ty
 
 We will now configure the **Centroid model** that predicts the location of each animal in each frame.
 
-Since we have labelled only a small number of frames, set the number of training epochs to a low value (e.g. 10&ndash;20 epochs) to avoid overfitting. 
+Since we have labelled only a small number of frames, set the number of training epochs to a low value (e.g. 10&ndash;20 epochs) to avoid overfitting.
 In the "Optimization" panel, adjust "Epochs" accordingly.
 
-You will also want to adjust the receptive field size, which should correspond to the size of the features you want to detect in your video. 
+You will also want to adjust the receptive field size, which should correspond to the size of the features you want to detect in your video.
 This can be achieved by adjusting "Input Scaling" and "Max Stride".
 As a rule of thumb, the receptive field (blue box in the preview) should be large enough to cover the whole animal.
 
-To help the model generalise to animals in different orientations, you will also want to enable random rotation augmentation. 
+To help the model generalise to animals in different orientations, you will also want to enable random rotation augmentation.
 In the "Augmentation" panel, enable "Rotation" and set the rotation range (e.g. -180&deg to 180&deg).
 
 ![](img/SLEAP/5_config_model_centroid.png){width=100%}
@@ -169,7 +169,7 @@ See also [SLEAP's Configuring models guide](https://sleap.ai/guides/choosing-mod
 
 ### Monitor training progress
 
-You should now see a training progress window showing the loss curves and metrics for each model as it trains. 
+You should now see a training progress window showing the loss curves and metrics for each model as it trains.
 
 ![Centroid model training progress](img/SLEAP/5_train_model_centroid.png){width=100%}
 
@@ -183,15 +183,15 @@ Alternatively, to manually run inference on random frames with your trained mode
 
 ![](img/SLEAP/6_inference.png){width=100%}
 
-Labelled frames (frames with user or predicted labels) will be marked in the seekbar. 
+Labelled frames (frames with user or predicted labels) will be marked in the seekbar.
 
 ![](img/SLEAP/6_predictions.png){width=100%}
 
 To step through labelled frames, click on "Go" and "Next Labeled Frame" (or use <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd>/<kbd>right</kbd>).
 
-The models are not expected to perform well at this stage, but you can review and correct these predictions, and merge them back into your training dataset. 
+The models are not expected to perform well at this stage, but you can review and correct these predictions, and merge them back into your training dataset.
 You can also generate more labelling suggestions and label them to ensure your training dataset captures a wider range of poses and variations.
-Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video. 
+Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video.
 
 See [SLEAP's Prediction-assisted labeling guide](https://sleap.ai/tutorials/assisted-labeling.html) for more details on this iterative process.
 
@@ -200,6 +200,7 @@ Predicted instances will not be used for model training unless you correct the p
 :::
 
 ### Evaluate trained models
+
 The metrics of trained models can be accessed by clicking on "Predict" then "Evaluation Metrics for Trained Models" in the top menu bar.
 
 ![](img/SLEAP/7_evaluate_model.png){width=100%}
