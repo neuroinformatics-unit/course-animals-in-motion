@@ -9,4 +9,4 @@ MD041: false
 
 # MD033/no-inline-html Inline HTML : https://github.com/DavidAnson/markdownlint/blob/v0.38.0/doc/md033.md
 MD033:
-  allowed_elements: [ br ]
+  allowed_elements: [ br, kbd ]
