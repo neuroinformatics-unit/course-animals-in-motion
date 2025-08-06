@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD045 -->
+
 # Pose estimation with SLEAP {#sec-sleap}
 
 Before we proceed, make sure you have installed [SLEAP](https://sleap.ai/) [@pereira_sleap_2022] and activated the corresponding `conda` environment (see [prerequisites @sec-install-sleap]).
@@ -50,13 +52,13 @@ sleap-label
 
 Add a video by clicking the "Add Video" button, or by dragging-and-dropping your video file.
 
-![SLEAP GUI create project](img/SLEAP/1_create_project.png){width=100%}
+![](img/SLEAP/1_create_project.png){width=100%}
 
 Further details can be found in [SLEAP's Creating a project guide](https://sleap.ai/tutorials/new-project.html).
 
 ### Define skeleton
 <!-- Niko please update or remove this figure :) -->
-![Mouse body parts annotations](https://neuroinformatics.dev/course-behavioural-analysis/img/mouse-annotated.png){fig-align="center" width="40%"}
+![](https://neuroinformatics.dev/course-behavioural-analysis/img/mouse-annotated.png){fig-align="center" width="40%"}
 
 Switch to the `Skeleton` panel and add `Nodes` for each body part of interest, e.g.:
 
@@ -79,7 +81,7 @@ Then, define the `Edges` to connect the `Nodes` using the drop-down menus, e.g.:
 - `left_hip`&ndash;`tail_base`
 - `right_hip`&ndash;`tail_base`
 
-![SLEAP GUI define skeleton](img/SLEAP/2_define_skeleton.png){width=100%}
+![](img/SLEAP/2_define_skeleton.png){width=100%}
 
 Once you have defined the skeleton, save the project by clicking on "File" then "Save" (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).
 
@@ -88,7 +90,8 @@ Once you have defined the skeleton, save the project by clicking on "File" then 
 For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the "Labeling Suggestions" panel, which offers several [automated sampling strategies](https://sleap.ai/guides/gui.html#suggestion-methods) to help select informative and diverse frames.
 
 In this example, we will use the "Labeling Suggestions" panel to randomly sample 20 frames from the video.
-![SLEAP GUI sample frames](img/SLEAP/3_sample_frames.png){width=100%}
+
+![](img/SLEAP/3_sample_frames.png){width=100%}
 
 ### Label frames
 
@@ -116,7 +119,7 @@ To speed up labelling in subsequent frames, right-click on the frame and choose 
 Remember to save your progress frequently by clicking "File" then "Save" (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).
 :::
 
-![SLEAP GUI label frames](img/SLEAP/4_label_frames.png){width=100%}
+![](img/SLEAP/4_label_frames.png){width=100%}
 
 ### Configure and train models
 
@@ -125,15 +128,18 @@ To do this, go to "Predict" then "Run training" in the top menu bar.
 
 Here, we will select **"multi-animal top-down id"** as the "Training Pipeline Type" and configure the model to predict on 20 more frames randomly sampled from the video.
 
-![SLEAP GUI configure training](img/SLEAP/5_config_model.png){width=100%}
+![](img/SLEAP/5_config_model.png){width=100%}
 
 Configure the **Centroid model** that predicts the location of each animal in each frame.
+Since we have labelled only a small number of frames, set the number of training epochs to a low value (e.g., 10–20 epochs) to avoid overfitting. In the training configuration panel, adjust the "Epochs" parameter for the centroid model accordingly. For example, set "Epochs" to 15.
 
-![SLEAP GUI configure centroid model](img/SLEAP/5_config_model_centroid.png){width=100%}
+This ensures the model trains quickly and does not memorize the limited training data.
+
+![](img/SLEAP/5_config_model_centroid.png){width=100%}
 
 Configure the **Top-down ID model** that predicts the full pose (locations of all defined nodes) and assigns identities to each animal in each frame.
 
-![SLEAP GUI configure pose and ID model](img/SLEAP/5_config_model_id.png){width=100%}
+![](img/SLEAP/5_config_model_id.png){width=100%}
 
 ::: {.callout-tip}
 The receptive field (blue box) should be large enough to cover the whole animal in the preview. For top-down models, set a larger receptive field for the centroid model (by decreasing the Input Scaling value) than for the top-down ID model, since you only need to locate the animal, not fine details.
@@ -144,13 +150,13 @@ Once you have configured the models, click "Run" to begin training.
 
 ### Monitor training progress
 
-![SLEAP GUI train centroid model](img/SLEAP/5_train_model_centroid.png){width=100%}
+![](img/SLEAP/5_train_model_centroid.png){width=100%}
 
-![SLEAP GUI train pose and ID model](img/SLEAP/5_train_model_id.png){width=100%}
+![](img/SLEAP/5_train_model_id.png){width=100%}
 
 ### Evaluate trained models
 
-![SLEAP GUI evaluate model](img/SLEAP/6_evaluate_model.png){width=100%}
+![](img/SLEAP/6_evaluate_model.png){width=100%}
 
 ### Predict on new data
 
