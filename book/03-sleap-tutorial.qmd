@@ -51,14 +51,16 @@ sleap-label
 ```
 
 Add a video by clicking the "Add Video" button, or by dragging-and-dropping your video file.
+Further details can be found in [SLEAP's Creating a project guide](https://sleap.ai/tutorials/new-project.html).
 
 ![](img/SLEAP/1_create_project.png){width=100%}
-
-Further details can be found in [SLEAP's Creating a project guide](https://sleap.ai/tutorials/new-project.html).
 
 ### Define skeleton
 <!-- Niko please update or remove this figure :) -->
 ![](https://neuroinformatics.dev/course-behavioural-analysis/img/mouse-annotated.png){fig-align="center" width="40%"}
+
+In SLEAP, `Skeletons` are defined as a set of `Nodes` (body parts or keypoints of interest) and `Edges` (connections between body parts or keypoints).
+With the exception of bottom-up models, `Edges` serve primarily for visualisation.
 
 Switch to the `Skeleton` panel and add `Nodes` for each body part of interest, e.g.:
 
@@ -95,23 +97,30 @@ In this example, we will use the "Labeling Suggestions" panel to randomly sample
 
 ### Label frames
 
-To add an instance, click on "Labels" then "Add Instance" in the top menu bar (or use <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>I</kbd>).
+To add an instance, click on "Labels" then "Add Instance" in the top menu bar.
 The initial instance will have its nodes placed randomly.
 Adjust each point to its correct location by dragging it with the mouse.
 We will also assign identities to each instance by putting a unique `Track` name for each instance, e.g. `resident` for the black mouse and `intruder` for the white mouse.
 
-You may also find the following actions and shortcuts helpful:
+![](img/SLEAP/4_label_frames.png){width=100%}
 
-| Action | Shortcut/Method |
-|--------|----------------|
+Once you have labelled the initial frame, you can navigate to the previous or next suggested frame by clicking "Previous" or "Next" in the "Labeling Suggestions" panel.
+
+You may also find the following keyboard shortcuts and mouse actions helpful:
+
+| Function | Keyboard shortcut/Mouse actions |
+|----------|---------------------------------|
+| Add instance | <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>I</kbd> |
 | Zoom in/out | Place cursor over area to zoom in or out, then scroll mouse wheel |
 | Toggle node visibility (occlusion) | Right-click on node or its label |
 | Move entire instance | Hold <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) and drag any node |
 | Rotate instance | Hold <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac), click on any node, and scroll mouse wheel |
 | Delete instance | Select instance, then <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>Backspace</kbd> |
-| Navigate between frames | Use arrow keys |
-
-Once you have labelled the initial frame, you can navigate to the previous or next suggested frame by clicking "Previous" or "Next" in the "Labeling Suggestions" panel.
+| Navigate between frames | <kbd>Left</kbd>/<kbd>Right</kbd> |
+| Go to the next suggested frame | <kbd>Space</kbd> |
+| Go to the previous suggested frame | <kbd>Shift</kbd> + <kbd>Space</kbd> | 
+| Go to the next labelled frame | <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>right</kbd> |
+| Go to the previous labelled frame | <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd> |
 
 To speed up labelling in subsequent frames, right-click on the frame and choose from several options for adding a new instance. For example, selecting "Copy prior frame" will duplicate the instance(s) from the previous labelled frame, allowing you to quickly adjust only the necessary points. This is especially useful when animal poses change gradually between frames.
 
@@ -119,47 +128,78 @@ To speed up labelling in subsequent frames, right-click on the frame and choose 
 Remember to save your progress frequently by clicking "File" then "Save" (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).
 :::
 
-![](img/SLEAP/4_label_frames.png){width=100%}
-
 ### Configure and train models
 
 Once you have labelled a sufficient number of frames, you can configure and train your first model.
 To do this, go to "Predict" then "Run training" in the top menu bar.
 
-Here, we will select **"multi-animal top-down id"** as the "Training Pipeline Type" and configure the model to predict on 20 more frames randomly sampled from the video.
+Here, we will select **"multi-animal top-down id"** as the "Training Pipeline Type" and configure the training pipeline to predict on 20 more frames randomly sampled from the video once training is complete.
 
 ![](img/SLEAP/5_config_model.png){width=100%}
 
-Configure the **Centroid model** that predicts the location of each animal in each frame.
-Since we have labelled only a small number of frames, set the number of training epochs to a low value (e.g., 10–20 epochs) to avoid overfitting. In the training configuration panel, adjust the "Epochs" parameter for the centroid model accordingly. For example, set "Epochs" to 15.
+#### Centroid model
 
-This ensures the model trains quickly and does not memorize the limited training data.
+We will now configure the **Centroid model** that predicts the location of each animal in each frame.
+
+Since we have labelled only a small number of frames, set the number of training epochs to a low value (e.g. 10&ndash;20 epochs) to avoid overfitting. 
+In the "Optimization" panel, adjust "Epochs" accordingly.
+
+You will also want to adjust the receptive field size, which should correspond to the size of the features you want to detect in your video. 
+This can be achieved by adjusting "Input Scaling" and "Max Stride".
+As a rule of thumb, the receptive field (blue box in the preview) should be large enough to cover the whole animal.
+
+To help the model generalise to animals in different orientations, you will also want to enable random rotation augmentation. 
+In the "Augmentation" panel, enable "Rotation" and set the rotation range (e.g. -180&deg to 180&deg).
 
 ![](img/SLEAP/5_config_model_centroid.png){width=100%}
 
-Configure the **Top-down ID model** that predicts the full pose (locations of all defined nodes) and assigns identities to each animal in each frame.
+#### Top-down ID model
+
+The **Top-down ID model** predicts the full pose (locations of all defined nodes) and assigns identities to each animal in each frame.
+As with the Centroid model, configure the number of training epochs, random rotation augmentation, and receptive field size accordingly.
 
 ![](img/SLEAP/5_config_model_id.png){width=100%}
 
+Once you have configured the models, click "Run" to begin training.
+
 ::: {.callout-tip}
-The receptive field (blue box) should be large enough to cover the whole animal in the preview. For top-down models, set a larger receptive field for the centroid model (by decreasing the Input Scaling value) than for the top-down ID model, since you only need to locate the animal, not fine details.
+For top-down models, set a larger receptive field for the centroid model (by decreasing the "Input Scaling" value) than for the top-down ID model, since you only need to locate the animal, not fine details.
 See also [SLEAP's Configuring models guide](https://sleap.ai/guides/choosing-models.html) for further details on model types and training options.
 :::
 
-Once you have configured the models, click "Run" to begin training.
-
 ### Monitor training progress
 
-![](img/SLEAP/5_train_model_centroid.png){width=100%}
+You should now see a training progress window showing the loss curves and metrics for each model as it trains. 
 
-![](img/SLEAP/5_train_model_id.png){width=100%}
+![Centroid model training progress](img/SLEAP/5_train_model_centroid.png){width=100%}
+
+![Top-down ID model training progress](img/SLEAP/5_train_model_id.png){width=100%}
+
+### Run inference and proofread predictions
+
+After the models are trained, if you had configured the training pipeline to run inference upon completion, SLEAP will automatically apply the trained models to the selected frames.
+
+Alternatively, to manually run inference on random frames with your trained models, go to the "Predict" and select "Run Inference" in the top menu bar.
+
+![](img/SLEAP/6_inference.png){width=100%}
+
+Labelled frames (frames with user or predicted labels) will be marked in the seekbar. 
+
+![](img/SLEAP/6_predictions.png){width=100%}
+
+To step through labelled frames, click on "Go" and "Next Labeled Frame" (or use <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd>/<kbd>right</kbd>).
+
+The models are not expected to perform well at this stage, but you can review and correct these predictions, and merge them back into your training dataset. 
+You can also generate more labelling suggestions and label them to ensure your training dataset captures a wider range of poses and variations.
+Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video. 
+
+::: {.callout-note}
+Predicted instances will not be used for model training unless you correct the predictions in the GUI.
+:::
 
 ### Evaluate trained models
+The metrics of trained models can be accessed by clicking on "Predict" then "Evaluation Metrics for Trained Models" in the top menu bar.
 
-![](img/SLEAP/6_evaluate_model.png){width=100%}
+![](img/SLEAP/7_evaluate_model.png){width=100%}
 
-### Predict on new data
-
-### Proofread predictions
-
-### Refine model
+See also [SLEAP's Model evaluation guide](https://sleap.ai/notebooks/Model_evaluation.html) for examples on generating accuracy metrics for your trained model.
