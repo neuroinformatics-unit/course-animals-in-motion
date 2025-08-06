@@ -39,7 +39,7 @@ A typical SLEAP workflow for multi-animal pose estimation and identity tracking 
 5. **Train model**: Use the training dataset to train a pose estimation and identity tracking model.
 6. **Predict on new data**: Apply the trained model to new, unlabelled video frames to generate pose and identity predictions for each animal.
 7. **Proofread predictions**: Review and correct the predictions as needed.
-8. **Refine model**: Corrected predictions can be merged back into the training dataset to retrain the model as needed. See [SLEAP's Prediction-assisted labeling guide](https://sleap.ai/tutorials/assisted-labeling.html) for more details on this iterative process.
+8. **Refine model**: Corrected predictions can be merged back into the training dataset to retrain the model as needed.
 
 ### Create a new project
 
@@ -193,6 +193,8 @@ The models are not expected to perform well at this stage, but you can review an
 You can also generate more labelling suggestions and label them to ensure your training dataset captures a wider range of poses and variations.
 Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video. 
 
+See [SLEAP's Prediction-assisted labeling guide](https://sleap.ai/tutorials/assisted-labeling.html) for more details on this iterative process.
+
 ::: {.callout-note}
 Predicted instances will not be used for model training unless you correct the predictions in the GUI.
 :::
@@ -202,4 +204,4 @@ The metrics of trained models can be accessed by clicking on "Predict" then "Eva
 
 ![](img/SLEAP/7_evaluate_model.png){width=100%}
 
-See also [SLEAP's Model evaluation guide](https://sleap.ai/notebooks/Model_evaluation.html) for examples on generating accuracy metrics for your trained model.
+See [SLEAP's Model evaluation guide](https://sleap.ai/notebooks/Model_evaluation.html) for examples on generating accuracy metrics for your trained model.
