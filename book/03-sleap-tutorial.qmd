@@ -149,7 +149,7 @@ This can be achieved by adjusting "Input Scaling" and "Max Stride".
 As a rule of thumb, the receptive field (blue box in the preview) should be large enough to cover the whole animal.
 
 To help the model generalise to animals in different orientations, you will also want to enable random rotation augmentation.
-In the "Augmentation" panel, enable "Rotation" and set the rotation range (e.g. -180&deg to 180&deg).
+In the "Augmentation" panel, enable "Rotation" and set the rotation range (e.g. -180&deg; to 180&deg;).
 
 ![](img/SLEAP/5_config_model_centroid.png){width=100%}
 
