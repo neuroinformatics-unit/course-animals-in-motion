@@ -1,18 +1,18 @@
 # Pose estimation with SLEAP {#sec-sleap}
 
-Before we proceed, make sure you have installed [SLEAP](https://sleap.ai/) [@pereira_sleap_2022] and activated the corresponding `conda` environment (see [prerequisites @sec-install-sleap]). 
+Before we proceed, make sure you have installed [SLEAP](https://sleap.ai/) [@pereira_sleap_2022] and activated the corresponding `conda` environment (see [prerequisites @sec-install-sleap]).
 You will also need to download the [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) [@sun_caltech_2021] video file `mouse044_task1_annotator1.mp4` from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0).
 
 ## Resident&ndash;intruder assay
 
 The resident&ndash;intruder assay [@jove4367] is a behavioural test used to study social interactions, especially aggression and territoriality, in rodents. A resident mouse, habituated to its home cage, is confronted with an unfamiliar intruder, and their interactions&mdash;such as chasing, attacking, or investigating&mdash;are observed and quantified. This assay is widely used in neuroscience to explore the neural and genetic basis of social behaviour.
 
-## Dataset 
+## Dataset
 
-In this tutorial, we will use [SLEAP](https://sleap.ai/) to train a multi-animal top-down identity model to simultaneously perform pose estimation and identity tracking of two mice in a short video (`mouse044_task1_annotator1.mp4`) from the [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset). 
+In this tutorial, we will use [SLEAP](https://sleap.ai/) to train a multi-animal top-down identity model to simultaneously perform pose estimation and identity tracking of two mice in a short video (`mouse044_task1_annotator1.mp4`) from the [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset).
 
 This video captures a brief interaction between two mice in a resident&ndash;intruder assay, where the black mouse (the resident) has established territory and the white mouse (the intruder) is newly introduced into the resident's cage.
- 
+
 ## SLEAP workflow
 
 ```{mermaid}
@@ -27,9 +27,10 @@ graph LR
     
     predictions --> |fix labels<br>and merge| labels
 ```
+
 A typical SLEAP workflow for multi-animal pose estimation and identity tracking consists of the following key steps:
 
-1. **Create project**: Start a new SLEAP project and import your video(s). 
+1. **Create project**: Start a new SLEAP project and import your video(s).
 2. **Define skeleton**: Create a `Skeleton` that defines the `Nodes` (each representing a keypoint or body part of interest, e.g. nose, left ear, right ear) and `Edges` (each representing the connections between keypoints, e.g. nose&ndash;left ear, nose&ndash;right ear) for the animals to be tracked.
 3. **Sample frames**: Extract frames from your video(s) to create a set of frames for annotation.
 4. **Label frames**: Annotate the sampled frames by marking the body parts and assigning identities (`Tracks`) to each animal. These labelled frames together form the training dataset.
@@ -47,15 +48,15 @@ conda activate sleap
 sleap-label
 ```
 
-Add a video by clicking the "Add Video" button, or by dragging-and-dropping your video file. 
+Add a video by clicking the "Add Video" button, or by dragging-and-dropping your video file.
 
-![](img/SLEAP/1_create_project.png){width=100%} 
+![SLEAP GUI create project](img/SLEAP/1_create_project.png){width=100%}
 
 Further details can be found in [SLEAP's Creating a project guide](https://sleap.ai/tutorials/new-project.html).
 
 ### Define skeleton
 <!-- Niko please update or remove this figure :) -->
-![](https://neuroinformatics.dev/course-behavioural-analysis/img/mouse-annotated.png){fig-align="center" width="40%"}
+![Mouse body parts annotations](https://neuroinformatics.dev/course-behavioural-analysis/img/mouse-annotated.png){fig-align="center" width="40%"}
 
 Switch to the `Skeleton` panel and add `Nodes` for each body part of interest, e.g.:
 
@@ -78,22 +79,22 @@ Then, define the `Edges` to connect the `Nodes` using the drop-down menus, e.g.:
 - `left_hip`&ndash;`tail_base`
 - `right_hip`&ndash;`tail_base`
 
-![](img/SLEAP/2_define_skeleton.png){width=100%} 
+![SLEAP GUI define skeleton](img/SLEAP/2_define_skeleton.png){width=100%}
 
 Once you have defined the skeleton, save the project by clicking on "File" then "Save" (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).
 
 ### Sample frames
 
-For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the "Labeling Suggestions" panel. The full list of suggestion methods can be found [here](https://sleap.ai/guides/gui.html#suggestion-methods).
+For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the "Labeling Suggestions" panel, which offers several [automated sampling strategies](https://sleap.ai/guides/gui.html#suggestion-methods) to help select informative and diverse frames.
 
 In this example, we will use the "Labeling Suggestions" panel to randomly sample 20 frames from the video.
-![](img/SLEAP/3_sample_frames.png){width=100%}
+![SLEAP GUI sample frames](img/SLEAP/3_sample_frames.png){width=100%}
 
 ### Label frames
 
-To add an instance, click on "Labels" then "Add Instance" in the top menu bar (or use <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>I</kbd>). 
-The initial instance will have its nodes placed randomly. 
-Adjust each point to its correct location by dragging it with the mouse. 
+To add an instance, click on "Labels" then "Add Instance" in the top menu bar (or use <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>I</kbd>).
+The initial instance will have its nodes placed randomly.
+Adjust each point to its correct location by dragging it with the mouse.
 We will also assign identities to each instance by putting a unique `Track` name for each instance, e.g. `resident` for the black mouse and `intruder` for the white mouse.
 
 You may also find the following actions and shortcuts helpful:
@@ -115,7 +116,7 @@ To speed up labelling in subsequent frames, right-click on the frame and choose 
 Remember to save your progress frequently by clicking "File" then "Save" (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).
 :::
 
-![](img/SLEAP/4_label_frames.png){width=100%}
+![SLEAP GUI label frames](img/SLEAP/4_label_frames.png){width=100%}
 
 ### Configure and train models
 
@@ -124,15 +125,15 @@ To do this, go to "Predict" then "Run training" in the top menu bar.
 
 Here, we will select **"multi-animal top-down id"** as the "Training Pipeline Type" and configure the model to predict on 20 more frames randomly sampled from the video.
 
-![](img/SLEAP/5_config_model.png){width=100%}
+![SLEAP GUI configure training](img/SLEAP/5_config_model.png){width=100%}
 
-Configure the **Centroid model** that predicts the location of each animal in each frame. 
+Configure the **Centroid model** that predicts the location of each animal in each frame.
 
-![](img/SLEAP/5_config_model_centroid.png){width=100%}
+![SLEAP GUI configure centroid model](img/SLEAP/5_config_model_centroid.png){width=100%}
 
 Configure the **Top-down ID model** that predicts the full pose (locations of all defined nodes) and assigns identities to each animal in each frame.
 
-![](img/SLEAP/5_config_model_id.png){width=100%}
+![SLEAP GUI configure pose and ID model](img/SLEAP/5_config_model_id.png){width=100%}
 
 ::: {.callout-tip}
 The receptive field (blue box) should be large enough to cover the whole animal in the preview. For top-down models, set a larger receptive field for the centroid model (by decreasing the Input Scaling value) than for the top-down ID model, since you only need to locate the animal, not fine details.
@@ -142,12 +143,14 @@ See also [SLEAP's Configuring models guide](https://sleap.ai/guides/choosing-mod
 Once you have configured the models, click "Run" to begin training.
 
 ### Monitor training progress
-![](img/SLEAP/5_train_model_centroid.png){width=100%}
 
-![](img/SLEAP/5_train_model_id.png){width=100%}
+![SLEAP GUI train centroid model](img/SLEAP/5_train_model_centroid.png){width=100%}
+
+![SLEAP GUI train pose and ID model](img/SLEAP/5_train_model_id.png){width=100%}
 
 ### Evaluate trained models
-![](img/SLEAP/6_evaluate_model.png){width=100%}
+
+![SLEAP GUI evaluate model](img/SLEAP/6_evaluate_model.png){width=100%}
 
 ### Predict on new data
 
