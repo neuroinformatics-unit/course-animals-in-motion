@@ -2,7 +2,7 @@
 
 In this case study, we'll be using the [`movement` package](https://movement.neuroinformatics.dev/) to dive into mouse home cage monitoring data acquired in [Smart-Kages](https://cambridgephenotyping.com/products) and tracked with [DeepLabCut](https://www.deeplabcut.org/). We'll explore how mouse activity levels fluctuate throughout the day.
 
-Before you get started, make sure you've set up the `animals-in-motion-env` environment (refer to [prerequisites @sec-install-movement]) and are using it to run this notebook. You'll also need to download the `Smart-Kages.zip` archive from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0) (see [prerequisites @sec-data]) and unzip it.
+Before you get started, make sure you've set up the `animals-in-motion-env` environment (refer to [prerequisites @sec-install-movement]) and are using it to run this code. You'll also need to download the `Smart-Kages.zip` archive from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0) (see [prerequisites @sec-data]) and unzip it.
 
 ## Import libraries
 
@@ -15,9 +15,10 @@ import numpy as np
 import xarray as xr
 
 from movement import sample_data
-from movement.filtering import filter_by_confidence
+from movement.filtering import filter_by_confidence, rolling_filter
 from movement.kinematics import compute_speed
 from movement.plots import plot_occupancy
+from movement.transforms import scale
 
 ```
 
@@ -91,6 +92,17 @@ for i, img_path in enumerate(img_paths):
 3. What are the trade-offs one has to consider when designing a continuous monitoring system?
 :::
 
+::: {.content-visible when-profile="answers"}
+
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+
+1. The habitat contains several objects, including the mouse's nest, a running wheel, a climbing platform, a toilet paper roll, and a corridor with two arms near the top.
+2. The presence of these objects is likely to cause occlusions, meaning the mouse or parts of it may frequently be obscured from the camera's view.
+3. The requirements for animal welfare, such as providing a rich environment, often conflict with the needs of the tracking system. While a single black mouse on a white background would be straightforward to track, such conditions would not support the mouse's well-being over time, nor would they yield naturalistic behavior.
+:::
+
+:::
+
 Let's load and inspect the tracking data:
 
 ```{python}
@@ -102,22 +114,23 @@ for kage in ["kage14", "kage17"]:
 ds_kages["kage14"]   # Change to "kage17" to inspect the other dataset
 ```
 
-We see that each dataset contains a huge amount of data!
+We see that each dataset contains a huge amount of data, but the two datasets are
+not exactly aligned in time.
 
 ```{python}
 #| code-fold: true
 
-start_date_k14 = pd.to_datetime(ds_kages["kage14"].time.data[0])
-end_date_k14 = pd.to_datetime(ds_kages["kage14"].time.data[-1])
-duration_k14 = end_date_k14 - start_date_k14
+start_times = {
+    name: pd.Timestamp(ds.time.isel(time=0).values)
+    for name, ds in ds_kages.items()
+}
+end_times = {
+    name: pd.Timestamp(ds.time.isel(time=-1).values)
+    for name, ds in ds_kages.items()
+}
 
-start_date_k17 = pd.to_datetime(ds_kages["kage17"].time.data[0])
-end_date_k17 = pd.to_datetime(ds_kages["kage17"].time.data[-1])
-duration_k17 = end_date_k17 - start_date_k17
-
-print("Experiment durations:")
-print(f"kage-14: from {start_date_k14} to {end_date_k14} ({duration_k14.days} days)")
-print(f"kage-17: from {start_date_k17} to {end_date_k17} ({duration_k17.days} days)")
+for name in start_times.keys():
+    print(f"{name}: from {start_times[name]} to {end_times[name]}")
 ```
 
 ## Datetime Coordinates
@@ -136,22 +149,24 @@ Using this information, we were able to reconstruct precise datetime coordinates
 
 Using "calendar time" is convenient for many applications.
 For example, we could cross-reference the tracking results against other data sources, such as body weight measurements.
-It also allows us to easily select time windows by datetime:
+
+It also allows us to easily select time windows by datetime.
+We will leverage this here to select a time window that's common to both kages.
+Note that we discard the last few days because the experimenter introduced
+some interventions during that time, which are out of scope for this analysis.
 
 ```{python}
 #| output: false
 
-ds_14 = ds_kages["kage14"]
+common_start = "2024-04-09 00:00:00"
+common_end = "2024-05-07 00:00:00"
 
-# Select a specific month
-ds_14.sel(time=slice("2024-04-01", "2024-04-30"))
-
-# Select a specific day
-ds_14.sel(time=slice("2024-04-17 00:00:00", "2024-04-17 23:59:59"))
-
-# Select a half-hour window
-ds_14.sel(time=slice("2024-04-17 09:30:00", "2024-04-17 10:00:00"))
+for kage in ["kage14", "kage17"]:
+    ds_kages[kage] = ds_kages[kage].sel(time=slice(common_start, common_end))
 ```
+
+Beyond this ability to select time windows by date and time,
+we will see many other benefits of using datetime coordinates in the rest of this case study.
 
 That said, it's still useful to also know the total time elapsed since the start of the experiment.
 In fact, many `movement` functions will expect "elapsed time" and may not work with datetime coordinates (for now).
@@ -161,6 +176,8 @@ Luckily, it's easy to convert datetime coordinates to "elapsed time" by simply s
 ```{python}
 #| code-fold: true
 #| code-summary: "Expand to see how this can be done"
+
+ds_14 = ds_kages["kage14"]
 
 # Get the start datetime the experiment in kage14
 experiment_start = ds_14.time.isel(time=0).data
@@ -203,8 +220,6 @@ For each of the two kages:
 ### Solutions: Exercise A
 
 ```{python}
-#| code-fold: true
-
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(10, 6), sharex=True)
 
 for i, kage in enumerate(["kage14", "kage17"]):
@@ -219,8 +234,6 @@ for i, kage in enumerate(["kage14", "kage17"]):
 ```
 
 ```{python}
-#| code-fold: true
-
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(10, 6), sharex=True)
 
 for i, kage in enumerate(["kage14", "kage17"]):
@@ -232,7 +245,7 @@ for i, kage in enumerate(["kage14", "kage17"]):
 
 :::
 
-## Filtering out low-confidence predictions
+## Cleaning the data
 
 Let's examine the range of confidence values for each keypoint.
 
@@ -269,20 +282,41 @@ We can filter out low-confidence predictions.
 confidence_threshold = 0.95
 
 for kage, ds in ds_kages.items():
-    print(f"Filtering {kage}...")
     ds["position_filtered"] = filter_by_confidence(
         ds.position,
         ds.confidence,
         threshold=confidence_threshold,
-        print_report=True,
     )
-    print("\n")
 ```
+
+::: {.callout-tip title="Exercise B"}
+
+Let's smooth the data with a rolling median filter.
+
+_Hint_: Look up the `rolling_filter` function in the `movement.filtering` module.
+:::
+
+::: {.content-visible when-profile="answers"}
+
+### Solutions: Exercise B
+
+```{python}
+window_size = 3  # frames
+
+for kage, ds in ds_kages.items():
+    ds["position_smoothed"] = rolling_filter(
+        ds.position_filtered,
+        window_size,
+        statistic="median",
+    )
+```
+
+:::
 
 ## Plot the mouse's speed over time
 
 Let's define a single-point representation of the mouse's position, which we'll call the `body_centroid`.
-We derive this by taking the mean of the 4 reliable keypoints, using their filtered positions.
+We derive this by taking the mean of the 4 reliable keypoints, using their smoothed positions.
 
 ```{python}
 for kage, ds in ds_kages.items():
@@ -292,14 +326,26 @@ for kage, ds in ds_kages.items():
     ).mean(dim="keypoints")
 ```
 
-Now let's compute the body centroid speed as a proxy of the mouse's speed.
-For `compute_speed` to work properly, we'll temporarily switch to "elapsed time" mode.
+Next, we'll compute the body centroid's speed in cm/sec via the following steps:
+
+1. Convert the body centroid position data to cm units using `movement.transforms.scale`.
+2. Temporarily switch to "elapsed time" mode, because `compute_speed` does not (yet) support datetime coordinates.
+3. Compute the speed in cm/sec
+4. Restore the original datetime coordinates to the speed data.
 
 ```{python}
+PIXELS_PER_CM = 10
+
 for kage, ds in ds_kages.items():
+    # Scale from pixels to cm using a known conversion factor
+    body_centroid_cm = scale(
+        ds.body_centroid, factor=1 / PIXELS_PER_CM, space_unit="cm"
+    )
+
+    # Compute the speed in cm/sec
     ds["body_centroid_speed"] = compute_speed(
-        ds.body_centroid.set_index(time="seconds_elapsed")
-    ).assign_coords(time=ds.body_centroid.time)
+       body_centroid_cm.set_index(time="seconds_elapsed")  # switch time coords
+    ).assign_coords(time=body_centroid_cm.time)            # restore datetime
 
 ds_kages["kage14"].body_centroid_speed
 ```
@@ -317,65 +363,39 @@ fig, axes = plt.subplots(
 for i, kage in enumerate(["kage14", "kage17"]):
     ds_kages[kage].body_centroid_speed.plot.line(ax=axes[i])
     axes[i].set_title(f"{kage} body centroid")
-    axes[i].set_ylabel("speed (pixels/sec)")
+    axes[i].set_ylabel("speed (cm/sec)")
 
 plt.show()
 ```
 
-::: {.callout-tip title="Exercise B"}
+::: {.callout-tip title="Exercise C"}
 
-1. What do you notice about the overall speed fluctuations over time?
-2. What do you think is the reason for this?
-3. Do you think there are any differences between the two kages? Feel free to "zoom in" on specific time windows to investigate this.
+1. What are potential sources of error in the speed calculation?
+2. What do you notice about the overall speed fluctuations over time? What do you think is the reason for this?
+3. Do you notice any differences between the two kages? Feel free to "zoom in" on specific time windows to investigate this.
 :::
 
 ::: {.content-visible when-profile="answers"}
 
-### Solutions: Exercise B
+### Solutions: Exercise C
+
+_Potential sources of error in speed calculation:_ The accuracy of speed computation is heavily reliant on precise position data. Any inaccuracies in predicting keypoint positions (i.e., the discrepancy between actual and estimated positions) can be exacerbated when calculating speed, as it is derived from the differences between consecutive positions. Additionally, we have assumed a fixed conversion factor of 10 pixels per cm. While this value may be accurate for the habitat's floor, the environment is not entirely flat. It includes objects for climbing, which means the conversion factor will vary depending on the mouse's vertical position (distance from the camera).
 
 The speed seems to fluctuate in a circadian pattern, especially apparent in kage14.
-This will become clearer if we zoom in on a time window of a few days
-and we plot speed alongside the light cycle.
-
-For this particular experiment, lights are turned off at 9:30 and turned on
-at a "dawn" setting at 20:30, and then turned fully on at 21:30.
-
-```{python}
-# Define the light cycle
-lights_off = "09:30:00"
-dawn = "20:30:00"
-lights_on = "21:30:00"
-
-# Focus on a few days
-time_window = slice("2024-04-22 00:00:00", "2024-04-25 23:59:59")
-```
+This will become clearer if we zoom in on a time window of a few days.
 
 ```{python}
 #| code-fold: true
+
+time_window = slice("2024-04-22", "2024-04-26")
 
 fig, axes = plt.subplots(
     nrows=2, ncols=1, figsize=(10, 6), sharex=True, sharey=True
 )
 
 for i, kage in enumerate(["kage14", "kage17"]):
-    # Select the speed data
     speed = ds_kages[kage].body_centroid_speed.sel(time=time_window)
-
-    # Plot the speed
     speed.plot.line(ax=axes[i])
-
-    # Plot night-time and daw as gray areas
-    for date, day in speed.groupby("time.date"):
-        #night_slice = slice(f"{date} {lights_off}", f"{date} {lights_on}")
-        axes[i].axvspan(
-            f"{date} {lights_off}", f"{date} {dawn}",
-            color="0.5", alpha=0.5
-        )
-        axes[i].axvspan(
-            f"{date} {dawn}", f"{date} {lights_on}",
-            color="0.75", alpha=0.5
-        )
-
     axes[i].set_title(f"{kage} body centroid")
     axes[i].set_ylabel("speed (pixels/sec)")
 
@@ -386,6 +406,185 @@ plt.show()
 We also note that the circadian pattern is more pronounced in kage14,
 and seems to be somewhat disrupted in kage17. The mouse in kage17
 seems to be more active overall, both during the day and at night.
+
+:::
+
+## Plot actograms
+
+An actogram is a visualisation of the mouse's activity level over time.
+
+As a measure of activity we'll use the cumulative distance traversed
+by the mouse's body centroid in a given time bin—in this case, 15 minutes.
+Since we have already computed the speed (cm/sec), we can convert that to distance (cm) by multiplying by the time bin duration in seconds.
+
+```{python}
+for kage in ["kage14", "kage17"]:
+    time_diff = ds_kages[kage].coords["seconds_elapsed"].diff(dim="time")
+    ds_kages[kage]["distance"] = ds_kages[kage].body_centroid_speed * time_diff
+
+```
+
+Then we can sum the distance traversed in each time bin to get the activity level.
+
+```{python}
+#| label: fig-activity-levels
+#| fig-cap: "Activity over time"
+
+time_bin_minutes = 10
+time_bin_duration = pd.Timedelta(f"{time_bin_minutes}min")
+
+fig, ax = plt.subplots(
+    nrows=2, ncols=1, figsize=(10, 6), sharex=True, sharey=True
+)
+
+activity_dict = {}  # Dictionary to store the activity levels for each kage
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    activity = ds_kages[kage].distance.resample(time=time_bin_duration).sum()
+    activity.plot.line(ax=ax[i])
+    ax[i].set_title(f"{kage} activity")
+    ax[i].set_ylabel("distance (cm)")
+    ax[i].set_xlabel("time")
+
+    activity_dict[kage] = activity
+
+plt.show()
+```
+
+To make any circadian patterns more apparent, we will stack days vertically
+and indicate the light cycle with gray areas.
+
+For this particular experiment, the light cycle is as follows:
+
+- lights off at 9:30
+- dawn at 20:30
+- lights on at 21:30
+
+```{python}
+#| code-fold: true
+#| label: fig-actograms
+#| fig-cap: "Actograms"
+
+# Define light cycle (in minutes since midnight)
+lights_off = pd.Timedelta(hours=9, minutes=30).total_seconds() / 60
+dawn = pd.Timedelta(hours=20, minutes=30).total_seconds() / 60
+lights_on = pd.Timedelta(hours=21, minutes=30).total_seconds() / 60
+
+n_bins_in_day = int(24 * 60 / time_bin_minutes)
+
+max_activity = max(
+    activity_dict[kage].max().values for kage in ["kage14", "kage17"]
+)
+
+fig, axes = plt.subplots(
+    nrows=2, ncols=1, figsize=(10, 10), sharex=True, sharey=True,
+)
+
+actogram_dict = {}
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    activity = activity_dict[kage]
+    days = list(activity.groupby("time.date").groups.keys())
+
+    # Create an empty actogram with dims (date, time_bin)
+    actogram = xr.DataArray(
+        np.zeros((len(days), n_bins_in_day)),
+        dims=["date", "time_of_day"],
+        coords={
+            "date": days,
+            # Each time bin has a time coordinate corresponding to
+            # the number of minutes between midnight and the bin centre.
+            "time_of_day": np.arange(
+                time_bin_minutes/2, 24 * 60, time_bin_minutes
+            )
+        },
+    )
+    # Populate actogram per day
+    for date, day_activity in activity.groupby("time.date"):
+        actogram.loc[dict(date=date)] = day_activity.values
+
+    # Store the actogram in the dictionary for later use
+    actogram_dict[kage] = actogram
+
+    # Plot the actogram
+    ax = axes[i]
+    actogram.plot(
+        ax=ax, yincrease=False, cmap="binary", vmin=0, vmax=max_activity,
+    )
+
+    # Assign x-tick labels every 4 hours formatted as HH:MM
+    ax.set_xticks(np.arange(0, 24 * 60 + 1, 4 * 60))
+    ax.set_xticklabels([f"{i:02d}:00" for i in np.arange(0, 25, 4)])
+
+    # Mark light cycle
+    ax.axvline(lights_off, color="red", alpha=0.7, lw=2, linestyle="-", label="lights off")
+    ax.axvline(dawn, color="blue", alpha=0.7, lw=2, linestyle="--", label="dawn")
+    ax.axvline(lights_on, color="blue", alpha=0.7, lw=2, linestyle="-", label="lights on")
+    ax.legend()
+
+    # Set title and axis labels
+    ax.set_title(f"{kage} actogram")
+
+plt.show()
+
+```
+
+::: {.callout-tip title="Exercise D"}
+
+1. How would you describe the observed differences between the two mice?
+2. Please quantify the mean +/- standard deviation of the activity levels during the light and dark periods, for each mouse.
+
+_Hint_: Start with the `actogram_dict` dictionary defined within the plot code.
+
+:::
+
+::: {.content-visible when-profile="answers"}
+
+### Solutions: Exercise D
+
+The mouse in kage17 show higher overall activity levels, stays constantly
+active during dark periods and also exhibits many activity bursts during the day
+(at least more than kage14 does).
+
+We can quantify the mean and standard deviation of the activity levels during
+the light and dark periods, as follows:
+
+Let's examine the structure of the actogram data.
+
+```{python}
+actogram_dict["kage14"]
+```
+
+```{python}
+for kage, actogram in actogram_dict.items():
+    # Dark period is from lights off to lights on
+    dark_period = slice(lights_off, lights_on)
+    dark_data = actogram.sel(time_of_day=dark_period)
+    dark_mean = dark_data.mean().values
+    dark_std = dark_data.std().values
+
+    # Light period is from dawn to lights on
+    # Light period consists of two parts: before lights off and after lights on
+    light_period1 = slice(None, lights_off)
+    light_period2 = slice(lights_on, None)
+    light_data = xr.concat(
+        [
+            actogram.sel(time_of_day=light_period1),
+            actogram.sel(time_of_day=light_period2)
+        ],
+        dim="time_of_day"
+    )
+    light_mean = light_data.mean().values
+    light_std = light_data.std().values
+    print(
+        f"{kage} activity in light period: "
+        f"{light_mean:.2f} ± {light_std:.2f}"
+    )
+    print(
+        f"{kage} activity in dark period: "
+        f"{dark_mean:.2f} ± {dark_std:.2f}\n"
+    )
+```
 
 :::
 
