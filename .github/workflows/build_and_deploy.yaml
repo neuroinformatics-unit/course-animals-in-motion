@@ -70,6 +70,14 @@ jobs:
             ~/.movement/Smart-Kages
           key: smart-kages-data-v4
 
+      - name: Cache CalMS21 data
+        id: cache-calms21
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.movement/CalMS21
+          key: calms21-data-v1
+
       - name: Download Smart-Kages data from Dropbox
         if: steps.cache-smartkages.outputs.cache-hit != 'true'
         run: |
@@ -78,6 +86,15 @@ jobs:
           unzip ~/.movement/Smart-Kages.zip -d ~/.movement
           rm ~/.movement/Smart-Kages.zip
           ls -lR ~/.movement/Smart-Kages
+      
+      - name: Download CalMS21 data from Dropbox
+        if: steps.cache-calms21.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.movement
+          curl -L "https://www.dropbox.com/scl/fo/mgko4c1lna0ajg5vg1vty/ABcthxRAFULhlXMzzlGDVJc?rlkey=bmf17y4ylhllqtzb31i780x46&st=xclohrlx&dl=1" -o ~/.movement/CalMS21.zip
+          unzip ~/.movement/CalMS21.zip -d ~/.movement/CalMS21
+          rm ~/.movement/CalMS21.zip
+          ls -lR ~/.movement/CalMS21
 
       - name: Set up Conda
         uses: conda-incubator/setup-miniconda@v3
