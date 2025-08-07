@@ -92,7 +92,7 @@ jobs:
         run: |
           mkdir -p ~/.movement
           curl -L "https://www.dropbox.com/scl/fo/mgko4c1lna0ajg5vg1vty/ABcthxRAFULhlXMzzlGDVJc?rlkey=bmf17y4ylhllqtzb31i780x46&st=xclohrlx&dl=1" -o ~/.movement/CalMS21.zip
-          unzip ~/.movement/CalMS21.zip -d ~/.movement/CalMS21
+          unzip ~/.movement/CalMS21.zip -x / -d ~/.movement/CalMS21
           rm ~/.movement/CalMS21.zip
           ls -lR ~/.movement/CalMS21
 
