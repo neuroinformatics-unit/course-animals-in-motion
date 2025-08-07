@@ -91,7 +91,6 @@ bboxes_ds
 
 ::: {.callout-tip title="Discuss"}
 
-- What differences do you notice between the pose and bounding boxes datasets?
 - What are some limitations of `movement`'s approach? What kinds of motion tracking data cannot be accommodated?
 - Can you think of alternative ways of representing these data?
 
@@ -184,3 +183,135 @@ print(f"Position array shape: {position_array.shape}")
 time_array = poses_ds.time.values
 print(f"Time array shape: {time_array.shape}")
 ```
+
+For saving datasets to disk, we recommend leveraging `xarray`'s built-in
+[support for the netCDF file format](https://docs.xarray.dev/en/stable/user-guide/io.html#netcdf).
+
+```{.python}
+import xarray as xr
+
+# To save a dataset to disk
+poses_ds.to_netcdf("poses_ds.nc")
+
+# To load the dataset back from memory
+poses_ds = xr.open_dataset("poses_ds.nc")
+```
+
+## Loading motion tracks
+
+As stated above, our goal with `movement` is to enable pipelines that are input-agnostic,
+meaning they are not tied to a specific motion tracking tool or data format.
+Therefore, `movement`'s offers input/output functions that facilitate data flows
+between various motion tracking frameworks and `movement`'s own `xarray` data structure.
+
+Please refer to the [Input/Output section](https://movement.neuroinformatics.dev/user_guide/input_output.html)
+of the `movement` documentation for more details, including a full list of
+supported formats.
+
+::: {.callout-tip title="Exercise A"}
+
+1. Load the predictions you generated in @sec-sleap into a `movement` dataset. Feel free to use the `CalMS21/CalMS21_mouse044_task1_annotator1.slp` file that you can load from Dropbox (refer to [prerequisites @sec-data]).
+2. Compute the overall minimum and maximum x,y positions.
+3. Plot the centroid trajectory of a given individual across time.
+4. Select a narrow time window (e.g. 10 seconds) and plot the x, y positions of a certain keypoint across time.
+5. Save a narrow time window dataset to a netCDF file.
+
+__Bonus:__ Overlay the centroid trajectory on top of the video frames (task 3) onto a frame extracted from the video.
+You may find inspiration in the ["Pupil tracking" example](https://movement.neuroinformatics.dev/examples/mouse_eye_movements.html).
+
+Useful resources:
+
+- [Input/Output guide](https://movement.neuroinformatics.dev/user_guide/input_output.html)
+- [The "Load and explore pose tracks" example](https://movement.neuroinformatics.dev/examples/load_and_explore_poses.html)
+- [`plot_centroid_trajectory()` function](https://movement.neuroinformatics.dev/api/movement.plots.plot_centroid_trajectory.html)
+
+:::
+
+::: {.content-visible when-profile="answers"}
+
+### Solutions: Exercise A
+
+Loading pose tracks from a file:
+
+```{python}
+from pathlib import Path
+from movement.io import load_poses
+
+file_name = "CalMS21_mouse044_task1_annotator1.slp"
+file_path = Path.home() / ".movement" / "CalMS21" / file_name
+
+ds = load_poses.from_file(file_path, source_software="SLEAP", fps=30)
+ds
+```
+
+Computing the minimum and maximum x,y positions:
+
+```{python}
+for space_coord in ["x", "y"]:
+    min_pos = ds.position.sel(space=space_coord).min().values
+    max_pos = ds.position.sel(space=space_coord).max().values
+    print(f"Minimum {space_coord} position: {min_pos}")
+    print(f"Maximum {space_coord} position: {max_pos}")
+```
+
+Plotting the centroid trajectory:
+
+```{python}
+from movement.plots import plot_centroid_trajectory
+
+plot_centroid_trajectory(ds.position, individual="resident_b")
+```
+
+As a __bonus__, we can also overlay that trajectory on top of a video frame.
+
+```{python}
+import sleap_io as sio
+
+
+video_path = Path.home() / ".movement" / "CalMS21" / "mouse044_task1_annotator1.mp4"
+video = sio.load_video(video_path)
+
+n_frames, height, width, channels = video.shape
+print(f"Number of frames: {n_frames}")
+print(f"Frame size: {width}x{height}")
+print(f"Number of channels: {channels}\n")
+
+# Extract the first frame to use as background
+background = video[0]
+
+fig, ax = plt.subplots()
+
+# Plot the first video frame
+ax.imshow(background, cmap="gray")
+
+# Plot the centroid trajectory
+plot_centroid_trajectory(
+    ds.position, individual="resident_b", ax=ax, alpha=0.75, s=5,
+)
+
+plt.show()
+```
+
+Plot x,y positions of a certain keypoint across time, within a narrow time window:
+
+```{python}
+ds.position.sel(keypoints="tail_base", time=slice(0, 10)).plot.line(
+    x="time", row="individuals", hue="space", aspect=2, size=2.5
+)
+```
+
+Save a narrow time window dataset to a netCDF file:
+
+```{.python}
+ds.sel(time=slice(0, 10)).to_netcdf("narrow_time_window.nc")
+```
+
+:::
+
+### Exploring data in the GUI
+
+The `movement` graphical user interface (GUI), powered by our custom plugin for [napari](https://napari.org/dev/), makes it easy to view and explore movement motion tracks. Currently, you can use it to visualise 2D `movement` datasets as points, tracks, and rectangular bounding boxes (if defined) overlaid on video frames.
+
+Let's go through the [Graphical User Interface section](https://movement.neuroinformatics.dev/user_guide/gui.html) of the `movement` documentation to see how to use it. Feel free to follow along using the `CalMS21` dataset you've also used for Exercise A, or any other tracking data from our [supported third-party formats](https://movement.neuroinformatics.dev/user_guide/input_output.html#supported-formats).
+
+![Data from the CalMS21 dataset viewed via the `movement` plugin for `napari`](img/napari_calms21_screenshot.png){#fig-napari-calms21}
