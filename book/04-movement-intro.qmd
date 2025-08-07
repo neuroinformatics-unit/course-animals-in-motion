@@ -54,7 +54,7 @@ and how we can represent them in a standardised way.
 
 What we came up with takes the form of collections of multi-dimensional arrays—an `xarray.Dataset` object.
 Each array within a dataset is an `xarray.DataArray` object holding different aspects of the collected data (position, time, confidence scores…).
-You can think of a `xarray.DataArray` object as a multi-dimensional `numpy.ndarray` with pandas-style indexing and labelling.
+You can think of an `xarray.DataArray` as a multi-dimensional `numpy.ndarray` with pandas-style indexing and labelling.
 
 This may sound complicated but fear not, we'll build some understanding by exploring some example datasets
 that are included in the `movement` package.
@@ -65,7 +65,7 @@ from movement import sample_data
 
 ### Poses datasets
 
-First let's see how `movement` represents pose tracks, like the ones we get with SLEAP.
+First, let's see how `movement` represents pose tracks, like the ones we get with SLEAP.
 
 ![The structure of a `movement` poses dataset](img/movement_poses_dataset_card.png){#fig-movement-ds-poses}
 
@@ -75,6 +75,31 @@ Let's load an example dataset and explore its contents.
 poses_ds = sample_data.fetch_dataset("SLEAP_two-mice_octagon.analysis.h5")
 poses_ds
 ```
+
+### Bounding boxes datasets
+
+`movement` also supports datasets that consist of bounding boxes, like the ones
+we would get if we performed object detection on a video, followed by
+tracking identities across time.
+
+![The structure of a `movement` bounding boxes dataset](img/movement_bboxes_dataset_card.png){#fig-movement-ds-bboxes}
+
+```{python}
+bboxes_ds = sample_data.fetch_dataset("VIA_single-crab_MOCA-crab-1_linear-interp.csv")
+bboxes_ds
+```
+
+::: {.callout-tip title="Discuss"}
+
+- What differences do you notice between the pose and bounding boxes datasets?
+- What are some limitations of `movement`'s approach? What kinds of motion tracking data cannot be accommodated?
+- Can you think of alternative ways of representing these data?
+
+See the [documentation on movement datasets](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html) for more details
+on `movement` data structures.
+:::
+
+### Working with xarray objects
 
 Since `poses_ds` is an `xarray.Dataset`, we can use all of `xarray`'s intuitive interface and rich
 [built-in functionalities](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html#using-xarrays-built-in-functionality)
@@ -136,13 +161,26 @@ ax.set_title("Confidence histograms per keypoint")
 plt.legend()
 ```
 
-### Bounding boxes datasets
+You may also want to export date to structures you may be more familiar with,
+such as
+[Pandas DataFrames](https://docs.xarray.dev/en/stable/user-guide/pandas.html)
+or [NumPy arrays](https://docs.xarray.dev/en/stable/user-guide/duckarrays.html).
 
-![The structure of a `movement` bounding boxes dataset](img/movement_bboxes_dataset_card.png){#fig-movement-ds-bboxes}
+Export the position data array as a pandas DataFrame:
 
 ```{python}
-bboxes_ds = sample_data.fetch_dataset("VIA_single-crab_MOCA-crab-1_linear-interp.csv")
-bboxes_ds
+position_df = poses_ds.position.to_dataframe(
+    dim_order=["time", "individuals", "keypoints", "space"]
+)
+position_df.head()
 ```
 
-Let's go through the [documentation on movement datasets](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html) for more details.
+Export data variables or coordinates as numpy arrays:
+
+```{python}
+position_array = poses_ds.position.values
+print(f"Position array shape: {position_array.shape}")
+
+time_array = poses_ds.time.values
+print(f"Time array shape: {time_array.shape}")
+```
