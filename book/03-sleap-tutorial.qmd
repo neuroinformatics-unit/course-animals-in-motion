@@ -57,7 +57,7 @@ Further details can be found in [SLEAP's Creating a project guide](https://sleap
 
 ### Define skeleton
 <!-- Niko please update or remove this figure :) -->
-![](https://neuroinformatics.dev/course-behavioural-analysis/img/mouse-annotated.png){fig-align="center" width="40%"}
+![](img/SLEAP/mouse-annotated.png){fig-align="center" width="40%"}
 
 In SLEAP, `Skeletons` are defined as a set of `Nodes` (body parts or keypoints of interest) and `Edges` (connections between body parts or keypoints).
 With the exception of bottom-up models, `Edges` serve primarily for visualisation.
