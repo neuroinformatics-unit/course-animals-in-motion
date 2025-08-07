@@ -2,7 +2,7 @@ channels:
   - conda-forge
 dependencies:
   - movement>=0.8.1
-  - napari
+  - napari<0.6.3
   - pyqt
   - jupyter
   - python>3.11
