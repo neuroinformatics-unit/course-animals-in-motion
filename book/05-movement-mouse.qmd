@@ -74,11 +74,11 @@ Let's take a look at them.
 
 kages = ["kage14", "kage17"]
 img_paths = [smart_kages_path / f"{kage}_background.png" for kage in kages]
+images = [plt.imread(img_path) for img_path in img_paths]
 
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
 
-for i, img_path in enumerate(img_paths):
-    img = plt.imread(img_path)
+for i, img in enumerate(images):
     axes[i].imshow(img)
     axes[i].set_title(f"{kages[i]}")
     axes[i].axis("off")
@@ -581,7 +581,7 @@ plt.show()
 2. Compute the mean activity profile (across days) for each mouse.
 3. Plot the mean activity profile for each mouse, with the light cycle marked.
 
-**Hint**: Start with the `actogram_dict` dictionary and also make use of the `lights_off`  and `lights_on` variables defined above.
+__Hint__: Start with the `actogram_dict` dictionary and also make use of the `lights_off`  and `lights_on` variables defined above.
 
 :::
 
@@ -619,25 +619,31 @@ plt.show()
 
 :::
 
-## Plot the occupancy heatmap
+## Space occupancy
 
-For the heatamp calculation to properly work, we need to temporarily
-set the time coordinates to "elapsed time".
+Apart from quantifying how active the mice were over time, we might also
+be interested in which parts of the habitat they tend to frequent.
+
+`movement` provides a [`plot_occupancy()`](https://movement.neuroinformatics.dev/api/movement.plots.plot_occupancy.html) function to help us visualise the space occupancy.
 
 ```{python}
-#| code-fold: true
+#| label: fig-occupancy1
 #| fig-cap: "Occupancy heatmaps"
 
 fig, axes = plt.subplots(
     nrows=2, ncols=1, figsize=(8, 8), sharex=True, sharey=True
 )
 
+plt.suptitle("Body centroid occupancy (log scale)")
+
 for i, kage in enumerate(["kage14", "kage17"]):
-    img = plt.imread(img_paths[i])
+    img = images[i]
     height, width = img.shape[:2]
 
     axes[i].imshow(img)
     plot_occupancy(
+        # Setting the time coordinates to "elapsed time" is necessary
+        # for the log scale to work properly.
         ds_kages[kage].body_centroid.set_index(time="seconds_elapsed"),
         ax=axes[i],
         cmap="turbo",
@@ -645,8 +651,265 @@ for i, kage in enumerate(["kage14", "kage17"]):
         vmax=10**6,
         alpha=0.6,   # some transparency
     )
-    # invert y-axis to match the video frame
+    # Make axes match the image dimensions
     axes[i].set_ylim([height - 1, 0])
     axes[i].set_xlim([0, width])
-    axes[i].set_title(f"Body centroid occupancy (log scale)")
+    axes[i].set_title(kage)
+```
+
+We see some clear hotspots, such as the nest and climbing platform.
+But not all hotspots are created equal.
+For example, the nest should be occupied when the mouse is stationary but
+not when it is moving.
+
+To investigate this, let's choose an arbitrary speed limit of 4 cm/sec, below which we consider the mouse to be stationary.
+
+```{python}
+#| code-fold: true
+#| label: fig-speed-histogram
+#| fig-cap: "Body centroid speed histogram (log scale)"
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+speed_threshold = 4
+
+for kage in ["kage14", "kage17"]:
+    ds_kages[kage].body_centroid_speed.plot.hist(
+        ax=ax, bins=50, alpha=0.5, label=kage, histtype="step",
+    )
+
+ax.axvline(speed_threshold, linestyle="--", color="red", label="Speed threshold")
+
+ax.set_title("Body centroid speed")
+ax.set_xlabel("Speed (cm/sec)")
+ax.set_ylabel("Count")
+ax.set_yscale("log")
+ax.legend()
+plt.show()
+```
+
+::: {.callout-note}
+We use the log scale because speeds tend to be exponentially distributed,
+i.e. the mouse spends far more time at low speeds than at high speeds.
+Try commenting out the `ax.set_yscale("log")` line and see what happens.
+:::
+
+We will generate separate occupancy heatmaps for when the mouse is stationary and moving.
+We can do this by [masking with `where()`](https://docs.xarray.dev/en/latest/user-guide/indexing.html#masking-with-where).
+
+```{python}
+stationary_mask = ds_kages["kage14"].body_centroid_speed < 4
+stationary_mask
+```
+
+A "mask" is just a boolean array of the same shape as the original data.
+It's `True` where the condition is met, and `False` otherwise.
+
+```{python}
+stationary_position = ds_kages["kage14"].body_centroid.where(stationary_mask)
+stationary_position
+```
+
+We see that the `where()` method returns a new `xarray.DataArray` with the same dimensions as the original, but with the data values replaced by `NaN` where the condition (mask) is `False`.
+
+Using this approach we can generate separate occupancy heatmaps for when the mouse is stationary vs active.
+
+```{python}
+#| code-fold: true
+#| label: fig-occupancy2
+#| fig-cap: "Occupancy heatmaps (stationary vs active)"
+
+fig, axes = plt.subplots(
+    nrows=2, ncols=2, figsize=(12, 8), sharex=True, sharey=True
+)
+
+plt.suptitle("Body centroid occupancy (log scale)")
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    img = images[i]
+    height, width = img.shape[:2]
+
+    masks = {
+        "stationary": ds_kages[kage].body_centroid_speed < 4,
+        "moving": ds_kages[kage].body_centroid_speed >= 4,
+    }
+
+    for j, (mask_name, mask) in enumerate(masks.items()):
+        ax = axes[i, j]
+        ax.imshow(img)
+        plot_occupancy(
+            ds_kages[kage].body_centroid.where(mask).set_index(time="seconds_elapsed"),
+            ax=ax,
+            cmap="turbo",
+            norm="log",
+            vmax=10**6,
+            alpha=0.6,
+        )
+        ax.set_title(f"{kage} {mask_name}")
+        ax.set_ylim([height - 1, 0])
+        ax.set_xlim([0, width])
+
+plt.show()
+
+```
+
+We see some expected patterns like the nest being a "hotspot" during stationary periods,
+and going "dark" during active periods. But we also see some puzzling patterns:
+for example, the running wheel is occupied during both periods, including when the mouse is "stationary".
+
+Is that because the mouse appears to be stationary to the camera as it's
+running "in-place" of the wheel (like on a treadmill)? Or maybe the mouse
+spends some of its downtime resting on the wheel?
+
+Let us precisely measure the % of time the mouse spends on the running wheel.
+Here we'll use `movement`'s [functionality of defining regions of interest (ROIs)](https://movement.neuroinformatics.dev/api/movement.roi.html).
+
+Let us create a circular "running wheel" ROI for each of the two kages.
+
+```{python}
+
+from movement.roi import PolygonOfInterest
+
+centres = {
+    "kage14": np.array([145, 260]),  # (x, y)
+    "kage17": np.array([385, 210]),
+}
+radius = 70
+
+# Create a unit circle
+n_points = 32
+angles = np.linspace(0, 2 * np.pi, n_points)
+unit_circle = np.column_stack([np.cos(angles), np.sin(angles)])
+
+# Create ROIs by scaling and shifting the unit circle
+rois = {}
+for kage in ["kage14", "kage17"]:
+    points = centres[kage] + radius * unit_circle
+    roi = PolygonOfInterest(points, name=f"{kage} running wheel")
+    rois[kage] = roi
+```
+
+Let's verify that the ROIs are roughly in the right place.
+
+```{python}
+#| code-fold: true
+#| label: fig-rois
+#| fig-cap: "Running wheel ROIs"
+
+fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(8, 8))
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    img = images[i]
+    ax[i].imshow(img)
+    rois[kage].plot(ax=ax[i], alpha=0.25, facecolor="red")
+    ax[i].legend()
+
+plt.show()
+```
+
+Now that we have the ROIs defined as `PolygonOfInterest` objects, we can
+use some built-in methods:
+
+```{python}
+roi_occupancy = {
+    kage: rois[kage].contains_point(ds_kages[kage].body_centroid)
+    for kage in ["kage14", "kage17"]
+}
+
+roi_occupancy["kage14"]
+```
+
+The occupancy data is an array which is `True` whena point
+(in this case the mouse's body centroid at each time point)
+is inside the ROI, and `False` otherwise.
+
+```{python}
+#| label: fig-roi-occupancy-line
+#| fig-cap: "Running wheel occupancy as a function of time"
+
+fig, ax = plt.subplots(figsize=(8, 3))
+roi_occupancy["kage14"].plot.line(ax=ax)
+ax.set_title("Running wheel occupancy (kage14)")
+ax.set_ylabel("Occupancy (%)")
+```
+
+We can also compute the % of time the mouse spends on the running wheel.
+
+```{python}
+for kage in ["kage14", "kage17"]:
+    on_wheel = roi_occupancy[kage].sum(dim="time").values
+    total_time = roi_occupancy[kage].time.notnull().sum(dim="time").values
+    pct_on_wheel = float(100 * on_wheel / total_time)
+    print(f"{kage} spends {pct_on_wheel:.1f}% of its time on the running wheel")
+```
+
+But how does the running wheel occupancy relate the light cycle?
+We can segment occupancy into light and dark periods for each day
+and compute the % of time spent on the running wheel during each period.
+
+```{python}
+#| code-fold: true
+
+days = list(roi_occupancy["kage14"].groupby("time.date").groups.keys())
+n_days = len(days)
+
+daily_occupancy = xr.DataArray(
+    np.full((2, n_days, 2), np.nan),  # (kage, date, period) with NaNs
+    dims=["kage", "date", "period"],
+    coords={
+        "kage": ["kage14", "kage17"],
+        "date": days,
+        "period": ["dark", "light"]
+    },
+)
+
+for kage in ["kage14", "kage17"]:
+    for date, day_ds in roi_occupancy[kage].groupby("time.date"):
+        dark_period = slice(f"{date} 09:30:00", f"{date} 21:30:00")
+        light_period1 = slice(f"{date} 00:00:00", f"{date} 09:30:00")
+        light_period2 = slice(f"{date} 21:30:00", f"{date} 23:59:59")
+
+        n_total_frames = day_ds.time.notnull().sum().values
+        if n_total_frames == 0:
+            continue
+
+        n_dark_frames = day_ds.time.sel(time=dark_period).notnull().sum().values
+        n_light_frames = n_total_frames - n_dark_frames
+
+        dark_occupancy = 100 * day_ds.sel(time=dark_period).sum() / n_dark_frames
+        light_occupancy = 100 * (
+            day_ds.sel(time=light_period1).sum() +
+            day_ds.sel(time=light_period2).sum()
+        ) / n_light_frames
+
+        daily_occupancy.loc[dict(kage=kage, date=date, period="dark")] = dark_occupancy
+        daily_occupancy.loc[dict(kage=kage, date=date, period="light")] = light_occupancy
+```
+
+```{python}
+daily_occupancy
+```
+
+Let's visualise the % of time spent on the running wheel during the light and dark periods of each day.
+
+```{python}
+#| code-fold: true
+#| label: fig-roi-occupancy
+#| fig-cap: "Running wheel occupancy during light and dark periods"
+
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4), sharex=True, sharey=True)
+
+max_occupancy = daily_occupancy.max()
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    daily_occupancy.sel(kage=kage).plot(
+        ax=axes[i], lw=3, vmax=daily_occupancy.max(), yincrease=False
+    )
+
+    axes[i].set_title(f"{kage} running wheel occupancy")
+    axes[i].set_xticks([0.25, 0.75])
+    axes[i].set_ylabel("Occupancy (%)")
+    axes[i].set_xlabel("Period")
+
+plt.show()
 ```
