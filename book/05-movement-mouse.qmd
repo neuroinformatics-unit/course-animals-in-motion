@@ -414,8 +414,8 @@ seems to be more active overall, both during the day and at night.
 An actogram is a visualisation of the mouse's activity level over time.
 
 As a measure of activity we'll use the cumulative distance traversed
-by the mouse's body centroid in a given time bin—in this case, 15 minutes.
-Since we have already computed the speed (cm/sec), we can convert that to distance (cm) by multiplying by the time bin duration in seconds.
+by the mouse's body centroid in a given time bin—in this case, 10 minutes.
+Since we have already computed the speed (cm/sec), we can multiply that by the time bin duration in seconds to get the distance (cm).
 
 ```{python}
 for kage in ["kage14", "kage17"]:
