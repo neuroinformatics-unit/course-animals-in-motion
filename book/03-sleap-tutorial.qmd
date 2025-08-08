@@ -102,7 +102,12 @@ In this example, we will use the "Labeling Suggestions" panel to randomly sample
 To add an instance, click on "Labels" then "Add Instance" in the top menu bar.
 The initial instance will have its nodes placed randomly.
 Adjust each point to its correct location by dragging it with the mouse.
-We will also assign identities to each instance by putting a unique `Track` name for each instance, e.g. `resident` for the black mouse and `intruder` for the white mouse.
+
+We will also assign identities to each instance by adding a `Track`. 
+To do this, select an instance and click on "Tracks" then "Set Instance Track" in the top menu bar.
+A new `Track` ("Track 1") will be created. 
+`Tracks` can be renamed in the "Track" column.
+In this example, we will name the black mouse `resident_b` and the white mouse `intruder_w`. 
 
 ![](img/SLEAP/4_label_frames.png){width=100%}
 
@@ -113,10 +118,12 @@ You may also find the following keyboard shortcuts and mouse actions helpful:
 | Function | Keyboard shortcut/Mouse actions |
 |----------|---------------------------------|
 | Add instance | <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>I</kbd> |
-| Zoom in/out | Place cursor over area to zoom in or out, then scroll mouse wheel |
+| Add new track | <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>0</kbd> |
+| Assign track | Select instance, then <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>1-9</kbd> (number = track ID) |
 | Toggle node visibility (occlusion) | Right-click on node or its label |
 | Move entire instance | Hold <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) and drag any node |
 | Rotate instance | Hold <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac), click on any node, and scroll mouse wheel |
+| Zoom in/out | Place cursor over area to zoom in or out, then scroll mouse wheel |
 | Delete instance | Select instance, then <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>Backspace</kbd> |
 | Navigate between frames | <kbd>Left</kbd>/<kbd>Right</kbd> |
 | Go to the next suggested frame | <kbd>Space</kbd> |
