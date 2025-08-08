@@ -50,7 +50,7 @@ conda activate sleap
 sleap-label
 ```
 
-Add a video by clicking the "Add Video" button, or by dragging-and-dropping your video file.
+Add a video by clicking the "Add Videos" button.
 Further details can be found in [SLEAP's Creating a project guide](https://sleap.ai/tutorials/new-project.html).
 
 ![](img/SLEAP/1_create_project.png){width=100%}
