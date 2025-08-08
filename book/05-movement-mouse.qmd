@@ -492,7 +492,6 @@ plt.show()
 
 To make any circadian patterns more apparent, we will stack days vertically
 and indicate the light cycle with gray areas.
-
 For this particular experiment, the light cycle is as follows:
 
 - lights off at 9:30
@@ -500,50 +499,57 @@ For this particular experiment, the light cycle is as follows:
 - lights on at 21:30
 
 ```{python}
+# Define light cycle (in minutes since midnight)
+lights_off = 9 * 60 + 30  # 9:30 AM in minutes
+dawn = 20 * 60 + 30       # 8:30 PM in minutes  
+lights_on = 21 * 60 + 30  # 9:30 PM in minutes
+
+n_bins_in_day = int(24 * 60 / time_bin_minutes)
+
+actogram_dict = {}  # Dictionary to store the 2D actogram for each kage
+
+for i, kage in enumerate(["kage14", "kage17"]):
+    activity = activity_dict[kage]
+    days = list(activity.groupby("time.date").groups.keys())
+
+    # Create an empty 2D actogram with dims (date, time_bin)
+    actogram = xr.DataArray(
+        np.zeros((len(days), n_bins_in_day)),
+        dims=["date", "time_of_day"],
+        coords={
+            "date": days,
+            "time_of_day": np.arange(
+                time_bin_minutes/2, 24 * 60, time_bin_minutes
+            )
+        },
+    )
+    # Populate 2D actogram per day
+    for date, day_activity in activity.groupby("time.date"):
+        actogram.loc[dict(date=date)] = day_activity.values
+
+    # Store the actogram in the dictionary for later use
+    actogram_dict[kage] = actogram
+
+actogram_dict["kage14"]  # Replace with kage17 to see the actogram for kage17
+```
+
+Let's now visualise the actograms, with the light cycle marked.
+
+```{python}
 #| code-fold: true
 #| label: fig-actograms
 #| fig-cap: "Actograms"
 
-# Define light cycle (in minutes since midnight)
-lights_off = pd.Timedelta(hours=9, minutes=30).total_seconds() / 60
-dawn = pd.Timedelta(hours=20, minutes=30).total_seconds() / 60
-lights_on = pd.Timedelta(hours=21, minutes=30).total_seconds() / 60
-
-n_bins_in_day = int(24 * 60 / time_bin_minutes)
-
 max_activity = max(
-    activity_dict[kage].max().values for kage in ["kage14", "kage17"]
+    actogram_dict[kage].max().values for kage in ["kage14", "kage17"]
 )
 
 fig, axes = plt.subplots(
     nrows=2, ncols=1, figsize=(10, 10), sharex=True, sharey=True,
 )
 
-actogram_dict = {}
-
 for i, kage in enumerate(["kage14", "kage17"]):
-    activity = activity_dict[kage]
-    days = list(activity.groupby("time.date").groups.keys())
-
-    # Create an empty actogram with dims (date, time_bin)
-    actogram = xr.DataArray(
-        np.zeros((len(days), n_bins_in_day)),
-        dims=["date", "time_of_day"],
-        coords={
-            "date": days,
-            # Each time bin has a time coordinate corresponding to
-            # the number of minutes between midnight and the bin centre.
-            "time_of_day": np.arange(
-                time_bin_minutes/2, 24 * 60, time_bin_minutes
-            )
-        },
-    )
-    # Populate actogram per day
-    for date, day_activity in activity.groupby("time.date"):
-        actogram.loc[dict(date=date)] = day_activity.values
-
-    # Store the actogram in the dictionary for later use
-    actogram_dict[kage] = actogram
+    actogram = actogram_dict[kage]
 
     # Plot the actogram
     ax = axes[i]
@@ -563,6 +569,7 @@ for i, kage in enumerate(["kage14", "kage17"]):
 
     # Set title and axis labels
     ax.set_title(f"{kage} actogram")
+    ax.set_xlabel("Time of day")
 
 plt.show()
 
@@ -571,9 +578,10 @@ plt.show()
 ::: {.callout-tip title="Exercise C"}
 
 1. How would you describe the observed differences between the two mice?
-2. Please quantify the mean +/- standard deviation of the activity levels during the light and dark periods, for each mouse.
+2. Compute the mean activity profile (across days) for each mouse.
+3. Plot the mean activity profile for each mouse, with the light cycle marked.
 
-_Hint_: Start with the `actogram_dict` dictionary defined within the plot code.
+**Hint**: Start with the `actogram_dict` dictionary and also make use of the `lights_off`  and `lights_on` variables defined above.
 
 :::
 
@@ -585,44 +593,26 @@ The mouse in kage17 show higher overall activity levels, stays constantly
 active during dark periods and also exhibits many activity bursts during the day
 (at least more than kage14 does).
 
-We can quantify the mean and standard deviation of the activity levels during
-the light and dark periods, as follows:
-
-Let's examine the structure of the actogram data.
-
 ```{python}
-actogram_dict["kage14"]
-```
+fig, ax = plt.subplots(figsize=(10, 4))
 
-```{python}
-for kage, actogram in actogram_dict.items():
-    # Dark period is from lights off to lights on
-    dark_period = slice(lights_off, lights_on)
-    dark_data = actogram.sel(time_of_day=dark_period)
-    dark_mean = dark_data.mean().values
-    dark_std = dark_data.std().values
+# Mark light cycle
+ax.axvspan(lights_off, lights_on, color="0.8", label="Dark period")
 
-    # Light period is from dawn to lights on
-    # Light period consists of two parts: before lights off and after lights on
-    light_period1 = slice(None, lights_off)
-    light_period2 = slice(lights_on, None)
-    light_data = xr.concat(
-        [
-            actogram.sel(time_of_day=light_period1),
-            actogram.sel(time_of_day=light_period2)
-        ],
-        dim="time_of_day"
-    )
-    light_mean = light_data.mean().values
-    light_std = light_data.std().values
-    print(
-        f"{kage} activity in light period: "
-        f"{light_mean:.2f} ± {light_std:.2f}"
-    )
-    print(
-        f"{kage} activity in dark period: "
-        f"{dark_mean:.2f} ± {dark_std:.2f}\n"
-    )
+for kage, actogram in actogram_dict.items():    
+    actogram.mean(dim="date").plot.line(ax=ax, label=kage, lw=3)
+
+ax.set_title(f"Mean daily activity profile")
+ax.set_ylabel(f"Activity")
+ax.set_xlabel("Time of day")
+
+# Assign x-tick labels every 4 hours formatted as HH:MM
+ax.set_xticks(np.arange(0, 24 * 60 + 1, 4 * 60))
+ax.set_xticklabels([f"{i:02d}:00" for i in np.arange(0, 25, 4)])
+
+
+ax.legend()
+plt.show()
 ```
 
 :::
