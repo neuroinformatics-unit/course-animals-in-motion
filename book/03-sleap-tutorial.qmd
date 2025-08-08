@@ -11,7 +11,7 @@ The resident&ndash;intruder assay [@jove4367] is a behavioural test used to stud
 
 ## Dataset
 
-In this tutorial, we will use [SLEAP](https://sleap.ai/) to train a multi-animal top-down identity model to simultaneously perform pose estimation and identity tracking of two mice in a short video (`mouse044_task1_annotator1.mp4`) from the [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset).
+In this tutorial, we will use [SLEAP](https://sleap.ai/) to train a **multi-animal top-down identity model** to simultaneously perform pose estimation and identity tracking of two mice in a short video (`mouse044_task1_annotator1.mp4`) from the [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset).
 
 This video captures a brief interaction between two mice in a resident&ndash;intruder assay, where the black mouse (the resident) has established territory and the white mouse (the intruder) is newly introduced into the resident's cage.
 
@@ -50,13 +50,15 @@ conda activate sleap
 sleap-label
 ```
 
-Add a video by clicking the "Add Videos" button.
+Add a video by navigating to the "Videos" panel and clicking on "Add Videos" (or go to "File" then "Add Videos").
+Since the video is in greyscale, enable the "Grayscale" option in the video import dialogue. 
+This ensures SLEAP processes the input as a single-channel image, which can improve performance and reduce memory usage for greyscale videos.
 Further details can be found in [SLEAP's Creating a project guide](https://sleap.ai/tutorials/new-project.html).
 
 ![](img/SLEAP/1_create_project.png){width=100%}
 
 ### Define skeleton
-<!-- Niko please update or remove this figure :) -->
+
 ![](img/SLEAP/mouse-annotated.png){fig-align="center" width="40%"}
 
 In SLEAP, `Skeletons` are defined as a set of `Nodes` (body parts or keypoints of interest) and `Edges` (connections between body parts or keypoints).
