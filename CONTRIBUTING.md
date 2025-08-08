@@ -81,9 +81,11 @@ To add answers to code exercises, please enclose them in a block of the followin
 ```{.bash}
 ::: {.content-visible when-profile="answers"}
 
-### Solutions: Exercise A
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
 Write your solution here.
+
+:::
 
 :::
 ```

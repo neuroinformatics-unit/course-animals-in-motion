@@ -85,7 +85,7 @@ for i, img_path in enumerate(img_paths):
 
 ```
 
-::: {.callout-tip title="Questions"}
+::: {.callout-tip title="Questions A"}
 
 1. What objects do you see in the habitat?
 2. What challenges do you anticipate with tracking a mouse in this environment?
@@ -153,7 +153,7 @@ For example, we could cross-reference the tracking results against other data so
 It also allows us to easily select time windows by datetime.
 We will leverage this here to select a time window that's common to both kages.
 Note that we discard the last few days because the experimenter introduced
-some interventions during that time, which are out of scope for this analysis.
+some interventions during that time, which are out of scope for this case study.
 
 ```{python}
 #| output: false
@@ -217,7 +217,7 @@ For each of the two kages:
 
 ::: {.content-visible when-profile="answers"}
 
-### Solutions: Exercise A
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
 ```{python}
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(10, 6), sharex=True)
@@ -242,6 +242,8 @@ for i, kage in enumerate(["kage14", "kage17"]):
     ds_daily.confidence.sel(keypoints="bodycenter").plot.line(ax=axes[i])
     axes[i].set_title(f"{kage} body center")
 ```
+
+:::
 
 :::
 
@@ -298,7 +300,7 @@ _Hint_: Look up the `rolling_filter` function in the `movement.filtering` module
 
 ::: {.content-visible when-profile="answers"}
 
-### Solutions: Exercise B
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
 ```{python}
 window_size = 3  # frames
@@ -310,6 +312,8 @@ for kage, ds in ds_kages.items():
         statistic="median",
     )
 ```
+
+:::
 
 :::
 
@@ -368,7 +372,7 @@ for i, kage in enumerate(["kage14", "kage17"]):
 plt.show()
 ```
 
-::: {.callout-tip title="Exercise C"}
+::: {.callout-tip title="Questions B"}
 
 1. What are potential sources of error in the speed calculation?
 2. What do you notice about the overall speed fluctuations over time? What do you think is the reason for this?
@@ -377,7 +381,7 @@ plt.show()
 
 ::: {.content-visible when-profile="answers"}
 
-### Solutions: Exercise C
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
 _Potential sources of error in speed calculation:_ The accuracy of speed computation is heavily reliant on precise position data. Any inaccuracies in predicting keypoint positions (i.e., the discrepancy between actual and estimated positions) can be exacerbated when calculating speed, as it is derived from the differences between consecutive positions. Additionally, we have assumed a fixed conversion factor of 10 pixels per cm. While this value may be accurate for the habitat's floor, the environment is not entirely flat. It includes objects for climbing, which means the conversion factor will vary depending on the mouse's vertical position (distance from the camera).
 
@@ -406,6 +410,41 @@ plt.show()
 We also note that the circadian pattern is more pronounced in kage14,
 and seems to be somewhat disrupted in kage17. The mouse in kage17
 seems to be more active overall, both during the day and at night.
+:::
+
+:::
+
+::: {.callout-note title="A side-note on 3D pose estimation" collapse="true"}
+
+With only a single top-down view of the mouse, we are limited to 2D pose estimation.
+This means the estimated keypoint coordinates are simply projections of the true 3D coordinates onto the 2D image plane.
+
+This is the most common approach to pose estimation, but it cannot accurately measure true dimensions.
+Any conversion from pixels to physical units (e.g. centimetres) will be imprecise, and sometimes significantly so.
+
+This limitation can be overcome by using multiple cameras from different viewpoints and performing 3D pose estimation.
+There are two main markerless approaches:
+
+1. The first approach is to do 'regular' 2D pose estimation in each camera view,
+   then triangulate across camera views to estimate 3D pose. The triangulation
+   relies on known parameters about the cameras and their relative positions
+   and orientations. [Anipose](https://anipose.readthedocs.io/en/latest/)
+   [@karashchuk_anipose_2021-1] is a popular open-source toolkit that
+   implements this approach.
+
+   ![Source: @pereira_quantifying_2020](img/pose_estimation_3d.png)
+
+2. The second approach, implemented in [DANNCE](https://github.com/spoonsso/dannce)
+   [@dunn_geometric_2021], is to use a fully 3D convolutional neural network (CNN) that
+   can learn about 3D image features and how cameras and landmarks
+   relate to one another in 3D space.
+
+   ![Source: <https://github.com/spoonsso/dannce>](img/DANNCE.png)
+
+Some __prompts for discussion__:
+
+- What are the pros and cons of 2D vs 3D markerless pose estimation?
+- In which scenarios would you prefer one over the other?
 
 :::
 
@@ -529,7 +568,7 @@ plt.show()
 
 ```
 
-::: {.callout-tip title="Exercise D"}
+::: {.callout-tip title="Exercise C"}
 
 1. How would you describe the observed differences between the two mice?
 2. Please quantify the mean +/- standard deviation of the activity levels during the light and dark periods, for each mouse.
@@ -540,7 +579,7 @@ _Hint_: Start with the `actogram_dict` dictionary defined within the plot code.
 
 ::: {.content-visible when-profile="answers"}
 
-### Solutions: Exercise D
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
 The mouse in kage17 show higher overall activity levels, stays constantly
 active during dark periods and also exhibits many activity bursts during the day
@@ -585,6 +624,8 @@ for kage, actogram in actogram_dict.items():
         f"{dark_mean:.2f} ± {dark_std:.2f}\n"
     )
 ```
+
+:::
 
 :::
 
