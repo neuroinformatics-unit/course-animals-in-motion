@@ -12,20 +12,20 @@ This approach is simpler and faster to train and run.
 
 ![](img/SLEAP/part_grouping.png){fig-align="center" width=80%}
 
-**Multi-animal pose estimation** aims to detect and track multiple animals simultaneously within the same frame. 
+**Multi-animal pose estimation** aims to detect and track multiple animals simultaneously within the same frame.
 This is essential for studying social behaviours, group dynamics, or any scenario where animals interact, as it addresses the unique challenges of assigning detections reliably to individuals both within an image (part-grouping problem) and across frames (identity-tracking problem).
 
 ## Top-down vs bottom-up approaches
 
-For multi-animal pose estimation, SLEAP offers both top-down and bottom-up approaches. 
+For multi-animal pose estimation, SLEAP offers both top-down and bottom-up approaches.
 
 ![](img/SLEAP/pose_estimation_topdown.png){width=100%}
 
-**Top-down approaches** use **two models** in sequence. 
+**Top-down approaches** use **two models** in sequence.
 First, an anchor detection model (e.g. a centroid model) locates each animal in the frame.
 Then, for each detected animal, a pose estimation model processes an anchor-centred crop to predict confidence maps for the body parts of the centred animal.
 
-This approach typically yields more accurate pose estimates and is well-suited to datasets with few animals. 
+This approach typically yields more accurate pose estimates and is well-suited to datasets with few animals.
 As the second stage of the network runs once per animal, inference speed scales linearly with the number of animals.
 
 ![](img/SLEAP/pose_estimation_bottomup.png){width=100%}
@@ -39,15 +39,15 @@ Due to their single-stage construction, bottom-up models scale efficiently with 
 
 To address the problem of maintaining animal identities across frames, SLEAP implements two main classes of techniques: temporal-based and appearance-based cues.
 
-**Temporal-based tracking** uses optical flow to estimate the displacement of poses across frames, associating past poses with new ones. 
-This method does not require model training, meaning users can perform tracking without additional labelling of consecutive frames, making it suitable for visually hard-to-distinguish animals. 
+**Temporal-based tracking** uses optical flow to estimate the displacement of poses across frames, associating past poses with new ones.
+This method does not require model training, meaning users can perform tracking without additional labelling of consecutive frames, making it suitable for visually hard-to-distinguish animals.
 However, a significant drawback is that errors, such as identity switches, propagate over time, making it less suitable for very long videos or real-time applications that cannot be proofread.
 
-**Appearance-based tracking (ID models)** relies purely on appearance-based features to simultaneously assign identities while detecting and grouping landmarks, thereby addressing the issue of error propagation from temporal models. 
+**Appearance-based tracking (ID models)** relies purely on appearance-based features to simultaneously assign identities while detecting and grouping landmarks, thereby addressing the issue of error propagation from temporal models.
 It does, however, require animals with sufficiently distinctive appearance cues so that they can be manually identified during labelling.
 
 - **Top-down ID models** modify the centred-instance network to additionally predict class probabilities for each animal-centred crop.
-- **Bottom-up ID models** replace PAFs with multi-class segmentation maps, where masks for body parts are collapsed into distinct channels for each unique animal class ID. Grouping is implicit in the ID assignment. 
+- **Bottom-up ID models** replace PAFs with multi-class segmentation maps, where masks for body parts are collapsed into distinct channels for each unique animal class ID. Grouping is implicit in the ID assignment.
 
 ## Resident&ndash;intruder assay
 
@@ -95,7 +95,7 @@ sleap-label
 ```
 
 Add a video by navigating to the "Videos" panel and clicking on "Add Videos" (or go to "File" then "Add Videos").
-Since the video is in greyscale, enable the "Grayscale" option in the video import dialogue. 
+Since the video is in greyscale, enable the "Grayscale" option in the video import dialogue.
 This ensures SLEAP processes the input as a single-channel image, which can improve performance and reduce memory usage for greyscale videos.
 Further details can be found in [SLEAP's Creating a project guide](https://sleap.ai/tutorials/new-project.html).
 
@@ -147,11 +147,11 @@ To add an instance, click on "Labels" then "Add Instance" in the top menu bar.
 The initial instance will have its nodes placed randomly.
 Adjust each point to its correct location by dragging it with the mouse.
 
-We will also assign identities to each instance by adding a `Track`. 
+We will also assign identities to each instance by adding a `Track`.
 To do this, select an instance and click on "Tracks" then "Set Instance Track" in the top menu bar.
-A new `Track` ("Track 1") will be created. 
+A new `Track` ("Track 1") will be created.
 `Tracks` can be renamed in the "Track" column.
-In this example, we will name the black mouse `resident_b` and the white mouse `intruder_w`. 
+In this example, we will name the black mouse `resident_b` and the white mouse `intruder_w`.
 
 ![](img/SLEAP/4_label_frames.png){width=100%}
 
