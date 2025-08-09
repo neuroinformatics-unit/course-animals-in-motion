@@ -1,6 +1,649 @@
 # Analysing tracks with movement {#sec-movement-intro}
 
-In this tutorial, we will first introduce the `movement` package
-by walking through parts of its [documentation](https://movement.neuroinformatics.dev/).
+In this tutorial, we will introduce the `movement` package
+and walk through parts of its [documentation](https://movement.neuroinformatics.dev/).
 
-After that you will be given a set of tasks to complete—using `movement` to analyse the pose tracks you've generated in @sec-sleap.
+You will be given a set of exercises to complete—using `movement` to analyse the pose tracks you've generated in @sec-sleap or any other tracking data you may have access to.
+
+::: {.callout-note title="Using the right environment"}
+
+If you are following along this chapter on your own computer,
+make sure to run all code snippets with the `animals-in-motion-env` environment activated
+(see [prerequisites @sec-install-movement]). This also applies to launching the
+`movement` graphical user interface (@sec-movement-gui) and running
+`movement` examples as Jupyter notebooks (@sec-movement-filtering and @sec-movement-kinematics).
+
+:::
+
+```{python}
+#| include: false
+import xarray as xr
+
+xr.set_options(
+    display_expand_attrs=False,
+    display_expand_coords=False,
+    keep_attrs=True,
+)
+```
+
+## What is movement?
+
+In [chapters @sec-intro] and [-@sec-dl-cv] we saw how the rise of deep learning-based markerless motion tracking tools is transforming the study of animal behaviour.
+
+In [@sec-sleap] we dove deeper into [SLEAP](https://sleap.ai/), a popular package for pose estimation and tracking.
+We saw how SLEAP and similar tools—like
+[DeepLabCut](https://www.mackenziemathislab.org/deeplabcut) and [LightningPose](https://lightning-pose.readthedocs.io/en/latest/)—detect the positions of user-defined keypoints in video frames,
+group the keypoints into poses, and connect their identities across time into sequential collections we call pose tracks.
+
+The extraction of pose tracks is often just the beginning of the analysis.
+Researchers use these tracks to investigate various aspects of animal behaviour, such as kinematics, spatial navigation, social interactions, etc.
+Typically, these analyses involve custom, project-specific scripts that are hard to reuse across different projects and are rarely maintained after the project's conclusion.
+
+In response to these challenges, we saw the need for a versatile and easy-to-use toolbox that is compatible with a range of ML-based motion tracking frameworks and supports interactive data exploration and analysis.
+That's where `movement` comes in.
+We started building in early 2023 to answer the question: __what can I do now with these tracks?__
+
+::: {.callout-note title="movement's mission"}
+
+`movement`aims to facilitate the study of animal behaviour
+by providing a consistent, modular interface for analysing motion tracks,
+enabling steps such as data cleaning, visualisation, and motion quantification.
+
+See [movement's mission and scope statement](https://movement.neuroinformatics.dev/community/mission-scope.html) for more details.
+
+:::
+
+![Overview of the `movement` package](img/movement_overview.png){#fig-movement-overview}
+
+## A unified interface for motion tracks
+
+`movement` aims to support all popular animal tracking frameworks and file formats,
+in 2D and 3D, tracking single or multiple animals of any species.
+
+To achieve this level of versatility, we had to identify what's common across the outputs of motion tracking tools
+and how we can represent them in a standardised way.
+
+What we came up with takes the form of collections of multi-dimensional arrays—an `xarray.Dataset` object.
+Each array within a dataset is an `xarray.DataArray` object holding different aspects of the collected data (position, time, confidence scores…).
+You can think of an `xarray.DataArray` as a multi-dimensional `numpy.ndarray` with pandas-style indexing and labelling.
+
+This may sound complicated but fear not, we'll build some understanding by exploring some example datasets
+that are included in the `movement` package.
+
+```{python}
+from movement import sample_data
+```
+
+### Poses datasets {#sec-movement-ds-poses}
+
+First, let's see how `movement` represents pose tracks, like the ones we get with SLEAP.
+
+![The structure of a `movement` poses dataset](img/movement_poses_dataset_card.png){#fig-movement-ds-poses}
+
+Let's load an example dataset and explore its contents.
+
+```{python}
+poses_ds = sample_data.fetch_dataset("SLEAP_two-mice_octagon.analysis.h5")
+poses_ds
+```
+
+### Bounding boxes datasets
+
+`movement` also supports datasets that consist of bounding boxes, like the ones
+we would get if we performed object detection on a video, followed by
+tracking identities across time.
+
+![The structure of a `movement` bounding boxes dataset](img/movement_bboxes_dataset_card.png){#fig-movement-ds-bboxes}
+
+```{python}
+bboxes_ds = sample_data.fetch_dataset("VIA_single-crab_MOCA-crab-1_linear-interp.csv")
+bboxes_ds
+```
+
+::: {.callout-tip title="Discuss"}
+
+- What are some limitations of `movement`'s approach? What kinds of data cannot be accommodated?
+- Can you think of alternative ways of representing these data?
+
+See the [documentation on movement datasets](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html) for more details
+on `movement` data structures.
+:::
+
+### Working with xarray objects
+
+Since `movement` represents motion tracking data as `xarray` objects, we can use all of `xarray`'s intuitive interface and rich
+[built-in functionalities](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html#using-xarrays-built-in-functionality)
+for data manipulation and analysis.
+
+Accessing data variables and attributes (metadata) is straightforward:
+
+```{python}
+print(f"Source software: {poses_ds.source_software}")
+print(f"Frames per second: {poses_ds.fps}")
+
+poses_ds.position
+```
+
+We can select a subset of data along any dimension in a variety of ways:
+by integer index (order) or coordinate label.
+
+```{python}
+# First individual, first time point
+poses_ds.position.isel(individuals=0, time=0)
+
+# 0-10 seconds, two specific keypoints
+poses_ds.position.sel(time=slice(0, 10), keypoints=["EarLeft", "EarRight"])
+```
+
+We can also do all sorts of [computations](https://docs.xarray.dev/en/stable/user-guide/computation.html)
+on the data, along any dimension.
+
+```{python}
+# Each point's median confidence score across time
+poses_ds.confidence.median(dim="time")
+
+# Take the block mean for every 10 frames.
+poses_ds.position.coarsen(time=10, boundary="trim").mean()
+```
+
+`xarray` also provides a rich set of built-in [plotting methods](https://docs.xarray.dev/en/stable/user-guide/plotting.html)
+for visualising the data.
+
+```{python}
+#| label: fig-plot-tail-base-pos
+#| fig-cap: "The x,y spatial coordinates of the TailBase keypoint across time"
+
+from matplotlib import pyplot as plt
+
+tail_base_pos = poses_ds.sel(keypoints="TailBase").position
+tail_base_pos.plot.line(
+    x="time", row="individuals", hue="space", aspect=2, size=2.5
+)
+plt.show()
+```
+
+You can also combine those with `matplotlib` figures.
+
+```{python}
+#| label: fig-plot-confidence-histograms
+#| fig-cap: "Confidence histograms per keypoint"
+
+colors = plt.cm.tab10.colors
+
+fig, ax = plt.subplots()
+for kp, color in zip(poses_ds.keypoints, colors):
+    data = poses_ds.confidence.sel(keypoints=kp)
+    data.plot.hist(
+        bins=50, histtype="step", density=True, ax=ax, color=color, label=kp
+    )
+ax.set_ylabel("Density")
+ax.set_title("Confidence histograms per keypoint")
+plt.legend()
+plt.show()
+```
+
+You may also want to export date to structures you may be more familiar with,
+such as
+[Pandas DataFrames](https://docs.xarray.dev/en/stable/user-guide/pandas.html)
+or [NumPy arrays](https://docs.xarray.dev/en/stable/user-guide/duckarrays.html).
+
+Export the position data array as a pandas DataFrame:
+
+```{python}
+position_df = poses_ds.position.to_dataframe(
+    dim_order=["time", "individuals", "keypoints", "space"]
+)
+position_df.head()
+```
+
+Export data variables or coordinates as numpy arrays:
+
+```{python}
+position_array = poses_ds.position.values
+print(f"Position array shape: {position_array.shape}")
+
+time_array = poses_ds.time.values
+print(f"Time array shape: {time_array.shape}")
+```
+
+For saving datasets to disk, we recommend leveraging `xarray`'s built-in
+[support for the netCDF file format](https://docs.xarray.dev/en/stable/user-guide/io.html#netcdf).
+
+```{.python}
+import xarray as xr
+
+# To save a dataset to disk
+poses_ds.to_netcdf("poses_ds.nc")
+
+# To load the dataset back from memory
+poses_ds = xr.open_dataset("poses_ds.nc")
+```
+
+## Load and explore data {#sec-movement-load}
+
+As stated above, our goal with `movement` is to enable pipelines that are input-agnostic,
+meaning they are not tied to a specific motion tracking tool or data format.
+Therefore, `movement` offers input/output functions that facilitate data flows
+between various motion tracking frameworks and `movement`'s own `xarray` data structure.
+
+Please refer to the [Input/Output section](https://movement.neuroinformatics.dev/user_guide/input_output.html)
+of the `movement` documentation for more details, including a full list of
+supported formats.
+
+::: {.callout-tip title="Exercise A"}
+
+1. Load the predictions you generated in @sec-sleap into a `movement` dataset. Feel free to use the `CalMS21/mouse044_task1_annotator1.slp` file that you can load from Dropbox (refer to [prerequisites @sec-data]).
+2. Compute the overall minimum and maximum x,y positions.
+3. Select a narrow time window (e.g. 10 seconds) and plot the x, y positions of a certain keypoint across time.
+4. Plot the centroid trajectory of a given individual across time.
+
+__Bonus:__ Overlay the centroid trajectory (task 4) on top of a frame extracted from the video.
+You may find inspiration in the ["Pupil tracking" example](https://movement.neuroinformatics.dev/examples/mouse_eye_movements.html).
+
+Useful resources:
+
+- [Input/Output guide](https://movement.neuroinformatics.dev/user_guide/input_output.html)
+- [The "Load and explore pose tracks" example](https://movement.neuroinformatics.dev/examples/load_and_explore_poses.html)
+- [`plot_centroid_trajectory()` function](https://movement.neuroinformatics.dev/api/movement.plots.plot_centroid_trajectory.html)
+
+:::
+
+::: {.content-visible when-profile="answers"}
+
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+
+Loading pose tracks from a file:
+
+```{python}
+from pathlib import Path
+from movement.io import load_poses
+
+file_name = "mouse044_task1_annotator1.slp"
+file_path = Path.home() / ".movement" / "CalMS21" / file_name
+
+ds = load_poses.from_file(file_path, source_software="SLEAP", fps=30)
+ds
+```
+
+Computing the minimum and maximum x,y positions:
+
+```{python}
+for space_coord in ["x", "y"]:
+    min_pos = ds.position.sel(space=space_coord).min().values
+    max_pos = ds.position.sel(space=space_coord).max().values
+    print(f"Min-Max {space_coord} positions: {min_pos:.2f}-{max_pos:.2f}")
+```
+
+Plotting the x,y positions of a certain keypoint across time, within a narrow time window:
+
+```{python}
+ds.position.sel(keypoints="tail_base", time=slice(0, 10)).plot.line(
+    x="time", row="individuals", hue="space", aspect=2, size=2.5
+)
+```
+
+Plotting the centroid trajectory:
+
+```{python}
+from movement.plots import plot_centroid_trajectory
+
+fig, ax = plt.subplots(figsize=(8, 4))
+plot_centroid_trajectory(ds.position, individual="resident_b", ax=ax)
+plt.show()
+```
+
+As a __bonus__, we can also overlay that trajectory on top of a video frame.
+
+```{python}
+import sleap_io as sio
+
+
+video_path = Path.home() / ".movement" / "CalMS21" / "mouse044_task1_annotator1.mp4"
+video = sio.load_video(video_path)
+
+n_frames, height, width, channels = video.shape
+print(f"Number of frames: {n_frames}")
+print(f"Frame size: {width}x{height}")
+print(f"Number of channels: {channels}\n")
+
+# Extract the first frame to use as background
+background = video[0]
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+# Plot the first video frame
+ax.imshow(background, cmap="gray")
+
+# Plot the centroid trajectory
+plot_centroid_trajectory(
+    ds.position, individual="resident_b", ax=ax, alpha=0.75, s=5,
+)
+
+plt.show()
+```
+
+:::
+
+:::
+
+## Visualise motion tracks interactively {#sec-movement-gui}
+
+The `movement` [graphical user interface (GUI)](https://movement.neuroinformatics.dev/user_guide/gui.html),
+powered by our custom plugin for [napari](https://napari.org/dev/),
+makes it easy to view and explore motion tracks.
+Currently, you can use it to visualise 2D `movement` datasets as points, tracks,
+and rectangular bounding boxes (if defined) overlaid on video frames.
+
+We'll first demonstrate how the GUI works by using it to explore the
+`CalMS21` dataset and some of the
+[sample data](https://movement.neuroinformatics.dev/user_guide/input_output.html#sample-data)
+we can fetch with `movement`.
+
+![Data from the CalMS21 dataset viewed via the `movement` plugin for `napari`](img/napari_calms21_screenshot.png){#fig-napari-calms21}
+
+After that you are free to play with the GUI on your own.
+You may try to explore the predictions you generated in @sec-sleap,
+or any other tracking data you have at hand and is supported by `movement`.
+
+Consult the [GUI user guide](https://movement.neuroinformatics.dev/user_guide/gui.html)
+in the `movement` documentation for more details.
+
+::: {.callout-warning title="Troubleshooting video loading in napari" collapse="true"}
+
+If you are getting errors when trying to drag-and-drop a video file into `napari`,
+run `movement info` in your terminal and check the output.
+If you see `napari: 0.6.3` (or newer), you'll need to
+remove the current `conda` environment and create a new one following the
+[prerequisites @sec-install-movement]. If you had cloned the repository
+at a prior time, make sure to run `git pull` to fetch the
+most up-to-date version of the`environment.yaml` file.
+
+This incompatibility will be patched in a future release of `movement`.
+:::
+
+::: {.callout-tip title="Discuss"}
+
+- Did you spot any errors in the data you've explored?
+- What kinds of errors do you expect in pose tracks?
+- What are some common sources of errors?
+- How can such errors be avoided or corrected?
+
+:::
+
+## Clean motion tracks {#sec-movement-filtering}
+
+In this section, we will walk through the tools `movement` offers for dealing with errors in motion tracking.
+These tools are implemented in the
+[`movement.filtering`](https://movement.neuroinformatics.dev/api/movement.filtering.html)
+module and include functions for:
+
+- identifying and removing outliers
+- interpolating missing data
+- smoothing trajectories over time
+
+We will go through two notebooks from `movement`'s
+[example gallery](https://movement.neuroinformatics.dev/examples/index.html):
+
+- [Drop outliers and interpolate](https://movement.neuroinformatics.dev/examples/filter_and_interpolate.html)
+- [Smooth pose tracks](https://movement.neuroinformatics.dev/examples/smooth.html)
+
+To run these examples as interactive Jupyter notebooks, you can go to end
+of each example and either:
+
+- Click the __Download Jupyter Notebook__ button and open the `.ipynb` file in your code editor of choice (recommended)
+- Click the __launch binder__ button and run the notebook in your browser
+
+::: {.callout-tip title="Exercise B"}
+
+For this exercise you may continue working with the dataset you used
+to solve Exercise A in @sec-movement-load, or load another one.
+You should store each intermediate output as a data variable
+within the same dataset.
+
+1. Drop position values that are below a certain confidence threshold.
+2. Smooth the data across time using rolling median filter.
+3. Interpolate missing values across time.
+4. Save the dataset, including the processed position data, to a netCDF file.
+
+Refer to the [filtering module documentation](https://movement.neuroinformatics.dev/api/movement.filtering.html)
+and to the example we went through above.
+
+Each filtering step involves selecting one or more parameters.
+We encourage you to experiment with different parameters values and
+inspect their effects by plotting the data.
+
+:::
+
+::: {.content-visible when-profile="answers"}
+
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+
+We will work with the same "SLEAP_two-mice_octagon.analysis.h5"
+dataset we loaded in @sec-movement-ds-poses.
+
+```{python}
+ds_oct = sample_data.fetch_dataset("SLEAP_two-mice_octagon.analysis.h5")
+ds_oct
+```
+
+Consulting @fig-plot-confidence-histograms, we decide on a confidence threshold of 0.8.
+This decision is always somewhat arbitrary, and confidence scores are not usually
+comparable across different tracking tools and datasets.
+
+We can now drop the position values that are below the threshold:
+
+```{python}
+from movement.filtering import (
+    filter_by_confidence,
+    rolling_filter,
+    interpolate_over_time,
+)
+
+confidence_threshold = 0.8
+
+ds_oct["position_filtered"] = filter_by_confidence(
+    ds_oct.position,
+    ds_oct.confidence,
+    threshold=confidence_threshold,
+    print_report=True
+)
+```
+
+Smoothing the data with a rolling median filter:
+
+```{python}
+ds_oct["position_smoothed"] = rolling_filter(
+    ds_oct.position_filtered,
+    window=5,
+    statistic="median",
+    min_periods=2,
+    print_report=True
+)
+```
+
+Interpolating missing values across time:
+
+```{python}
+ds_oct["position_interpolated"] = interpolate_over_time(
+    ds_oct.position_smoothed,
+    method="linear",
+    max_gap=10,
+    print_report=True
+)
+```
+
+The dataset now contains all intermediate processing steps.
+
+```{python}
+ds_oct
+```
+
+We can even inspect the log of the final position data array:
+
+```{python}
+print(ds_oct.position_interpolated.log)
+```
+
+Let's pick a keypoint and plot its position across time for every
+processing step. To make the plotting a bit easier, we'll
+stack the four position data arrays across a new dimension called `step`.
+
+```{python}
+position_all_steps = xr.concat(
+    [
+        ds_oct.position,
+        ds_oct.position_filtered,
+        ds_oct.position_smoothed,
+        ds_oct.position_interpolated
+    ],
+    dim="step"
+).assign_coords(step=["original", "filtered", "smoothed", "interpolated"])
+
+position_all_steps
+```
+
+Let's plot the position of the EarLeft keypoint across time for every step.
+
+```{python}
+position_all_steps.sel(individuals="1", keypoints="EarLeft").plot.line(
+    x="time", row="step", hue="space", aspect=2, size=2.5
+)
+plt.show()
+```
+
+:::
+
+:::
+
+## Quantify motion {#sec-movement-kinematics}
+
+In this section, we will familiarise ourselves with the
+[`movement.kinematics`](https://movement.neuroinformatics.dev/api/movement.kinematics.html)
+module, which provides functions for deriving various useful quantities
+from motion tracks, such as velocity, acceleration, distances, orientations, and angles.
+
+As in the previous section, we will go through a specific example from `movement`'s
+[example gallery](https://movement.neuroinformatics.dev/examples/index.html):
+
+- [Compute and visualise kinematics](https://movement.neuroinformatics.dev/examples/compute_kinematics.html)
+
+You can run this notebook interactively in the same way as in @sec-movement-filtering.
+
+::: {.callout-tip title="Exercise C"}
+
+For this exercise you may continue working with the dataset you used
+to solve Exercise B in @sec-movement-filtering. In fact, you
+can use the fully processed position data as your starting point.
+
+1. Take the mean position across keypoints (each individual's centroid).
+2. Compute and plot the centroid speed across time.
+3. Compute the distance travelled by each individual within a certain time window.
+4. Compute the distance between two individuals (or between two keypoints)
+and plot it across time.
+
+Refer to the [kinematics module documentation](https://movement.neuroinformatics.dev/api/movement.kinematics.html)
+and to the example we went through above.
+
+:::
+
+::: {.content-visible when-profile="answers"}
+
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+
+We will continue working with the `ds_oct` from the previous exercise,
+using the `position_interpolated` data variable as our starting point.
+
+Let's first import the functions we will use:
+
+```{python}
+from movement.kinematics import (
+    compute_speed,
+    compute_path_length,
+    compute_pairwise_distances,
+)
+```
+
+To compute the centroid position and speed:
+
+```{python}
+ds_oct["centroid_position"] = ds_oct.position_interpolated.mean(dim="keypoints")
+ds_oct["centroid_speed"] = compute_speed(ds_oct.centroid_position)
+
+ds_oct.centroid_speed
+```
+
+To plot it across time:
+
+```{python}
+ds_oct.centroid_speed.plot.line(x="time", row="individuals", aspect=2, size=2.5)
+plt.show()
+```
+
+To compute the distance travelled by each individual within a certain time window:
+
+```{python}
+ds_oct["path_length"] = compute_path_length(
+    ds_oct.centroid_position.sel(time=slice(50, 100))
+)
+
+ds_oct.path_length
+```
+
+We will compute the distance between the centroids of the two individuals and plot it across time:
+
+```{python}
+ds_oct["inter_individual_distance"] = compute_pairwise_distances(
+    ds_oct.centroid_position,
+    dim="individuals",
+    pairs={"1": "2"}
+)
+
+ds_oct.inter_individual_distance
+```
+
+To plot the inter-individual distance across time:
+
+```{python}
+ds_oct.inter_individual_distance.plot.line(x="time", aspect=2, size=2.5)
+plt.show()
+```
+
+:::
+
+:::
+
+If you wish to learn more about quantifying motion with `movement`,
+including things we didn't cover here, the following example notebooks
+are good follow-ups:
+
+- [Compute head direction](https://movement.neuroinformatics.dev/examples/compute_head_direction.html): a good place to learn about orientations and angles
+- [Pupil tracking](https://movement.neuroinformatics.dev/examples/mouse_eye_movements.html): an interesting application of kinematics to analyse mouse eye movements
+
+The following two chapters—[@sec-movement-mouse] and [@sec-movement-zebras]—constitute
+case studies in which we apply `movement` to some real-world datasets.
+The two case studies represent quite different applications:
+
+- [@sec-movement-mouse]: continuous home cage monitoring data tracking mice for months
+- [@sec-movement-zebras]: collective escape events in a herd of zebras, recorded via a drone
+
+## Join the movement {#sec-movement-next}
+
+This chapter does not represent a full list of `movement`'s current and future capabilities.
+The package will continue to evolve as it's being actively developed by a core team of engineers
+(aka the authors of this book) supported by a growing, global
+[community of contributors](https://movement.neuroinformatics.dev/community/people.html).
+
+We are committed to openness and transparency and always welcome feedback and contributions from the community,
+especially from practicing animal behaviour researchers, to shape the project's direction.
+
+Visit the [movement community page](https://movement.neuroinformatics.dev/community)
+to find about ways to get help and get involved.
+
+::: {.callout-tip title="Discuss"}
+
+- What do you think of the `movement` package? What aspects of it could be improved?
+- What is currently missing? What types of analyses would you like for `movement` to support?
+
+If you have ideas, tell us about them on Zulip, open an issue on GitHub, or suggest a project for the hackday!
+
+:::
