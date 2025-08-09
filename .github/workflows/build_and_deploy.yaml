@@ -160,9 +160,11 @@ jobs:
             echo "is_release=true" >> $GITHUB_OUTPUT
             echo "version=${VERSION}" >> $GITHUB_OUTPUT
             echo "destination_dir=${VERSION}" >> $GITHUB_OUTPUT
+            echo "destination_dir_answers=${VERSION}-answers" >> $GITHUB_OUTPUT
           else
             echo "is_release=false" >> $GITHUB_OUTPUT
             echo "destination_dir=dev" >> $GITHUB_OUTPUT
+            echo "destination_dir_answers=dev" >> $GITHUB_OUTPUT
             echo "version=${{ github.sha }}" >> $GITHUB_OUTPUT
           fi
       
@@ -177,7 +179,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: answers-artifact/book/_book-answers
-          destination_dir: ${{ steps.context.outputs.destination_dir }}-answers
+          destination_dir: ${{ steps.context.outputs.destination_dir_answers }}
       
       # Default (no answers) version is only deployed for release tags
       - name: Download book with default profile artifact

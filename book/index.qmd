@@ -28,9 +28,9 @@ To view other versions, replace `latest` in the URL with one of the following ve
 
 | Version | Description |
 |---------|-------------|
-| `dev` | development version, corresponding to the `main` branch |
-| `v2025.08a2` | alpha version for the 2025.08 release |
-| `v2025.08a2-answers` | same as `v2025.08a2` but with answers to exercises |
+| [dev](https://animals-in-motion.neuroinformatics.dev/dev/) | development version, corresponding to the `main` branch |
+| [v2025.08a2](https://animals-in-motion.neuroinformatics.dev/v2025.08a2/) | alpha version for the `2025.08` release |
+| [v2025.08a2-answers](https://animals-in-motion.neuroinformatics.dev/v2025.08a2-answers/) | same as `v2025.08a2` but with answers to exercises |
 
 ## Funding & acknowledgements
 
