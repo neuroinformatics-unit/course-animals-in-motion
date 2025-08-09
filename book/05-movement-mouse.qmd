@@ -441,7 +441,7 @@ There are two main markerless approaches:
    [@karashchuk_anipose_2021-1] is a popular open-source toolkit that
    implements this approach.
 
-   ![Source: @pereira_quantifying_2020](img/pose_estimation_3d.png)
+   ![Source: @pereira_quantifying_2020](img/pose_estimation_3D.png)
 
 2. The second approach, implemented in [DANNCE](https://github.com/spoonsso/dannce)
    [@dunn_geometric_2021], is to use a fully 3D convolutional neural network (CNN) that
