@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Appendix B — Contributing – Animals In Motion</title>
+<title>Appendix B — Contributing – Animals In Motion (with answers)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-0c3bcbc87fc028602a332f81a1482d7d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-540fbd43b50a879bb55c430ca1f86494.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cbbefa34974e1532adf8de0ba5f91d09.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-4b57fe1962c23d29ffe4e9afe7e356a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -136,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Animals In Motion</a> 
+      <a href="./">Animals In Motion (with answers)</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/neuroinformatics-unit/animals-in-motion/tree/main/book/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
@@ -305,11 +305,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>To add answers to code exercises, please enclose them in a block of the following form:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span> {.content-visible when-profile=<span class="st">"answers"</span>}</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">### Solutions: Exercise A</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span> {.callout-tip title=<span class="st">"Click to reveal the answers"</span> collapse=<span class="st">"true"</span>}</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Write</span> your solution here.</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then you can control whether the answers are shown or not by passing the appropriate Quarto profile to the <code>quarto render</code> command:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> default  <span class="co"># equivalent to no profile</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> answers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -336,8 +338,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sec-versioning" class="level2" data-number="B.4">
 <h2 data-number="B.4" class="anchored" data-anchor-id="sec-versioning"><span class="header-section-number">B.4</span> Versioning and releasing</h2>
 <p>We use <a href="https://calver.org/">Calendar Versioning (CalVer)</a> and specifically the <code>YYYY.0M</code> scheme (e.g.&nbsp;<code>2025.08</code> for August 2025).</p>
-<p>To create a new release, first update the <code>book/index.qmd</code> file. Specifically, add a row like the following to the “Versions” table:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`2025.08`</span> <span class="pp">|</span> Version used for the inaugural workshop in August 2025 <span class="pp">|</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To create a new release, first update the <code>book/index.qmd</code> file. Specifically, add two rows like the following to the “Versions” table:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`2025.08`</span> <span class="pp">|</span> version used for the inaugural workshop in August 2025 <span class="pp">|</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`v2025.08-answers`</span> <span class="pp">|</span> same as <span class="in">`v2025.08`</span> but with answers to exercises <span class="pp">|</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You also need to create a new tag in the <code>vYYYY.0M</code> format (e.g.&nbsp;<code>v2025.08</code>) and push it to the repository. Don’t forget the <code>v</code> prefix for the tag name!</p>
 <p>For example:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v2025.08</span>
@@ -349,17 +352,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Pushes to the <code>main</code> branch</li>
 <li>Pull requests</li>
-<li>Releases, i.e.&nbsp;tags starting with <code>v</code> (e.g., <code>v2025.08</code> or <code>v2025.08-answers</code>)</li>
+<li>Releases, i.e.&nbsp;tags starting with <code>v</code> (e.g., <code>v2025.08</code>)</li>
 <li>Manual dispatches</li>
 </ul>
 <p>The workflow is built using <a href="https://docs.github.com/en/actions">GitHub actions</a> and includes three jobs:</p>
 <ul>
-<li><strong>linting</strong>: running the <a href="#pre-commit-hooks">pre-commit hooks</a></li>
-<li><strong>build</strong>: rendering the Quarto book with and without answers, and uploading the rendered artifacts</li>
-<li><strong>deploy</strong>: deploying the book artifact(s) to the <code>gh-pages</code> branch (only for pushes to the <code>main</code> branch and releases)</li>
+<li><strong>linting</strong>: running the <a href="#pre-commit-hooks">pre-commit hooks</a>;</li>
+<li><strong>build</strong>: rendering the Quarto book with and without answers, and uploading the rendered artifacts;</li>
+<li><strong>deploy</strong>: deploying the book artifact(s) to the <code>gh-pages</code> branch (only for pushes to the <code>main</code> branch and releases).</li>
 </ul>
-<p>Each release version is deployed to a folder in the <code>gh-pages</code> branch, with the same name as the release tag (e.g., <code>v2025.08</code>). This is accompanied by a <code>vYYYY.0M-answers</code> folder containing a version of the book with answers to exercises.</p>
-<p>There’s also a special folder called <code>dev</code> that is deployed for pushes to the <code>main</code> branch.</p>
+<p>Each release version is deployed to a folder in the <code>gh-pages</code> branch, with the same name as the release tag (e.g., <code>v2025.08</code>). This is accompanied by a <code>vYYYY.0M-answers</code> folder containing a version of the book with answers to exercises (e.g.&nbsp;<code>v2025.08-answers</code>).</p>
+<p>There’s also a special folder called <code>dev</code> that is deployed for pushes to the <code>main</code> branch. This folder always includes the answers to exercises.</p>
 <section id="previewing-the-book-in-ci" class="level3" data-number="B.5.1">
 <h3 data-number="B.5.1" class="anchored" data-anchor-id="previewing-the-book-in-ci"><span class="header-section-number">B.5.1</span> Previewing the book in CI</h3>
 <p>We use <a href="https://artifact.ci/">artifact.ci</a> to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR. To do so:</p>
@@ -368,7 +371,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Click on the “Build and Deploy Quarto Book” section on the left.</li>
 <li>If the “Build Quarto book” action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.</li>
 <li>Click on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.</li>
-<li>Once the upload is complete, look for <code>book/_book/index.html</code> under the “Detected Entrypoints” section.</li>
+<li>Once the upload is complete, look for <code>book/_book-answers/index.html</code> under the “Detected Entrypoints” section.</li>
 </ol>
 
 
