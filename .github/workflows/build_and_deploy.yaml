@@ -76,7 +76,7 @@ jobs:
         with:
           path: |
             ~/.movement/CalMS21
-          key: calms21-data-v1
+          key: calms21-data-v2
 
       - name: Download Smart-Kages data from Dropbox
         if: steps.cache-smartkages.outputs.cache-hit != 'true'
