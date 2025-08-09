@@ -68,13 +68,13 @@ jobs:
         with:
           path: |
             ~/.movement/Smart-Kages
-          key: smart-kages-data-v2
+          key: smart-kages-data-v4
 
       - name: Download Smart-Kages data from Dropbox
         if: steps.cache-smartkages.outputs.cache-hit != 'true'
         run: |
           mkdir -p ~/.movement
-          curl -L "https://www.dropbox.com/scl/fi/0levhgg6fpclhqos14zgz/Smart-Kages.zip?rlkey=e2x9i0gvxpv00t0ppzkezvp3n&st=nyufmg8u&dl=1" -o ~/.movement/Smart-Kages.zip
+          curl -L "https://www.dropbox.com/scl/fi/iddcyw04kmx3oxjjw6b8o/Smart-Kages.zip?rlkey=45ckr4xg5oc2vl3p1jicg3wlz&st=j7nf5yzr&dl=1" -o ~/.movement/Smart-Kages.zip
           unzip ~/.movement/Smart-Kages.zip -d ~/.movement
           rm ~/.movement/Smart-Kages.zip
           ls -lR ~/.movement/Smart-Kages
