@@ -77,7 +77,7 @@ kages = ["kage14", "kage17"]
 img_paths = [smart_kages_path / f"{kage}_background.png" for kage in kages]
 images = [plt.imread(img_path) for img_path in img_paths]
 
-fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(8, 4))
 
 for i, img in enumerate(images):
     axes[i].imshow(img)
@@ -221,7 +221,7 @@ For each of the two kages:
 ::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
 ```{python}
-fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(10, 6), sharex=True)
+fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(8, 5), sharex=True)
 
 for i, kage in enumerate(["kage14", "kage17"]):
     ds = ds_kages[kage].squeeze()  # remove redundant "individuals" dimension
@@ -238,7 +238,7 @@ plt.show()
 ```
 
 ```{python}
-fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(10, 6), sharex=True)
+fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(8, 5), sharex=True)
 
 for i, kage in enumerate(["kage14", "kage17"]):
     ds = ds_kages[kage].squeeze()
@@ -302,7 +302,7 @@ for kage, ds in ds_kages.items():
 
 Let's smooth the data with a rolling median filter.
 
-_Hint_: Look up the `rolling_filter` function in the `movement.filtering` module.
+**Hint**: Remember doing this in @sec-movement-intro ?
 :::
 
 ::: {.content-visible when-profile="answers"}
@@ -368,7 +368,7 @@ Let's plot the speed over time.
 #| fig-cap: "Body centroid speed"
 
 fig, axes = plt.subplots(
-    nrows=2, ncols=1, figsize=(10, 6), sharex=True, sharey=True
+    nrows=2, ncols=1, figsize=(8, 5), sharex=True, sharey=True
 )
 
 for i, kage in enumerate(["kage14", "kage17"]):
@@ -402,7 +402,7 @@ This will become clearer if we zoom in on a time window of a few days.
 time_window = slice("2024-04-22", "2024-04-26")
 
 fig, axes = plt.subplots(
-    nrows=2, ncols=1, figsize=(10, 6), sharex=True, sharey=True
+    nrows=2, ncols=1, figsize=(8, 5), sharex=True, sharey=True
 )
 
 for i, kage in enumerate(["kage14", "kage17"]):
@@ -450,14 +450,14 @@ There are two main markerless approaches:
 
    ![Source: <https://github.com/spoonsso/dannce>](img/DANNCE.png)
 
-Some __prompts for discussion__:
+Some **prompts for discussion**:
 
 - What are the pros and cons of 2D vs 3D markerless pose estimation?
 - In which scenarios would you prefer one over the other?
 
 :::
 
-## Plot actograms
+## Plot actograms {#sec-actograms}
 
 An actogram is a visualisation of the mouse's activity level over time.
 
@@ -482,7 +482,7 @@ time_bin_minutes = 10
 time_bin_duration = pd.Timedelta(f"{time_bin_minutes}min")
 
 fig, ax = plt.subplots(
-    nrows=2, ncols=1, figsize=(10, 6), sharex=True, sharey=True
+    nrows=2, ncols=1, figsize=(8, 5), sharex=True, sharey=True
 )
 
 activity_dict = {}  # Dictionary to store the activity levels for each kage
@@ -555,7 +555,7 @@ max_activity = max(
 )
 
 fig, axes = plt.subplots(
-    nrows=2, ncols=1, figsize=(10, 10), sharex=True, sharey=True,
+    nrows=2, ncols=1, figsize=(8, 8), sharex=True, sharey=True,
 )
 
 for i, kage in enumerate(["kage14", "kage17"]):
@@ -592,7 +592,7 @@ plt.show()
 2. Compute the mean activity profile (across days) for each mouse.
 3. Plot the mean activity profile for each mouse, with the light cycle marked.
 
-__Hint__: Start with the `actogram_dict` dictionary and also make use of the `lights_off`  and `lights_on` variables defined above.
+**Hint**: Start with the `actogram_dict` dictionary and also make use of the `lights_off`  and `lights_on` variables defined above.
 
 :::
 
@@ -609,7 +609,7 @@ active during dark periods and also exhibits many activity bursts during the day
 #| label: fig-mean-activity-profiles
 #| fig-cap: "Mean daily activity profiles"
 
-fig, ax = plt.subplots(figsize=(10, 4))
+fig, ax = plt.subplots(figsize=(8, 4))
 
 # Mark light cycle
 ax.axvspan(lights_off, lights_on, color="0.8", label="Dark period")
@@ -645,7 +645,7 @@ be interested in which parts of the habitat they tend to frequent.
 #| fig-cap: "Occupancy heatmaps"
 
 fig, axes = plt.subplots(
-    nrows=2, ncols=1, figsize=(8, 8), sharex=True, sharey=True
+    nrows=1, ncols=2, figsize=(8, 4), sharex=True, sharey=True
 )
 
 plt.suptitle("Body centroid occupancy (log scale)")
@@ -739,7 +739,7 @@ heatmaps for each state.
 #| fig-cap: "Occupancy heatmaps (stationary vs active)"
 
 fig, axes = plt.subplots(
-    nrows=2, ncols=2, figsize=(12, 8), sharex=True, sharey=True
+    nrows=2, ncols=2, figsize=(8, 8), sharex=True, sharey=True
 )
 
 plt.suptitle("Body centroid occupancy (log scale)")
@@ -964,7 +964,7 @@ Let's visualise the % of time spent on the running wheel during the light and da
 #| label: fig-roi-occupancy
 #| fig-cap: "Running wheel occupancy during light and dark periods"
 
-fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4), sharex=True, sharey=True)
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(8, 4), sharex=True, sharey=True)
 
 max_occupancy = daily_occupancy.max()
 
@@ -986,5 +986,5 @@ As we would expect, both mice tend to spend more time on the running wheel
 during the dark (active) periods.
 
 Even though the mouse in `kage17` is more active overall, as we saw
-in @fig-mean-activity-profiles, it spends less time on the running wheel
+in @sec-actograms, it spends less time on the running wheel
 compared to the mouse in `kage14`.
