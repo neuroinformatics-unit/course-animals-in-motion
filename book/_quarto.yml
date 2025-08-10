@@ -60,6 +60,7 @@ format:
     theme:
       - cosmo
       - brand
+    highlight-style: atom-one
 
 
 # Options for code execution: https://quarto.org/docs/computations/caching.html
