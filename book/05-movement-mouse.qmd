@@ -600,12 +600,11 @@ plt.show()
 
 ::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
-The mouse in kage17 show higher overall activity levels, stays constantly
+The mouse in kage17 shows higher overall activity levels, stays constantly
 active during dark periods and also exhibits many activity bursts during the day
 (at least more than kage14 does).
 
 ```{python}
-#| code-fold: true
 #| label: fig-mean-activity-profiles
 #| fig-cap: "Mean daily activity profiles"
 
@@ -630,6 +629,18 @@ plt.show()
 ```
 
 :::
+
+:::
+
+::: {.callout-note title="What underlies the differences in activity?" collapse="true"}
+
+The mouse in `kage17` is a genetically modified model of Down Syndrome.
+The syndrome, also known as trisomy 21, is caused in humans by the presence of all or part of a third copy of chromosome 21.
+The mouse in `kage17` is genetically modified with a triplication of mouse chromosome 16,
+which carries about 150 genes homologues to the human chromosome 21.
+
+Loukia is currently investigating why this particular mouse model
+exhibits a "restless" behavioural phenotype.
 
 :::
 
