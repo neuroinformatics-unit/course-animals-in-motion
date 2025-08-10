@@ -7,3 +7,62 @@ However, the variety of available tools can be overwhelming [@luxem_open-source_
 It's often unclear which tool is best suited to a given application, or how to get started.
 We'll provide an overview of the approaches used for quantifying animal behaviour,
 and we'll narrow down into Computer Vision (CV) methods for detecting and tracking animals in videos.
+
+## Useful open-source software tools
+
+::: {.callout-note}
+We've primarily focused on tools that we see applied to animal behaviour data.
+This is by no means a comprehensive list, and the tools are listed in no particular order.
+Some of the tools don't cleanly conform to the taxonomy below and their assignment to a primary category is somewhat subjective.
+
+If you would like to add a tool you built or like to use, please [open an issue](https://github.com/neuroinformatics-unit/course-animals-in-motion/issues) or submit a pull request.
+:::
+
+### Data acquisition
+
+* [Bonsai](https://bonsai-rx.org/) @lopes_bonsai_2015
+
+### Video processing
+
+* [OpenCV](https://opencv.org/) @opencv_library
+* [ffmpeg](https://ffmpeg.org/) @tomar2006converting
+
+### Motion tracking
+
+* [DeepLabCut](http://www.mackenziemathislab.org/deeplabcut) @mathis_deeplabcut_2018 and @lauer_multi-animal_2022
+* [SLEAP](https://sleap.ai/) @pereira_sleap_2022
+* [LightningPose](https://lightning-pose.readthedocs.io/en/latest/) @biderman_lightning_2024
+* [TRex](https://trex.run/) @walter_trex_2021
+* [idtracker.ai](https://idtrackerai.readthedocs.io/en/latest/) @romero-ferrero_idtrackerai_2019
+* [Anipose](https://anipose.readthedocs.io/en/latest/) @karashchuk_anipose_2021
+* [DANNCE](https://github.com/spoonsso/dannce/) @dunn_geometric_2021
+* [DeepPoseKit](https://github.com/jgraving/deepposekit) @graving_deepposekit_2019
+* [FastTrack](https://www.fasttrack.sh/) @gallois_fasttrack_2021
+* [DeepFly3D](https://github.com/NeLy-EPFL/DeepFly3D) @gunel_deepfly3d_2019
+
+### Motion quantification
+
+* [movement](https://github.com/neuroinformatics-unit/movement) @sirmpilatze_movement_2025
+* [animovement](https://roald-arboel.com/animovement/) @roaldarbol_animovement_2024
+* [PyRat](https://github.com/pyratlib/pyrat) @de_almeida_pyrat_2022
+* [DLC2Kinematics](https://github.com/AdaptiveMotorControlLab/DLC2Kinematics)
+* [pyomeca](https://pyomeca.github.io/pyomeca/) @Martinez2020
+* [movingpandas](https://github.com/movingpandas/movingpandas) @graser_movingpandas_2019
+* [scikit-mobility](https://github.com/scikit-mobility/scikit-mobility) @scikit-mobility
+
+### Behaviour segmentation
+
+* [(Keypoint) MoSeq](https://dattalab.github.io/moseq2-website/index.html) @wiltschko_mapping_2015 and @weinreb_keypoint-moseq_2024
+* [VAME](https://ethoml.github.io/VAME/) @luxem_identifying_2022
+* [B-SOiD](https://github.com/YttriLab/B-SOID) @hsu_b-soid_2021
+* [A-SOiD](https://github.com/YttriLab/A-SOID) @schweihoff_-soid_2022
+* [DeepEthogram](https://github.com/jbohnslav/deepethogram) @bohnslav_deepethogram_2021
+* [SimBA](https://simba-uw-tf-dev.readthedocs.io/en/latest/) @goodwin_simple_2024
+* [DeepOF](https://deepof.readthedocs.io/en/latest/) @Miranda2023
+* [LISBET](https://github.com/BelloneLab/lisbet) @chindemi2023lisbet
+* [DLC2action](https://github.com/amathislab/DLC2action)
+* [LabGym](https://github.com/umyelab/LabGym) @hu_labgym_2023
+* [JABS](https://github.com/KumarLabJax/JABS-behavior-classifier) @beane_jax_2023
+* [JAABA](https://jaaba.sourceforge.net/) @kabra_jaaba_2013
+* [MotionMapper](https://github.com/gordonberman/MotionMapper) @berman_mapping_2014
+* [BORIS](https://www.boris.unito.it/) @friard_boris_2016

@@ -438,7 +438,7 @@ There are two main markerless approaches:
    then triangulate across camera views to estimate 3D pose. The triangulation
    relies on known parameters about the cameras and their relative positions
    and orientations. [Anipose](https://anipose.readthedocs.io/en/latest/)
-   [@karashchuk_anipose_2021-1] is a popular open-source toolkit that
+   [@karashchuk_anipose_2021] is a popular open-source toolkit that
    implements this approach.
 
    ![Source: @pereira_quantifying_2020](img/pose_estimation_3D.png)
