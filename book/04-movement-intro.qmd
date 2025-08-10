@@ -96,7 +96,13 @@ tracking identities across time.
 ![The structure of a `movement` bounding boxes dataset](img/movement_bboxes_dataset_card.png){#fig-movement-ds-bboxes}
 
 ```{python}
-bboxes_ds = sample_data.fetch_dataset("VIA_single-crab_MOCA-crab-1_linear-interp.csv")
+#| output: false
+bboxes_ds = sample_data.fetch_dataset(
+    "VIA_single-crab_MOCA-crab-1_linear-interp.csv"
+)
+```
+
+```{python}
 bboxes_ds
 ```
 
@@ -232,7 +238,7 @@ supported formats.
 
 ::: {.callout-tip title="Exercise A"}
 
-1. Load the predictions you generated in @sec-sleap into a `movement` dataset. Feel free to use the `CalMS21/mouse044_task1_annotator1.slp` file that you can load from Dropbox (refer to [prerequisites @sec-data]).
+1. Load the predictions you generated in @sec-sleap into a `movement` dataset. Alternatively, feel free to work with the `CalMS21/mouse044_task1_annotator1.slp` file from Dropbox (refer to [prerequisites @sec-data]) or any of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/user_guide/input_output.html#sample-data).
 2. Compute the overall minimum and maximum x,y positions.
 3. Select a narrow time window (e.g. 10 seconds) and plot the x, y positions of a certain keypoint across time.
 4. Plot the centroid trajectory of a given individual across time.
@@ -390,8 +396,8 @@ We will go through two notebooks from `movement`'s
 To run these examples as interactive Jupyter notebooks, you can go to end
 of each example and either:
 
-- Click the __Download Jupyter Notebook__ button and open the `.ipynb` file in your code editor of choice (recommended)
-- Click the __launch binder__ button and run the notebook in your browser
+- Click the __Download Jupyter Notebook__ button and open the `.ipynb` file in your code editor of choice (recommended), or
+- Click the __launch binder__ button and run the notebook in your browser.
 
 ::: {.callout-tip title="Exercise B"}
 
@@ -406,7 +412,7 @@ within the same dataset.
 4. Save the dataset, including the processed position data, to a netCDF file.
 
 Refer to the [filtering module documentation](https://movement.neuroinformatics.dev/api/movement.filtering.html)
-and to the example we went through above.
+and to the examples we went through above.
 
 Each filtering step involves selecting one or more parameters.
 We encourage you to experiment with different parameters values and

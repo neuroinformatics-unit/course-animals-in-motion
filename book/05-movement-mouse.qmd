@@ -44,7 +44,7 @@ each housed in a specialised [Smart-Kage](https://cambridgephenotyping.com/produ
 monitoring system equipped with a camera mounted atop the cage.
 
 The camera captures data around the clock at a rate of 2 frames per second, saving a video
-segment for each hour of the day. A pre-trained DeepLabCut model is subsequently employed
+segment for each hour of the day. A pre-trained DeepLabCut model is then used
 to predict 8 keypoints on the mouse's body.
 
 Let's examine the contents of the downloaded data.
@@ -61,8 +61,8 @@ for file in files:
     print(file)
 ```
 
-The tracking data are stored in two`.nc` (NetCDF) files: `kage14` and `kage17`.
-NetCDF is an HDF5-based file format that can be natively saved/loaded by the `xarray` library, and is therefore [convenient to use with `movement`](https://movement.neuroinformatics.dev/user_guide/input_output.html#native-saving-and-loading-with-netcdf).
+The tracking data are stored in two`.nc` (netCDF) files: `kage14` and `kage17`.
+netCDF is an HDF5-based file format that can be natively saved/loaded by the `xarray` library, and is therefore [convenient to use with `movement`](https://movement.neuroinformatics.dev/user_guide/input_output.html#native-saving-and-loading-with-netcdf).
 
 Apart from these, we also have two `.png` files: `kage14_background.png` and `kage17_background.png`, which constitute frames extracted from the videos.
 
@@ -142,7 +142,7 @@ This is different from what we've seen before in other `movement` datasets, wher
 
 ::: {.callout-note title="How did we get these timestamps?" collapse="true"}
 
-Many recording systems can output timestamps for each video frame. In our case, the raw data from the Smart-Kage system included the start datetime of each 1-hour-long video segment and the precise time difference between the start of each segment and every frame within it.
+Some recording systems can output timestamps for each video frame. In our case, the raw data from the Smart-Kage system included the start datetime of each 1-hour-long video segment and the precise time difference between the start of each segment and every frame within it.
 
 Using this information, we were able to reconstruct precise datetime coordinates for all frames throughout the entire experiment. We then concatenated the DeepLabCut predictions from all video segments and assigned the datetime coordinates to the resulting dataset. If you're interested in the details, you can find the code in the [smart-kages-movement GitHub repository](https://github.com/neuroinformatics-unit/smart-kages-movement).
 
@@ -339,8 +339,8 @@ for kage, ds in ds_kages.items():
 
 Next, we'll compute the body centroid's speed in cm/sec via the following steps:
 
-1. Convert the body centroid position data to cm units using `movement.transforms.scale`.
-2. Temporarily switch to "elapsed time" mode, because `compute_speed` does not (yet) support datetime coordinates.
+1. Convert the body centroid position data to cm units using [`scale()`](https://movement.neuroinformatics.dev/api/movement.transforms.scale.html).
+2. Temporarily switch to "elapsed time" mode, because [`compute_speed()`](https://movement.neuroinformatics.dev/api/movement.kinematics.compute_speed.html) does not (yet) support datetime coordinates.
 3. Compute the speed in cm/sec
 4. Restore the original datetime coordinates to the speed data.
 
@@ -391,7 +391,7 @@ plt.show()
 
 ::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
-_Potential sources of error in speed calculation:_ The accuracy of speed computation is heavily reliant on precise position data. Any inaccuracies in predicting keypoint positions (i.e., the discrepancy between actual and estimated positions) can be exacerbated when calculating speed, as it is derived from the differences between consecutive positions. Additionally, we have assumed a fixed conversion factor of 10 pixels per cm. While this value may be accurate for the habitat's floor, the environment is not entirely flat. It includes objects for climbing, which means the conversion factor will vary depending on the mouse's vertical position (distance from the camera).
+**Potential sources of error in speed calculation:** The accuracy of speed computation is heavily reliant on precise position data. Any inaccuracies in predicting keypoint positions (i.e., the discrepancy between actual and estimated positions) can be exacerbated when calculating speed, as it is derived from the differences between consecutive positions. Additionally, we have assumed a fixed conversion factor of 10 pixels per cm. While this value may be accurate for the habitat's floor, the environment is not entirely flat. It includes objects for climbing, which means the conversion factor will vary depending on the mouse's vertical position (distance from the camera).
 
 The speed seems to fluctuate in a circadian pattern, especially apparent in kage14.
 This will become clearer if we zoom in on a time window of a few days.
@@ -402,7 +402,7 @@ This will become clearer if we zoom in on a time window of a few days.
 time_window = slice("2024-04-22", "2024-04-26")
 
 fig, axes = plt.subplots(
-    nrows=2, ncols=1, figsize=(8, 5), sharex=True, sharey=True
+    nrows=2, ncols=1, figsize=(7.5, 5), sharex=True, sharey=True
 )
 
 for i, kage in enumerate(["kage14", "kage17"]):
@@ -853,7 +853,7 @@ That's because  we have a large amount of data
 and the `.contains_point()` method is not fully optimised yet.
 
 If you are an experienced Python programmer this could be a cool
-project for the hackathon.
+project for the hackday.
 
 :::
 
@@ -876,7 +876,7 @@ is inside the ROI, and `False` otherwise.
 #| fig-cap: "Running wheel occupancy during April 9, 2024"
 
 fig, axes = plt.subplots(
-    nrows=2, ncols=1, figsize=(8, 5), sharex=True, sharey=True
+    nrows=2, ncols=1, figsize=(7.5, 5), sharex=True, sharey=True
 )
 
 for i, kage in enumerate(["kage14", "kage17"]):
