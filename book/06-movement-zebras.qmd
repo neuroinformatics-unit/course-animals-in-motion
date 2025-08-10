@@ -1,3 +1,83 @@
 # Zebra escape trajectories {#sec-movement-zebras}
 
-Before we start, make sure you have created the `animals-in-motion-env` environment (see [prerequisites @sec-install-movement]), and are using it to run this notebook.
+In this case study we will explore the trajectories of a herd of zebras during an escape event.
+
+::: {.callout-note title="Using the right environment"}
+
+If you are following along this chapter on your own computer,
+make sure to run all code snippets with the `animals-in-motion-env` environment activated
+(see [prerequisites @sec-install-movement]).
+
+:::
+
+Notes to Sofìa:
+
+- Chapter 5 takes quite long to run. You may want to temporarily freeze
+computation on that one or remove it to speed up quarto preview.
+- I hade to change to `source_software: SLEAP` (removing OSFM) in the metadata.yaml file on GIN,
+otherwise `fetch_dataset` would fail because of invalid `source_software` value
+(it is used to select the correct loader function).
+
+## Dataset description
+
+Some information about the dataset, with credits to Isla, and citing the preprint.
+Analysis will roughly follow <https://github.com/neuroinformatics-unit/zebras-stitching/blob/main/notebooks/03_notebook_compute_behaviour_metrics.py>.
+
+## Load and explore the dataset
+
+```{python}
+from movement import sample_data
+```
+
+```{python}
+ds = sample_data.fetch_dataset("SLEAP_OSFM_zebras_drone.h5")
+ds
+```
+
+## Compute body vectors and lengths
+
+Use the two keypoints per individual.
+
+## Compute the herd's polarisation
+
+We define polarisation as the norm of the resultant unit body vector per frame.
+The resultant unit vector is the average of the unit body vectors across individuals.
+
+1. convert body length vectors to unit vectors
+2. compute the resultant of the unit vectors
+3. compute the norm of the resultant unit vector as the polarisation
+
+## Compute average herd speed
+
+First scale position data to body length units.
+Then compute speed.
+
+This can be an exercise, because they've done similar things in this course before.
+
+This is how you write an exercise:
+
+::: {.callout-tip title="Exercise A"}
+
+Give instructions here.
+
+:::
+
+::: {.content-visible when-profile="answers"}
+
+::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+
+Give answers here.
+
+:::
+
+:::
+
+## Polarisation vs speed
+
+See how they are related via plotting.
+
+## Compute pairwise distances (optional)
+
+Distances between zebras, followed up by some stats (mean, max?).
+
+Could also be an exercise.
