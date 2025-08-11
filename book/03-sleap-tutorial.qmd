@@ -10,7 +10,13 @@ You will also need to download the [CalMS21 dataset](https://sites.google.com/vi
 **Single-animal pose estimation** focuses on detecting keypoints for one animal per frame, which is considered a landmark-localisation task where each body part has a unique coordinate.
 This approach is simpler and faster to train and run.
 
-![](img/SLEAP/part_grouping.png){fig-align="center" width=80%}
+::: {layout="[[100], [75]]"}
+
+![Single-animal pose estimation, source: @pereira_quantifying_2020.](img/pose_estimation_2D.png)
+
+![The part-grouping problem in multi-animal pose estimation.](img/SLEAP/part_grouping.png)
+
+:::
 
 **Multi-animal pose estimation** aims to detect and track multiple animals simultaneously within the same frame.
 This is essential for studying social behaviours, group dynamics, or any scenario where animals interact, as it addresses the unique challenges of assigning detections reliably to individuals both within an image (part-grouping problem) and across frames (identity-tracking problem).
