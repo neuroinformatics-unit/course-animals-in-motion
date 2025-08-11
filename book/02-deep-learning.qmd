@@ -2,5 +2,4 @@
 
 All you need to know about Deep learning and its applications to computer vision to understand the rest of the course.
 
-
-The slides for this section are available [here](https://sfmig.github.io/slides-dl-for-cv-primer).
+[Deep learning for computer vision: a primer for the animal behaviour scientist](https://sfmig.github.io/slides-dl-for-cv-primer).
