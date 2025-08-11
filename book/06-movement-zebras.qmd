@@ -15,12 +15,12 @@ make sure to run all code snippets with the `animals-in-motion-env` environment 
 <!-- Some information about the dataset, with credits to Isla, and citing the preprint.
 Analysis will roughly follow <https://github.com/neuroinformatics-unit/zebras-stitching/blob/main/notebooks/03_notebook_compute_behaviour_metrics.py>. -->
 
-The 3.5-min dataset presented here consists of 44 trajectories of zebras (_Equus quagga_) expressed in a coordinate system fixed to the ground. Each individual has two keypoints (`head` and `tail`). The data was obtained as follows: first, a trained [`SLEAP`](https://sleap.ai/) trained model was run on a video clip recorded from a camera drone, to obtain the trajectories of the zebras in a coordinate system linked to the drone. Then, the trajectories were expressed in a coordinate system fixed to the ground using [Structure-from-motion](https://en.wikipedia.org/wiki/Structure_from_motion) (with [`OpenSFM`](https://github.com/mapillary/OpenSfM) and [`OpenDroneMap`](https://github.com/OpenDroneMap/OpenDroneMap)). This transformation between camera and world coordinate systems is necessary to be able to disentangle the motion of the zebras from the movement of the camera drone. After this coordinate transformation, the data was cleaned by removing low-confidence keypoints and implausible data points.
+The 3.5-min dataset presented here consists of 44 trajectories of zebras (_Equus quagga_) expressed in a coordinate system fixed to the ground. Each individual has two keypoints (`head` and `tail`). The data was obtained as follows: first, a trained [`SLEAP`](https://sleap.ai/) model was run on a video clip recorded from a camera drone, to obtain the trajectories of the zebras in a coordinate system linked to the drone. Then, the trajectories were expressed in a coordinate system fixed to the ground using [Structure-from-motion](https://en.wikipedia.org/wiki/Structure_from_motion) (with [`OpenSFM`](https://github.com/mapillary/OpenSfM) and [`OpenDroneMap`](https://github.com/OpenDroneMap/OpenDroneMap)). This transformation between camera and world coordinate systems is necessary to be able to disentangle the motion of the zebras from the movement of the camera drone. After this coordinate transformation, the data was cleaned by removing low-confidence keypoints and implausible data points.
 
-You can find a detailed description of the approach as a collection of notebooks in [this repository](https://github.com/neuroinformatics-unit/zebras-stitching). Further details about the dataset and the prototype pipeline can be found in [Duporge, Miñano et al. (2025)](https://arxiv.org/abs/2505.16882).
+You can find a detailed description of the approach as a collection of notebooks in [this repository](https://github.com/neuroinformatics-unit/zebras-stitching). Further details about the dataset and the prototype pipeline can be found in Duporge, Miñano _et al_ [-@duporge_tracking_2025].
 
 ::: {.callout-note title="Acknowledgement"}
-The sample video and original SLEAP trajectories were kindly shared by [Dr. Isla Duporge](https://eeb.princeton.edu/people/isla-duporge) from the [Rubenstein Lab at Princeton University](https://dir.princeton.edu/), with permission to use for this workshop. The trajectories in world coordinate system were computed by Sofía Miñano, Nikoloz Sirmpilatze and Igor Tatarnikov.
+The sample video and original SLEAP trajectories were kindly shared by [Dr. Isla Duporge](https://eeb.princeton.edu/people/isla-duporge) from the [Rubenstein Lab at Princeton University](https://dir.princeton.edu/), with permission to use for this workshop. The trajectories in world coordinate system were computed by Sofía Miñano, Niko Sirmpilatze and Igor Tatarnikov.
 :::
 
 ## Load and explore the dataset
@@ -95,6 +95,10 @@ print(f"Body length std: {body_length_std:.2f} a.u.")
 We can also plot the distribution of body lengths.
 
 ```{python}
+#| code-fold: true
+#| label: fig-body-length-distribution
+#| fig-cap: "Distribution of zebra body lengths."
+
 fig, ax = plt.subplots()
 
 # plot histogram of body length values
@@ -174,6 +178,9 @@ polarization = compute_norm(herd_vector)
 We can plot the evolution of the polarization over time to get a sense of how the herd's alignment changes.
 
 ```{python}
+#| label: fig-polarization
+#| fig-cap: "Evolution of the herd's polarization over time."
+
 fig, ax = plt.subplots()
 ax.plot(herd_vector.time, polarization)
 ax.set_ylabel("polarization")
@@ -238,6 +245,10 @@ We can see that there are four periods in the dataset in which the speed of the 
 We can also inspect how the speed of each individual changes over time.
 
 ```{python}
+#| code-fold: true
+#| label: fig-speed-individuals-time
+#| fig-cap: "Evolution of the speed of each individual over time."
+
 fig, ax = plt.subplots()
 im = ax.matshow(
     centroid_speed,
@@ -277,6 +288,9 @@ log10_herd_speed = np.log10(herd_speed)
 We can now plot the polarization in time, colouring the points by the logarithm of the speed.
 
 ```{python}
+#| label: fig-polarization-vs-speed
+#| fig-cap: "Periods of highest polarization are associated with higher speeds"
+
 fig, ax = plt.subplots()
 sc = ax.scatter(
     x=polarization.time,
