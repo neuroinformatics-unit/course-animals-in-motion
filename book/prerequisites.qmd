@@ -84,7 +84,7 @@ Please download these from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc
 
 The Dropbox folder is structured as follows:
 
-```
+```txt
 Animals-in-Motion_2025-08/
 ├── CalMS21/
 │   ├── better_model/
