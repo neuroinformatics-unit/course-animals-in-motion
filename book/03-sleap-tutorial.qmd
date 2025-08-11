@@ -253,6 +253,11 @@ You should now see a training progress window showing the loss curves and metric
 
 ![Top-down ID model training progress](img/SLEAP/5_train_model_id.png){width=100%}
 
+::: {.callout-tip}
+SLEAP supports remote training and inference workflows, allowing users to leverage external computational resources, particularly those with GPU support, for batch training or inference.
+For detailed instructions and guidance, see the [Running SLEAP remotely guide](https://sleap.ai/guides/remote.html).
+:::
+
 ### Run inference and proofread predictions
 
 After the models are trained, if you had configured the training pipeline to run inference upon completion, SLEAP will automatically apply the trained models to the selected frames.
@@ -277,9 +282,6 @@ You can also generate more labelling suggestions and label them to ensure your t
 Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video.
 
 See [SLEAP's Prediction-assisted labeling guide](https://sleap.ai/tutorials/assisted-labeling.html) for more details on this iterative process.
-
-For convenience, a better-performing model&mdash;trained on over 600 labelled frames&mdash;is available for download from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0) (see [prerequisites @sec-data]). 
-This model can be used directly for inference.
 
 ::: {.callout-note}
 Predicted instances will not be used for model training unless you correct the predictions in the GUI.
