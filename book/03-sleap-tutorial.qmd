@@ -57,7 +57,8 @@ The resident&ndash;intruder assay [@jove4367] is a behavioural test used to stud
 
 In this tutorial, we will use [SLEAP](https://sleap.ai/) to train a **multi-animal top-down identity model** to simultaneously perform pose estimation and identity tracking of two mice in a short video (`mouse044_task1_annotator1.mp4`) from the [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset).
 
-This video captures a brief interaction between two mice in a resident&ndash;intruder assay, where the black mouse (the resident) has established territory and the white mouse (the intruder) is newly introduced into the resident's cage.
+This video captures a brief interaction between two mice in a resident&ndash;intruder assay, where the black mouse (the resident), implanted with a
+head-mounted microendoscope, has established territory and the white mouse (the intruder) is newly introduced into the resident's cage.
 
 ## SLEAP workflow
 
@@ -143,12 +144,18 @@ In this example, we will use the "Labeling Suggestions" panel to randomly sample
 
 ### Label frames
 
-To add an instance, click on "Labels" then "Add Instance" in the top menu bar.
+To begin labelling, click on "Labels" then "Add Instance" in the top menu bar.
 The initial instance will have its nodes placed randomly.
 Adjust each point to its correct location by dragging it with the mouse.
 
-We will also assign identities to each instance by adding a `Track`.
-To do this, select an instance and click on "Tracks" then "Set Instance Track" in the top menu bar.
+In this example, the black mouse's nose is occluded by an implant.
+To mark the node as hidden, right-click the node or its name to toggle visibility.
+If you can reasonably infer its location, you can also mark it as "visible" to help the model learn to predict occluded nodes.
+
+For tracking the identities of the mice, we will also assign identities to each instance by adding a `Track`. 
+This step is optional if you are only tracking a single animal or if the animals are visually indistinguishable.
+
+To assign a track, select an instance and click on "Tracks" then "Set Instance Track" in the top menu bar.
 A new `Track` ("Track 1") will be created.
 `Tracks` can be renamed in the "Track" column.
 In this example, we will name the black mouse `resident_b` and the white mouse `intruder_w`.
@@ -156,6 +163,10 @@ In this example, we will name the black mouse `resident_b` and the white mouse `
 ![](img/SLEAP/4_label_frames.png){width=100%}
 
 Once you have labelled the initial frame, you can navigate to the previous or next suggested frame by clicking "Previous" or "Next" in the "Labeling Suggestions" panel.
+
+::: {.callout-important}
+Remember to save your progress frequently by clicking "File" then "Save" (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).
+:::
 
 You may also find the following keyboard shortcuts and mouse actions helpful:
 
@@ -179,8 +190,10 @@ To speed up labelling in subsequent frames, right-click on the frame and choose 
 
 See also [SLEAP's GUI guide on "Labels"](https://sleap.ai/guides/gui.html#labels) for a complete reference of all labelling functions.
 
-::: {.callout-important}
-Remember to save your progress frequently by clicking "File" then "Save" (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).
+::: {.callout-tip title="Discuss"}
+- How did you find the labelling process? What challenges did you encounter?
+- What strategies could annotators use to ensure consistency throughout the labelling process?
+- How might the quality of annotations affect model performance?
 :::
 
 ### Configure and train models
