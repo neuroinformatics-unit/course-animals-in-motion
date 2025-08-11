@@ -177,6 +177,8 @@ You may also find the following keyboard shortcuts and mouse actions helpful:
 
 To speed up labelling in subsequent frames, right-click on the frame and choose from several options for adding a new instance. For example, selecting "Copy prior frame" will duplicate the instance(s) from the previous labelled frame, allowing you to quickly adjust only the necessary points. This is especially useful when animal poses change gradually between frames.
 
+See also [SLEAP's GUI guide on "Labels"](https://sleap.ai/guides/gui.html#labels) for a complete reference of all labelling functions.
+
 ::: {.callout-important}
 Remember to save your progress frequently by clicking "File" then "Save" (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).
 :::
