@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -357,8 +377,42 @@ However, for this workshop, we recommend using the <code>environment.yaml</code>
 <h2 data-number="A.4" class="anchored" data-anchor-id="sec-data"><span class="header-section-number">A.4</span> Data</h2>
 <p>Bringing your own data is encouraged but not required. This could include video recordings of animal behaviour and/or motion tracking data you’ve previously generated.</p>
 <p>We also provide some example datasets for you to use during the workshop. Please download these from <a href="https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&amp;st=xni448zl&amp;dl=0">Dropbox</a> before the workshop starts (they are a few GB in size).</p>
+<p>The Dropbox folder is structured as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Animals-in-Motion_2025-08/</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>├── CalMS21/</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>│   ├── better_model/</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>│   │   ├── 250806_174722.centroid.n=679/</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>│   │   ├── 250807_162146.multi_class_topdown.n=679/</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>│   │   └── predictions/</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>│   ├── mouse044_task1_annotator1.mp4</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>│   ├── mouse044_task1_annotator1.slp</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>│   └── readme.md</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>└── Smart-Kages.zip</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><strong>CalMS21</strong>: Contains an example video from the <a href="https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset">Caltech Mouse Social Interactions (CalMS21) Dataset</a> <span class="citation" data-cites="sun_caltech_2021">(<a href="references.html#ref-sun_caltech_2021" role="doc-biblioref">Sun et al. 2021</a>)</span>, SLEAP labels and trained models.
+<ul>
+<li><strong>better_model</strong>: SLEAP multi-animal top-down ID model trained on 679 labelled frames.
+<ul>
+<li><strong>250806_174722.centroid.n=679</strong>: Centroid model.</li>
+<li><strong>250807_162146.multi_class_topdown.n=679</strong>: Top-down ID model.</li>
+<li><strong>predictions</strong>: Model predictions on the full video.</li>
+</ul></li>
+<li><strong>mouse044_task1_annotator1.mp4</strong>: Video file used in <a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a>.</li>
+<li><strong>mouse044_task1_annotator1.slp</strong>: Fully annotated SLEAP labels file (converted from MARS <span class="citation" data-cites="mars2021">(<a href="references.html#ref-mars2021" role="doc-biblioref">Segalin et al. 2021</a>)</span> pose estimates provided in the CalMS21 dataset).</li>
+<li><strong>readme.md</strong>: Information about the dataset (from the CalMS21 dataset).</li>
+</ul></li>
+<li><strong>Smart-Kages.zip</strong>: Compressed dataset used in <a href="05-movement-mouse.html" class="quarto-xref"><span>Chapter 5</span></a>.</li>
+</ul>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-mars2021" class="csl-entry" role="listitem">
+Segalin, Cristina, Jalani Williams, Tomomi Karigo, May Hui, Moriel Zelikowsky, Jennifer J Sun, Pietro Perona, David J Anderson, and Ann Kennedy. 2021. <span>“The Mouse Action Recognition System (MARS) Software Pipeline for Automated Analysis of Social Behaviors in Mice.”</span> Edited by Gordon J Berman, Kate M Wassum, and Asaf Gal. <em>eLife</em> 10 (November): e63720. <a href="https://doi.org/10.7554/eLife.63720">https://doi.org/10.7554/eLife.63720</a>.
+</div>
+<div id="ref-sun_caltech_2021" class="csl-entry" role="listitem">
+Sun, Jennifer J., Tomomi Karigo, David J. Anderson, Pietro Perona, Yisong Yue, and Ann Kennedy. 2021. <span>“Caltech Mouse Social Interactions (CalMS21) Dataset.”</span> CaltechDATA. <a href="https://doi.org/10.22002/D1.1991">https://doi.org/10.22002/D1.1991</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
