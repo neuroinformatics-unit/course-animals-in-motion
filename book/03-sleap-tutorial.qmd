@@ -204,7 +204,9 @@ See also [SLEAP's GUI guide on "Labels"](https://sleap.ai/guides/gui.html#labels
 Once you have labelled a sufficient number of frames, you can configure and train your first model.
 To do this, go to "Predict" then "Run training" in the top menu bar.
 
-Here, we will select **"multi-animal top-down-id"** as the "Training Pipeline Type" and configure the training pipeline to predict on 20 more frames randomly sampled from the video once training is complete.
+Here, we will employ the [appearance-based tracking approach](#identity-tracking-approaches) for maintaining consistent identities of individual mice across frames.
+To do so, select **"multi-animal top-down-id"** as the "Training Pipeline Type".
+We will also configure the training pipeline to predict on 20 more frames randomly sampled from the video once training is complete.
 
 ![](img/SLEAP/5_config_model.png){width=100%}
 
@@ -259,6 +261,11 @@ Alternatively, to manually run inference on random frames with your trained mode
 
 ![](img/SLEAP/6_inference.png){width=100%}
 
+::: {.callout-note}
+Since we have trained an [appearance-based ID model](#identity-tracking-approaches), which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a "Tracker" (typically used for temporal-based tracking).
+Further details on the Tracker module is available in [SLEAP's Tracking and proofreading guide](https://sleap.ai/guides/proofreading.html).
+:::
+
 Labelled frames (frames with user or predicted labels) will be marked in the seekbar.
 
 ![](img/SLEAP/6_predictions.png){width=100%}
@@ -271,7 +278,7 @@ Once you have added and/or corrected more instances, you can repeat the process:
 
 See [SLEAP's Prediction-assisted labeling guide](https://sleap.ai/tutorials/assisted-labeling.html) for more details on this iterative process.
 
-For convenience, a better-performing model&mdash;trained on over 600 labelled frames&mdash;is available for download from [Dropbox](#sec-data). 
+For convenience, a better-performing model&mdash;trained on over 600 labelled frames&mdash;is available for download from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0) (see [prerequisites @sec-data]). 
 This model can be used directly for inference.
 
 ::: {.callout-note}
