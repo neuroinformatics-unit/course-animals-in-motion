@@ -81,3 +81,28 @@ Bringing your own data is encouraged but not required. This could include video 
 
 We also provide some example datasets for you to use during the workshop.
 Please download these from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=xni448zl&dl=0) before the workshop starts (they are a few GB in size).
+
+The Dropbox folder is structured as follows:
+
+```txt
+Animals-in-Motion_2025-08/
+├── CalMS21/
+│   ├── better_model/
+│   │   ├── 250806_174722.centroid.n=679/
+│   │   ├── 250807_162146.multi_class_topdown.n=679/
+│   │   └── predictions/
+│   ├── mouse044_task1_annotator1.mp4
+│   ├── mouse044_task1_annotator1.slp
+│   └── readme.md
+└── Smart-Kages.zip
+```
+
+- **CalMS21**: Contains an example video from the [Caltech Mouse Social Interactions (CalMS21) Dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) [@sun_caltech_2021], SLEAP labels and trained models.
+  - **better_model**: SLEAP multi-animal top-down ID model trained on 679 labelled frames.
+    - **250806_174722.centroid.n=679**: Centroid model.
+    - **250807_162146.multi_class_topdown.n=679**: Top-down ID model.
+    - **predictions**: Model predictions on the full video.
+  - **mouse044_task1_annotator1.mp4**: Video file used in [@sec-sleap].
+  - **mouse044_task1_annotator1.slp**: Fully annotated SLEAP labels file (converted from MARS [@mars2021] pose estimates provided in the CalMS21 dataset).
+  - **readme.md**: Information about the dataset (from the CalMS21 dataset).
+- **Smart-Kages.zip**: Compressed dataset used in [@sec-movement-mouse].
