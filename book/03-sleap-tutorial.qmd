@@ -37,17 +37,18 @@ Due to their single-stage construction, bottom-up models scale efficiently with 
 
 ## Identity tracking approaches
 
-To address the problem of maintaining animal identities across frames, SLEAP implements two main classes of techniques: temporal-based and appearance-based cues.
+![](img/SLEAP/id_tracking.png){fig-align="center" width="80%"}
 
-**Temporal-based tracking** uses optical flow to estimate the displacement of poses across frames, associating past poses with new ones.
-This method does not require model training, meaning users can perform tracking without additional labelling of consecutive frames, making it suitable for visually hard-to-distinguish animals.
-However, a significant drawback is that errors, such as identity switches, propagate over time, making it less suitable for very long videos or real-time applications that cannot be proofread.
+SLEAP addresses the challenge of maintaining consistent animal identities across frames using two primary strategies: **temporal-based** and **appearance-based** cues.
 
-**Appearance-based tracking (ID models)** relies purely on appearance-based features to simultaneously assign identities while detecting and grouping landmarks, thereby addressing the issue of error propagation from temporal models.
-It does, however, require animals with sufficiently distinctive appearance cues so that they can be manually identified during labelling.
+**Temporal-based tracking** uses optical flow to estimate pose displacement across frames, associating past with current poses without requiring model training. 
+This makes it well-suited for animals that are visually similar, as it avoids the need to label consecutive frames.
+However, errors, such as identity switches, can accumulate and propagate, limiting its reliability in long videos or real-time settings where post-hoc correction is not feasible.
 
-- **Top-down ID models** modify the centred-instance network to additionally predict class probabilities for each animal-centred crop.
-- **Bottom-up ID models** replace PAFs with multi-class segmentation maps, where masks for body parts are collapsed into distinct channels for each unique animal class ID. Grouping is implicit in the ID assignment.
+**Appearance-based tracking (ID models)** assigns identities based on visual features while simultaneously detecting and grouping landmarks.
+This approach mitigates error propagation but relies on animals having distinguishable visual traits that allow manual identification during labelling.
+- **Top-down ID models** extend the centered-instance network to predict class probabilities for each animal-centred crop.
+- **Bottom-up ID models** replace PAFs with multi-class segmentation maps, collapsing body part masks into separate channels for each unique class ID. Grouping is implicit in the ID assignment.
 
 ## Resident&ndash;intruder assay
 
