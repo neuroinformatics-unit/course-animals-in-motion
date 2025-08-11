@@ -36,7 +36,7 @@ xr.set_options(
 ## The Smart-Kages dataset
 
 ::: {.callout-note title="Acknowledgement"}
-This dataset was kindly shared by [Loukia Katsouri](https://www.sainsburywellcome.org/web/people/loukia-katsouri) from the [O'Keefe Lab](https://www.sainsburywellcome.org/web/groups/okeefe-lab), with permission to use for this workshop.
+This dataset was kindly shared by [Dr. Loukia Katsouri](https://www.sainsburywellcome.org/web/people/loukia-katsouri) from the [O'Keefe Lab](https://www.sainsburywellcome.org/web/groups/okeefe-lab), with permission to use for this workshop.
 :::
 
 The Smart-Kages dataset comprises home cage recordings from two mice,
