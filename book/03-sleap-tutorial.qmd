@@ -19,7 +19,7 @@ This is essential for studying social behaviours, group dynamics, or any scenari
 
 For multi-animal pose estimation, SLEAP offers both top-down and bottom-up approaches.
 
-![](img/SLEAP/pose_estimation_topdown.png){width=100%}
+![Source:@pereira_sleap_2022](img/SLEAP/pose_estimation_topdown.png){width=100%}
 
 **Top-down approaches** use **two models** in sequence.
 First, an anchor detection model (e.g. a centroid model) locates each animal in the frame.
@@ -28,7 +28,7 @@ Then, for each detected animal, a pose estimation model processes an anchor-cent
 This approach typically yields more accurate pose estimates and is well-suited to datasets with few animals.
 As the second stage of the network runs once per animal, inference speed scales linearly with the number of animals.
 
-![](img/SLEAP/pose_estimation_bottomup.png){width=100%}
+![Source: @pereira_sleap_2022](img/SLEAP/pose_estimation_bottomup.png){width=100%}
 
 **Bottom-up approaches** use a **single model** that processes the entire frame in a single pass.
 This model outputs confidence maps for all body parts in the image, along with Part Affinity Fields (PAFs)&mdash;vector fields that represent spatial relationships between parts and are used to group them into individual animal instances.
