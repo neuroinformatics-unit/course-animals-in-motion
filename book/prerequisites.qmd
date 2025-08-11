@@ -97,11 +97,10 @@ Animals-in-Motion_2025-08/
 ```
 
 - **CalMS21**: Contains an example video from the [Caltech Mouse Social Interactions (CalMS21) Dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) [@sun_caltech_2021], SLEAP labels and trained models.
-    - **better_model**: SLEAP multi-animal top-down ID model trained on 679 labelled frames.
-        - **250806_174722.centroid.n=679**: Centroid model.
-        - **250807_162146.multi_class_topdown.n=679**: Top-down ID model.
-    - **mouse044_task1_annotator1.mp4**: Video file used in [@sec-sleap].
-    - **mouse044_task1_annotator1.slp**: Fully annotated SLEAP labels file (converted from MARS [@mars2021] pose estimates provided in the CalMS21 dataset).
-    - **readme.md**: Information about the dataset (from the CalMS21 dataset).
+  - **better_model**: SLEAP multi-animal top-down ID model trained on 679 labelled frames.
+    - **250806_174722.centroid.n=679**: Centroid model.
+    - **250807_162146.multi_class_topdown.n=679**: Top-down ID model.
+  - **mouse044_task1_annotator1.mp4**: Video file used in [@sec-sleap].
+  - **mouse044_task1_annotator1.slp**: Fully annotated SLEAP labels file (converted from MARS [@mars2021] pose estimates provided in the CalMS21 dataset).
+  - **readme.md**: Information about the dataset (from the CalMS21 dataset).
 - **Smart-Kages.zip**: Compressed dataset used in [@sec-movement-mouse].
-
