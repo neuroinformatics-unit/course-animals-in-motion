@@ -15,7 +15,7 @@ make sure to run all code snippets with the `animals-in-motion-env` environment 
 <!-- Some information about the dataset, with credits to Isla, and citing the preprint.
 Analysis will roughly follow <https://github.com/neuroinformatics-unit/zebras-stitching/blob/main/notebooks/03_notebook_compute_behaviour_metrics.py>. -->
 
-The 3.5-min dataset presented here consists of 44 trajectories of zebras (_Equus quagga_) expressed in a coordinate system fixed to the ground. Each individual has two keypoints (`head` and `tail`). The original trajectory data was extracted using [`SLEAP`](https://sleap.ai/) on a video clip recorded from a camera drone, and then expressed in a coordinate system fixed to the ground using [Structure-from-motion](https://en.wikipedia.org/wiki/Structure_from_motion) (with [`OpenSFM`](https://github.com/mapillary/OpenSfM) and [`OpenDroneMap`](https://github.com/OpenDroneMap/OpenDroneMap)). Note that this transformation was necessary to be able to disentangle the motion of the zebras from the movement of the camera drone. After this coordinate transformation, the data was cleaned by removing low-confidence keypoints and implausible data points.
+The 3.5-min dataset presented here consists of 44 trajectories of zebras (_Equus quagga_) expressed in a coordinate system fixed to the ground. Each individual has two keypoints (`head` and `tail`). The data was obtained as follows: first, a trained [`SLEAP`](https://sleap.ai/) trained model was run on a video clip recorded from a camera drone, to obtain the trajectories of the zebras in a coordinate system linked to the drone. Then, the trajectories were expressed in a coordinate system fixed to the ground using [Structure-from-motion](https://en.wikipedia.org/wiki/Structure_from_motion) (with [`OpenSFM`](https://github.com/mapillary/OpenSfM) and [`OpenDroneMap`](https://github.com/OpenDroneMap/OpenDroneMap)). This transformation between camera and world coordinate systems is necessary to be able to disentangle the motion of the zebras from the movement of the camera drone. After this coordinate transformation, the data was cleaned by removing low-confidence keypoints and implausible data points.
 
 You can find a detailed description of the approach as a collection of notebooks in [this repository](https://github.com/neuroinformatics-unit/zebras-stitching). Further details about the dataset and the prototype pipeline can be found in [Duporge, Miñano et al. (2025)](https://arxiv.org/abs/2505.16882).
 
@@ -127,7 +127,7 @@ ax.legend()
 
 ```
 
-We can see there is some variability in the body lengths per individual. Part of it may reflect the diversity across individuals, but from visual inspection of the videos we expect the majority of it to be due to imperfect tracking of the keypoints. To remove some of these outliers, we continue the analysis considering only body vectors that are within 2 standard deviations of the mean.
+We can see there is some variability in the body lengths per individual. Part of it may reflect the diversity across individuals, but from visual inspection of the video we expect the majority of it to be due to imperfect tracking of the keypoints. To remove some of these outliers, we continue the analysis considering only body vectors that are within 2 standard deviations of the mean.
 
 ```{python}
 body_vector_filtered = body_vector.where(
@@ -150,10 +150,10 @@ body_vector_filtered_unit = convert_to_unit(body_vector_filtered)
 
 ```
 
-We can verify that indeed their norms are now equal to 1.
+We can quickly check if their norms are now equal to 1.
 
 ```{python}
-print(compute_norm(body_vector_filtered_unit))
+print(compute_norm(body_vector_filtered_unit)) 
 ```
 
 We now define the **herd vector** as the mean of the unit body vectors across all individuals. The mean vector of a set of $n$ vectors is the sum of all the vectors (i.e., the resultant vector) scaled by $1/n$.
@@ -165,7 +165,7 @@ print(herd_vector)
 
 The resulting array has `(time, space)` dimensions, which means that we have a single herd vector defined at each timestep.
 
-The norm of the herd vector already gives us an intuition of how aligned the whole herd is. When its norm is close to 1, it means that the majority of the unit body vectors are aligned. When its norm is close to 0, it means that the majority of the unit body vectors are dispersed.  The norm of the herd vector is sometimes called **polarization**.
+The norm of the herd vector already gives us an intuition of how aligned the whole herd is. When its norm is close to 1, it means that the majority of the unit body vectors are aligned. When its norm is close to 0, it means that the unit body vectors are dispersed. The norm of the herd vector is sometimes called **polarization**.
 
 ```{python}
 polarization = compute_norm(herd_vector)
@@ -181,7 +181,7 @@ ax.set_xlabel("time (s)")
 ax.grid()
 ```
 
-The plot suggests that the herd goes through a few periods of high and low polarization.
+The plot suggests that the herd alternates between periods of higher and lower polarization.
 
 ## Compute average speed of the herd
 
