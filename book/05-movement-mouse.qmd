@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import xarray as xr
+from matplotlib import colormaps
 
 from movement import sample_data
 from movement.filtering import filter_by_confidence, rolling_filter
@@ -561,10 +562,14 @@ fig, axes = plt.subplots(
 for i, kage in enumerate(["kage14", "kage17"]):
     actogram = actogram_dict[kage]
 
+    # Create a colormap for the actogram
+    cmap = colormaps.get_cmap("Greys")
+    cmap.set_bad(color="brown", alpha=0.5)  # Set bad values to red
+
     # Plot the actogram
     ax = axes[i]
     actogram.plot(
-        ax=ax, yincrease=False, cmap="binary", vmin=0, vmax=max_activity,
+        ax=ax, yincrease=False, vmin=0, vmax=max_activity, cmap=cmap
     )
 
     # Assign x-tick labels every 4 hours formatted as HH:MM
@@ -575,7 +580,7 @@ for i, kage in enumerate(["kage14", "kage17"]):
     ax.axvline(lights_off, color="red", alpha=0.7, lw=2, linestyle="-", label="lights off")
     ax.axvline(dawn, color="blue", alpha=0.7, lw=2, linestyle="--", label="dawn")
     ax.axvline(lights_on, color="blue", alpha=0.7, lw=2, linestyle="-", label="lights on")
-    ax.legend()
+    ax.legend(loc="lower left")
 
     # Set title and axis labels
     ax.set_title(f"{kage} actogram")
