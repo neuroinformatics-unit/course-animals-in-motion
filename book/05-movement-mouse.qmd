@@ -908,14 +908,10 @@ We can also compute the % of time the mouse spends on the running wheel.
 
 ```{python}
 for kage in ["kage14", "kage17"]:
-    # Count the number of True values in the array
-    on_wheel = roi_occupancy[kage].sum(dim="time").values
-
-    # Count the number of non-NaN values in the array
-    total_time = roi_occupancy[kage].notnull().sum(dim="time").values
-
-    # Compute the percentage of time spent on the running wheel
-    pct_on_wheel = float(100 * on_wheel / total_time)
+    # Count the ratio of True values in the array
+    on_wheel_ratio = roi_occupancy[kage].mean(dim="time").values
+    # Convert to percentage
+    pct_on_wheel = float(100 * on_wheel_ratio)
     print(f"{kage} spends {pct_on_wheel:.1f}% of its time on the running wheel")
 ```
 
@@ -948,17 +944,11 @@ for kage in ["kage14", "kage17"]:
         light_period1 = slice(f"{date} 00:00:00", f"{date} 09:30:00")
         light_period2 = slice(f"{date} 21:30:00", f"{date} 23:59:59")
 
-        n_total_frames = day_ds.sizes["time"]
-        n_dark_frames = day_ds.sel(time=dark_period).sizes["time"]
-        n_light_frames = n_total_frames - n_dark_frames
-        if n_dark_frames == 0 or n_light_frames == 0:
-            continue
-
-        dark_occupancy = 100 * day_ds.sel(time=dark_period).sum() / n_dark_frames
+        dark_occupancy = 100 * day_ds.sel(time=dark_period).mean()
         light_occupancy = 100 * (
-            day_ds.sel(time=light_period1).sum() +
-            day_ds.sel(time=light_period2).sum()
-        ) / n_light_frames
+            day_ds.sel(time=light_period1).mean() +
+            day_ds.sel(time=light_period2).mean()
+        )
 
         daily_occupancy.loc[dict(kage=kage, date=date, period="dark")] = dark_occupancy
         daily_occupancy.loc[dict(kage=kage, date=date, period="light")] = light_occupancy
