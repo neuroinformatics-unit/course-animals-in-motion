@@ -29,8 +29,8 @@ To view other versions, replace `latest` in the URL with one of the following ve
 | Version | Description |
 |---------|-------------|
 | [dev](https://animals-in-motion.neuroinformatics.dev/dev/) | development version, corresponding to the `main` branch |
-| [v2025.08b](https://animals-in-motion.neuroinformatics.dev/v2025.08b/) | beta version for the `v2025.08` release |
-| [v2025.08b-answers](https://animals-in-motion.neuroinformatics.dev/v2025.08b-answers/) | same as `v2025.08b` but with answers to exercises |
+| [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/) | version used during the inaugural [Open Software Week](https://neuroinformatics.dev/open-software-week/) in August 2025 |
+| [v2025.08-answers](https://animals-in-motion.neuroinformatics.dev/v2025.08-answers/) | same as `v2025.08` but with answers to exercises |
 
 ## Funding & acknowledgements
 
