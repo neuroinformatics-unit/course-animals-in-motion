@@ -15,7 +15,7 @@ Feedback and contributions to the handbook are always welcome, see @sec-contribu
 
 ## Schedule
 
-The workshop on **October 9th, 2025**, for students of the [SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme) will cover the following chapters of this handbook:
+The workshop on **October 8th, 2025**, for students of the [SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme) will cover the following chapters of this handbook:
 
 | Time | Topics |
 |------|--------|
