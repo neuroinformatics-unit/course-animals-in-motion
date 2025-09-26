@@ -1,6 +1,6 @@
 ## Preface {.unnumbered}
 
-**Animals in Motion** is an online handbook designed for researchers and students interested in learning about free open-source tools for tracking animal motion from video footage and extracting quantitative descriptions of behaviour from motion tracks.
+**Animals in Motion** is an online handbook that introduces free, open-source tools for tracking animal motion from videos and extracting quantitative descriptions of behaviour from motion tracks.
 
 [Earlier versions @sec-versions] of this handbook have been taught as hands-on workshops in the following settings:
 
