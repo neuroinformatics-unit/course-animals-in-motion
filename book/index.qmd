@@ -1,24 +1,37 @@
 ## Preface {.unnumbered}
 
-This website hosts the course materials for the [Animals in Motion](https://neuroinformatics.dev/open-software-week/animals-in-motion.html) workshop,
-part of the inauguaral [Neuroinformatics Unit Open Software Week](https://neuroinformatics.dev/open-software-week/index.html).
+**Animals in Motion** is an online handbook that introduces free, open-source tools for tracking animal motion from videos and extracting quantitative descriptions of behaviour from motion tracks.
 
-::: {.callout-note title="Target audience"}
-This course is designed for researchers and students interested in learning about free open-source tools for tracking animal motion from video footage and extracting quantitative descriptions of behaviour from motion tracks.
-:::
+[Earlier versions @sec-versions] of this handbook have been taught as hands-on workshops in the following settings:
 
-Whether you are attending the workshop in person, or following along the materials at your own pace, be sure to check out @sec-prerequisites.
+- the [Neuroinformatics Unit Open Software Summer School](https://neuroinformatics.dev/open-software-summer-school/index.html)
+- the Sainsbury Wellcome Centre's (SWC) [Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme).
+
+Whether you are attending a workshop in person, or following along the materials at your own pace, be sure to check out @sec-prerequisites.
+
+All materials are shared under the [CC-BY-4.0 license](https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/LICENSE.md) so you are welcome to use and adapt them for your own workshops.
+There is no need to ask for permission, but we'd love to hear about it if you do!
+Feedback and contributions to the handbook are always welcome, see @sec-contributing.
+
+## Schedule
+
+The workshop on **October 8th, 2025**, for students of the [SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme) will cover the following chapters of this handbook:
 
 | Time | Topics |
 |------|--------|
-| Day 1: morning | @sec-intro <br> @sec-dl-cv |
-| Day 1: afternoon | @sec-sleap |
-| Day 2: morning | @sec-movement-intro |
-| Day 2: afternoon | @sec-movement-mouse <br> @sec-movement-zebras |
+| Morning | @sec-intro <br> @sec-sleap |
+| Afternoon | @sec-movement-intro |
 
 : Workshop schedule {.striped #tbl-schedule}
 
-## Versions
+Students may also review the following chapters after the workshop, depending on their interests:
+
+- @sec-dl-cv
+- Case studies applying the `movement` package to real-world datasets:
+  - @sec-movement-mouse
+  - @sec-movement-zebras
+
+## Versions {#sec-versions}
 
 The latest release version is always available at the following URL:
 
@@ -29,13 +42,14 @@ To view other versions, replace `latest` in the URL with one of the following ve
 | Version | Description |
 |---------|-------------|
 | [dev](https://animals-in-motion.neuroinformatics.dev/dev/) | development version, corresponding to the `main` branch |
-| [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/) | version used during the inaugural [Open Software Week](https://neuroinformatics.dev/open-software-week/) in August 2025 |
+| [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/) | version used during the inaugural [Open Software Week](https://neuroinformatics.dev/open-software-summer-school/2025/index.html) in August 2025 |
 | [v2025.08-answers](https://animals-in-motion.neuroinformatics.dev/v2025.08-answers/) | same as `v2025.08` but with answers to exercises |
 
 ## Funding & acknowledgements
 
-The first edition of this workshop was made possible by a [Software Sustainability Institute](https://www.software.ac.uk/) fellowship to **Niko Sirmpilatze**, as well as further funding support by the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/), the [Society for Research Software Engineering](https://society-rse.org/) and [AIBIO-UK](https://aibio.ac.uk/).
+The inaugural [Open Software Week](https://neuroinformatics.dev/open-software-summer-school/2025/index.html),
+which inspired the creation of this handbook, was made possible by a [Software Sustainability Institute](https://www.software.ac.uk/) fellowship to **Niko Sirmpilatze**, as well as further funding support by the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/), the [Society for Research Software Engineering](https://society-rse.org/) and [AIBIO-UK](https://aibio.ac.uk/).
 
-We thank the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/) and the [Gatsby Computational Neuroscience Unit](https://www.ucl.ac.uk/gatsby/gatsby-computational-neuroscience-unit) for providing facilities for the event.
+We thank the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/) and the [Gatsby Computational Neuroscience Unit](https://www.ucl.ac.uk/gatsby/gatsby-computational-neuroscience-unit) for providing facilities for the workshops.
 
 ![Logos of workshop sponsors](img/all_sponsor_logos.png)

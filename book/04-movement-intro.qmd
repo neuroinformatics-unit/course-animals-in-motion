@@ -354,19 +354,6 @@ or any other tracking data you have at hand and is supported by `movement`.
 Consult the [GUI user guide](https://movement.neuroinformatics.dev/user_guide/gui.html)
 in the `movement` documentation for more details.
 
-::: {.callout-warning title="Troubleshooting video loading in napari" collapse="true"}
-
-If you are getting errors when trying to drag-and-drop a video file into `napari`,
-run `movement info` in your terminal and check the output.
-If you see `napari: 0.6.3` (or newer), you'll need to
-remove the current `conda` environment and create a new one following the
-[prerequisites @sec-install-movement]. If you had cloned the repository
-at a prior time, make sure to run `git pull` to fetch the
-most up-to-date version of the`environment.yaml` file.
-
-This incompatibility will be patched in a future release of `movement`.
-:::
-
 ::: {.callout-tip title="Discuss"}
 
 - Did you spot any errors in the data you've explored?
