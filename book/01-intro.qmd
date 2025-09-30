@@ -94,8 +94,6 @@ This rise is mostly driven by advances in deep learning and has dramatically acc
 - Which scientific disciplines do you represent?
 - What species are you working with?
 - Have you witnessed an increasing use of markerless tracking methods in your field?
-
-Join at [menti.com](https://www.menti.com/) | use code `3904 8322`.
 :::
 
 ## The computational (neuro)ethology workflow
@@ -193,6 +191,9 @@ If you'd like to add a tool you've built or enjoy using, please [open an issue](
 - [pyomeca](https://pyomeca.github.io/pyomeca/) @Martinez2020
 - [movingpandas](https://github.com/movingpandas/movingpandas) @graser_movingpandas_2019
 - [scikit-mobility](https://github.com/scikit-mobility/scikit-mobility) @scikit-mobility
+- [Rtrack](https://rupertoverall.net/Rtrack/index.html) @Rtrack_2020
+- [ColonyTrack](https://rupertoverall.net/ColonyTrack) @colony_track_2024
+- [swaRm](https://swarm-lab.github.io/swaRm)
 
 ### Behaviour segmentation
 
@@ -210,3 +211,4 @@ If you'd like to add a tool you've built or enjoy using, please [open an issue](
 - [JAABA](https://jaaba.sourceforge.net/) @kabra_jaaba_2013
 - [MotionMapper](https://github.com/gordonberman/MotionMapper) @berman_mapping_2014
 - [BORIS](https://www.boris.unito.it/) @friard_boris_2016
+- [MARS](https://neuroethology.github.io/MARS/) @mars2021

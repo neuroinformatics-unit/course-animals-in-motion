@@ -17,7 +17,7 @@ name: Build and Deploy Quarto Book
 on:
   push:
     branches: [main]
-    tags: ['v*']
+    tags: ["v*"]
   pull_request:
   workflow_dispatch:
 
@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Determine build context
         id: context
         run: |
@@ -51,7 +51,7 @@ jobs:
             echo "version=${VERSION}" >> $GITHUB_OUTPUT
           else
             echo "is_release=false" >> $GITHUB_OUTPUT
-            echo "version=${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "version=dev" >> $GITHUB_OUTPUT
           fi
 
       - name: Cache movement sample data
@@ -86,7 +86,7 @@ jobs:
           unzip ~/.movement/Smart-Kages.zip -d ~/.movement
           rm ~/.movement/Smart-Kages.zip
           ls -lR ~/.movement/Smart-Kages
-      
+
       - name: Download CalMS21 data from Dropbox
         if: steps.cache-calms21.outputs.cache-hit != 'true'
         run: |
@@ -113,19 +113,13 @@ jobs:
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
         run: |
           quarto render book --execute --profile answers --output-dir _book-answers
-          
-      - name: Upload rendered answers profile book using artifact.ci
-        id: artifactci-upload-answers
-        uses: mmkal/artifact.ci/upload@main
+
+      - name: Upload rendered answers profile book
+        uses: actions/upload-artifact@v4
         with:
           name: book-${{ steps.context.outputs.version }}-answers
-          path: book/_book-answers/*
+          path: book/_book-answers
 
-      - name: Print answers profile book preview URL to step summary
-        shell: bash
-        run: |
-          echo "Preview book with answers at ${{ steps.artifactci-upload-answers.outputs.artifactci-run-url }}, " >> $GITHUB_STEP_SUMMARY
-      
       # The following steps are only executed for release tags
       - name: Render book with default profile (no answers)
         if: steps.context.outputs.is_release == 'true'
@@ -133,14 +127,13 @@ jobs:
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
         run: |
           quarto render book --execute --profile default --output-dir _book
-      
+
       - name: Upload rendered book with default profile (no answers)
         if: steps.context.outputs.is_release == 'true'
-        id: artifactci-upload-default
-        uses: mmkal/artifact.ci/upload@main
+        uses: actions/upload-artifact@v4
         with:
           name: book-${{ steps.context.outputs.version }}
-          path: book/_book/*
+          path: book/_book
 
   deploy:
     name: Deploy to GitHub Pages
@@ -165,36 +158,36 @@ jobs:
             echo "is_release=false" >> $GITHUB_OUTPUT
             echo "destination_dir=dev" >> $GITHUB_OUTPUT
             echo "destination_dir_answers=dev" >> $GITHUB_OUTPUT
-            echo "version=${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "version=dev" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Download book with answers profile artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: book-${{ steps.context.outputs.version }}-answers
           path: answers-artifact
-      
+
       - name: Deploy answers version
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: answers-artifact/book/_book-answers
+          publish_dir: answers-artifact
           destination_dir: ${{ steps.context.outputs.destination_dir_answers }}
-      
+
       # Default (no answers) version is only deployed for release tags
       - name: Download book with default profile artifact
         if: steps.context.outputs.is_release == 'true'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: book-${{ steps.context.outputs.version }}
           path: default-artifact
-    
+
       - name: Deploy default version
         if: steps.context.outputs.is_release == 'true'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: default-artifact/book/_book
+          publish_dir: default-artifact
           destination_dir: ${{ steps.context.outputs.destination_dir }}
 
       # Clone gh-pages branch
@@ -203,7 +196,7 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
-      
+
       # Check if any release folders exist yet
       - name: Check if any releases exist
         id: gh-pages-meta
@@ -213,7 +206,6 @@ jobs:
           else
             echo "releases_exist=false" >> $GITHUB_OUTPUT
           fi
-      
 
       - name: Ensure CNAME file is present in gh-pages root
         run: echo "animals-in-motion.neuroinformatics.dev" > gh-pages/CNAME
