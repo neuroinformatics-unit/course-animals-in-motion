@@ -212,4 +212,3 @@ If you'd like to add a tool you've built or enjoy using, please [open an issue](
 - [MotionMapper](https://github.com/gordonberman/MotionMapper) @berman_mapping_2014
 - [BORIS](https://www.boris.unito.it/) @friard_boris_2016
 - [MARS](https://neuroethology.github.io/MARS/) @mars2021
-
