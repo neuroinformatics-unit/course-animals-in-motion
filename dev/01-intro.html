@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Introduction – Animals In Motion (with answers)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-deep-learning.html" rel="next">
+<link href="./index.html" rel="prev">
+<link href="./img/logo_niu_light.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-9cf5928a4c8d0141e8ae8d9397ab45b5.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-6edfb73c787725f6aa8d7d356ddbd81c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Animals In Motion (with answers)</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/neuroinformatics-unit/animals-in-motion/tree/main/book/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-deep-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Deep learning for computer vision primer</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-sleap-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-movement-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysing tracks with movement</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-movement-mouse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A mouse’s daily activity log</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-movement-zebras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./contributing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Contributing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary"><span class="header-section-number">1.1</span> Summary</a></li>
+  <li><a href="#measuring-behaviour-as-movement" id="toc-measuring-behaviour-as-movement" class="nav-link" data-scroll-target="#measuring-behaviour-as-movement"><span class="header-section-number">1.2</span> Measuring behaviour as movement</a></li>
+  <li><a href="#the-rise-of-markerless-methods" id="toc-the-rise-of-markerless-methods" class="nav-link" data-scroll-target="#the-rise-of-markerless-methods"><span class="header-section-number">1.3</span> The rise of markerless methods</a></li>
+  <li><a href="#the-computational-neuroethology-workflow" id="toc-the-computational-neuroethology-workflow" class="nav-link" data-scroll-target="#the-computational-neuroethology-workflow"><span class="header-section-number">1.4</span> The computational (neuro)ethology workflow</a></li>
+  <li><a href="#the-scope-of-this-course" id="toc-the-scope-of-this-course" class="nav-link" data-scroll-target="#the-scope-of-this-course"><span class="header-section-number">1.5</span> The scope of this course</a></li>
+  <li><a href="#sec-useful-tools" id="toc-sec-useful-tools" class="nav-link" data-scroll-target="#sec-useful-tools"><span class="header-section-number">1.6</span> Useful open-source tools</a>
+  <ul class="collapse">
+  <li><a href="#data-acquisition" id="toc-data-acquisition" class="nav-link" data-scroll-target="#data-acquisition"><span class="header-section-number">1.6.1</span> Data acquisition</a></li>
+  <li><a href="#video-processing" id="toc-video-processing" class="nav-link" data-scroll-target="#video-processing"><span class="header-section-number">1.6.2</span> Video processing</a></li>
+  <li><a href="#motion-tracking" id="toc-motion-tracking" class="nav-link" data-scroll-target="#motion-tracking"><span class="header-section-number">1.6.3</span> Motion tracking</a></li>
+  <li><a href="#motion-quantification" id="toc-motion-quantification" class="nav-link" data-scroll-target="#motion-quantification"><span class="header-section-number">1.6.4</span> Motion quantification</a></li>
+  <li><a href="#behaviour-segmentation" id="toc-behaviour-segmentation" class="nav-link" data-scroll-target="#behaviour-segmentation"><span class="header-section-number">1.6.5</span> Behaviour segmentation</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/01-intro.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/01-intro.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-intro" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="summary" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.1</span> Summary</h2>
+<p>Measuring animal behaviour often comes down to measuring movement, whether of the whole body or specific parts, using tools such as video cameras and GPS loggers.</p>
+<p>Advances in computer vision, particularly deep learning-based markerless motion tracking, have transformed how we study animal behaviour, bridging traditions from multiple scientific disciplines. These methods now underpin the emerging field of computational (neuro)ethology, enabling researchers to extract precise motion data from videos, quantify behavioural features, and (in neuroscience) relate them directly to neural activity.</p>
+<p>In this course, we focus on two key steps in this workflow: pose estimation and motion quantification, while recognising the broader ecosystem of open-source tools available.</p>
+</section>
+<section id="measuring-behaviour-as-movement" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="measuring-behaviour-as-movement"><span class="header-section-number">1.2</span> Measuring behaviour as movement</h2>
+<p>Defining behaviour is tricky, and behavioural biologists cannot agree on a single definition <span class="citation" data-cites="levitis_behavioural_2009">(<a href="references.html#ref-levitis_behavioural_2009" role="doc-biblioref">Levitis, Lidicker, and Freund 2009</a>)</span>. The following one by Tinbergen has some historical sway:</p>
+<blockquote class="blockquote">
+<p>The total movements made by the intact animal <span class="citation" data-cites="tinbergen_study_1951">(<a href="references.html#ref-tinbergen_study_1951" role="doc-biblioref">Tinbergen 1951</a>)</span>.</p>
+</blockquote>
+<p>Framing behaviour as “movement” is useful. In most studies, what we actually measure is the motion of one or more animals—and/or their body parts—over time. We can see that reflected in the devices we most often use to record animal behaviour:</p>
+<ul>
+<li>🎥 <strong>Video cameras</strong></li>
+<li>📱 Inertial measurement units (IMUs)</li>
+<li>🛰️ GPS-based biologgers</li>
+<li>🎤 Microphones</li>
+</ul>
+<p>With the exception of microphones, these devices measure movement, at different spatial and temporal scales.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You could say that microphones capture body movements indirectly: sound waves are generated via the motion of specialised organs such as vocal cords.</p>
+</div>
+</div>
+<p>In this course, <strong>we focus exclusively on video recordings</strong>. There are two main ways to extract motion from videos:</p>
+<ul>
+<li><strong>Marker-based</strong> methods: physical markers are placed on individuals or body parts.</li>
+<li><strong>Markerless</strong> methods: computer vision is used to extract user-defined features directly from videos.</li>
+</ul>
+<div id="fig-motion-capture" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-motion-capture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row quarto-layout-valign-bottom">
+<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/motion_capture.jpg" class="img-fluid figure-img"></p>
+<figcaption>By danceinthesky, openverse.org</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ants_colored.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Source: <span class="citation" data-cites="ants_crispr_2017"><span>“<span>CRISPR</span> Ants Lose Ability to Smell”</span> (<a href="references.html#ref-ants_crispr_2017" role="doc-biblioref">2017</a>)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-bottom">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/from_pixels_to_keypoints.png" class="img-fluid figure-img"></p>
+<figcaption>Source: <span class="citation" data-cites="mathis_primer_2020">Mathis et al. (<a href="references.html#ref-mathis_primer_2020" role="doc-biblioref">2020</a>)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-motion-capture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: Examples of marker-based (top row) and markerless (bottom row) methods.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Discuss
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>What are some advantages and disadvantages of marker-based vs.&nbsp;markerless methods?</li>
+<li>In which cases would you use one over the other?</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="the-rise-of-markerless-methods" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="the-rise-of-markerless-methods"><span class="header-section-number">1.3</span> The rise of markerless methods</h2>
+<p>There have broadly been two traditions in the study of animal behaviour <span class="citation" data-cites="datta_computational_2019">(<a href="references.html#ref-datta_computational_2019" role="doc-biblioref">Datta et al. 2019</a>)</span>:</p>
+<ul>
+<li><strong>Neuroscientists</strong> have long focused on how animals generate behaviours in response to rewards and punishments, often training them to perform simple, easily measured actions.</li>
+<li><strong>Ethologists</strong>, in contrast, tend to study naturalistic behaviours expressed freely in ecologically relevant contexts, aiming to understand how behaviour is structured and organised over time—for example through the use of ethograms.</li>
+</ul>
+<div id="fig-two-traditions" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-two-traditions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/mouse_lever.svg" class="img-fluid figure-img"></p>
+<figcaption>By Ethan Tyler &amp; Lex Kravitz, scidraw.io</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/Monkey_schematic.svg" class="img-fluid figure-img"></p>
+<figcaption>By Andrea Colins Rodriguez, scidraw.io</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/crab_ethogram.png" class="img-fluid figure-img"></p>
+<figcaption>Excerpt from a fiddler crab ethogram by Sanna Titus</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-two-traditions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: Schematic representation of the neuroscientific tradition, juxtaposed with an ethogram.
+</figcaption>
+</figure>
+</div>
+<p>In the last 10 years, computer vision methods for motion tracking have had an utterly transformative impact. Tools such as <a href="https://www.mackenziemathislab.org/deeplabcut/">DeepLabCut</a> <span class="citation" data-cites="mathis_deeplabcut_2018">(<a href="references.html#ref-mathis_deeplabcut_2018" role="doc-biblioref">Mathis et al. 2018</a>)</span> and <a href="https://sleap.ai/">SLEAP</a> <span class="citation" data-cites="pereira_sleap_2022">(<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">Pereira et al. 2022</a>)</span> enable researchers to track animal movements in video recordings with impressive accuracy, without the need for physical markers.</p>
+<div id="fig-tracking-gifs" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tracking-gifs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row quarto-layout-valign-bottom">
+<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/MousereachGIF.gif" class="img-fluid figure-img"></p>
+<figcaption>Source: mackenziemathislab.org/deeplabcut</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/idtracker_zebrafish.gif" class="img-fluid figure-img"></p>
+<figcaption>Source: idtracker.ai</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-bottom">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/sleap_movie.gif" class="img-fluid figure-img"></p>
+<figcaption>Source: sleap.ai</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tracking-gifs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.3: Examples of markerless motion tracking in action.
+</figcaption>
+</figure>
+</div>
+<p>This rise is mostly driven by advances in deep learning and has dramatically accelerated the scale at which naturalistic behaviour can be measured and analysed. The old distinctions between research traditions are being erased and a new field is emerging:</p>
+<blockquote class="blockquote">
+<p><strong>In the past decade, a field we now call “computational ethology” has begun to take shape</strong>. It involves the use of machine vision and machine learning to measure and analyze the patterns of action generated by animals in contexts designed to evoke ecologically relevant behaviors <span class="citation" data-cites="anderson_toward_2014">(<a href="references.html#ref-anderson_toward_2014" role="doc-biblioref">Anderson and Perona 2014</a>)</span>. Technical progress in statistical inference and deep learning, the democratization of high-performance computing (due to falling hardware costs and the ability to rent GPUs and CPUs in the cloud), and new and creative ideas about how to apply technology to measuring naturalistic behavior have dramatically accelerated progress in this research area. <span class="citation" data-cites="datta_computational_2019">(<a href="references.html#ref-datta_computational_2019" role="doc-biblioref">Datta et al. 2019</a>)</span></p>
+</blockquote>
+<div id="fig-fields-converge" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fields-converge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="img/fields_converge_on_tracking.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fields-converge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.4: Scientific disciplines converging on markerless motion tracking methods.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Discuss
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Which scientific disciplines do you represent?</li>
+<li>What species are you working with?</li>
+<li>Have you witnessed an increasing use of markerless tracking methods in your field?</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="the-computational-neuroethology-workflow" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="the-computational-neuroethology-workflow"><span class="header-section-number">1.4</span> The computational (neuro)ethology workflow</h2>
+<p>The rise of markerless methods has reconfigured the data acquisition and analysis workflows for scientists interested in measuring animal behaviour:</p>
+<ul>
+<li>Video recordings are the primary data source.</li>
+<li>Computer vision tools (most often based on deep learning) are used to extract user-defined features from video frames and track them over time.</li>
+<li>The resulting tracks can then be used to quantify various aspects of motion, such as speed, orientation, distance travelled, etc.</li>
+<li>The motion tracks, video features and derived kinematic features may serve as input for behaviour segmentation algorithms.</li>
+</ul>
+<div id="fig-ethology-workflow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ethology-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="img/ethology_workflow.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ethology-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.5: An overview of modern computational ethology workflows
+</figcaption>
+</figure>
+</div>
+<p>An ecosystem of open-source tools has emerged to support this workflow. See <span class="citation" data-cites="luxem_open-source_2023">Luxem et al. (<a href="references.html#ref-luxem_open-source_2023" role="doc-biblioref">2023</a>)</span>, <span class="citation" data-cites="pereira_quantifying_2020">Pereira, Shaevitz, and Murthy (<a href="references.html#ref-pereira_quantifying_2020" role="doc-biblioref">2020</a>)</span>, <span class="citation" data-cites="blau_study_2024">Blau et al. (<a href="references.html#ref-blau_study_2024" role="doc-biblioref">2024</a>)</span> for comprehensive reviews. We also provide a non-exhaustive list of open-source tools in <a href="#sec-useful-tools" class="quarto-xref"><span>Section 1.6</span></a>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Where does the 'neuro' come in?">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Where does the ‘neuro’ come in?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Neuroscientists are increasingly interested in precisely quantifying naturalistic behaviour, for several reasons:</p>
+<blockquote class="blockquote">
+<p>if we are to understand how the brain works, we need to think about the actual problems it evolved to solve. Addressing this challenge means studying natural behavior — the kinds of behaviors generated by animals when they are free to act on their own internally-generated goals without physical or psychological restraint (<a href="http://datta.hms.harvard.edu/research/overview/">source: Datta Lab website</a>).</p>
+<p>…detailed examination of brain parts or their selective perturbation is not sufficient to understand how the brain generates behavior <span class="citation" data-cites="krakauer_neuroscience_2017">(<a href="references.html#ref-krakauer_neuroscience_2017" role="doc-biblioref">Krakauer et al. 2017</a>)</span>.</p>
+<p>The behavioral work needs to be as fine-grained as work at the neural level. Otherwise one is imperiled by a granularity mismatch between levels… <span class="citation" data-cites="krakauer_neuroscience_2017">(<a href="references.html#ref-krakauer_neuroscience_2017" role="doc-biblioref">Krakauer et al. 2017</a>)</span>.</p>
+</blockquote>
+<p>This shift in focus within neuroscience has been a major driver for the rapid development of the computational approaches described above. Some refer to this field as <strong>computational neuroethology</strong>—the science of quantifying naturalistic behaviours to understand the brain <span class="citation" data-cites="datta_computational_2019">(<a href="references.html#ref-datta_computational_2019" role="doc-biblioref">Datta et al. 2019</a>)</span>.</p>
+<p>The data acquisition and analysis workflows used in computational neuroethology are similar to those shown in <a href="#fig-ethology-workflow" class="quarto-xref">Figure&nbsp;<span>1.5</span></a>. The key difference is that derived measures of behaviour—whether continuous variables like speed or discrete actions such as “grooming”—are ultimately analysed alongside neural data, such as spike trains or calcium imaging traces (<a href="#fig-neuroethology-workflow" class="quarto-xref">Figure&nbsp;<span>1.6</span></a>).</p>
+<div id="fig-neuroethology-workflow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-neuroethology-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="img/neuroethology_workflow.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-neuroethology-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.6: An overview of modern computational neuroethology workflows.
+</figcaption>
+</figure>
+</div>
+<p>Highly <strong>recommended readings</strong>:</p>
+<ul>
+<li><span class="citation" data-cites="krakauer_neuroscience_2017">Krakauer et al. (<a href="references.html#ref-krakauer_neuroscience_2017" role="doc-biblioref">2017</a>)</span></li>
+<li><span class="citation" data-cites="datta_computational_2019">Datta et al. (<a href="references.html#ref-datta_computational_2019" role="doc-biblioref">2019</a>)</span></li>
+<li><span class="citation" data-cites="pereira_quantifying_2020">Pereira, Shaevitz, and Murthy (<a href="references.html#ref-pereira_quantifying_2020" role="doc-biblioref">2020</a>)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="the-scope-of-this-course" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="the-scope-of-this-course"><span class="header-section-number">1.5</span> The scope of this course</h2>
+<p>We will start with a primer on deep learning for computer vision (<a href="02-deep-learning.html" class="quarto-xref"><span>Chapter 2</span></a>), going over the key concepts and technologies that underpin most markerless tracking approaches.</p>
+<p>After that we could take a whirlwind tour through all the stages of a computaional ethology workflow <a href="#fig-ethology-workflow" class="quarto-xref">Figure&nbsp;<span>1.5</span></a> and the various tools available for each step. However, since we want this to work as a two-day hands-on workshop with plenty of time for exercises and active learning, we have instead chosen to focus on two key steps:</p>
+<ul>
+<li><a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a>: Pose estimation and tracking with <a href="https://sleap.ai/">SLEAP</a> <span class="citation" data-cites="pereira_sleap_2022">(<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">Pereira et al. 2022</a>)</span>. We chose SLEAP because we know it best, but the knowledge gained should be applicable to most other pose estimation tools.</li>
+<li><a href="04-movement-intro.html" class="quarto-xref"><span>Chapter 4</span></a>: Analysing motion tracks with <a href="https://movement.neuroinformatics.dev/">movement</a>—a Python package we develop <span class="citation" data-cites="sirmpilatze_movement_2025">(<a href="references.html#ref-sirmpilatze_movement_2025" role="doc-biblioref">Sirmpilatze et al. 2025</a>)</span>—followed by two case studies on real-world datasets <a href="05-movement-mouse.html" class="quarto-xref"><span>Chapter 5</span></a>, <a href="06-movement-zebras.html" class="quarto-xref"><span>Chapter 6</span></a>.</li>
+</ul>
+<div id="fig-sleap-movement" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sleap-movement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="img/SLEAP_and_movement.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sleap-movement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.7: What we’ll cover in this course
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We want to emphasise that there are many excellent open-source tools beyond those we focus on here. The next section provides a non-exhaustive list of tools that may be useful for your own projects.</p>
+</div>
+</div>
+</section>
+<section id="sec-useful-tools" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="sec-useful-tools"><span class="header-section-number">1.6</span> Useful open-source tools</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We’ve mainly highlighted tools commonly applied to animal behaviour data. This is not a comprehensive list, and the tools appear in no particular order. Some don’t fit neatly into the categories below, and their classification is somewhat subjective. If you’d like to add a tool you’ve built or enjoy using, please <a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/issues">open an issue</a> or submit a pull request.</p>
+</div>
+</div>
+<section id="data-acquisition" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="data-acquisition"><span class="header-section-number">1.6.1</span> Data acquisition</h3>
+<ul>
+<li><a href="https://bonsai-rx.org/">Bonsai</a> <span class="citation" data-cites="lopes_bonsai_2015">(<a href="references.html#ref-lopes_bonsai_2015" role="doc-biblioref">Lopes et al. 2015</a>)</span></li>
+</ul>
+</section>
+<section id="video-processing" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2" class="anchored" data-anchor-id="video-processing"><span class="header-section-number">1.6.2</span> Video processing</h3>
+<ul>
+<li><a href="https://opencv.org/">OpenCV</a> <span class="citation" data-cites="opencv_library">Bradski (<a href="references.html#ref-opencv_library" role="doc-biblioref">2000</a>)</span></li>
+<li><a href="https://ffmpeg.org/">ffmpeg</a> <span class="citation" data-cites="tomar2006converting">Tomar (<a href="references.html#ref-tomar2006converting" role="doc-biblioref">2006</a>)</span></li>
+</ul>
+</section>
+<section id="motion-tracking" class="level3" data-number="1.6.3">
+<h3 data-number="1.6.3" class="anchored" data-anchor-id="motion-tracking"><span class="header-section-number">1.6.3</span> Motion tracking</h3>
+<ul>
+<li><a href="http://www.mackenziemathislab.org/deeplabcut">DeepLabCut</a> <span class="citation" data-cites="mathis_deeplabcut_2018">Mathis et al. (<a href="references.html#ref-mathis_deeplabcut_2018" role="doc-biblioref">2018</a>)</span>; <span class="citation" data-cites="lauer_multi-animal_2022">Lauer et al. (<a href="references.html#ref-lauer_multi-animal_2022" role="doc-biblioref">2022</a>)</span></li>
+<li><a href="https://sleap.ai/">SLEAP</a> <span class="citation" data-cites="pereira_sleap_2022">Pereira et al. (<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">2022</a>)</span></li>
+<li><a href="https://lightning-pose.readthedocs.io/en/latest/">LightningPose</a> <span class="citation" data-cites="biderman_lightning_2024">Biderman et al. (<a href="references.html#ref-biderman_lightning_2024" role="doc-biblioref">2024</a>)</span></li>
+<li><a href="https://trex.run/">TRex</a> <span class="citation" data-cites="walter_trex_2021">Walter and Couzin (<a href="references.html#ref-walter_trex_2021" role="doc-biblioref">2021</a>)</span></li>
+<li><a href="https://idtrackerai.readthedocs.io/en/latest/">idtracker.ai</a> <span class="citation" data-cites="romero-ferrero_idtrackerai_2019">Romero-Ferrero et al. (<a href="references.html#ref-romero-ferrero_idtrackerai_2019" role="doc-biblioref">2019</a>)</span></li>
+<li><a href="https://anipose.readthedocs.io/en/latest/">Anipose</a> <span class="citation" data-cites="karashchuk_anipose_2021">Karashchuk et al. (<a href="references.html#ref-karashchuk_anipose_2021" role="doc-biblioref">2021</a>)</span></li>
+<li><a href="https://github.com/spoonsso/dannce/">DANNCE</a> <span class="citation" data-cites="dunn_geometric_2021">Dunn et al. (<a href="references.html#ref-dunn_geometric_2021" role="doc-biblioref">2021</a>)</span></li>
+<li><a href="https://github.com/jgraving/deepposekit">DeepPoseKit</a> <span class="citation" data-cites="graving_deepposekit_2019">Graving et al. (<a href="references.html#ref-graving_deepposekit_2019" role="doc-biblioref">2019</a>)</span></li>
+<li><a href="https://www.fasttrack.sh/">FastTrack</a> <span class="citation" data-cites="gallois_fasttrack_2021">Gallois and Candelier (<a href="references.html#ref-gallois_fasttrack_2021" role="doc-biblioref">2021</a>)</span></li>
+<li><a href="https://github.com/NeLy-EPFL/DeepFly3D">DeepFly3D</a> <span class="citation" data-cites="gunel_deepfly3d_2019">Günel et al. (<a href="references.html#ref-gunel_deepfly3d_2019" role="doc-biblioref">2019</a>)</span></li>
+</ul>
+</section>
+<section id="motion-quantification" class="level3" data-number="1.6.4">
+<h3 data-number="1.6.4" class="anchored" data-anchor-id="motion-quantification"><span class="header-section-number">1.6.4</span> Motion quantification</h3>
+<ul>
+<li><a href="https://github.com/neuroinformatics-unit/movement">movement</a> <span class="citation" data-cites="sirmpilatze_movement_2025">Sirmpilatze et al. (<a href="references.html#ref-sirmpilatze_movement_2025" role="doc-biblioref">2025</a>)</span></li>
+<li><a href="https://roald-arboel.com/animovement/">animovement</a> <span class="citation" data-cites="roaldarbol_animovement_2024">Roald-Arbøl (<a href="references.html#ref-roaldarbol_animovement_2024" role="doc-biblioref">2024</a>)</span></li>
+<li><a href="https://github.com/pyratlib/pyrat">PyRat</a> <span class="citation" data-cites="de_almeida_pyrat_2022">De Almeida et al. (<a href="references.html#ref-de_almeida_pyrat_2022" role="doc-biblioref">2022</a>)</span></li>
+<li><a href="https://github.com/AdaptiveMotorControlLab/DLC2Kinematics">DLC2Kinematics</a></li>
+<li><a href="https://pyomeca.github.io/pyomeca/">pyomeca</a> <span class="citation" data-cites="Martinez2020">Martinez, Michaud, and Begon (<a href="references.html#ref-Martinez2020" role="doc-biblioref">2020</a>)</span></li>
+<li><a href="https://github.com/movingpandas/movingpandas">movingpandas</a> <span class="citation" data-cites="graser_movingpandas_2019">Graser (<a href="references.html#ref-graser_movingpandas_2019" role="doc-biblioref">2019</a>)</span></li>
+<li><a href="https://github.com/scikit-mobility/scikit-mobility">scikit-mobility</a> <span class="citation" data-cites="scikit-mobility">Pappalardo et al. (<a href="references.html#ref-scikit-mobility" role="doc-biblioref">2022</a>)</span></li>
+<li><a href="https://rupertoverall.net/Rtrack/index.html">Rtrack</a> <span class="citation" data-cites="Rtrack_2020">Overall et al. (<a href="references.html#ref-Rtrack_2020" role="doc-biblioref">2020</a>)</span></li>
+<li><a href="https://rupertoverall.net/ColonyTrack">ColonyTrack</a> <span class="citation" data-cites="colony_track_2024">Overall (<a href="references.html#ref-colony_track_2024" role="doc-biblioref">2024</a>)</span></li>
+<li><a href="https://swarm-lab.github.io/swaRm">swaRm</a></li>
+</ul>
+</section>
+<section id="behaviour-segmentation" class="level3" data-number="1.6.5">
+<h3 data-number="1.6.5" class="anchored" data-anchor-id="behaviour-segmentation"><span class="header-section-number">1.6.5</span> Behaviour segmentation</h3>
+<ul>
+<li><a href="https://dattalab.github.io/moseq2-website/index.html">(Keypoint) MoSeq</a> <span class="citation" data-cites="wiltschko_mapping_2015">Wiltschko et al. (<a href="references.html#ref-wiltschko_mapping_2015" role="doc-biblioref">2015</a>)</span>; <span class="citation" data-cites="weinreb_keypoint-moseq_2024">Weinreb (<a href="references.html#ref-weinreb_keypoint-moseq_2024" role="doc-biblioref">2024</a>)</span></li>
+<li><a href="https://ethoml.github.io/VAME/">VAME</a> <span class="citation" data-cites="luxem_identifying_2022">Luxem et al. (<a href="references.html#ref-luxem_identifying_2022" role="doc-biblioref">2022</a>)</span></li>
+<li><a href="https://github.com/YttriLab/B-SOID">B-SOiD</a> <span class="citation" data-cites="hsu_b-soid_2021">Hsu and Yttri (<a href="references.html#ref-hsu_b-soid_2021" role="doc-biblioref">2021</a>)</span></li>
+<li><a href="https://github.com/YttriLab/A-SOID">A-SOiD</a> <span class="citation" data-cites="schweihoff_-soid_2022">Schweihoff et al. (<a href="references.html#ref-schweihoff_-soid_2022" role="doc-biblioref">2022</a>)</span></li>
+<li><a href="https://github.com/jbohnslav/deepethogram">DeepEthogram</a> <span class="citation" data-cites="bohnslav_deepethogram_2021">Bohnslav et al. (<a href="references.html#ref-bohnslav_deepethogram_2021" role="doc-biblioref">2021</a>)</span></li>
+<li><a href="https://simba-uw-tf-dev.readthedocs.io/en/latest/">SimBA</a> <span class="citation" data-cites="goodwin_simple_2024">Goodwin et al. (<a href="references.html#ref-goodwin_simple_2024" role="doc-biblioref">2024</a>)</span></li>
+<li><a href="https://deepof.readthedocs.io/en/latest/">DeepOF</a> <span class="citation" data-cites="Miranda2023">Miranda et al. (<a href="references.html#ref-Miranda2023" role="doc-biblioref">2023</a>)</span></li>
+<li><a href="https://github.com/BelloneLab/lisbet">LISBET</a> <span class="citation" data-cites="chindemi2023lisbet">Chindemi, Girard, and Bellone (<a href="references.html#ref-chindemi2023lisbet" role="doc-biblioref">2023</a>)</span></li>
+<li><a href="https://github.com/amathislab/DLC2action">DLC2action</a></li>
+<li><a href="https://github.com/umyelab/LabGym">LabGym</a> <span class="citation" data-cites="hu_labgym_2023">Hu et al. (<a href="references.html#ref-hu_labgym_2023" role="doc-biblioref">2023</a>)</span></li>
+<li><a href="https://github.com/KumarLabJax/JABS-behavior-classifier">JABS</a> <span class="citation" data-cites="beane_jax_2023">Beane et al. (<a href="references.html#ref-beane_jax_2023" role="doc-biblioref">2023</a>)</span></li>
+<li><a href="https://jaaba.sourceforge.net/">JAABA</a> <span class="citation" data-cites="kabra_jaaba_2013">Kabra et al. (<a href="references.html#ref-kabra_jaaba_2013" role="doc-biblioref">2013</a>)</span></li>
+<li><a href="https://github.com/gordonberman/MotionMapper">MotionMapper</a> <span class="citation" data-cites="berman_mapping_2014">Berman et al. (<a href="references.html#ref-berman_mapping_2014" role="doc-biblioref">2014</a>)</span></li>
+<li><a href="https://www.boris.unito.it/">BORIS</a> <span class="citation" data-cites="friard_boris_2016">Friard and Gamba (<a href="references.html#ref-friard_boris_2016" role="doc-biblioref">2016</a>)</span></li>
+<li><a href="https://neuroethology.github.io/MARS/">MARS</a> <span class="citation" data-cites="mars2021">Segalin et al. (<a href="references.html#ref-mars2021" role="doc-biblioref">2021</a>)</span></li>
+</ul>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-anderson_toward_2014" class="csl-entry" role="listitem">
+Anderson, David J., and Pietro Perona. 2014. <span>“Toward a <span>Science</span> of <span>Computational</span> <span>Ethology</span>.”</span> <em>Neuron</em> 84 (1): 18–31. <a href="https://doi.org/10.1016/j.neuron.2014.09.005">https://doi.org/10.1016/j.neuron.2014.09.005</a>.
+</div>
+<div id="ref-beane_jax_2023" class="csl-entry" role="listitem">
+Beane, Glen, Brian Q. Geuther, Thomas J. Sproule, Anshul Choudhary, Jarek Trapszo, Leinani Hession, Vivek Kohar, and Vivek Kumar. 2023. <span>“<span>JAX</span> <span>Animal</span> <span>Behavior</span> <span>System</span> (<span>JABS</span>): <span>A</span> Video-Based Phenotyping Platform for the Laboratory Mouse.”</span> bioRxiv. <a href="https://doi.org/10.1101/2022.01.13.476229">https://doi.org/10.1101/2022.01.13.476229</a>.
+</div>
+<div id="ref-berman_mapping_2014" class="csl-entry" role="listitem">
+Berman, Gordon J., Daniel M. Choi, William Bialek, and Joshua W. Shaevitz. 2014. <span>“Mapping the Stereotyped Behaviour of Freely Moving Fruit Flies.”</span> <em>Journal of The Royal Society Interface</em> 11 (99): 20140672. <a href="https://doi.org/10.1098/rsif.2014.0672">https://doi.org/10.1098/rsif.2014.0672</a>.
+</div>
+<div id="ref-biderman_lightning_2024" class="csl-entry" role="listitem">
+Biderman, Dan, Matthew R. Whiteway, Cole Hurwitz, Nicholas Greenspan, Robert S. Lee, Ankit Vishnubhotla, Richard Warren, et al. 2024. <span>“Lightning <span>Pose</span>: Improved Animal Pose Estimation via Semi-Supervised Learning, <span>Bayesian</span> Ensembling and Cloud-Native Open-Source Tools.”</span> <em>Nature Methods</em> 21 (7): 1316–28. <a href="https://doi.org/10.1038/s41592-024-02319-1">https://doi.org/10.1038/s41592-024-02319-1</a>.
+</div>
+<div id="ref-blau_study_2024" class="csl-entry" role="listitem">
+Blau, Ari, Evan S. Schaffer, Neeli Mishra, Nathaniel J. Miska, International Brain Laboratory, Liam Paninski, and Matthew R. Whiteway. 2024. <span>“A Study of Animal Action Segmentation Algorithms Across Supervised, Unsupervised, and Semi-Supervised Learning Paradigms.”</span> <em>Neurons, Behavior, Data Analysis, and Theory</em>, December, 1–46. <a href="https://doi.org/10.51628/001c.127770">https://doi.org/10.51628/001c.127770</a>.
+</div>
+<div id="ref-bohnslav_deepethogram_2021" class="csl-entry" role="listitem">
+Bohnslav, James P, Nivanthika K Wimalasena, Kelsey J Clausing, Yu Y Dai, David A Yarmolinsky, Tomás Cruz, Adam D Kashlan, et al. 2021. <span>“<span>DeepEthogram</span>, a Machine Learning Pipeline for Supervised Behavior Classification from Raw Pixels.”</span> Edited by Mackenzie W Mathis, Timothy E Behrens, Mackenzie W Mathis, and Johannes Bohacek. <em>eLife</em> 10 (September): e63377. <a href="https://doi.org/10.7554/eLife.63377">https://doi.org/10.7554/eLife.63377</a>.
+</div>
+<div id="ref-opencv_library" class="csl-entry" role="listitem">
+Bradski, G. 2000. <span>“<span>The OpenCV Library</span>.”</span> <em>Dr. Dobb’s Journal of Software Tools</em>.
+</div>
+<div id="ref-chindemi2023lisbet" class="csl-entry" role="listitem">
+Chindemi, Giuseppe, Benoit Girard, and Camilla Bellone. 2023. <span>“LISBET: A Machine Learning Model for the Automatic Segmentation of Social Behavior Motifs.”</span> <a href="https://arxiv.org/abs/2311.04069">https://arxiv.org/abs/2311.04069</a>.
+</div>
+<div id="ref-ants_crispr_2017" class="csl-entry" role="listitem">
+<span>“<span>CRISPR</span> Ants Lose Ability to Smell.”</span> 2017. <em>Nature</em> 548 (7667): 263–63. <a href="https://doi.org/10.1038/d41586-017-02337-4">https://doi.org/10.1038/d41586-017-02337-4</a>.
+</div>
+<div id="ref-datta_computational_2019" class="csl-entry" role="listitem">
+Datta, Sandeep Robert, David J. Anderson, Kristin Branson, Pietro Perona, and Andrew Leifer. 2019. <span>“Computational <span>Neuroethology</span>: <span>A</span> <span>Call</span> to <span>Action</span>.”</span> <em>Neuron</em> 104 (1): 11–24. <a href="https://doi.org/10.1016/j.neuron.2019.09.038">https://doi.org/10.1016/j.neuron.2019.09.038</a>.
+</div>
+<div id="ref-de_almeida_pyrat_2022" class="csl-entry" role="listitem">
+De Almeida, Tulio Fernandes, Bruno Guedes Spinelli, Ramón Hypolito Lima, Maria Carolina Gonzalez, and Abner Cardoso Rodrigues. 2022. <span>“<span>PyRAT</span>: <span>An</span> <span>Open</span>-<span>Source</span> <span>Python</span> <span>Library</span> for <span>Animal</span> <span>Behavior</span> <span>Analysis</span>.”</span> <em>Frontiers in Neuroscience</em> 16. <a href="https://www.frontiersin.org/articles/10.3389/fnins.2022.779106">https://www.frontiersin.org/articles/10.3389/fnins.2022.779106</a>.
+</div>
+<div id="ref-dunn_geometric_2021" class="csl-entry" role="listitem">
+Dunn, Timothy W., Jesse D. Marshall, Kyle S. Severson, Diego E. Aldarondo, David G. C. Hildebrand, Selmaan N. Chettih, William L. Wang, et al. 2021. <span>“Geometric Deep Learning Enables <span>3D</span> Kinematic Profiling Across Species and Environments.”</span> <em>Nature Methods</em> 18 (5): 564–73. <a href="https://doi.org/10.1038/s41592-021-01106-6">https://doi.org/10.1038/s41592-021-01106-6</a>.
+</div>
+<div id="ref-friard_boris_2016" class="csl-entry" role="listitem">
+Friard, Olivier, and Marco Gamba. 2016. <span>“<span>BORIS</span>: A Free, Versatile Open-Source Event-Logging Software for Video/Audio Coding and Live Observations.”</span> <em>Methods in Ecology and Evolution</em> 7 (11): 1325–30. <a href="https://doi.org/10.1111/2041-210X.12584">https://doi.org/10.1111/2041-210X.12584</a>.
+</div>
+<div id="ref-gallois_fasttrack_2021" class="csl-entry" role="listitem">
+Gallois, Benjamin, and Raphaël Candelier. 2021. <span>“<span>FastTrack</span>: <span>An</span> Open-Source Software for Tracking Varying Numbers of Deformable Objects.”</span> <em>PLOS Computational Biology</em> 17 (2): e1008697. <a href="https://doi.org/10.1371/journal.pcbi.1008697">https://doi.org/10.1371/journal.pcbi.1008697</a>.
+</div>
+<div id="ref-goodwin_simple_2024" class="csl-entry" role="listitem">
+Goodwin, Nastacia L., Jia J. Choong, Sophia Hwang, Kayla Pitts, Liana Bloom, Aasiya Islam, Yizhe Y. Zhang, et al. 2024. <span>“Simple <span>Behavioral</span> <span>Analysis</span> (<span>SimBA</span>) as a Platform for Explainable Machine Learning in Behavioral Neuroscience.”</span> <em>Nature Neuroscience</em>, May, 1–14. <a href="https://doi.org/10.1038/s41593-024-01649-9">https://doi.org/10.1038/s41593-024-01649-9</a>.
+</div>
+<div id="ref-graser_movingpandas_2019" class="csl-entry" role="listitem">
+Graser, Anita. 2019. <span>“<span>MovingPandas</span>: <span>Efficient</span> <span>Structures</span> for <span>Movement</span> <span>Data</span> in <span>Python</span>.”</span> <em>GI_Forum 2019,</em> Volume 7, (June): 54–68. <a href="https://doi.org/10.1553/giscience2019_01_s54">https://doi.org/10.1553/giscience2019_01_s54</a>.
+</div>
+<div id="ref-graving_deepposekit_2019" class="csl-entry" role="listitem">
+Graving, Jacob M, Daniel Chae, Hemal Naik, Liang Li, Benjamin Koger, Blair R Costelloe, and Iain D Couzin. 2019. <span>“<span>DeepPoseKit</span>, a Software Toolkit for Fast and Robust Animal Pose Estimation Using Deep Learning.”</span> Edited by Ian T Baldwin, Josh W Shaevitz, Josh W Shaevitz, and Greg Stephens. <em>eLife</em> 8 (October): e47994. <a href="https://doi.org/10.7554/eLife.47994">https://doi.org/10.7554/eLife.47994</a>.
+</div>
+<div id="ref-gunel_deepfly3d_2019" class="csl-entry" role="listitem">
+Günel, Semih, Helge Rhodin, Daniel Morales, João Campagnolo, Pavan Ramdya, and Pascal Fua. 2019. <span>“<span>DeepFly3D</span>, a Deep Learning-Based Approach for <span>3D</span> Limb and Appendage Tracking in Tethered, Adult <span>Drosophila</span>.”</span> Edited by Timothy O’Leary, Ronald L Calabrese, and Josh W Shaevitz. <em>eLife</em> 8 (October): e48571. <a href="https://doi.org/10.7554/eLife.48571">https://doi.org/10.7554/eLife.48571</a>.
+</div>
+<div id="ref-hsu_b-soid_2021" class="csl-entry" role="listitem">
+Hsu, Alexander I., and Eric A. Yttri. 2021. <span>“B-<span>SOiD</span>, an Open-Source Unsupervised Algorithm for Identification and Fast Prediction of Behaviors.”</span> <em>Nature Communications</em> 12 (1): 5188. <a href="https://doi.org/10.1038/s41467-021-25420-x">https://doi.org/10.1038/s41467-021-25420-x</a>.
+</div>
+<div id="ref-hu_labgym_2023" class="csl-entry" role="listitem">
+Hu, Yujia, Carrie R. Ferrario, Alexander D. Maitland, Rita B. Ionides, Anjesh Ghimire, Brendon Watson, Kenichi Iwasaki, et al. 2023. <span>“<span>LabGym</span>: <span>Quantification</span> of User-Defined Animal Behaviors Using Learning-Based Holistic Assessment.”</span> <em>Cell Reports Methods</em> 0 (0). <a href="https://doi.org/10.1016/j.crmeth.2023.100415">https://doi.org/10.1016/j.crmeth.2023.100415</a>.
+</div>
+<div id="ref-kabra_jaaba_2013" class="csl-entry" role="listitem">
+Kabra, Mayank, Alice A. Robie, Marta Rivera-Alba, Steven Branson, and Kristin Branson. 2013. <span>“<span>JAABA</span>: Interactive Machine Learning for Automatic Annotation of Animal Behavior.”</span> <em>Nature Methods</em> 10 (1): 64–67. <a href="https://doi.org/10.1038/nmeth.2281">https://doi.org/10.1038/nmeth.2281</a>.
+</div>
+<div id="ref-karashchuk_anipose_2021" class="csl-entry" role="listitem">
+Karashchuk, Pierre, Katie L. Rupp, Evyn S. Dickinson, Sarah Walling-Bell, Elischa Sanders, Eiman Azim, Bingni W. Brunton, and John C. Tuthill. 2021. <span>“Anipose: <span>A</span> Toolkit for Robust Markerless <span>3D</span> Pose Estimation.”</span> <em>Cell Reports</em> 36 (13): 109730. <a href="https://doi.org/10.1016/j.celrep.2021.109730">https://doi.org/10.1016/j.celrep.2021.109730</a>.
+</div>
+<div id="ref-krakauer_neuroscience_2017" class="csl-entry" role="listitem">
+Krakauer, John W., Asif A. Ghazanfar, Alex Gomez-Marin, Malcolm A. MacIver, and David Poeppel. 2017. <span>“Neuroscience <span>Needs</span> <span>Behavior</span>: <span>Correcting</span> a <span>Reductionist</span> <span>Bias</span>.”</span> <em>Neuron</em> 93 (3): 480–90. <a href="https://doi.org/10.1016/j.neuron.2016.12.041">https://doi.org/10.1016/j.neuron.2016.12.041</a>.
+</div>
+<div id="ref-lauer_multi-animal_2022" class="csl-entry" role="listitem">
+Lauer, Jessy, Mu Zhou, Shaokai Ye, William Menegas, Steffen Schneider, Tanmay Nath, Mohammed Mostafizur Rahman, et al. 2022. <span>“Multi-Animal Pose Estimation, Identification and Tracking with <span>DeepLabCut</span>.”</span> <em>Nature Methods</em> 19 (4): 496–504. <a href="https://doi.org/10.1038/s41592-022-01443-0">https://doi.org/10.1038/s41592-022-01443-0</a>.
+</div>
+<div id="ref-levitis_behavioural_2009" class="csl-entry" role="listitem">
+Levitis, Daniel A., William Z. Lidicker, and Glenn Freund. 2009. <span>“Behavioural Biologists Don’t Agree on What Constitutes Behaviour.”</span> <em>Animal Behaviour</em> 78 (1): 103–10. <a href="https://doi.org/10.1016/j.anbehav.2009.03.018">https://doi.org/10.1016/j.anbehav.2009.03.018</a>.
+</div>
+<div id="ref-lopes_bonsai_2015" class="csl-entry" role="listitem">
+Lopes, Gonçalo, Niccolò Bonacchi, João Frazão, Joana P. Neto, Bassam V. Atallah, Sofia Soares, Luís Moreira, et al. 2015. <span>“Bonsai: An Event-Based Framework for Processing and Controlling Data Streams.”</span> <em>Frontiers in Neuroinformatics</em> 9. <a href="https://www.frontiersin.org/articles/10.3389/fninf.2015.00007">https://www.frontiersin.org/articles/10.3389/fninf.2015.00007</a>.
+</div>
+<div id="ref-luxem_identifying_2022" class="csl-entry" role="listitem">
+Luxem, Kevin, Petra Mocellin, Falko Fuhrmann, Johannes Kürsch, Stephanie R. Miller, Jorge J. Palop, Stefan Remy, and Pavol Bauer. 2022. <span>“Identifying Behavioral Structure from Deep Variational Embeddings of Animal Motion.”</span> <em>Communications Biology</em> 5 (1): 1–15. <a href="https://doi.org/10.1038/s42003-022-04080-7">https://doi.org/10.1038/s42003-022-04080-7</a>.
+</div>
+<div id="ref-luxem_open-source_2023" class="csl-entry" role="listitem">
+Luxem, Kevin, Jennifer J Sun, Sean P Bradley, Keerthi Krishnan, Eric Yttri, Jan Zimmermann, Talmo D Pereira, and Mark Laubach. 2023. <span>“Open-Source Tools for Behavioral Video Analysis: <span>Setup</span>, Methods, and Best Practices.”</span> Edited by Denise J Cai and Laura L Colgin. <em>eLife</em> 12 (March): e79305. <a href="https://doi.org/10.7554/eLife.79305">https://doi.org/10.7554/eLife.79305</a>.
+</div>
+<div id="ref-Martinez2020" class="csl-entry" role="listitem">
+Martinez, Romain, Benjamin Michaud, and Mickael Begon. 2020. <span>“‘Pyomeca‘: An Open-Source Framework for Biomechanical Analysis.”</span> <em>Journal of Open Source Software</em> 5 (53): 2431. <a href="https://doi.org/10.21105/joss.02431">https://doi.org/10.21105/joss.02431</a>.
+</div>
+<div id="ref-mathis_deeplabcut_2018" class="csl-entry" role="listitem">
+Mathis, Alexander, Pranav Mamidanna, Kevin M. Cury, Taiga Abe, Venkatesh N. Murthy, Mackenzie Weygandt Mathis, and Matthias Bethge. 2018. <span>“<span>DeepLabCut</span>: Markerless Pose Estimation of User-Defined Body Parts with Deep Learning.”</span> <em>Nature Neuroscience</em> 21 (9): 1281–89. <a href="https://doi.org/10.1038/s41593-018-0209-y">https://doi.org/10.1038/s41593-018-0209-y</a>.
+</div>
+<div id="ref-mathis_primer_2020" class="csl-entry" role="listitem">
+Mathis, Alexander, Steffen Schneider, Jessy Lauer, and Mackenzie Weygandt Mathis. 2020. <span>“A <span>Primer</span> on <span>Motion</span> <span>Capture</span> with <span>Deep</span> <span>Learning</span>: <span>Principles</span>, <span>Pitfalls</span>, and <span>Perspectives</span>.”</span> <em>Neuron</em> 108 (1): 44–65. <a href="https://doi.org/10.1016/j.neuron.2020.09.017">https://doi.org/10.1016/j.neuron.2020.09.017</a>.
+</div>
+<div id="ref-Miranda2023" class="csl-entry" role="listitem">
+Miranda, Lucas, Joeri Bordes, Benno Pütz, Mathias V. Schmidt, and Bertram Müller-Myhsok. 2023. <span>“DeepOF: A Python Package for Supervised and Unsupervised Pattern Recognition in Mice Motion Tracking Data.”</span> <em>Journal of Open Source Software</em> 8 (86): 5394. <a href="https://doi.org/10.21105/joss.05394">https://doi.org/10.21105/joss.05394</a>.
+</div>
+<div id="ref-colony_track_2024" class="csl-entry" role="listitem">
+Overall, Rupert W. 2024. <em>ColonyTrack: Analysis of Multi-Subject Tracking Data from Interconnected Cage Networks</em>.
+</div>
+<div id="ref-Rtrack_2020" class="csl-entry" role="listitem">
+Overall, Rupert W, Sara Zocher, Alexander Garthe, and Gerd Kempermann. 2020. <span>“Rtrack: A Software Package for Reproducible Automated Water Maze Analysis.”</span> <em>bioRxiv</em> 2020.02.27.967372. <a href="https://doi.org/10.1101/2020.02.27.967372">https://doi.org/10.1101/2020.02.27.967372</a>.
+</div>
+<div id="ref-scikit-mobility" class="csl-entry" role="listitem">
+Pappalardo, Luca, Filippo Simini, Gianni Barlacchi, and Roberto Pellungrini. 2022. <span>“Scikit-Mobility: A Python Library for the Analysis, Generation, and Risk Assessment of Mobility Data.”</span> <em>Journal of Statistical Software</em> 103 (1): 1–38. <a href="https://doi.org/10.18637/jss.v103.i04">https://doi.org/10.18637/jss.v103.i04</a>.
+</div>
+<div id="ref-pereira_quantifying_2020" class="csl-entry" role="listitem">
+Pereira, Talmo D., Joshua W. Shaevitz, and Mala Murthy. 2020. <span>“Quantifying Behavior to Understand the Brain.”</span> <em>Nature Neuroscience</em> 23 (12): 1537–49. <a href="https://doi.org/10.1038/s41593-020-00734-z">https://doi.org/10.1038/s41593-020-00734-z</a>.
+</div>
+<div id="ref-pereira_sleap_2022" class="csl-entry" role="listitem">
+Pereira, Talmo D., Nathaniel Tabris, Arie Matsliah, David M. Turner, Junyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, et al. 2022. <span>“<span>SLEAP</span>: <span>A</span> Deep Learning System for Multi-Animal Pose Tracking.”</span> <em>Nature Methods</em> 19 (4): 486–95. <a href="https://doi.org/10.1038/s41592-022-01426-1">https://doi.org/10.1038/s41592-022-01426-1</a>.
+</div>
+<div id="ref-roaldarbol_animovement_2024" class="csl-entry" role="listitem">
+Roald-Arbøl, Mikkel. 2024. <span>“Animovement: An r Toolbox for Analysing Animal Movement Across Space and Time.”</span> <a href="http://www.roald-arboel.com/animovement/">http://www.roald-arboel.com/animovement/</a>.
+</div>
+<div id="ref-romero-ferrero_idtrackerai_2019" class="csl-entry" role="listitem">
+Romero-Ferrero, Francisco, Mattia G. Bergomi, Robert C. Hinz, Francisco J. H. Heras, and Gonzalo G. de Polavieja. 2019. <span>“Idtracker.ai: Tracking All Individuals in Small or Large Collectives of Unmarked Animals.”</span> <em>Nature Methods</em> 16 (2): 179–82. <a href="https://doi.org/10.1038/s41592-018-0295-5">https://doi.org/10.1038/s41592-018-0295-5</a>.
+</div>
+<div id="ref-schweihoff_-soid_2022" class="csl-entry" role="listitem">
+Schweihoff, Jens F., Alexander I. Hsu, Martin K. Schwarz, and Eric A. Yttri. 2022. <span>“A-<span>SOiD</span>, an Active Learning Platform for Expert-Guided, Data Efficient Discovery of Behavior.”</span> bioRxiv. <a href="https://doi.org/10.1101/2022.11.04.515138">https://doi.org/10.1101/2022.11.04.515138</a>.
+</div>
+<div id="ref-mars2021" class="csl-entry" role="listitem">
+Segalin, Cristina, Jalani Williams, Tomomi Karigo, May Hui, Moriel Zelikowsky, Jennifer J Sun, Pietro Perona, David J Anderson, and Ann Kennedy. 2021. <span>“The Mouse Action Recognition System (MARS) Software Pipeline for Automated Analysis of Social Behaviors in Mice.”</span> Edited by Gordon J Berman, Kate M Wassum, and Asaf Gal. <em>eLife</em> 10 (November): e63720. <a href="https://doi.org/10.7554/eLife.63720">https://doi.org/10.7554/eLife.63720</a>.
+</div>
+<div id="ref-sirmpilatze_movement_2025" class="csl-entry" role="listitem">
+Sirmpilatze, Niko, Sofía Miñano, Chang Huan Lo, Adam Tyson, Will Graham, Stella Prins, Brandon Peri, et al. 2025. <span>“Neuroinformatics-Unit/Movement: V0.9.0.”</span> Zenodo. <a href="https://doi.org/10.5281/zenodo.16754905">https://doi.org/10.5281/zenodo.16754905</a>.
+</div>
+<div id="ref-tinbergen_study_1951" class="csl-entry" role="listitem">
+Tinbergen, Niko. 1951. <em>The <span>Study</span> of <span>Instinct</span></em>. Clarendon Press.
+</div>
+<div id="ref-tomar2006converting" class="csl-entry" role="listitem">
+Tomar, Suramya. 2006. <span>“Converting Video Formats with FFmpeg.”</span> <em>Linux Journal</em> 2006 (146): 10.
+</div>
+<div id="ref-walter_trex_2021" class="csl-entry" role="listitem">
+Walter, Tristan, and Iain D Couzin. 2021. <span>“<span>TRex</span>, a Fast Multi-Animal Tracking System with Markerless Identification, and <span>2D</span> Estimation of Posture and Visual Fields.”</span> Edited by David Lentink, Christian Rutz, and Sergi Pujades. <em>eLife</em> 10 (February): e64000. <a href="https://doi.org/10.7554/eLife.64000">https://doi.org/10.7554/eLife.64000</a>.
+</div>
+<div id="ref-weinreb_keypoint-moseq_2024" class="csl-entry" role="listitem">
+Weinreb, Caleb. 2024. <span>“Keypoint-<span>MoSeq</span>: Parsing Behavior by Linking Point Tracking to Pose Dynamics.”</span> <em>Nature Methods</em> 21.
+</div>
+<div id="ref-wiltschko_mapping_2015" class="csl-entry" role="listitem">
+Wiltschko, Alexander B., Matthew J. Johnson, Giuliano Iurilli, Ralph E. Peterson, Jesse M. Katon, Stan L. Pashkovski, Victoria E. Abraira, Ryan P. Adams, and Sandeep Robert Datta. 2015. <span>“Mapping <span>Sub</span>-<span>Second</span> <span>Structure</span> in <span>Mouse</span> <span>Behavior</span>.”</span> <em>Neuron</em> 88 (6): 1121–35. <a href="https://doi.org/10.1016/j.neuron.2015.11.031">https://doi.org/10.1016/j.neuron.2015.11.031</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-deep-learning.html" class="pagination-link" aria-label="Deep learning for computer vision primer">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Deep learning for computer vision primer</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>This website is made with <a href="https://quarto.org/docs/books">Quarto Book</a>, see <a href="contributing.html" class="quarto-xref"><span>Appendix B</span></a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/01-intro.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/01-intro.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
