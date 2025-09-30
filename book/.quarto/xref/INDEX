@@ -1,0 +1,32 @@
+{
+  "index.qmd": {
+    "index.html": "3064c78e"
+  },
+  "01-intro.qmd": {
+    "01-intro.html": "d2828b32"
+  },
+  "02-deep-learning.qmd": {
+    "02-deep-learning.html": "7b4b1f20"
+  },
+  "03-sleap-tutorial.qmd": {
+    "03-sleap-tutorial.html": "5568976c"
+  },
+  "04-movement-intro.qmd": {
+    "04-movement-intro.html": "8c4dccb2"
+  },
+  "05-movement-mouse.qmd": {
+    "05-movement-mouse.html": "6f2f1035"
+  },
+  "06-movement-zebras.qmd": {
+    "06-movement-zebras.html": "29217783"
+  },
+  "prerequisites.qmd": {
+    "prerequisites.html": "10dc161d"
+  },
+  "contributing.qmd": {
+    "contributing.html": "4afe68ba"
+  },
+  "references.qmd": {
+    "references.html": "cc85fec9"
+  }
+}
