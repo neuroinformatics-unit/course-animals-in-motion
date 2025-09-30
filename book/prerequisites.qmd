@@ -56,8 +56,8 @@ You will also need a separate `conda` environment with everything required for t
 We recommend cloning this workshop's repository and creating the environment using the provided `environment.yaml` file:
 
 ```bash
-git clone https://github.com/neuroinformatics-unit/animals-in-motion.git
-cd animals-in-motion
+git clone https://github.com/neuroinformatics-unit/course-animals-in-motion.git
+cd course-animals-in-motion
 conda env create -n animals-in-motion-env -f environment.yaml
 ```
 

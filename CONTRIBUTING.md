@@ -7,8 +7,8 @@ content improvement, as well as new tutorials or case studies.
 Begin by cloning the repository and navigating to its root directory:
 
 ```bash
-git clone https://github.com/neuroinformatics-unit/animals-in-motion.git
-cd animals-in-motion
+git clone https://github.com/neuroinformatics-unit/course-animals-in-motion.git
+cd course-animals-in-motion
 ```
 
 We use `conda` to manage dependencies.
