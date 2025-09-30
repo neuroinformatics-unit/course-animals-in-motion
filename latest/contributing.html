@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -70,14 +70,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./img/logo_niu_light.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-8bebfebc0cd86d3fea4cb3014f68faba.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-9cf5928a4c8d0141e8ae8d9397ab45b5.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ffe47b9e32be2a100109a7e6bbc29122.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-6edfb73c787725f6aa8d7d356ddbd81c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -133,7 +138,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Animals In Motion</a> 
@@ -237,10 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#pre-commit-hooks" id="toc-pre-commit-hooks" class="nav-link" data-scroll-target="#pre-commit-hooks"><span class="header-section-number">B.3</span> Pre-commit hooks</a></li>
   <li><a href="#sec-versioning" id="toc-sec-versioning" class="nav-link" data-scroll-target="#sec-versioning"><span class="header-section-number">B.4</span> Versioning and releasing</a></li>
-  <li><a href="#continuous-integration-ci" id="toc-continuous-integration-ci" class="nav-link" data-scroll-target="#continuous-integration-ci"><span class="header-section-number">B.5</span> Continuous integration (CI)</a>
-  <ul class="collapse">
-  <li><a href="#previewing-the-book-in-ci" id="toc-previewing-the-book-in-ci" class="nav-link" data-scroll-target="#previewing-the-book-in-ci"><span class="header-section-number">B.5.1</span> Previewing the book in CI</a></li>
-  </ul></li>
+  <li><a href="#continuous-integration-ci" id="toc-continuous-integration-ci" class="nav-link" data-scroll-target="#continuous-integration-ci"><span class="header-section-number">B.5</span> Continuous integration (CI)</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/edit/main/book/contributing.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/blob/main/book/contributing.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -270,21 +273,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="setting-up-the-development-environment" class="level2" data-number="B.1">
 <h2 data-number="B.1" class="anchored" data-anchor-id="setting-up-the-development-environment"><span class="header-section-number">B.1</span> Setting up the development environment</h2>
 <p>Begin by cloning the repository and navigating to its root directory:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/neuroinformatics-unit/animals-in-motion.git</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> animals-in-motion</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/neuroinformatics-unit/animals-in-motion.git</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> animals-in-motion</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>We use <code>conda</code> to manage dependencies. First, create a development environment using the <code>environment-dev.yaml</code> file, and activate it:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> animals-in-motion-dev <span class="at">-f</span> environment-dev.yaml</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate animals-in-motion-dev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-n</span> animals-in-motion-dev <span class="at">-f</span> environment-dev.yaml</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate animals-in-motion-dev</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>To enable the <a href="#pre-commit-hooks">pre-commit hooks</a>, run the following command once:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> install</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is a <a href="https://quarto.org/docs/books/index.html">Quarto book</a> project, with its source code located in the <code>book/</code> directory. We refer you to the <a href="https://quarto.org/docs/books/index.html">Quarto documentation</a> for more information on how books are structured and configured.</p>
 <p>To render/preview the book locally, you’ll need the <a href="https://quarto.org/docs/get-started/">Quarto CLI</a> installed, as well as the <a href="https://quarto.org/docs/get-started/hello/vscode.html">VSCode Quarto extension</a></p>
 <p>You will also need to make sure that the <code>QUARTO_PYTHON</code> environment variable is set to the path of the <code>python</code> executable in the development <code>conda</code> environment. This guarantees that the Quarto CLI will use the correct Python interpreter when rendering the book.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">QUARTO_PYTHON</span><span class="op">=</span><span class="va">$(</span><span class="fu">which</span> python<span class="va">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">QUARTO_PYTHON</span><span class="op">=</span><span class="va">$(</span><span class="fu">which</span> python<span class="va">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then, you can render the book using:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or if you want to run executable code blocks before rendering to html</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You can view the rendered book by opening the <code>book/_book/index.html</code> file in your browser.</p>
 </section>
 <section id="authoring-content" class="level2" data-number="B.2">
@@ -303,7 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The <code>_quarto-answers.yml</code> file defines the “answers” profile, which is identical to the “default” profile, but also includes solutions to code exercises.</li>
 </ul>
 <p>To add answers to code exercises, please enclose them in a block of the following form:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span> {.content-visible when-profile=<span class="st">"answers"</span>}</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span> {.content-visible when-profile=<span class="st">"answers"</span>}</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span> {.callout-tip title=<span class="st">"Click to reveal the answers"</span> collapse=<span class="st">"true"</span>}</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -311,13 +314,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="ex">:::</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then you can control whether the answers are shown or not by passing the appropriate Quarto profile to the <code>quarto render</code> command:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> default  <span class="co"># equivalent to no profile</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> answers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> default  <span class="co"># equivalent to no profile</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span> <span class="at">--profile</span> answers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You can achieve the same effect by setting the <code>QUARTO_PROFILE</code> environment variable before rendering the book:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">QUARTO_PROFILE</span><span class="op">=</span>answers</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">QUARTO_PROFILE</span><span class="op">=</span>answers</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render book <span class="at">--execute</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In general, it’s most convenient to show the answers while you are developing the content, and then hide them to preview the book as a student would see it.</p>
 <p>See the <a href="#sec-versioning" class="quarto-xref"><span>Section B.4</span></a> for more information on how to create releases with or without answers.</p>
 </section>
@@ -332,19 +335,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://github.com/astral-sh/ruff">ruff</a> for code linting and formatting.</li>
 </ul>
 <p>These will prevent code from being committed if any of these hooks fail. To run all the hooks before committing:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run  <span class="co"># for staged files</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run <span class="at">-a</span>  <span class="co"># for all files in the repository</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run  <span class="co"># for staged files</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> run <span class="at">-a</span>  <span class="co"># for all files in the repository</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="sec-versioning" class="level2" data-number="B.4">
 <h2 data-number="B.4" class="anchored" data-anchor-id="sec-versioning"><span class="header-section-number">B.4</span> Versioning and releasing</h2>
 <p>We use <a href="https://calver.org/">Calendar Versioning (CalVer)</a> and specifically the <code>YYYY.0M</code> scheme (e.g.&nbsp;<code>2025.08</code> for August 2025).</p>
 <p>To create a new release, first update the <code>book/index.qmd</code> file. Specifically, add two rows like the following to the “Versions” table:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`2025.08`</span> <span class="pp">|</span> version used for the inaugural workshop in August 2025 <span class="pp">|</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`v2025.08-answers`</span> <span class="pp">|</span> same as <span class="in">`v2025.08`</span> but with answers to exercises <span class="pp">|</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`v2025.08`</span> <span class="pp">|</span> version used for the inaugural workshop in August 2025 <span class="pp">|</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`v2025.08-answers`</span> <span class="pp">|</span> same as <span class="in">`v2025.08`</span> but with answers to exercises <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You also need to create a new tag in the <code>vYYYY.0M</code> format (e.g.&nbsp;<code>v2025.08</code>) and push it to the repository. Don’t forget the <code>v</code> prefix for the tag name!</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v2025.08</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="at">--tags</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v2025.08</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="at">--tags</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="continuous-integration-ci" class="level2" data-number="B.5">
 <h2 data-number="B.5" class="anchored" data-anchor-id="continuous-integration-ci"><span class="header-section-number">B.5</span> Continuous integration (CI)</h2>
@@ -363,19 +366,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Each release version is deployed to a folder in the <code>gh-pages</code> branch, with the same name as the release tag (e.g., <code>v2025.08</code>). This is accompanied by a <code>vYYYY.0M-answers</code> folder containing a version of the book with answers to exercises (e.g.&nbsp;<code>v2025.08-answers</code>).</p>
 <p>There’s also a special folder called <code>dev</code> that is deployed for pushes to the <code>main</code> branch. This folder always includes the answers to exercises.</p>
-<section id="previewing-the-book-in-ci" class="level3" data-number="B.5.1">
-<h3 data-number="B.5.1" class="anchored" data-anchor-id="previewing-the-book-in-ci"><span class="header-section-number">B.5.1</span> Previewing the book in CI</h3>
-<p>We use <a href="https://artifact.ci/">artifact.ci</a> to preview the book that is rendered as part of our CI workflow. This is useful to check that the book renders correctly before merging a PR. To do so:</p>
-<ol type="1">
-<li>Go to the “Checks” tab in the GitHub PR.</li>
-<li>Click on the “Build and Deploy Quarto Book” section on the left.</li>
-<li>If the “Build Quarto book” action is successful, a summary section will appear under the block diagram with a link to preview the built documentation.</li>
-<li>Click on the link and wait for the files to be uploaded (it may take a while the first time). You may be asked to sign in to GitHub.</li>
-<li>Once the upload is complete, look for <code>book/_book-answers/index.html</code> under the “Detected Entrypoints” section.</li>
-</ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -430,13 +422,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

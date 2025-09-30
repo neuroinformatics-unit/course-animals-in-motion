@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -78,7 +78,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -90,14 +90,19 @@ div.csl-indent {
 <link href="./img/logo_niu_light.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-8bebfebc0cd86d3fea4cb3014f68faba.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-9cf5928a4c8d0141e8ae8d9397ab45b5.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ffe47b9e32be2a100109a7e6bbc29122.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-6edfb73c787725f6aa8d7d356ddbd81c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -125,7 +130,7 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -143,7 +148,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -185,7 +190,8 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Animals In Motion</a> 
@@ -320,7 +326,7 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Using the right environment
+<span class="screen-reader-only">Note</span>Using the right environment
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -339,7 +345,7 @@ Analysis will roughly follow <https://github.com/neuroinformatics-unit/zebras-st
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Acknowledgement
+<span class="screen-reader-only">Note</span>Acknowledgement
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -350,8 +356,8 @@ Acknowledgement
 <section id="load-and-explore-the-dataset" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="load-and-explore-the-dataset"><span class="header-section-number">6.2</span> Load and explore the dataset</h2>
 <p>First, let’s load and explore the dataset</p>
-<div id="4f940585" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div id="526bb946" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
@@ -360,20 +366,16 @@ Acknowledgement
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> movement.kinematics <span class="im">import</span> compute_pairwise_distances, compute_speed</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> movement.transforms <span class="im">import</span> scale</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> movement.utils.vector <span class="im">import</span> compute_norm, convert_to_unit</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> movement.utils.reports <span class="im">import</span> report_nan_values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> movement.utils.reports <span class="im">import</span> report_nan_values</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Downloading data from 'https://gin.g-node.org/neuroinformatics/movement-test-data/raw/master/metadata.yaml' to file '/home/runner/.movement/data/temp_metadata.yaml'.
-SHA256 hash of downloaded file: ab9c9c95a3f8366583e2cdb9c84610c62bd0bb0c6cbbcbbdc6a3390b6108623f
+SHA256 hash of downloaded file: 22100193c76c0e3f274e4c986357c95fc645da1f5c67af41a8acfa91313205f4
 Use this value as the 'known_hash' argument of 'pooch.retrieve' to ensure that the file hasn't changed if it is downloaded again in the future.</code></pre>
 </div>
 </div>
-<div id="094c312e" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> sample_data.fetch_dataset(<span class="st">"SLEAP_OSFM_zebras_drone.h5"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Downloading file 'poses/SLEAP_OSFM_zebras_drone.h5' from 'https://gin.g-node.org/neuroinformatics/movement-test-data/raw/master/poses/SLEAP_OSFM_zebras_drone.h5' to '/home/runner/.movement/data'.
-0.00B [00:00, ?B/s]17.4kB [00:00, 106kB/s]49.2kB [00:00, 156kB/s]115kB [00:00, 264kB/s] 147kB [00:00, 237kB/s]246kB [00:00, 364kB/s]330kB [00:01, 411kB/s]502kB [00:01, 613kB/s]590kB [00:01, 444kB/s]729kB [00:01, 433kB/s]777kB [00:02, 400kB/s]822kB [00:02, 408kB/s]865kB [00:02, 366kB/s]906kB [00:02, 331kB/s]961kB [00:02, 329kB/s]1.01MB [00:02, 315kB/s]1.06MB [00:02, 314kB/s]1.11MB [00:03, 308kB/s]1.16MB [00:03, 306kB/s]1.22MB [00:03, 320kB/s]1.27MB [00:03, 315kB/s]1.32MB [00:03, 312kB/s]1.38MB [00:03, 324kB/s]1.43MB [00:04, 319kB/s]1.48MB [00:04, 314kB/s]1.54MB [00:04, 324kB/s]1.59MB [00:04, 319kB/s]1.64MB [00:04, 338kB/s]1.68MB [00:04, 335kB/s]1.71MB [00:04, 334kB/s]1.75MB [00:05, 305kB/s]1.81MB [00:05, 320kB/s]1.87MB [00:05, 332kB/s]1.92MB [00:05, 329kB/s]1.98MB [00:05, 328kB/s]2.04MB [00:05, 351kB/s]2.10MB [00:06, 346kB/s]2.16MB [00:06, 345kB/s]2.22MB [00:06, 353kB/s]2.28MB [00:06, 355kB/s]2.33MB [00:06, 285kB/s]2.40MB [00:07, 341kB/s]2.44MB [00:07, 339kB/s]2.47MB [00:07, 306kB/s]2.52MB [00:07, 302kB/s]2.58MB [00:07, 303kB/s]2.62MB [00:07, 328kB/s]2.66MB [00:07, 326kB/s]2.69MB [00:07, 329kB/s]2.74MB [00:08, 318kB/s]2.78MB [00:08, 243kB/s]2.84MB [00:08, 308kB/s]2.87MB [00:08, 309kB/s]2.91MB [00:08, 311kB/s]2.94MB [00:08, 273kB/s]2.97MB [00:08, 278kB/s]3.00MB [00:09, 253kB/s]3.05MB [00:09, 269kB/s]3.10MB [00:09, 291kB/s]3.13MB [00:09, 289kB/s]3.16MB [00:09, 290kB/s]3.19MB [00:09, 291kB/s]3.22MB [00:09, 269kB/s]3.25MB [00:09, 284kB/s]3.28MB [00:10, 295kB/s]3.31MB [00:10, 273kB/s]3.34MB [00:10, 277kB/s]3.38MB [00:10, 287kB/s]3.41MB [00:10, 270kB/s]3.43MB [00:10, 272kB/s]3.47MB [00:10, 301kB/s]3.50MB [00:10, 277kB/s]3.53MB [00:10, 279kB/s]3.57MB [00:11, 309kB/s]3.60MB [00:11, 285kB/s]3.63MB [00:11, 288kB/s]3.67MB [00:11, 318kB/s]3.70MB [00:11, 293kB/s]3.74MB [00:11, 300kB/s]3.78MB [00:11, 323kB/s]3.81MB [00:11, 299kB/s]3.84MB [00:11, 296kB/s]3.89MB [00:12, 303kB/s]3.94MB [00:12, 246kB/s]4.00MB [00:12, 306kB/s]4.04MB [00:12, 289kB/s]4.08MB [00:13, 203kB/s]4.15MB [00:13, 267kB/s]4.19MB [00:13, 247kB/s]4.21MB [00:13, 207kB/s]4.24MB [00:13, 209kB/s]4.26MB [00:13, 189kB/s]4.28MB [00:13, 184kB/s]4.30MB [00:14, 186kB/s]4.32MB [00:14, 174kB/s]4.34MB [00:14, 159kB/s]4.36MB [00:14, 166kB/s]4.38MB [00:14, 173kB/s]4.40MB [00:14, 162kB/s]4.42MB [00:14, 160kB/s]4.45MB [00:15, 155kB/s]4.47MB [00:15, 158kB/s]4.50MB [00:15, 163kB/s]4.52MB [00:15, 184kB/s]4.54MB [00:15, 175kB/s]4.56MB [00:15, 161kB/s]4.59MB [00:15, 175kB/s]4.61MB [00:15, 185kB/s]4.63MB [00:16, 177kB/s]4.65MB [00:16, 166kB/s]4.68MB [00:16, 177kB/s]4.72MB [00:16, 183kB/s]4.75MB [00:16, 207kB/s]4.77MB [00:16, 204kB/s]4.79MB [00:16, 204kB/s]4.82MB [00:17, 196kB/s]4.86MB [00:17, 196kB/s]4.89MB [00:17, 217kB/s]4.92MB [00:17, 224kB/s]4.94MB [00:17, 223kB/s]4.97MB [00:17, 211kB/s]5.01MB [00:17, 217kB/s]0.00B [00:00, ?B/s]    0.00B [00:00, ?B/s]</code></pre>
-</div>
+<div id="40f5c45a" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> sample_data.fetch_dataset(<span class="st">"SLEAP_OSFM_zebras_drone.h5"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
@@ -833,15 +835,15 @@ Attributes:
     ds_type:          poses
     fps:              29.97
     time_unit:        seconds
-    source_file:      /home/runner/.movement/data/poses/SLEAP_OSFM_zebras_dro...</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.Dataset</div></div><ul class="xr-sections"><li class="xr-section-item"><input id="section-3f783077-7754-4058-bdef-5f0c59ecfcb9" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-3f783077-7754-4058-bdef-5f0c59ecfcb9" class="xr-section-summary" title="Expand/collapse section">Dimensions:</label><div class="xr-section-inline-details"><ul class="xr-dim-list"><li><span class="xr-has-index">time</span>: 6294</li><li><span class="xr-has-index">space</span>: 2</li><li><span class="xr-has-index">keypoints</span>: 2</li><li><span class="xr-has-index">individuals</span>: 44</li></ul></div><div class="xr-section-details"></div></li><li class="xr-section-item"><input id="section-c7eb1a81-3788-40c6-b64d-b0a84a5e4295" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-c7eb1a81-3788-40c6-b64d-b0a84a5e4295" class="xr-section-summary">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">time</span></div><div class="xr-var-dims">(time)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.0 0.03337 0.06673 ... 209.9 210.0</div><input id="attrs-488cc5e5-9ff9-45e3-9df1-a3f74672dcef" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-488cc5e5-9ff9-45e3-9df1-a3f74672dcef" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-7ddae6b4-242e-4148-b62b-75225798b45f" class="xr-var-data-in" type="checkbox"><label for="data-7ddae6b4-242e-4148-b62b-75225798b45f" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.000000e+00, 3.336670e-02, 6.673340e-02, ..., 2.099099e+02,
-       2.099433e+02, 2.099766e+02], shape=(6294,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">space</span></div><div class="xr-var-dims">(space)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'x' 'y'</div><input id="attrs-5f51ce78-096d-4901-8bb0-0a6587900f15" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-5f51ce78-096d-4901-8bb0-0a6587900f15" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-568017c5-605e-443b-b124-4607a8c0b7c3" class="xr-var-data-in" type="checkbox"><label for="data-568017c5-605e-443b-b124-4607a8c0b7c3" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['x', 'y'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">keypoints</span></div><div class="xr-var-dims">(keypoints)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'H' 'T'</div><input id="attrs-f5e85956-fe73-4835-a841-0a223d616d13" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-f5e85956-fe73-4835-a841-0a223d616d13" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-b6ffbc9a-1f7f-4d4c-907e-8f2ea18c3812" class="xr-var-data-in" type="checkbox"><label for="data-b6ffbc9a-1f7f-4d4c-907e-8f2ea18c3812" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['H', 'T'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">individuals</span></div><div class="xr-var-dims">(individuals)</div><div class="xr-var-dtype">&lt;U8</div><div class="xr-var-preview xr-preview">'track_0' 'track_1' ... 'track_43'</div><input id="attrs-6867a90a-7d7d-425b-8fac-92a4e93a43a1" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-6867a90a-7d7d-425b-8fac-92a4e93a43a1" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-60f7845f-2ea5-402c-a828-ae98497ce358" class="xr-var-data-in" type="checkbox"><label for="data-60f7845f-2ea5-402c-a828-ae98497ce358" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['track_0', 'track_1', 'track_10', 'track_11', 'track_12', 'track_13',
+    source_file:      /home/runner/.movement/data/poses/SLEAP_OSFM_zebras_dro...</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.Dataset</div></div><ul class="xr-sections"><li class="xr-section-item"><input id="section-7056b5e8-05ed-4840-9989-d4ac86d40dcb" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-7056b5e8-05ed-4840-9989-d4ac86d40dcb" class="xr-section-summary" title="Expand/collapse section">Dimensions:</label><div class="xr-section-inline-details"><ul class="xr-dim-list"><li><span class="xr-has-index">time</span>: 6294</li><li><span class="xr-has-index">space</span>: 2</li><li><span class="xr-has-index">keypoints</span>: 2</li><li><span class="xr-has-index">individuals</span>: 44</li></ul></div><div class="xr-section-details"></div></li><li class="xr-section-item"><input id="section-422bbff9-b073-4520-8a7b-6879a7f7ad04" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-422bbff9-b073-4520-8a7b-6879a7f7ad04" class="xr-section-summary">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">time</span></div><div class="xr-var-dims">(time)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.0 0.03337 0.06673 ... 209.9 210.0</div><input id="attrs-ac3a722c-6e3a-4a9f-b1c2-92a50af02015" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-ac3a722c-6e3a-4a9f-b1c2-92a50af02015" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-2d09f134-bda0-44d7-838c-c93dd55d9fa7" class="xr-var-data-in" type="checkbox"><label for="data-2d09f134-bda0-44d7-838c-c93dd55d9fa7" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.000000e+00, 3.336670e-02, 6.673340e-02, ..., 2.099099e+02,
+       2.099433e+02, 2.099766e+02], shape=(6294,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">space</span></div><div class="xr-var-dims">(space)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'x' 'y'</div><input id="attrs-b2f229f4-6e8f-4737-b5cd-903f7308dcb3" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-b2f229f4-6e8f-4737-b5cd-903f7308dcb3" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-385152a5-cc26-47ca-832a-0f2add4af3b2" class="xr-var-data-in" type="checkbox"><label for="data-385152a5-cc26-47ca-832a-0f2add4af3b2" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['x', 'y'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">keypoints</span></div><div class="xr-var-dims">(keypoints)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'H' 'T'</div><input id="attrs-13716e59-4fd9-48eb-8b9c-5c54335cd9be" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-13716e59-4fd9-48eb-8b9c-5c54335cd9be" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-d5072291-9f85-4566-a2eb-4402d6a4167c" class="xr-var-data-in" type="checkbox"><label for="data-d5072291-9f85-4566-a2eb-4402d6a4167c" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['H', 'T'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">individuals</span></div><div class="xr-var-dims">(individuals)</div><div class="xr-var-dtype">&lt;U8</div><div class="xr-var-preview xr-preview">'track_0' 'track_1' ... 'track_43'</div><input id="attrs-037fdfbc-23bb-49ef-a396-d45b3e82ce73" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-037fdfbc-23bb-49ef-a396-d45b3e82ce73" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-9e6bad28-15f8-4f3d-ba3a-ea7a990a86a6" class="xr-var-data-in" type="checkbox"><label for="data-9e6bad28-15f8-4f3d-ba3a-ea7a990a86a6" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['track_0', 'track_1', 'track_10', 'track_11', 'track_12', 'track_13',
        'track_14', 'track_15', 'track_16', 'track_17', 'track_18', 'track_19',
        'track_2', 'track_20', 'track_21', 'track_22', 'track_23', 'track_24',
        'track_25', 'track_26', 'track_27', 'track_28', 'track_29', 'track_3',
        'track_30', 'track_31', 'track_32', 'track_33', 'track_34', 'track_35',
        'track_36', 'track_37', 'track_38', 'track_39', 'track_4', 'track_40',
        'track_41', 'track_42', 'track_5', 'track_6', 'track_7', 'track_8',
-       'track_9', 'track_43'], dtype='&lt;U8')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-470c2a11-ce64-492d-bc85-8268bde93287" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-470c2a11-ce64-492d-bc85-8268bde93287" class="xr-section-summary">Data variables: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span>position</span></div><div class="xr-var-dims">(time, space, keypoints, individuals)</div><div class="xr-var-dtype">float32</div><div class="xr-var-preview xr-preview">1.035e+03 1.043e+03 ... 680.6 743.0</div><input id="attrs-ef209857-d6e4-40bb-9a43-91a16d179e41" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-ef209857-d6e4-40bb-9a43-91a16d179e41" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-cb43a479-7b21-460a-ae3e-fc71c4dfcf51" class="xr-var-data-in" type="checkbox"><label for="data-cb43a479-7b21-460a-ae3e-fc71c4dfcf51" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([[[[1035.0875 , 1042.7065 , 1305.2988 , ..., 1288.8965 ,
+       'track_9', 'track_43'], dtype='&lt;U8')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-127523ea-e8ee-44e2-a0a1-15cc291497f4" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-127523ea-e8ee-44e2-a0a1-15cc291497f4" class="xr-section-summary">Data variables: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span>position</span></div><div class="xr-var-dims">(time, space, keypoints, individuals)</div><div class="xr-var-dtype">float32</div><div class="xr-var-preview xr-preview">1.035e+03 1.043e+03 ... 680.6 743.0</div><input id="attrs-75774c44-ba92-44a1-a661-a17166370dea" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-75774c44-ba92-44a1-a661-a17166370dea" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-96add687-6657-493e-b37d-2135aae66613" class="xr-var-data-in" type="checkbox"><label for="data-96add687-6657-493e-b37d-2135aae66613" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([[[[1035.0875 , 1042.7065 , 1305.2988 , ..., 1288.8965 ,
           1075.2968 ,        nan],
          [1055.7279 , 1056.1145 , 1287.899  , ..., 1272.5366 ,
           1061.8053 ,        nan]],
@@ -881,7 +883,7 @@ Attributes:
            689.2539 ,  738.3456 ],
          [       nan,  731.19904,        nan, ...,  975.0833 ,
            680.563  ,  743.02875]]]],
-      shape=(6294, 2, 2, 44), dtype=float32)</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>confidence</span></div><div class="xr-var-dims">(time, keypoints, individuals)</div><div class="xr-var-dtype">float32</div><div class="xr-var-preview xr-preview">0.9987 0.9696 ... 0.9946 1.006</div><input id="attrs-c4afa0ed-15b6-4286-ab04-952701157816" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-c4afa0ed-15b6-4286-ab04-952701157816" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-4afb2334-4f36-4a70-902d-b26bf51f2212" class="xr-var-data-in" type="checkbox"><label for="data-4afb2334-4f36-4a70-902d-b26bf51f2212" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([[[0.9986721 , 0.96957946, 0.97588646, ..., 0.9835917 ,
+      shape=(6294, 2, 2, 44), dtype=float32)</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>confidence</span></div><div class="xr-var-dims">(time, keypoints, individuals)</div><div class="xr-var-dtype">float32</div><div class="xr-var-preview xr-preview">0.9987 0.9696 ... 0.9946 1.006</div><input id="attrs-019707f4-201a-4cbc-b7fe-9102eceeb7e9" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-019707f4-201a-4cbc-b7fe-9102eceeb7e9" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-d9a98dd9-eb59-402a-b2f1-89cb0dda425f" class="xr-var-data-in" type="checkbox"><label for="data-d9a98dd9-eb59-402a-b2f1-89cb0dda425f" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([[[0.9986721 , 0.96957946, 0.97588646, ..., 0.9835917 ,
          0.99211425,        nan],
         [1.006721  , 1.0021206 , 0.99066794, ..., 0.99203897,
          1.0121652 ,        nan]],
@@ -911,7 +913,7 @@ Attributes:
        [[       nan, 0.9971091 ,        nan, ..., 0.9822346 ,
          0.9864464 , 0.99721533],
         [       nan, 0.9900413 ,        nan, ..., 0.9947883 ,
-         0.9946445 , 1.0055223 ]]], shape=(6294, 2, 44), dtype=float32)</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-97545e03-0c91-41df-b547-57ad052f78c7" class="xr-section-summary-in" type="checkbox"><label for="section-97545e03-0c91-41df-b547-57ad052f78c7" class="xr-section-summary">Indexes: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>time</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-d46e15ef-f0ba-4042-8d8d-a886750c717c" class="xr-index-data-in" type="checkbox"><label for="index-d46e15ef-f0ba-4042-8d8d-a886750c717c" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([                 0.0, 0.033366700033366704,  0.06673340006673341,
+         0.9946445 , 1.0055223 ]]], shape=(6294, 2, 44), dtype=float32)</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-2a3f0d09-f8cc-40db-a640-faffbcf5b9e2" class="xr-section-summary-in" type="checkbox"><label for="section-2a3f0d09-f8cc-40db-a640-faffbcf5b9e2" class="xr-section-summary">Indexes: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>time</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-0aa5d7c0-37ae-43f7-990f-82a076e74387" class="xr-index-data-in" type="checkbox"><label for="index-0aa5d7c0-37ae-43f7-990f-82a076e74387" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([                 0.0, 0.033366700033366704,  0.06673340006673341,
          0.1001001001001001,  0.13346680013346682,  0.16683350016683351,
          0.2002002002002002,   0.2335669002335669,  0.26693360026693363,
          0.3003003003003003,
@@ -920,7 +922,7 @@ Attributes:
          209.77644310977644,   209.80980980980982,   209.84317650984318,
          209.87654320987656,    209.9099099099099,    209.9432766099433,
          209.97664330997665],
-      dtype='float64', name='time', length=6294))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>space</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-72ad9cdd-615b-4b45-8110-7ba60a36f47d" class="xr-index-data-in" type="checkbox"><label for="index-72ad9cdd-615b-4b45-8110-7ba60a36f47d" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['x', 'y'], dtype='object', name='space'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>keypoints</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-43a7c096-70e4-43e8-83f9-55344cb5b846" class="xr-index-data-in" type="checkbox"><label for="index-43a7c096-70e4-43e8-83f9-55344cb5b846" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['H', 'T'], dtype='object', name='keypoints'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>individuals</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-28c6c411-4f26-4c0d-ac50-17c8fc5a784b" class="xr-index-data-in" type="checkbox"><label for="index-28c6c411-4f26-4c0d-ac50-17c8fc5a784b" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['track_0', 'track_1', 'track_10', 'track_11', 'track_12', 'track_13',
+      dtype='float64', name='time', length=6294))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>space</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-90aeef67-22cc-4eb8-956c-c8091bc366bd" class="xr-index-data-in" type="checkbox"><label for="index-90aeef67-22cc-4eb8-956c-c8091bc366bd" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['x', 'y'], dtype='object', name='space'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>keypoints</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-a7a53ac9-9df8-4d5b-acee-4bbdbd32c0fa" class="xr-index-data-in" type="checkbox"><label for="index-a7a53ac9-9df8-4d5b-acee-4bbdbd32c0fa" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['H', 'T'], dtype='object', name='keypoints'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>individuals</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-1f3893e6-d9f0-441d-8101-d6bce53b7a73" class="xr-index-data-in" type="checkbox"><label for="index-1f3893e6-d9f0-441d-8101-d6bce53b7a73" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['track_0', 'track_1', 'track_10', 'track_11', 'track_12', 'track_13',
        'track_14', 'track_15', 'track_16', 'track_17', 'track_18', 'track_19',
        'track_2', 'track_20', 'track_21', 'track_22', 'track_23', 'track_24',
        'track_25', 'track_26', 'track_27', 'track_28', 'track_29', 'track_3',
@@ -928,7 +930,7 @@ Attributes:
        'track_36', 'track_37', 'track_38', 'track_39', 'track_4', 'track_40',
        'track_41', 'track_42', 'track_5', 'track_6', 'track_7', 'track_8',
        'track_9', 'track_43'],
-      dtype='object', name='individuals'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-715ee782-69fc-445d-ae5c-7f4ed24395fb" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-715ee782-69fc-445d-ae5c-7f4ed24395fb" class="xr-section-summary">Attributes: <span>(5)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"><dt><span>source_software :</span></dt><dd>SLEAP</dd><dt><span>ds_type :</span></dt><dd>poses</dd><dt><span>fps :</span></dt><dd>29.97</dd><dt><span>time_unit :</span></dt><dd>seconds</dd><dt><span>source_file :</span></dt><dd>/home/runner/.movement/data/poses/SLEAP_OSFM_zebras_drone.h5</dd></dl></div></li></ul></div></div>
+      dtype='object', name='individuals'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-b46cced0-9b37-4884-ae64-ace37c3b17a6" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-b46cced0-9b37-4884-ae64-ace37c3b17a6" class="xr-section-summary">Attributes: <span>(5)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"><dt><span>source_software :</span></dt><dd>SLEAP</dd><dt><span>ds_type :</span></dt><dd>poses</dd><dt><span>fps :</span></dt><dd>29.97</dd><dt><span>time_unit :</span></dt><dd>seconds</dd><dt><span>source_file :</span></dt><dd>/home/runner/.movement/data/poses/SLEAP_OSFM_zebras_drone.h5</dd></dl></div></li></ul></div></div>
 </div>
 </div>
 <p>We can see the <a href="https://movement.neuroinformatics.dev/user_guide/movement_dataset.html#dataset-structure">poses dataset</a> <code>ds</code> is made up of two data arrays, <code>position</code> and <code>confidence</code>. In this example, we will use the <code>position</code> data array only, which spans four dimensions: <code>time</code>, <code>space</code>, <code>keypoints</code> and <code>individuals</code>. We can verify there are 44 individuals in this dataset (<code>track_0</code> to <code>track_43</code>) and two keypoints per individual, labelled <code>H</code> (head) and <code>T</code> (tailbase). The data was collected at 29.97 frames per second, and the dataloader used this information to automatically express the <code>time</code> dimension in seconds.</p>
@@ -938,7 +940,7 @@ Attributes:
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Position units
+<span class="screen-reader-only">Note</span>Position units
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -950,10 +952,10 @@ Position units
 <section id="compute-the-body-length-per-individual" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="compute-the-body-length-per-individual"><span class="header-section-number">6.3</span> Compute the body length per individual</h2>
 <p>We define the body vector for each individual as the vector going from the <code>T</code> keypoint (tail) to the <code>H</code> keypoint (head).</p>
-<div id="7059e352" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>body_vector <span class="op">=</span> ds.position.sel(keypoints<span class="op">=</span><span class="st">"H"</span>) <span class="op">-</span> ds.position.sel(keypoints<span class="op">=</span><span class="st">"T"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>body_vector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="23556023" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>body_vector <span class="op">=</span> ds.position.sel(keypoints<span class="op">=</span><span class="st">"H"</span>) <span class="op">-</span> ds.position.sel(keypoints<span class="op">=</span><span class="st">"T"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>body_vector</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
@@ -1403,7 +1405,7 @@ dl.xr-attrs {
 Coordinates:
   * time         (time) float64 50kB 0.0 0.03337 0.06673 ... 209.9 209.9 210.0
   * space        (space) &lt;U1 8B 'x' 'y'
-  * individuals  (individuals) &lt;U8 1kB 'track_0' 'track_1' ... 'track_43'</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name">'position'</div><ul class="xr-dim-list"><li><span class="xr-has-index">time</span>: 6294</li><li><span class="xr-has-index">space</span>: 2</li><li><span class="xr-has-index">individuals</span>: 44</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-ae9ddc30-693b-4fa0-b1f3-f3879bfb16a9" class="xr-array-in" type="checkbox"><label for="section-ae9ddc30-693b-4fa0-b1f3-f3879bfb16a9" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>-20.64 -13.41 17.4 8.969 21.4 ... 3.393 4.625 19.86 8.691 -4.683</span></div><div class="xr-array-data"><pre>array([[[-20.64038   , -13.407959  ,  17.39978   , ...,  16.359863  ,
+  * individuals  (individuals) &lt;U8 1kB 'track_0' 'track_1' ... 'track_43'</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-array-name">'position'</div><ul class="xr-dim-list"><li><span class="xr-has-index">time</span>: 6294</li><li><span class="xr-has-index">space</span>: 2</li><li><span class="xr-has-index">individuals</span>: 44</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-d5189cdb-9327-416e-a2dd-a17851001a28" class="xr-array-in" type="checkbox"><label for="section-d5189cdb-9327-416e-a2dd-a17851001a28" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>-20.64 -13.41 17.4 8.969 21.4 ... 3.393 4.625 19.86 8.691 -4.683</span></div><div class="xr-array-data"><pre>array([[[-20.64038   , -13.407959  ,  17.39978   , ...,  16.359863  ,
           13.491455  ,          nan],
         [ -4.529541  ,   3.4731445 ,  -8.841187  , ..., -13.668579  ,
           16.28833   ,          nan]],
@@ -1433,15 +1435,15 @@ Coordinates:
        [[         nan, -19.20996   ,          nan, ...,  -3.421875  ,
           21.351562  , -20.07959   ],
         [         nan,   0.53338623,          nan, ...,  19.86139   ,
-           8.690918  ,  -4.6831665 ]]], shape=(6294, 2, 44), dtype=float32)</pre></div></div></li><li class="xr-section-item"><input id="section-5af08e75-8031-4ef4-9418-d74fbf69e93c" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-5af08e75-8031-4ef4-9418-d74fbf69e93c" class="xr-section-summary">Coordinates: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">time</span></div><div class="xr-var-dims">(time)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.0 0.03337 0.06673 ... 209.9 210.0</div><input id="attrs-da3b35e6-1d4b-42b6-aa11-3595cb999b74" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-da3b35e6-1d4b-42b6-aa11-3595cb999b74" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-6f7b40f2-f174-48ff-9635-d7d0de6b6292" class="xr-var-data-in" type="checkbox"><label for="data-6f7b40f2-f174-48ff-9635-d7d0de6b6292" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.000000e+00, 3.336670e-02, 6.673340e-02, ..., 2.099099e+02,
-       2.099433e+02, 2.099766e+02], shape=(6294,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">space</span></div><div class="xr-var-dims">(space)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'x' 'y'</div><input id="attrs-308ef9f7-73da-414e-8816-822f6d065e53" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-308ef9f7-73da-414e-8816-822f6d065e53" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-f7454ec1-d4da-4eca-86d9-5c5b4a289c43" class="xr-var-data-in" type="checkbox"><label for="data-f7454ec1-d4da-4eca-86d9-5c5b4a289c43" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['x', 'y'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">individuals</span></div><div class="xr-var-dims">(individuals)</div><div class="xr-var-dtype">&lt;U8</div><div class="xr-var-preview xr-preview">'track_0' 'track_1' ... 'track_43'</div><input id="attrs-80637346-9ae0-4a61-8f68-53e4359999fb" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-80637346-9ae0-4a61-8f68-53e4359999fb" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-495cec51-f966-4671-8c15-426cbda5c19d" class="xr-var-data-in" type="checkbox"><label for="data-495cec51-f966-4671-8c15-426cbda5c19d" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['track_0', 'track_1', 'track_10', 'track_11', 'track_12', 'track_13',
+           8.690918  ,  -4.6831665 ]]], shape=(6294, 2, 44), dtype=float32)</pre></div></div></li><li class="xr-section-item"><input id="section-81b81960-8149-4612-9efc-ad164e771071" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-81b81960-8149-4612-9efc-ad164e771071" class="xr-section-summary">Coordinates: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">time</span></div><div class="xr-var-dims">(time)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.0 0.03337 0.06673 ... 209.9 210.0</div><input id="attrs-a74007b6-ed2a-42e1-a3dd-fa1682db0bf2" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-a74007b6-ed2a-42e1-a3dd-fa1682db0bf2" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-c817f927-d40c-4c01-9287-03b5eb7b02f1" class="xr-var-data-in" type="checkbox"><label for="data-c817f927-d40c-4c01-9287-03b5eb7b02f1" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.000000e+00, 3.336670e-02, 6.673340e-02, ..., 2.099099e+02,
+       2.099433e+02, 2.099766e+02], shape=(6294,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">space</span></div><div class="xr-var-dims">(space)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'x' 'y'</div><input id="attrs-4584c1a5-c96b-4f18-8671-fe5dc60131ad" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-4584c1a5-c96b-4f18-8671-fe5dc60131ad" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-3ab79307-2bfd-4c27-9fa5-a3b685d1b3c3" class="xr-var-data-in" type="checkbox"><label for="data-3ab79307-2bfd-4c27-9fa5-a3b685d1b3c3" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['x', 'y'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">individuals</span></div><div class="xr-var-dims">(individuals)</div><div class="xr-var-dtype">&lt;U8</div><div class="xr-var-preview xr-preview">'track_0' 'track_1' ... 'track_43'</div><input id="attrs-d315c194-27ab-4b09-8869-8605ce759757" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-d315c194-27ab-4b09-8869-8605ce759757" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-7e0f30cc-8cd2-4464-81af-1522127748b8" class="xr-var-data-in" type="checkbox"><label for="data-7e0f30cc-8cd2-4464-81af-1522127748b8" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['track_0', 'track_1', 'track_10', 'track_11', 'track_12', 'track_13',
        'track_14', 'track_15', 'track_16', 'track_17', 'track_18', 'track_19',
        'track_2', 'track_20', 'track_21', 'track_22', 'track_23', 'track_24',
        'track_25', 'track_26', 'track_27', 'track_28', 'track_29', 'track_3',
        'track_30', 'track_31', 'track_32', 'track_33', 'track_34', 'track_35',
        'track_36', 'track_37', 'track_38', 'track_39', 'track_4', 'track_40',
        'track_41', 'track_42', 'track_5', 'track_6', 'track_7', 'track_8',
-       'track_9', 'track_43'], dtype='&lt;U8')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-e8f21abf-b829-4c46-8f9b-f56ac0358873" class="xr-section-summary-in" type="checkbox"><label for="section-e8f21abf-b829-4c46-8f9b-f56ac0358873" class="xr-section-summary">Indexes: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>time</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-30499817-c1b3-473e-9da2-1e9407fe8c56" class="xr-index-data-in" type="checkbox"><label for="index-30499817-c1b3-473e-9da2-1e9407fe8c56" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([                 0.0, 0.033366700033366704,  0.06673340006673341,
+       'track_9', 'track_43'], dtype='&lt;U8')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-604ced10-c94e-4ab1-8f30-2ce427158564" class="xr-section-summary-in" type="checkbox"><label for="section-604ced10-c94e-4ab1-8f30-2ce427158564" class="xr-section-summary">Indexes: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>time</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-61261b7e-8626-40f4-8d89-66c0c91a0c24" class="xr-index-data-in" type="checkbox"><label for="index-61261b7e-8626-40f4-8d89-66c0c91a0c24" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([                 0.0, 0.033366700033366704,  0.06673340006673341,
          0.1001001001001001,  0.13346680013346682,  0.16683350016683351,
          0.2002002002002002,   0.2335669002335669,  0.26693360026693363,
          0.3003003003003003,
@@ -1450,7 +1452,7 @@ Coordinates:
          209.77644310977644,   209.80980980980982,   209.84317650984318,
          209.87654320987656,    209.9099099099099,    209.9432766099433,
          209.97664330997665],
-      dtype='float64', name='time', length=6294))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>space</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-3cfccc7f-e9ff-43f8-9650-d252d29a57e1" class="xr-index-data-in" type="checkbox"><label for="index-3cfccc7f-e9ff-43f8-9650-d252d29a57e1" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['x', 'y'], dtype='object', name='space'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>individuals</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-71049687-464a-4693-9a4d-e28e96a1b967" class="xr-index-data-in" type="checkbox"><label for="index-71049687-464a-4693-9a4d-e28e96a1b967" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['track_0', 'track_1', 'track_10', 'track_11', 'track_12', 'track_13',
+      dtype='float64', name='time', length=6294))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>space</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-e2e11c88-aba5-434c-bf78-8ca2d0bb1633" class="xr-index-data-in" type="checkbox"><label for="index-e2e11c88-aba5-434c-bf78-8ca2d0bb1633" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['x', 'y'], dtype='object', name='space'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>individuals</div></div><div class="xr-index-preview">PandasIndex</div><input type="checkbox" disabled=""><label></label><input id="index-fa343a32-4bc6-4935-b6a1-85d818df97ed" class="xr-index-data-in" type="checkbox"><label for="index-fa343a32-4bc6-4935-b6a1-85d818df97ed" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['track_0', 'track_1', 'track_10', 'track_11', 'track_12', 'track_13',
        'track_14', 'track_15', 'track_16', 'track_17', 'track_18', 'track_19',
        'track_2', 'track_20', 'track_21', 'track_22', 'track_23', 'track_24',
        'track_25', 'track_26', 'track_27', 'track_28', 'track_29', 'track_3',
@@ -1458,17 +1460,17 @@ Coordinates:
        'track_36', 'track_37', 'track_38', 'track_39', 'track_4', 'track_40',
        'track_41', 'track_42', 'track_5', 'track_6', 'track_7', 'track_8',
        'track_9', 'track_43'],
-      dtype='object', name='individuals'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-70625ad1-392b-477b-8c48-6d7435bdef6d" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-70625ad1-392b-477b-8c48-6d7435bdef6d" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
+      dtype='object', name='individuals'))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-d9c65124-103f-4448-ab78-205287891d4b" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-d9c65124-103f-4448-ab78-205287891d4b" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
 </div>
 </div>
 <p>We can compute the body length of each individual by computing the norm of the body vector.</p>
-<div id="a2ae9cb4" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute body length per individual</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>body_length <span class="op">=</span> compute_norm(body_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ed8945c0" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute body length per individual</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>body_length <span class="op">=</span> compute_norm(body_vector)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>It would be useful to check if there are missing values in the body length array. We can quickly inspect this using <code>movement</code>’s <code>report_nan_values</code> function.</p>
-<div id="868e2350" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(report_nan_values(body_length))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3ba0fda9" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(report_nan_values(body_length))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Missing points (marked as NaN) in position:
 
@@ -1521,15 +1523,15 @@ track_43      548/6294 (8.71%)</code></pre>
 </div>
 <p>The output shows that the number of missing values per individual varies between 0.27% and 19.92%. This is not necessarily a problem for our analysis, but it is something to keep in mind when interpreting the results. These missing points are likely due to imperfect tracking of one or both of the keypoints required to compute the body vector.</p>
 <p>Let’s compute some basic statistics to get a sense of the distribution of the body length values.</p>
-<div id="7b710002" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute basic statistics</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>body_length_std <span class="op">=</span> body_length.std()</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>body_length_mean <span class="op">=</span> body_length.mean()</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>body_length_median <span class="op">=</span> body_length.median()</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Body length mean: </span><span class="sc">{</span>body_length_mean<span class="sc">:.2f}</span><span class="ss"> a.u."</span>)  <span class="co"># a.u.: arbitrary units</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Body length median: </span><span class="sc">{</span>body_length_median<span class="sc">:.2f}</span><span class="ss"> a.u."</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Body length std: </span><span class="sc">{</span>body_length_std<span class="sc">:.2f}</span><span class="ss"> a.u."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c480f3a2" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute basic statistics</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>body_length_std <span class="op">=</span> body_length.std()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>body_length_mean <span class="op">=</span> body_length.mean()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>body_length_median <span class="op">=</span> body_length.median()</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Body length mean: </span><span class="sc">{</span>body_length_mean<span class="sc">:.2f}</span><span class="ss"> a.u."</span>)  <span class="co"># a.u.: arbitrary units</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Body length median: </span><span class="sc">{</span>body_length_median<span class="sc">:.2f}</span><span class="ss"> a.u."</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Body length std: </span><span class="sc">{</span>body_length_std<span class="sc">:.2f}</span><span class="ss"> a.u."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Body length mean: 20.45 a.u.
 Body length median: 20.43 a.u.
@@ -1540,35 +1542,35 @@ Body length std: 2.32 a.u.</code></pre>
 <div id="cell-fig-body-length-distribution" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of body length values</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>counts, bins, _ <span class="op">=</span> body_length.plot.hist(bins<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># add reference lines for mean and mean +- 2 stds</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>ax.vlines(</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    body_length_mean,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    ymin<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    ymax<span class="op">=</span>np.<span class="bu">max</span>(counts),</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"red"</span>,</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    linestyle<span class="op">=</span><span class="st">"-"</span>,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    label<span class="op">=</span><span class="st">"mean body length"</span>,</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>lower_bound <span class="op">=</span> body_length_mean <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> body_length_std</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>upper_bound <span class="op">=</span> body_length_mean <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> body_length_std</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> bound <span class="kw">in</span> [lower_bound, upper_bound]:</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    ax.vlines(</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        bound,</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        ymin<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        ymax<span class="op">=</span>np.<span class="bu">max</span>(counts),</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"red"</span>,</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        linestyle<span class="op">=</span><span class="st">"--"</span>,</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">"mean +- 2 std"</span>,</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, np.<span class="bu">max</span>(counts))</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"body length (a.u.)"</span>)</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"counts"</span>)</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>ax.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of body length values</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>counts, bins, _ <span class="op">=</span> body_length.plot.hist(bins<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># add reference lines for mean and mean +- 2 stds</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>ax.vlines(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    body_length_mean,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    ymin<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    ymax<span class="op">=</span>np.<span class="bu">max</span>(counts),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"red"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    linestyle<span class="op">=</span><span class="st">"-"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    label<span class="op">=</span><span class="st">"mean body length"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>lower_bound <span class="op">=</span> body_length_mean <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> body_length_std</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>upper_bound <span class="op">=</span> body_length_mean <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> body_length_std</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> bound <span class="kw">in</span> [lower_bound, upper_bound]:</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    ax.vlines(</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        bound,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        ymin<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        ymax<span class="op">=</span>np.<span class="bu">max</span>(counts),</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"red"</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        linestyle<span class="op">=</span><span class="st">"--"</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">"mean +- 2 std"</span>,</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, np.<span class="bu">max</span>(counts))</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"body length (a.u.)"</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"counts"</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-body-length-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1584,25 +1586,25 @@ Figure&nbsp;6.1: Distribution of zebra body lengths.
 </div>
 </div>
 <p>We can see there is some variability in the body lengths per individual. Part of it may reflect the diversity across individuals, but from visual inspection of the video we expect the majority of it to be due to imperfect tracking of the keypoints. To remove some of these outliers, we continue the analysis considering only body vectors that are within 2 standard deviations of the mean.</p>
-<div id="fe15f075" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>body_vector_filtered <span class="op">=</span> body_vector.where(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    np.logical_and(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        body_length <span class="op">&lt;=</span> body_length_mean <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> body_length_std,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        body_length <span class="op">&gt;=</span> body_length_mean <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> body_length_std,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0b9e89f7" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>body_vector_filtered <span class="op">=</span> body_vector.where(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    np.logical_and(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        body_length <span class="op">&lt;=</span> body_length_mean <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> body_length_std,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        body_length <span class="op">&gt;=</span> body_length_mean <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> body_length_std,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="compute-polarization" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="compute-polarization"><span class="header-section-number">6.4</span> Compute polarization</h2>
 <p>We would now like to inspect the orientation of each individual in relation to the group while the simulated escape events take place.</p>
 <p>For this, we first compute each animal’s <strong>unit body vector</strong>. These are a scaled version of the body vectors we just computed, normalised to have unit length. <code>movement</code> provides a convenience function to do this:</p>
-<div id="54490370" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>body_vector_filtered_unit <span class="op">=</span> convert_to_unit(body_vector_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3c9fdad4" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>body_vector_filtered_unit <span class="op">=</span> convert_to_unit(body_vector_filtered)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can quickly check if their norms are now equal to 1.</p>
-<div id="c50863f6" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(compute_norm(body_vector_filtered_unit)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fa04b6c5" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(compute_norm(body_vector_filtered_unit)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;xarray.DataArray 'position' (time: 6294, individuals: 44)&gt; Size: 1MB
 1.0 nan 1.0 1.0 1.0 1.0 1.0 1.0 1.0 nan ... 1.0 1.0 nan 1.0 1.0 1.0 1.0 1.0 1.0
@@ -1612,9 +1614,9 @@ Coordinates:
 </div>
 </div>
 <p>We now define the <strong>herd vector</strong> as the mean of the unit body vectors across all individuals. The mean vector of a set of <span class="math inline">\(n\)</span> vectors is the sum of all the vectors (i.e., the resultant vector) scaled by <span class="math inline">\(1/n\)</span>.</p>
-<div id="120cacd4" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>herd_vector <span class="op">=</span> body_vector_filtered_unit.mean(<span class="st">"individuals"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(herd_vector) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="834b96c3" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>herd_vector <span class="op">=</span> body_vector_filtered_unit.mean(<span class="st">"individuals"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(herd_vector) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;xarray.DataArray 'position' (time: 6294, space: 2)&gt; Size: 50kB
 0.5835 -0.4923 0.5589 -0.4968 0.5252 ... 0.4129 0.3367 0.4131 0.3156 0.4332
@@ -1625,16 +1627,16 @@ Coordinates:
 </div>
 <p>The resulting array has <code>(time, space)</code> dimensions, which means that we have a single herd vector defined at each timestep.</p>
 <p>The norm of the herd vector already gives us an intuition of how aligned the whole herd is. When its norm is close to 1, it means that the majority of the unit body vectors are aligned. When its norm is close to 0, it means that the unit body vectors are dispersed. The norm of the herd vector is sometimes called <strong>polarization</strong>.</p>
-<div id="6cdd0c90" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>polarization <span class="op">=</span> compute_norm(herd_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e301f938" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>polarization <span class="op">=</span> compute_norm(herd_vector)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can plot the evolution of the polarization over time to get a sense of how the herd’s alignment changes.</p>
 <div id="cell-fig-polarization" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ax.plot(herd_vector.time, polarization)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"polarization"</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"time (s)"</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>ax.grid()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ax.plot(herd_vector.time, polarization)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"polarization"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"time (s)"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>ax.grid()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-polarization" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1654,16 +1656,16 @@ Figure&nbsp;6.2: Evolution of the herd’s polarization over time.
 <h2 data-number="6.5" class="anchored" data-anchor-id="compute-average-speed-of-the-herd"><span class="header-section-number">6.5</span> Compute average speed of the herd</h2>
 <p>We would also like to inspect how the speed of the herd changes over the course of the simulated escape events.</p>
 <p>First, let’s scale the position data to express it in units of body lengths (BL). This will make the results more interpretable. We can use <code>movement</code>’s <code>scale</code> function to do this.</p>
-<div id="fbb89322" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>position_scaled <span class="op">=</span> scale(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    ds.position, </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    factor<span class="op">=</span><span class="dv">1</span> <span class="op">/</span> body_length_median.item(), </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    space_unit<span class="op">=</span><span class="st">"body_length"</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="52c8b281" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>position_scaled <span class="op">=</span> scale(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    ds.position, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    factor<span class="op">=</span><span class="dv">1</span> <span class="op">/</span> body_length_median.item(), </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    space_unit<span class="op">=</span><span class="st">"body_length"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>For simplicity, we would also like to reduce the position of each individual to a single point. A good candidate for this is the centroid, which is the mean of all the keypoints per individual. In our case, the centroid will be the midpoint between the head and tail keypoints.</p>
-<div id="4333cf3c" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>centroid <span class="op">=</span> position_scaled.mean(<span class="st">"keypoints"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="003c4a86" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>centroid <span class="op">=</span> position_scaled.mean(<span class="st">"keypoints"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Exercise A">
 <div class="callout-header d-flex align-content-center">
@@ -1671,7 +1673,7 @@ Figure&nbsp;6.2: Evolution of the herd’s polarization over time.
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise A
+<span class="screen-reader-only">Tip</span>Exercise A
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1687,28 +1689,28 @@ Exercise A
 <div id="cell-fig-speed-individuals-time" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax.matshow(</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    centroid_speed,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    aspect<span class="op">=</span><span class="st">"auto"</span>,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"viridis"</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># convert frames to seconds in y-axis</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>time_ticks_step <span class="op">=</span> <span class="dv">1498</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>time_ticks <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="bu">len</span>(centroid_speed.time), time_ticks_step) </span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>time_labels <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>t<span class="sc">:.0f}</span><span class="ss">"</span> <span class="cf">for</span> t <span class="kw">in</span> centroid_speed.time.values[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>:time_ticks_step]]</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(time_ticks)</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(time_labels)</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, bottom<span class="op">=</span><span class="va">True</span>, top<span class="op">=</span><span class="va">False</span>, labelbottom<span class="op">=</span><span class="va">True</span>, labeltop<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"individual"</span>)</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"time (s)"</span>) </span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># add colorbar</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> plt.colorbar(im)</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">"speed (BL/s)"</span>)</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>ax.get_images()[<span class="dv">0</span>].set_clim(<span class="dv">0</span>, <span class="dv">6</span>) <span class="co"># cap values at 6 BL/s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax.matshow(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    centroid_speed,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    aspect<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"viridis"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># convert frames to seconds in y-axis</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>time_ticks_step <span class="op">=</span> <span class="dv">1498</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>time_ticks <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="bu">len</span>(centroid_speed.time), time_ticks_step) </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>time_labels <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>t<span class="sc">:.0f}</span><span class="ss">"</span> <span class="cf">for</span> t <span class="kw">in</span> centroid_speed.time.values[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>:time_ticks_step]]</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(time_ticks)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(time_labels)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, bottom<span class="op">=</span><span class="va">True</span>, top<span class="op">=</span><span class="va">False</span>, labelbottom<span class="op">=</span><span class="va">True</span>, labeltop<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"individual"</span>)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"time (s)"</span>) </span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co"># add colorbar</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> plt.colorbar(im)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">"speed (BL/s)"</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>ax.get_images()[<span class="dv">0</span>].set_clim(<span class="dv">0</span>, <span class="dv">6</span>) <span class="co"># cap values at 6 BL/s</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-speed-individuals-time" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1729,29 +1731,29 @@ Figure&nbsp;6.3: Evolution of the speed of each individual over time.
 <h2 data-number="6.6" class="anchored" data-anchor-id="polarization-vs-speed"><span class="header-section-number">6.6</span> Polarization vs speed</h2>
 <p>Let’s put it all together and inspect how polarization changes with the speed of the herd.</p>
 <p>We will use the logarithm of the speed to focus on the higher range of speeds.</p>
-<div id="8d61e150" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>log10_herd_speed <span class="op">=</span> np.log10(herd_speed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="48eb5b6f" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>log10_herd_speed <span class="op">=</span> np.log10(herd_speed)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can now plot the polarization in time, colouring the points by the logarithm of the speed.</p>
 <div id="cell-fig-polarization-vs-speed" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> ax.scatter(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>polarization.time,</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>polarization,</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    c<span class="op">=</span>log10_herd_speed,</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    s<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"turbo"</span>,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># rescale color map to 1st and 99th percentiles</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    vmin<span class="op">=</span>log10_herd_speed.quantile(<span class="fl">0.01</span>).item(),</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    vmax<span class="op">=</span>log10_herd_speed.quantile(<span class="fl">0.99</span>).item(),</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"time (s)"</span>)</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"polarization"</span>)</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> plt.colorbar(sc)</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">"log10 herd speed (BL/s)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> ax.scatter(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>polarization.time,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>polarization,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    c<span class="op">=</span>log10_herd_speed,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    s<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"turbo"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># rescale color map to 1st and 99th percentiles</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    vmin<span class="op">=</span>log10_herd_speed.quantile(<span class="fl">0.01</span>).item(),</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    vmax<span class="op">=</span>log10_herd_speed.quantile(<span class="fl">0.99</span>).item(),</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"time (s)"</span>)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"polarization"</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> plt.colorbar(sc)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">"log10 herd speed (BL/s)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-polarization-vs-speed" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1827,13 +1829,14 @@ Duporge, Isla, Sofia Minano, Nikoloz Sirmpilatze, Igor Tatarnikov, Scott Wolf, A
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
