@@ -42,8 +42,8 @@ To view other versions, replace `latest` in the URL with one of the following ve
 | Version | Description |
 |---------|-------------|
 | [dev](https://animals-in-motion.neuroinformatics.dev/dev/) | development version, corresponding to the `main` branch |
-| [v2025.10a0](https://animals-in-motion.neuroinformatics.dev/v2025.10a0/) | pre-release of the version taught as part of the [SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme) in October 2025 |
-| [v2025.10a0-answers](https://animals-in-motion.neuroinformatics.dev/v2025.10a0-answers/) | same as `v2025.10a0` but with answers to exercises |
+| [v2025.10a1](https://animals-in-motion.neuroinformatics.dev/v2025.10a1/) | pre-release of the version taught as part of the [SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme) in October 2025 |
+| [v2025.10a1-answers](https://animals-in-motion.neuroinformatics.dev/v2025.10a1-answers/) | same as `v2025.10a1` but with answers to exercises |
 | [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/) | version used during the inaugural [Open Software Week](https://neuroinformatics.dev/open-software-summer-school/2025/index.html) in August 2025 |
 | [v2025.08-answers](https://animals-in-motion.neuroinformatics.dev/v2025.08-answers/) | same as `v2025.08` but with answers to exercises |
 
