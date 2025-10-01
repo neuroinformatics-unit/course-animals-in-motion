@@ -13,7 +13,6 @@ From **SLEAP 1.5.0 onwards**, the software uses a PyTorch backend.
 Installation and usage instructions differ for these newer versions, with updated docs at [docs.sleap.ai](https://docs.sleap.ai/).
 :::
 
-
 ## Single-animal vs multi-animal pose estimation
 
 ![Single-animal pose estimation, source: @pereira_quantifying_2020.](img/pose_estimation_2D.png){width=100%}
