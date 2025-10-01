@@ -301,7 +301,21 @@ div.csl-indent {
 
 
 <!-- markdownlint-disable MD045 -->
-<p>Before we proceed, make sure you have installed <a href="https://sleap.ai/">SLEAP</a> <span class="citation" data-cites="pereira_sleap_2022">(<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">Pereira et al. 2022</a>)</span> and activated the corresponding <code>conda</code> environment (see <a href="prerequisites.html#sec-install-sleap" class="quarto-xref">prerequisites&nbsp;<span>A.3.2</span></a>). You will also need to download the <a href="https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset">CalMS21 dataset</a> <span class="citation" data-cites="sun_caltech_2021">(<a href="references.html#ref-sun_caltech_2021" role="doc-biblioref">Sun et al. 2021</a>)</span> video file <code>mouse044_task1_annotator1.mp4</code> from <a href="https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&amp;st=w1zueyi9&amp;dl=0">Dropbox</a> (see <a href="prerequisites.html#sec-data" class="quarto-xref">prerequisites&nbsp;<span>A.4</span></a> for details on the folder contents).</p>
+<p>Before we proceed, make sure you have installed <a href="http://legacy.sleap.ai/installation.html">SLEAP</a> <span class="citation" data-cites="pereira_sleap_2022">(<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">Pereira et al. 2022</a>)</span> and activated the corresponding <code>conda</code> environment (see <a href="prerequisites.html#sec-install-sleap" class="quarto-xref">prerequisites&nbsp;<span>A.3.2</span></a>). You will also need to download the <a href="https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset">CalMS21 dataset</a> <span class="citation" data-cites="sun_caltech_2021">(<a href="references.html#ref-sun_caltech_2021" role="doc-biblioref">Sun et al. 2021</a>)</span> video file <code>mouse044_task1_annotator1.mp4</code> from <a href="https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&amp;st=w1zueyi9&amp;dl=0">Dropbox</a> (see <a href="prerequisites.html#sec-data" class="quarto-xref">prerequisites&nbsp;<span>A.4</span></a> for details on the folder contents).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This workshop uses <strong>SLEAP version 1.3.4</strong> with a TensorFlow backend. Documentation for this version is available at <a href="http://legacy.sleap.ai/">legacy.sleap.ai</a>.</p>
+<p>From <strong>SLEAP 1.5.0 onwards</strong>, the software uses a PyTorch backend. Installation and usage instructions differ for these newer versions, with updated docs at <a href="https://docs.sleap.ai/">docs.sleap.ai</a>.</p>
+</div>
+</div>
 <section id="single-animal-vs-multi-animal-pose-estimation" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="single-animal-vs-multi-animal-pose-estimation"><span class="header-section-number">3.1</span> Single-animal vs multi-animal pose estimation</h2>
 <div class="quarto-figure quarto-figure-center">
@@ -402,7 +416,7 @@ div.csl-indent {
 <p>Activate the <code>sleap</code> environment and launch the SLEAP GUI.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate sleap</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sleap-label</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Add a video by navigating to the “Videos” panel and clicking on “Add Videos” (or go to “File” then “Add Videos”). Since the video is in greyscale, enable the “Grayscale” option in the video import dialogue. This ensures SLEAP processes the input as a single-channel image, which can improve performance and reduce memory usage for greyscale videos. Further details can be found in <a href="https://sleap.ai/tutorials/new-project.html">SLEAP’s Creating a project guide</a>.</p>
+<p>Add a video by navigating to the “Videos” panel and clicking on “Add Videos” (or go to “File” then “Add Videos”). Since the video is in greyscale, enable the “Grayscale” option in the video import dialogue. This ensures SLEAP processes the input as a single-channel image, which can improve performance and reduce memory usage for greyscale videos. Further details can be found in <a href="http://legacy.sleap.ai/tutorials/new-project.html">SLEAP’s Creating a project guide</a>.</p>
 <p><img src="img/SLEAP/1_create_project.png" class="img-fluid" style="width:100.0%"></p>
 </section>
 <section id="define-skeleton" class="level3" data-number="3.6.2">
@@ -439,7 +453,7 @@ div.csl-indent {
 </section>
 <section id="sample-frames" class="level3" data-number="3.6.3">
 <h3 data-number="3.6.3" class="anchored" data-anchor-id="sample-frames"><span class="header-section-number">3.6.3</span> Sample frames</h3>
-<p>For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the “Labeling Suggestions” panel, which offers several <a href="https://sleap.ai/guides/gui.html#suggestion-methods">automated sampling strategies</a> to help select informative and diverse frames.</p>
+<p>For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the “Labeling Suggestions” panel, which offers several <a href="http://legacy.sleap.ai/guides/gui.html#suggestion-methods">automated sampling strategies</a> to help select informative and diverse frames.</p>
 <p>In this example, we will use the “Labeling Suggestions” panel to randomly sample 20 frames from the video.</p>
 <p><img src="img/SLEAP/3_sample_frames.png" class="img-fluid" style="width:100.0%"></p>
 </section>
@@ -532,7 +546,7 @@ Important
 </tbody>
 </table>
 <p>To speed up labelling in subsequent frames, right-click on the frame and choose from several options for adding a new instance. For example, selecting “Copy prior frame” will duplicate the instance(s) from the previous labelled frame, allowing you to quickly adjust only the necessary points. This is especially useful when animal poses change gradually between frames.</p>
-<p>See also <a href="https://sleap.ai/guides/gui.html#labels">SLEAP’s GUI guide on “Labels”</a> for a complete reference of all labelling functions.</p>
+<p>See also <a href="http://legacy.sleap.ai/guides/gui.html#labels">SLEAP’s GUI guide on “Labels”</a> for a complete reference of all labelling functions.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -556,7 +570,7 @@ Important
 <p>Once you have labelled a sufficient number of frames, you can configure and train your first model. To do this, go to “Predict” then “Run training” in the top menu bar.</p>
 <p>Here, we will employ the <a href="#identity-tracking-approaches">appearance-based tracking approach</a> for maintaining consistent identities of individual mice across frames. To do so, select <strong>“multi-animal top-down-id”</strong> as the “Training Pipeline Type”. We will also configure the training pipeline to predict on 20 more frames randomly sampled from the video once training is complete.</p>
 <p><img src="img/SLEAP/5_config_model.png" class="img-fluid" style="width:100.0%"></p>
-<p>See also <a href="https://sleap.ai/guides/choosing-models.html">SLEAP’s Configuring models guide</a> for further details on model types and training options.</p>
+<p>See also <a href="http://legacy.sleap.ai/guides/choosing-models.html">SLEAP’s Configuring models guide</a> for further details on model types and training options.</p>
 <section id="centroid-model" class="level4" data-number="3.6.5.1">
 <h4 data-number="3.6.5.1" class="anchored" data-anchor-id="centroid-model"><span class="header-section-number">3.6.5.1</span> Centroid model</h4>
 <p>We will now configure the <strong>Centroid model</strong>, which predicts the location of each animal in each frame.</p>
@@ -612,7 +626,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>SLEAP supports remote training and inference workflows, allowing users to leverage external computational resources, particularly those with GPU support, for batch training or inference. For detailed instructions and guidance, see the <a href="https://sleap.ai/guides/remote.html">Running SLEAP remotely guide</a>.</p>
+<p>SLEAP supports remote training and inference workflows, allowing users to leverage external computational resources, particularly those with GPU support, for batch training or inference. For detailed instructions and guidance, see the <a href="http://legacy.sleap.ai/guides/remote.html">Running SLEAP remotely guide</a>.</p>
 </div>
 </div>
 </section>
@@ -631,14 +645,14 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Since we have trained an <a href="#identity-tracking-approaches">appearance-based ID model</a>, which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a “Tracker” (typically used for temporal-based tracking). Further details on the Tracker module is available in <a href="https://sleap.ai/guides/proofreading.html">SLEAP’s Tracking and proofreading guide</a>.</p>
+<p>Since we have trained an <a href="#identity-tracking-approaches">appearance-based ID model</a>, which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a “Tracker” (typically used for temporal-based tracking). Further details on the Tracker module is available in <a href="http://legacy.sleap.ai/guides/proofreading.html">SLEAP’s Tracking and proofreading guide</a>.</p>
 </div>
 </div>
 <p>Labelled frames (frames with user or predicted labels) will be marked in the seekbar.</p>
 <p><img src="img/SLEAP/6_predictions.png" class="img-fluid" style="width:100.0%"></p>
 <p>To step through labelled frames, click on “Go” and “Next Labeled Frame” (or use <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd>/<kbd>right</kbd>).</p>
 <p>The models are not expected to perform well at this stage, but you can review and correct these predictions, and merge them back into your training dataset. You can also generate more labelling suggestions and label them to ensure your training dataset captures a wider range of poses and variations. Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video.</p>
-<p>See <a href="https://sleap.ai/tutorials/assisted-labeling.html">SLEAP’s Prediction-assisted labeling guide</a> for more details on this iterative process.</p>
+<p>See <a href="http://legacy.sleap.ai/tutorials/assisted-labeling.html">SLEAP’s Prediction-assisted labeling guide</a> for more details on this iterative process.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -657,7 +671,7 @@ Note
 <h3 data-number="3.6.8" class="anchored" data-anchor-id="evaluate-trained-models"><span class="header-section-number">3.6.8</span> Evaluate trained models</h3>
 <p>The metrics of trained models can be accessed by clicking on “Predict” then “Evaluation Metrics for Trained Models” in the top menu bar.</p>
 <p><img src="img/SLEAP/7_evaluate_model.png" class="img-fluid" style="width:100.0%"></p>
-<p>See <a href="https://sleap.ai/notebooks/Model_evaluation.html">SLEAP’s Model evaluation guide</a> for examples on generating accuracy metrics for your trained model.</p>
+<p>See <a href="http://legacy.sleap.ai/notebooks/Model_evaluation.html">SLEAP’s Model evaluation guide</a> for examples on generating accuracy metrics for your trained model.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
