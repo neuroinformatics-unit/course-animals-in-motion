@@ -2,7 +2,7 @@
 
 # Pose estimation with SLEAP {#sec-sleap}
 
-Before we proceed, make sure you have installed [SLEAP](https://sleap.ai/) [@pereira_sleap_2022] and activated the corresponding `conda` environment (see [prerequisites @sec-install-sleap]).
+Before we proceed, make sure you have installed [SLEAP](http://legacy.sleap.ai/installation.html) [@pereira_sleap_2022] and activated the corresponding `conda` environment (see [prerequisites @sec-install-sleap]).
 You will also need to download the [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) [@sun_caltech_2021] video file `mouse044_task1_annotator1.mp4` from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=w1zueyi9&dl=0) (see [prerequisites @sec-data] for details on the folder contents).
 
 ## Single-animal vs multi-animal pose estimation
@@ -102,7 +102,7 @@ sleap-label
 Add a video by navigating to the "Videos" panel and clicking on "Add Videos" (or go to "File" then "Add Videos").
 Since the video is in greyscale, enable the "Grayscale" option in the video import dialogue.
 This ensures SLEAP processes the input as a single-channel image, which can improve performance and reduce memory usage for greyscale videos.
-Further details can be found in [SLEAP's Creating a project guide](https://sleap.ai/tutorials/new-project.html).
+Further details can be found in [SLEAP's Creating a project guide](http://legacy.sleap.ai/tutorials/new-project.html).
 
 ![](img/SLEAP/1_create_project.png){width=100%}
 
@@ -140,7 +140,7 @@ Once you have defined the skeleton, save the project by clicking on "File" then 
 
 ### Sample frames
 
-For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the "Labeling Suggestions" panel, which offers several [automated sampling strategies](https://sleap.ai/guides/gui.html#suggestion-methods) to help select informative and diverse frames.
+For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the "Labeling Suggestions" panel, which offers several [automated sampling strategies](http://legacy.sleap.ai/guides/gui.html#suggestion-methods) to help select informative and diverse frames.
 
 In this example, we will use the "Labeling Suggestions" panel to randomly sample 20 frames from the video.
 
@@ -192,7 +192,7 @@ You may also find the following keyboard shortcuts and mouse actions helpful:
 
 To speed up labelling in subsequent frames, right-click on the frame and choose from several options for adding a new instance. For example, selecting "Copy prior frame" will duplicate the instance(s) from the previous labelled frame, allowing you to quickly adjust only the necessary points. This is especially useful when animal poses change gradually between frames.
 
-See also [SLEAP's GUI guide on "Labels"](https://sleap.ai/guides/gui.html#labels) for a complete reference of all labelling functions.
+See also [SLEAP's GUI guide on "Labels"](http://legacy.sleap.ai/guides/gui.html#labels) for a complete reference of all labelling functions.
 
 ::: {.callout-tip title="Discuss"}
 
@@ -212,7 +212,7 @@ We will also configure the training pipeline to predict on 20 more frames random
 
 ![](img/SLEAP/5_config_model.png){width=100%}
 
-See also [SLEAP's Configuring models guide](https://sleap.ai/guides/choosing-models.html) for further details on model types and training options.
+See also [SLEAP's Configuring models guide](http://legacy.sleap.ai/guides/choosing-models.html) for further details on model types and training options.
 
 #### Centroid model
 
@@ -257,7 +257,7 @@ You should now see a training progress window showing the loss curves and metric
 
 ::: {.callout-tip}
 SLEAP supports remote training and inference workflows, allowing users to leverage external computational resources, particularly those with GPU support, for batch training or inference.
-For detailed instructions and guidance, see the [Running SLEAP remotely guide](https://sleap.ai/guides/remote.html).
+For detailed instructions and guidance, see the [Running SLEAP remotely guide](http://legacy.sleap.ai/guides/remote.html).
 :::
 
 ### Run inference and proofread predictions
@@ -270,7 +270,7 @@ Alternatively, to manually run inference on random frames with your trained mode
 
 ::: {.callout-note}
 Since we have trained an [appearance-based ID model](#identity-tracking-approaches), which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a "Tracker" (typically used for temporal-based tracking).
-Further details on the Tracker module is available in [SLEAP's Tracking and proofreading guide](https://sleap.ai/guides/proofreading.html).
+Further details on the Tracker module is available in [SLEAP's Tracking and proofreading guide](http://legacy.sleap.ai/guides/proofreading.html).
 :::
 
 Labelled frames (frames with user or predicted labels) will be marked in the seekbar.
@@ -283,7 +283,7 @@ The models are not expected to perform well at this stage, but you can review an
 You can also generate more labelling suggestions and label them to ensure your training dataset captures a wider range of poses and variations.
 Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video.
 
-See [SLEAP's Prediction-assisted labeling guide](https://sleap.ai/tutorials/assisted-labeling.html) for more details on this iterative process.
+See [SLEAP's Prediction-assisted labeling guide](http://legacy.sleap.ai/tutorials/assisted-labeling.html) for more details on this iterative process.
 
 ::: {.callout-note}
 Predicted instances will not be used for model training unless you correct the predictions in the GUI.
@@ -295,4 +295,4 @@ The metrics of trained models can be accessed by clicking on "Predict" then "Eva
 
 ![](img/SLEAP/7_evaluate_model.png){width=100%}
 
-See [SLEAP's Model evaluation guide](https://sleap.ai/notebooks/Model_evaluation.html) for examples on generating accuracy metrics for your trained model.
+See [SLEAP's Model evaluation guide](http://legacy.sleap.ai/notebooks/Model_evaluation.html) for examples on generating accuracy metrics for your trained model.

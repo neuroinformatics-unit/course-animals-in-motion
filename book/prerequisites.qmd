@@ -34,7 +34,7 @@ If you already have one you're comfortable with, feel free to use it. Otherwise,
 
 ### For the SLEAP tutorial {#sec-install-sleap}
 
-Please install [SLEAP](https://sleap.ai/) following the [official installation instructions](https://sleap.ai/installation.html).
+Please install [SLEAP](https://sleap.ai/) following the [legacy installation instructions](http://legacy.sleap.ai/installation.html).
 
 ::: {.callout-note}  
 For this workshop, use **SLEAP version 1.3.4**. Be sure to replace the default version number (e.g. `1.4.1`) in the instructions with `1.3.4`.  
