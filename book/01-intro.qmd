@@ -7,7 +7,7 @@ Measuring animal behaviour often comes down to measuring movement, whether of th
 Advances in computer vision, particularly deep learning-based markerless motion tracking, have transformed how we study animal behaviour, bridging traditions from multiple scientific disciplines.
 These methods now underpin the emerging field of computational (neuro)ethology, enabling researchers to extract precise motion data from videos, quantify behavioural features, and (in neuroscience) relate them directly to neural activity.
 
-In this course, we focus on two key steps in this workflow: pose estimation and motion quantification, while recognising the broader ecosystem of open-source tools available.
+In this handbook, we focus on two key steps in this workflow: pose estimation and motion quantification, while recognising the broader ecosystem of open-source tools available.
 
 ## Measuring behaviour as movement
 
@@ -31,7 +31,7 @@ With the exception of microphones, these devices measure movement, at different 
 You could say that microphones capture body movements indirectly: sound waves are generated via the motion of specialised organs such as vocal cords.
 :::
 
-In this course, **we focus exclusively on video recordings**.
+In this handbook, **we focus exclusively on video recordings**.
 There are two main ways to extract motion from videos:
 
 - **Marker-based** methods: physical markers are placed on individuals or body parts.
@@ -135,16 +135,17 @@ Highly **recommended readings**:
 
 :::
 
-## The scope of this course
+## The scope of this handbook
 
-We will start with a primer on deep learning for computer vision (@sec-dl-cv), going over the key concepts and technologies that underpin most markerless tracking approaches.
+- @sec-dl-cv: A primer on deep learning for computer vision, going over the key concepts and technologies that underpin most markerless tracking approaches.
+- @sec-sleap: Pose estimation and tracking with [SLEAP](https://sleap.ai/) [@pereira_sleap_2022]. We chose SLEAP because we know it best, but the knowledge gained should be applicable to most other pose estimation tools.
+- @sec-movement-intro: An introduction into analysing motion tracks with [movement](https://movement.neuroinformatics.dev/)—a Python package we develop [@sirmpilatze_movement_2025]—followed by two case studies applying `movement` to real-world datasets:
+  - @sec-movement-mouse: Continuous home cage monitoring of mouse activity levels for weeks.
+  - @sec-movement-zebras: Collective escape behaviour in a herd of zebras.
 
-After that we could take a whirlwind tour through all the stages of a computaional ethology workflow [@fig-ethology-workflow] and the various tools available for each step. However, since we want this to work as a two-day hands-on workshop with plenty of time for exercises and active learning, we have instead chosen to focus on two key steps:
+This leaves out some key stages of the computational ethology workflow [@fig-ethology-workflow], most notably video acquisition and behaviour segmentation, which may be covered in future versions of this handbook.
 
-- [@sec-sleap]: Pose estimation and tracking with [SLEAP](https://sleap.ai/) [@pereira_sleap_2022]. We chose SLEAP because we know it best, but the knowledge gained should be applicable to most other pose estimation tools.
-- [@sec-movement-intro]: Analysing motion tracks with [movement](https://movement.neuroinformatics.dev/)—a Python package we develop [@sirmpilatze_movement_2025]—followed by two case studies on real-world datasets [@sec-movement-mouse; @sec-movement-zebras].
-
-![What we'll cover in this course](img/SLEAP_and_movement.png){#fig-sleap-movement}
+![What is covered in this handbook](img/SLEAP_and_movement.png){#fig-sleap-movement}
 
 ::: {.callout-tip}
 We want to emphasise that there are many excellent open-source tools beyond those we focus on here.

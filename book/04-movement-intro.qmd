@@ -616,8 +616,8 @@ The following two chapters—[@sec-movement-mouse] and [@sec-movement-zebras]—
 case studies in which we apply `movement` to some real-world datasets.
 The two case studies represent quite different applications:
 
-- [@sec-movement-mouse]: continuous home cage monitoring data tracking mice for months
-- [@sec-movement-zebras]: collective escape events in a herd of zebras, recorded via a drone
+- @sec-movement-mouse: Continuous home cage monitoring of mouse activity levels for weeks.
+- @sec-movement-zebras: Collective escape behaviour in a herd of zebras.
 
 ## Join the movement {#sec-movement-next}
 
