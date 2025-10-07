@@ -225,7 +225,7 @@ div.csl-indent {
   <li><a href="#measuring-behaviour-as-movement" id="toc-measuring-behaviour-as-movement" class="nav-link" data-scroll-target="#measuring-behaviour-as-movement"><span class="header-section-number">1.2</span> Measuring behaviour as movement</a></li>
   <li><a href="#the-rise-of-markerless-methods" id="toc-the-rise-of-markerless-methods" class="nav-link" data-scroll-target="#the-rise-of-markerless-methods"><span class="header-section-number">1.3</span> The rise of markerless methods</a></li>
   <li><a href="#the-computational-neuroethology-workflow" id="toc-the-computational-neuroethology-workflow" class="nav-link" data-scroll-target="#the-computational-neuroethology-workflow"><span class="header-section-number">1.4</span> The computational (neuro)ethology workflow</a></li>
-  <li><a href="#the-scope-of-this-course" id="toc-the-scope-of-this-course" class="nav-link" data-scroll-target="#the-scope-of-this-course"><span class="header-section-number">1.5</span> The scope of this course</a></li>
+  <li><a href="#the-scope-of-this-handbook" id="toc-the-scope-of-this-handbook" class="nav-link" data-scroll-target="#the-scope-of-this-handbook"><span class="header-section-number">1.5</span> The scope of this handbook</a></li>
   <li><a href="#sec-useful-tools" id="toc-sec-useful-tools" class="nav-link" data-scroll-target="#sec-useful-tools"><span class="header-section-number">1.6</span> Useful open-source tools</a>
   <ul class="collapse">
   <li><a href="#data-acquisition" id="toc-data-acquisition" class="nav-link" data-scroll-target="#data-acquisition"><span class="header-section-number">1.6.1</span> Data acquisition</a></li>
@@ -263,7 +263,7 @@ div.csl-indent {
 <h2 data-number="1.1" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.1</span> Summary</h2>
 <p>Measuring animal behaviour often comes down to measuring movement, whether of the whole body or specific parts, using tools such as video cameras and GPS loggers.</p>
 <p>Advances in computer vision, particularly deep learning-based markerless motion tracking, have transformed how we study animal behaviour, bridging traditions from multiple scientific disciplines. These methods now underpin the emerging field of computational (neuro)ethology, enabling researchers to extract precise motion data from videos, quantify behavioural features, and (in neuroscience) relate them directly to neural activity.</p>
-<p>In this course, we focus on two key steps in this workflow: pose estimation and motion quantification, while recognising the broader ecosystem of open-source tools available.</p>
+<p>In this handbook, we focus on two key steps in this workflow: pose estimation and motion quantification, while recognising the broader ecosystem of open-source tools available.</p>
 </section>
 <section id="measuring-behaviour-as-movement" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="measuring-behaviour-as-movement"><span class="header-section-number">1.2</span> Measuring behaviour as movement</h2>
@@ -292,7 +292,7 @@ Note
 <p>You could say that microphones capture body movements indirectly: sound waves are generated via the motion of specialised organs such as vocal cords.</p>
 </div>
 </div>
-<p>In this course, <strong>we focus exclusively on video recordings</strong>. There are two main ways to extract motion from videos:</p>
+<p>In this handbook, <strong>we focus exclusively on video recordings</strong>. There are two main ways to extract motion from videos:</p>
 <ul>
 <li><strong>Marker-based</strong> methods: physical markers are placed on individuals or body parts.</li>
 <li><strong>Markerless</strong> methods: computer vision is used to extract user-defined features directly from videos.</li>
@@ -523,21 +523,25 @@ Figure&nbsp;1.6: An overview of modern computational neuroethology workflows.
 </div>
 </div>
 </section>
-<section id="the-scope-of-this-course" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="the-scope-of-this-course"><span class="header-section-number">1.5</span> The scope of this course</h2>
-<p>We will start with a primer on deep learning for computer vision (<a href="02-deep-learning.html" class="quarto-xref"><span>Chapter 2</span></a>), going over the key concepts and technologies that underpin most markerless tracking approaches.</p>
-<p>After that we could take a whirlwind tour through all the stages of a computaional ethology workflow <a href="#fig-ethology-workflow" class="quarto-xref">Figure&nbsp;<span>1.5</span></a> and the various tools available for each step. However, since we want this to work as a two-day hands-on workshop with plenty of time for exercises and active learning, we have instead chosen to focus on two key steps:</p>
+<section id="the-scope-of-this-handbook" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="the-scope-of-this-handbook"><span class="header-section-number">1.5</span> The scope of this handbook</h2>
 <ul>
+<li><a href="02-deep-learning.html" class="quarto-xref"><span>Chapter 2</span></a>: A primer on deep learning for computer vision, going over the key concepts and technologies that underpin most markerless tracking approaches.</li>
 <li><a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a>: Pose estimation and tracking with <a href="https://sleap.ai/">SLEAP</a> <span class="citation" data-cites="pereira_sleap_2022">(<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">Pereira et al. 2022</a>)</span>. We chose SLEAP because we know it best, but the knowledge gained should be applicable to most other pose estimation tools.</li>
-<li><a href="04-movement-intro.html" class="quarto-xref"><span>Chapter 4</span></a>: Analysing motion tracks with <a href="https://movement.neuroinformatics.dev/">movement</a>—a Python package we develop <span class="citation" data-cites="sirmpilatze_movement_2025">(<a href="references.html#ref-sirmpilatze_movement_2025" role="doc-biblioref">Sirmpilatze et al. 2025</a>)</span>—followed by two case studies on real-world datasets <a href="05-movement-mouse.html" class="quarto-xref"><span>Chapter 5</span></a>, <a href="06-movement-zebras.html" class="quarto-xref"><span>Chapter 6</span></a>.</li>
+<li><a href="04-movement-intro.html" class="quarto-xref"><span>Chapter 4</span></a>: An introduction into analysing motion tracks with <a href="https://movement.neuroinformatics.dev/">movement</a>—a Python package we develop <span class="citation" data-cites="sirmpilatze_movement_2025">(<a href="references.html#ref-sirmpilatze_movement_2025" role="doc-biblioref">Sirmpilatze et al. 2025</a>)</span>—followed by two case studies applying <code>movement</code> to real-world datasets:
+<ul>
+<li><a href="05-movement-mouse.html" class="quarto-xref"><span>Chapter 5</span></a>: Continuous home cage monitoring of mouse activity levels for weeks.</li>
+<li><a href="06-movement-zebras.html" class="quarto-xref"><span>Chapter 6</span></a>: Collective escape behaviour in a herd of zebras.</li>
+</ul></li>
 </ul>
+<p>This leaves out some key stages of the computational ethology workflow <a href="#fig-ethology-workflow" class="quarto-xref">Figure&nbsp;<span>1.5</span></a>, most notably video acquisition and behaviour segmentation, which may be covered in future versions of this handbook.</p>
 <div id="fig-sleap-movement" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sleap-movement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="img/SLEAP_and_movement.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sleap-movement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.7: What we’ll cover in this course
+Figure&nbsp;1.7: What is covered in this handbook
 </figcaption>
 </figure>
 </div>
