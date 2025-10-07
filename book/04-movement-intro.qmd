@@ -212,6 +212,10 @@ time_array = poses_ds.time.values
 print(f"Time array shape: {time_array.shape}")
 ```
 
+::: {.callout-note}
+The `.to_numpy()` method is equivalent to `.values` and is more explicit. It may make the code easier to read.
+:::
+
 For saving datasets to disk, we recommend leveraging `xarray`'s built-in
 [support for the netCDF file format](https://docs.xarray.dev/en/stable/user-guide/io.html#netcdf).
 
