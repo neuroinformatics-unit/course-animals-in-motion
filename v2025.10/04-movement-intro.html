@@ -1,0 +1,3945 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Analysing tracks with movement – Animals In Motion</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05-movement-mouse.html" rel="next">
+<link href="./03-sleap-tutorial.html" rel="prev">
+<link href="./img/logo_niu_light.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-9cf5928a4c8d0141e8ae8d9397ab45b5.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-6edfb73c787725f6aa8d7d356ddbd81c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-movement-intro.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysing tracks with movement</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Animals In Motion</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/tree/main/book/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-deep-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Deep learning for computer vision primer</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-sleap-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-movement-intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysing tracks with movement</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-movement-mouse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A mouse’s daily activity log</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-movement-zebras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./contributing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Contributing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#what-is-movement" id="toc-what-is-movement" class="nav-link active" data-scroll-target="#what-is-movement"><span class="header-section-number">4.1</span> What is movement?</a></li>
+  <li><a href="#a-unified-interface-for-motion-tracks" id="toc-a-unified-interface-for-motion-tracks" class="nav-link" data-scroll-target="#a-unified-interface-for-motion-tracks"><span class="header-section-number">4.2</span> A unified interface for motion tracks</a>
+  <ul class="collapse">
+  <li><a href="#sec-movement-ds-poses" id="toc-sec-movement-ds-poses" class="nav-link" data-scroll-target="#sec-movement-ds-poses"><span class="header-section-number">4.2.1</span> Poses datasets</a></li>
+  <li><a href="#bounding-boxes-datasets" id="toc-bounding-boxes-datasets" class="nav-link" data-scroll-target="#bounding-boxes-datasets"><span class="header-section-number">4.2.2</span> Bounding boxes datasets</a></li>
+  <li><a href="#working-with-xarray-objects" id="toc-working-with-xarray-objects" class="nav-link" data-scroll-target="#working-with-xarray-objects"><span class="header-section-number">4.2.3</span> Working with xarray objects</a></li>
+  </ul></li>
+  <li><a href="#sec-movement-load" id="toc-sec-movement-load" class="nav-link" data-scroll-target="#sec-movement-load"><span class="header-section-number">4.3</span> Load and explore data</a></li>
+  <li><a href="#sec-movement-gui" id="toc-sec-movement-gui" class="nav-link" data-scroll-target="#sec-movement-gui"><span class="header-section-number">4.4</span> Visualise motion tracks interactively</a></li>
+  <li><a href="#sec-movement-filtering" id="toc-sec-movement-filtering" class="nav-link" data-scroll-target="#sec-movement-filtering"><span class="header-section-number">4.5</span> Clean motion tracks</a></li>
+  <li><a href="#sec-movement-kinematics" id="toc-sec-movement-kinematics" class="nav-link" data-scroll-target="#sec-movement-kinematics"><span class="header-section-number">4.6</span> Quantify motion</a></li>
+  <li><a href="#sec-movement-next" id="toc-sec-movement-next" class="nav-link" data-scroll-target="#sec-movement-next"><span class="header-section-number">4.7</span> Join the movement</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/edit/main/book/04-movement-intro.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/book/04-movement-intro.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-movement-intro" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysing tracks with movement</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this tutorial, we will introduce the <code>movement</code> package and walk through parts of its <a href="https://movement.neuroinformatics.dev/">documentation</a>.</p>
+<p>You will be given a set of exercises to complete—using <code>movement</code> to analyse the pose tracks you’ve generated in <a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a> or any other tracking data you may have access to.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Using the right environment">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Using the right environment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are following along this chapter on your own computer, make sure to run all code snippets with the <code>animals-in-motion-env</code> environment activated (see <a href="prerequisites.html#sec-install-movement" class="quarto-xref">prerequisites&nbsp;<span>A.3.3</span></a>). This also applies to launching the <code>movement</code> graphical user interface (<a href="#sec-movement-gui" class="quarto-xref"><span>Section 4.4</span></a>) and running <code>movement</code> examples as Jupyter notebooks (<a href="#sec-movement-filtering" class="quarto-xref"><span>Section 4.5</span></a> and <a href="#sec-movement-kinematics" class="quarto-xref"><span>Section 4.6</span></a>).</p>
+</div>
+</div>
+<section id="what-is-movement" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="what-is-movement"><span class="header-section-number">4.1</span> What is movement?</h2>
+<p>In <a href="01-intro.html" class="quarto-xref">chapters&nbsp;<span>1</span></a> and <a href="02-deep-learning.html" class="quarto-xref"><span>2</span></a> we saw how the rise of deep learning-based markerless motion tracking tools is transforming the study of animal behaviour.</p>
+<p>In <a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a> we dove deeper into <a href="https://sleap.ai/">SLEAP</a>, a popular package for pose estimation and tracking. We saw how SLEAP and similar tools—like <a href="https://www.mackenziemathislab.org/deeplabcut">DeepLabCut</a> and <a href="https://lightning-pose.readthedocs.io/en/latest/">LightningPose</a>—detect the positions of user-defined keypoints in video frames, group the keypoints into poses, and connect their identities across time into sequential collections we call pose tracks.</p>
+<p>The extraction of pose tracks is often just the beginning of the analysis. Researchers use these tracks to investigate various aspects of animal behaviour, such as kinematics, spatial navigation, social interactions, etc. Typically, these analyses involve custom, project-specific scripts that are hard to reuse across different projects and are rarely maintained after the project’s conclusion.</p>
+<p>In response to these challenges, we saw the need for a versatile and easy-to-use toolbox that is compatible with a range of ML-based motion tracking frameworks and supports interactive data exploration and analysis. That’s where <code>movement</code> comes in. We started building in early 2023 to answer the question: <strong>what can I do now with these tracks?</strong></p>
+<div class="callout callout-style-default callout-note callout-titled" title="movement's mission">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>movement’s mission
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>movement</code>aims to facilitate the study of animal behaviour by providing a consistent, modular interface for analysing motion tracks, enabling steps such as data cleaning, visualisation, and motion quantification.</p>
+<p>See <a href="https://movement.neuroinformatics.dev/community/mission-scope.html">movement’s mission and scope statement</a> for more details.</p>
+</div>
+</div>
+<div id="fig-movement-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-movement-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="img/movement_overview.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-movement-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: Overview of the <code>movement</code> package
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="a-unified-interface-for-motion-tracks" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="a-unified-interface-for-motion-tracks"><span class="header-section-number">4.2</span> A unified interface for motion tracks</h2>
+<p><code>movement</code> aims to support all popular animal tracking frameworks and file formats, in 2D and 3D, tracking single or multiple animals of any species.</p>
+<p>To achieve this level of versatility, we had to identify what’s common across the outputs of motion tracking tools and how we can represent them in a standardised way.</p>
+<p>What we came up with takes the form of collections of multi-dimensional arrays—an <code>xarray.Dataset</code> object. Each array within a dataset is an <code>xarray.DataArray</code> object holding different aspects of the collected data (position, time, confidence scores…). You can think of an <code>xarray.DataArray</code> as a multi-dimensional <code>numpy.ndarray</code> with pandas-style indexing and labelling.</p>
+<p>This may sound complicated but fear not, we’ll build some understanding by exploring some example datasets that are included in the <code>movement</code> package.</p>
+<div id="5b595d76" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> movement <span class="im">import</span> sample_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading data from 'https://gin.g-node.org/neuroinformatics/movement-test-data/raw/master/metadata.yaml' to file '/home/runner/.movement/data/temp_metadata.yaml'.
+SHA256 hash of downloaded file: 22100193c76c0e3f274e4c986357c95fc645da1f5c67af41a8acfa91313205f4
+Use this value as the 'known_hash' argument of 'pooch.retrieve' to ensure that the file hasn't changed if it is downloaded again in the future.</code></pre>
+</div>
+</div>
+<section id="sec-movement-ds-poses" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="sec-movement-ds-poses"><span class="header-section-number">4.2.1</span> Poses datasets</h3>
+<p>First, let’s see how <code>movement</code> represents pose tracks, like the ones we get with SLEAP.</p>
+<div id="fig-movement-ds-poses" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-movement-ds-poses-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="img/movement_poses_dataset_card.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-movement-ds-poses-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: The structure of a <code>movement</code> poses dataset
+</figcaption>
+</figure>
+</div>
+<p>Let’s load an example dataset and explore its contents.</p>
+<div id="410cff8d" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>poses_ds <span class="op">=</span> sample_data.fetch_dataset(<span class="st">"SLEAP_two-mice_octagon.analysis.h5"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>poses_ds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewbox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewbox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name,
+.xr-group-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-group-name::before {
+  content: "📁";
+  padding-right: 0.3em;
+}
+
+.xr-group-name,
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 20px auto;
+  width: 100%;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 20px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class="xr-text-repr-fallback">&lt;xarray.Dataset&gt; Size: 2MB
+Dimensions:      (time: 9000, space: 2, keypoints: 7, individuals: 2)
+Coordinates: (4)
+Data variables:
+    position     (time, space, keypoints, individuals) float32 1MB 796.5 ... nan
+    confidence   (time, keypoints, individuals) float32 504kB 0.9292 ... 0.0
+Attributes: (6)</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.Dataset</div></div><ul class="xr-sections"><li class="xr-section-item"><input id="section-dbaf0bf7-2e26-4374-993c-9c6ec4aa8bb6" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-dbaf0bf7-2e26-4374-993c-9c6ec4aa8bb6" class="xr-section-summary" title="Expand/collapse section">Dimensions:</label><div class="xr-section-inline-details"><ul class="xr-dim-list"><li><span class="xr-has-index">time</span>: 9000</li><li><span class="xr-has-index">space</span>: 2</li><li><span class="xr-has-index">keypoints</span>: 7</li><li><span class="xr-has-index">individuals</span>: 2</li></ul></div><div class="xr-section-details"></div></li><li class="xr-section-item"><input id="section-05dbefd4-cfdd-4112-8e9a-827908b84056" class="xr-section-summary-in" type="checkbox"><label for="section-05dbefd4-cfdd-4112-8e9a-827908b84056" class="xr-section-summary">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">time</span></div><div class="xr-var-dims">(time)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.0 0.02 0.04 ... 179.9 180.0 180.0</div><input id="attrs-d77cd245-c629-4f9c-95cc-61a1ffcf73be" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-d77cd245-c629-4f9c-95cc-61a1ffcf73be" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-16a9a481-2848-4e04-a321-0e6019e64a90" class="xr-var-data-in" type="checkbox"><label for="data-16a9a481-2848-4e04-a321-0e6019e64a90" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.0000e+00, 2.0000e-02, 4.0000e-02, ..., 1.7994e+02, 1.7996e+02,
+       1.7998e+02], shape=(9000,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">space</span></div><div class="xr-var-dims">(space)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'x' 'y'</div><input id="attrs-593b2a58-daae-4044-8678-3ef0a0bb7251" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-593b2a58-daae-4044-8678-3ef0a0bb7251" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-c15b0e88-bb17-49b3-8535-2b813602d854" class="xr-var-data-in" type="checkbox"><label for="data-c15b0e88-bb17-49b3-8535-2b813602d854" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['x', 'y'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">keypoints</span></div><div class="xr-var-dims">(keypoints)</div><div class="xr-var-dtype">&lt;U9</div><div class="xr-var-preview xr-preview">'Nose' 'EarLeft' ... 'TailBase'</div><input id="attrs-1604b9a3-43aa-4ffb-86ae-93c645bc69a9" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-1604b9a3-43aa-4ffb-86ae-93c645bc69a9" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-2f6f7625-655e-4f08-bf19-f0d2a6a9fe29" class="xr-var-data-in" type="checkbox"><label for="data-2f6f7625-655e-4f08-bf19-f0d2a6a9fe29" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['Nose', 'EarLeft', 'EarRight', 'Neck', 'BodyUpper', 'BodyLower',
+       'TailBase'], dtype='&lt;U9')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">individuals</span></div><div class="xr-var-dims">(individuals)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'1' '2'</div><input id="attrs-c1262924-8b27-4180-999d-b4a2b0799e1e" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-c1262924-8b27-4180-999d-b4a2b0799e1e" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-54d86098-8ba8-498c-b95b-9f7cff37611c" class="xr-var-data-in" type="checkbox"><label for="data-54d86098-8ba8-498c-b95b-9f7cff37611c" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['1', '2'], dtype='&lt;U1')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-8cea0292-7a65-4454-9087-2c49b6b9e115" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-8cea0292-7a65-4454-9087-2c49b6b9e115" class="xr-section-summary">Data variables: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span>position</span></div><div class="xr-var-dims">(time, space, keypoints, individuals)</div><div class="xr-var-dtype">float32</div><div class="xr-var-preview xr-preview">796.5 724.5 812.8 ... 539.9 nan</div><input id="attrs-843934c7-d667-4823-9c55-1fc1250b325e" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-843934c7-d667-4823-9c55-1fc1250b325e" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-460790aa-9a36-421b-a3f3-9262038b7791" class="xr-var-data-in" type="checkbox"><label for="data-460790aa-9a36-421b-a3f3-9262038b7791" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([[[[ 796.47314 ,  724.50464 ],
+         [ 812.7791  ,  721.03235 ],
+         [ 816.9322  ,  704.87585 ],
+         ...,
+         [ 840.7488  ,  704.7664  ],
+         [ 860.94714 ,  696.9818  ],
+         [ 891.86694 ,  696.5501  ]],
+
+        [[ 843.9411  , 1013.0088  ],
+         [ 853.02704 ,  984.7694  ],
+         [ 836.6645  ,  992.73926 ],
+         ...,
+         [ 852.37103 ,  969.5139  ],
+         [ 852.46027 ,  956.7811  ],
+         [ 852.8248  ,  940.1626  ]]],
+
+
+       [[[ 784.9976  ,  724.7622  ],
+         [ 804.41455 ,  721.14667 ],
+         [ 808.7286  ,  705.17615 ],
+...
+         [ 548.5738  ,  124.4707  ],
+         [ 539.9726  ,         nan]]],
+
+
+       [[[1168.8281  ,  628.0149  ],
+         [1164.842   ,  636.7952  ],
+         [1149.0544  ,  648.0165  ],
+         ...,
+         [1148.6505  ,  656.44324 ],
+         [1140.6172  ,  667.7969  ],
+         [1124.6349  ,         nan]],
+
+        [[ 612.5953  ,   96.91025 ],
+         [ 588.73206 ,  112.90335 ],
+         [ 596.61346 ,   96.67566 ],
+         ...,
+         [ 572.3625  ,  116.7138  ],
+         [ 552.75    ,  124.54907 ],
+         [ 539.917   ,         nan]]]],
+      shape=(9000, 2, 7, 2), dtype=float32)</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>confidence</span></div><div class="xr-var-dims">(time, keypoints, individuals)</div><div class="xr-var-dtype">float32</div><div class="xr-var-preview xr-preview">0.9292 0.8582 0.9183 ... 0.8343 0.0</div><input id="attrs-657ff76d-27df-4b1f-8e4c-35ed68850ad0" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-657ff76d-27df-4b1f-8e4c-35ed68850ad0" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-07571bfc-1127-459b-8f0e-51524ded5576" class="xr-var-data-in" type="checkbox"><label for="data-07571bfc-1127-459b-8f0e-51524ded5576" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([[[0.9292158 , 0.85823977],
+        [0.91834486, 0.9425898 ],
+        [0.9423268 , 1.0327555 ],
+        ...,
+        [1.0818218 , 1.0189738 ],
+        [0.82583773, 1.0566478 ],
+        [0.61231655, 0.7511665 ]],
+
+       [[0.87165236, 0.87277526],
+        [0.9183895 , 0.91004723],
+        [0.8998653 , 1.0173767 ],
+        ...,
+        [1.0842742 , 1.0057921 ],
+        [0.8515047 , 1.0472274 ],
+        [0.76587516, 0.7506779 ]],
+
+       [[0.83031344, 0.8633507 ],
+        [0.8614834 , 0.9128488 ],
+        [0.8628435 , 1.0143896 ],
+        ...,
+...
+        ...,
+        [0.9772766 , 0.85115355],
+        [0.9786657 , 0.61859107],
+        [0.88060284, 0.        ]],
+
+       [[0.8607382 , 0.5399062 ],
+        [0.9647669 , 0.8537044 ],
+        [0.9817054 , 0.8100933 ],
+        ...,
+        [1.0091084 , 0.8482252 ],
+        [0.9706513 , 0.6101817 ],
+        [0.8690833 , 0.        ]],
+
+       [[0.8661687 , 0.53857213],
+        [0.9934075 , 0.8632442 ],
+        [1.0423936 , 0.81270623],
+        ...,
+        [0.9675762 , 0.8551186 ],
+        [0.9172935 , 0.59800303],
+        [0.83427495, 0.        ]]], shape=(9000, 7, 2), dtype=float32)</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-221be406-11b9-44f7-aa68-f12eae063c78" class="xr-section-summary-in" type="checkbox"><label for="section-221be406-11b9-44f7-aa68-f12eae063c78" class="xr-section-summary">Attributes: <span>(6)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"><dt><span>source_software :</span></dt><dd>SLEAP</dd><dt><span>ds_type :</span></dt><dd>poses</dd><dt><span>fps :</span></dt><dd>50.0</dd><dt><span>time_unit :</span></dt><dd>seconds</dd><dt><span>source_file :</span></dt><dd>/home/runner/.movement/data/poses/SLEAP_two-mice_octagon.analysis.h5</dd><dt><span>frame_path :</span></dt><dd>/home/runner/.movement/data/frames/two-mice_octagon_frame-10sec.png</dd></dl></div></li></ul></div></div>
+</div>
+</div>
+</section>
+<section id="bounding-boxes-datasets" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="bounding-boxes-datasets"><span class="header-section-number">4.2.2</span> Bounding boxes datasets</h3>
+<p><code>movement</code> also supports datasets that consist of bounding boxes, like the ones we would get if we performed object detection on a video, followed by tracking identities across time.</p>
+<div id="fig-movement-ds-bboxes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-movement-ds-bboxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="img/movement_bboxes_dataset_card.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-movement-ds-bboxes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: The structure of a <code>movement</code> bounding boxes dataset
+</figcaption>
+</figure>
+</div>
+<div id="87f3575f" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>bboxes_ds <span class="op">=</span> sample_data.fetch_dataset(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"VIA_single-crab_MOCA-crab-1_linear-interp.csv"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="aeb4f5b4" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bboxes_ds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewbox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewbox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name,
+.xr-group-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-group-name::before {
+  content: "📁";
+  padding-right: 0.3em;
+}
+
+.xr-group-name,
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 20px auto;
+  width: 100%;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 20px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class="xr-text-repr-fallback">&lt;xarray.Dataset&gt; Size: 8kB
+Dimensions:      (time: 168, space: 2, individuals: 1)
+Coordinates: (3)
+Data variables:
+    position     (time, space, individuals) float64 3kB 1.118e+03 ... 401.9
+    shape        (time, space, individuals) float64 3kB 320.1 153.2 ... 120.1
+    confidence   (time, individuals) float64 1kB nan nan nan nan ... nan nan nan
+Attributes: (6)</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.Dataset</div></div><ul class="xr-sections"><li class="xr-section-item"><input id="section-0e5c3071-d352-4956-b2e5-faa966401bbc" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-0e5c3071-d352-4956-b2e5-faa966401bbc" class="xr-section-summary" title="Expand/collapse section">Dimensions:</label><div class="xr-section-inline-details"><ul class="xr-dim-list"><li><span class="xr-has-index">time</span>: 168</li><li><span class="xr-has-index">space</span>: 2</li><li><span class="xr-has-index">individuals</span>: 1</li></ul></div><div class="xr-section-details"></div></li><li class="xr-section-item"><input id="section-3f051719-b62d-464e-9081-bc86ef68320c" class="xr-section-summary-in" type="checkbox"><label for="section-3f051719-b62d-464e-9081-bc86ef68320c" class="xr-section-summary">Coordinates: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">time</span></div><div class="xr-var-dims">(time)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.0 0.04167 0.08333 ... 6.917 6.958</div><input id="attrs-72dc917f-fedd-4cc5-b705-bfaee9b709fd" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-72dc917f-fedd-4cc5-b705-bfaee9b709fd" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-5ad68042-20c3-4b46-9c7d-1c0a72b70b23" class="xr-var-data-in" type="checkbox"><label for="data-5ad68042-20c3-4b46-9c7d-1c0a72b70b23" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.      , 0.041667, 0.083333, 0.125   , 0.166667, 0.208333, 0.25    ,
+       0.291667, 0.333333, 0.375   , 0.416667, 0.458333, 0.5     , 0.541667,
+       0.583333, 0.625   , 0.666667, 0.708333, 0.75    , 0.791667, 0.833333,
+       0.875   , 0.916667, 0.958333, 1.      , 1.041667, 1.083333, 1.125   ,
+       1.166667, 1.208333, 1.25    , 1.291667, 1.333333, 1.375   , 1.416667,
+       1.458333, 1.5     , 1.541667, 1.583333, 1.625   , 1.666667, 1.708333,
+       1.75    , 1.791667, 1.833333, 1.875   , 1.916667, 1.958333, 2.      ,
+       2.041667, 2.083333, 2.125   , 2.166667, 2.208333, 2.25    , 2.291667,
+       2.333333, 2.375   , 2.416667, 2.458333, 2.5     , 2.541667, 2.583333,
+       2.625   , 2.666667, 2.708333, 2.75    , 2.791667, 2.833333, 2.875   ,
+       2.916667, 2.958333, 3.      , 3.041667, 3.083333, 3.125   , 3.166667,
+       3.208333, 3.25    , 3.291667, 3.333333, 3.375   , 3.416667, 3.458333,
+       3.5     , 3.541667, 3.583333, 3.625   , 3.666667, 3.708333, 3.75    ,
+       3.791667, 3.833333, 3.875   , 3.916667, 3.958333, 4.      , 4.041667,
+       4.083333, 4.125   , 4.166667, 4.208333, 4.25    , 4.291667, 4.333333,
+       4.375   , 4.416667, 4.458333, 4.5     , 4.541667, 4.583333, 4.625   ,
+       4.666667, 4.708333, 4.75    , 4.791667, 4.833333, 4.875   , 4.916667,
+       4.958333, 5.      , 5.041667, 5.083333, 5.125   , 5.166667, 5.208333,
+       5.25    , 5.291667, 5.333333, 5.375   , 5.416667, 5.458333, 5.5     ,
+       5.541667, 5.583333, 5.625   , 5.666667, 5.708333, 5.75    , 5.791667,
+       5.833333, 5.875   , 5.916667, 5.958333, 6.      , 6.041667, 6.083333,
+       6.125   , 6.166667, 6.208333, 6.25    , 6.291667, 6.333333, 6.375   ,
+       6.416667, 6.458333, 6.5     , 6.541667, 6.583333, 6.625   , 6.666667,
+       6.708333, 6.75    , 6.791667, 6.833333, 6.875   , 6.916667, 6.958333])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">space</span></div><div class="xr-var-dims">(space)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'x' 'y'</div><input id="attrs-0536de98-eba5-4892-a48f-bae25ec24401" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-0536de98-eba5-4892-a48f-bae25ec24401" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-67af8b78-9277-4b0a-9854-7ef187eceee0" class="xr-var-data-in" type="checkbox"><label for="data-67af8b78-9277-4b0a-9854-7ef187eceee0" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['x', 'y'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">individuals</span></div><div class="xr-var-dims">(individuals)</div><div class="xr-var-dtype">&lt;U4</div><div class="xr-var-preview xr-preview">'id_1'</div><input id="attrs-ca297ec6-b043-4059-847e-77296b914a0c" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-ca297ec6-b043-4059-847e-77296b914a0c" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-2a321192-eb57-4bed-97c9-0d53b7bb1f45" class="xr-var-data-in" type="checkbox"><label for="data-2a321192-eb57-4bed-97c9-0d53b7bb1f45" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['id_1'], dtype='&lt;U4')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-36166d1f-4567-4337-b435-116fba608c38" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-36166d1f-4567-4337-b435-116fba608c38" class="xr-section-summary">Data variables: <span>(3)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span>position</span></div><div class="xr-var-dims">(time, space, individuals)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">1.118e+03 373.3 ... 614.4 401.9</div><input id="attrs-79eb5086-a69b-43a6-a5b0-40dc525ddc96" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-79eb5086-a69b-43a6-a5b0-40dc525ddc96" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-b5bc8855-37d1-477c-ada6-853144c0fa33" class="xr-var-data-in" type="checkbox"><label for="data-b5bc8855-37d1-477c-ada6-853144c0fa33" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([[[1117.895  ],
+        [ 373.3035 ]],
+
+       [[1113.9442 ],
+        [ 373.8679 ]],
+
+       [[1109.9934 ],
+        [ 374.4323 ]],
+
+       [[1106.0426 ],
+        [ 374.9967 ]],
+
+       [[1102.0918 ],
+        [ 375.5611 ]],
+
+       [[1098.141  ],
+        [ 376.1255 ]],
+
+       [[1093.0615 ],
+        [ 377.8187 ]],
+...
+       [[ 591.6426 ],
+        [ 398.8622 ]],
+
+       [[ 594.7062 ],
+        [ 399.0234 ]],
+
+       [[ 597.7698 ],
+        [ 399.1846 ]],
+
+       [[ 600.8334 ],
+        [ 399.3458 ]],
+
+       [[ 603.897  ],
+        [ 399.507  ]],
+
+       [[ 609.13775],
+        [ 400.7165 ]],
+
+       [[ 614.3785 ],
+        [ 401.926  ]]])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>shape</span></div><div class="xr-var-dims">(time, space, individuals)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">320.1 153.2 327.7 ... 249.9 120.1</div><input id="attrs-1adb6f44-8a69-435f-938f-a17df765e8f1" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-1adb6f44-8a69-435f-938f-a17df765e8f1" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-67bb68c5-bcac-491a-a9ad-b7241a9f83fc" class="xr-var-data-in" type="checkbox"><label for="data-67bb68c5-bcac-491a-a9ad-b7241a9f83fc" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([[[320.09  ],
+        [153.191 ]],
+
+       [[327.6688],
+        [154.3198]],
+
+       [[335.2476],
+        [155.4486]],
+
+       [[342.8264],
+        [156.5774]],
+
+       [[350.4052],
+        [157.7062]],
+
+       [[357.984 ],
+        [158.835 ]],
+
+       [[359.7578],
+        [159.6414]],
+...
+       [[249.2988],
+        [121.4236]],
+
+       [[248.6536],
+        [121.1012]],
+
+       [[248.0084],
+        [120.7788]],
+
+       [[247.3632],
+        [120.4564]],
+
+       [[246.718 ],
+        [120.134 ]],
+
+       [[248.3315],
+        [120.134 ]],
+
+       [[249.945 ],
+        [120.134 ]]])</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>confidence</span></div><div class="xr-var-dims">(time, individuals)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">nan nan nan nan ... nan nan nan nan</div><input id="attrs-389f7605-3bf1-4796-93a4-9a6e63d82ce2" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-389f7605-3bf1-4796-93a4-9a6e63d82ce2" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-aac07aab-ca2c-462c-9829-1cd8b19a82a5" class="xr-var-data-in" type="checkbox"><label for="data-aac07aab-ca2c-462c-9829-1cd8b19a82a5" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([[nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+...
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan],
+       [nan]])</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-3b73d6d0-f933-44a8-b75e-7caa4392e86b" class="xr-section-summary-in" type="checkbox"><label for="section-3b73d6d0-f933-44a8-b75e-7caa4392e86b" class="xr-section-summary">Attributes: <span>(6)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"><dt><span>source_software :</span></dt><dd>VIA-tracks</dd><dt><span>ds_type :</span></dt><dd>bboxes</dd><dt><span>fps :</span></dt><dd>24.0</dd><dt><span>time_unit :</span></dt><dd>seconds</dd><dt><span>source_file :</span></dt><dd>/home/runner/.movement/data/bboxes/VIA_single-crab_MOCA-crab-1_linear-interp.csv</dd><dt><span>frame_path :</span></dt><dd>/home/runner/.movement/data/frames/single-crab_MOCA-crab-1_frame-0.jpg</dd></dl></div></li></ul></div></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Discuss
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>What are some limitations of <code>movement</code>’s approach? What kinds of data cannot be accommodated?</li>
+<li>Can you think of alternative ways of representing these data?</li>
+</ul>
+<p>See the <a href="https://movement.neuroinformatics.dev/user_guide/movement_dataset.html">documentation on movement datasets</a> for more details on <code>movement</code> data structures.</p>
+</div>
+</div>
+</section>
+<section id="working-with-xarray-objects" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="working-with-xarray-objects"><span class="header-section-number">4.2.3</span> Working with xarray objects</h3>
+<p>Since <code>movement</code> represents motion tracking data as <code>xarray</code> objects, we can use all of <code>xarray</code>’s intuitive interface and rich <a href="https://movement.neuroinformatics.dev/user_guide/movement_dataset.html#using-xarrays-built-in-functionality">built-in functionalities</a> for data manipulation and analysis.</p>
+<p>Accessing data variables and attributes (metadata) is straightforward:</p>
+<div id="630d1fc7" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Source software: </span><span class="sc">{</span>poses_ds<span class="sc">.</span>source_software<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Frames per second: </span><span class="sc">{</span>poses_ds<span class="sc">.</span>fps<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>poses_ds.position</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Source software: SLEAP
+Frames per second: 50.0</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewbox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewbox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name,
+.xr-group-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-group-name::before {
+  content: "📁";
+  padding-right: 0.3em;
+}
+
+.xr-group-name,
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 20px auto;
+  width: 100%;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 20px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class="xr-text-repr-fallback">&lt;xarray.DataArray 'position' (time: 9000, space: 2, keypoints: 7, individuals: 2)&gt; Size: 1MB
+796.5 724.5 812.8 721.0 816.9 704.9 821.1 ... 572.4 116.7 552.8 124.5 539.9 nan
+Coordinates: (4)</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-obj-name">'position'</div><ul class="xr-dim-list"><li><span class="xr-has-index">time</span>: 9000</li><li><span class="xr-has-index">space</span>: 2</li><li><span class="xr-has-index">keypoints</span>: 7</li><li><span class="xr-has-index">individuals</span>: 2</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-0ce0313a-161d-40cc-b318-107672f94c1f" class="xr-array-in" type="checkbox"><label for="section-0ce0313a-161d-40cc-b318-107672f94c1f" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>796.5 724.5 812.8 721.0 816.9 704.9 ... 116.7 552.8 124.5 539.9 nan</span></div><div class="xr-array-data"><pre>array([[[[ 796.47314 ,  724.50464 ],
+         [ 812.7791  ,  721.03235 ],
+         [ 816.9322  ,  704.87585 ],
+         ...,
+         [ 840.7488  ,  704.7664  ],
+         [ 860.94714 ,  696.9818  ],
+         [ 891.86694 ,  696.5501  ]],
+
+        [[ 843.9411  , 1013.0088  ],
+         [ 853.02704 ,  984.7694  ],
+         [ 836.6645  ,  992.73926 ],
+         ...,
+         [ 852.37103 ,  969.5139  ],
+         [ 852.46027 ,  956.7811  ],
+         [ 852.8248  ,  940.1626  ]]],
+
+
+       [[[ 784.9976  ,  724.7622  ],
+         [ 804.41455 ,  721.14667 ],
+         [ 808.7286  ,  705.17615 ],
+...
+         [ 548.5738  ,  124.4707  ],
+         [ 539.9726  ,         nan]]],
+
+
+       [[[1168.8281  ,  628.0149  ],
+         [1164.842   ,  636.7952  ],
+         [1149.0544  ,  648.0165  ],
+         ...,
+         [1148.6505  ,  656.44324 ],
+         [1140.6172  ,  667.7969  ],
+         [1124.6349  ,         nan]],
+
+        [[ 612.5953  ,   96.91025 ],
+         [ 588.73206 ,  112.90335 ],
+         [ 596.61346 ,   96.67566 ],
+         ...,
+         [ 572.3625  ,  116.7138  ],
+         [ 552.75    ,  124.54907 ],
+         [ 539.917   ,         nan]]]],
+      shape=(9000, 2, 7, 2), dtype=float32)</pre></div></div></li><li class="xr-section-item"><input id="section-2207bba7-85d3-412d-82ef-a7338b0fc6dd" class="xr-section-summary-in" type="checkbox"><label for="section-2207bba7-85d3-412d-82ef-a7338b0fc6dd" class="xr-section-summary">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">time</span></div><div class="xr-var-dims">(time)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.0 0.02 0.04 ... 179.9 180.0 180.0</div><input id="attrs-892b5aea-8057-4f0b-88fe-25645b695fb1" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-892b5aea-8057-4f0b-88fe-25645b695fb1" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-6d9ddeb2-3e37-42ae-8c5b-c524ffb91de1" class="xr-var-data-in" type="checkbox"><label for="data-6d9ddeb2-3e37-42ae-8c5b-c524ffb91de1" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0.0000e+00, 2.0000e-02, 4.0000e-02, ..., 1.7994e+02, 1.7996e+02,
+       1.7998e+02], shape=(9000,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">space</span></div><div class="xr-var-dims">(space)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'x' 'y'</div><input id="attrs-8b99ab6a-c04c-41a3-b7d7-2c6024c59bc8" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-8b99ab6a-c04c-41a3-b7d7-2c6024c59bc8" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-0a3d4174-137a-4d66-9a41-028616d88749" class="xr-var-data-in" type="checkbox"><label for="data-0a3d4174-137a-4d66-9a41-028616d88749" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['x', 'y'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">keypoints</span></div><div class="xr-var-dims">(keypoints)</div><div class="xr-var-dtype">&lt;U9</div><div class="xr-var-preview xr-preview">'Nose' 'EarLeft' ... 'TailBase'</div><input id="attrs-5ede2d60-28f3-453c-b33d-37ca8b0d1c5b" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-5ede2d60-28f3-453c-b33d-37ca8b0d1c5b" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-a9b9a87e-e649-4a97-8939-72afe33205df" class="xr-var-data-in" type="checkbox"><label for="data-a9b9a87e-e649-4a97-8939-72afe33205df" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['Nose', 'EarLeft', 'EarRight', 'Neck', 'BodyUpper', 'BodyLower',
+       'TailBase'], dtype='&lt;U9')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">individuals</span></div><div class="xr-var-dims">(individuals)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'1' '2'</div><input id="attrs-c7cc53fc-0950-4744-a075-168c38d32d0d" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-c7cc53fc-0950-4744-a075-168c38d32d0d" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-a1333595-9e10-4219-9396-8985075328a2" class="xr-var-data-in" type="checkbox"><label for="data-a1333595-9e10-4219-9396-8985075328a2" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['1', '2'], dtype='&lt;U1')</pre></div></li></ul></div></li></ul></div></div>
+</div>
+</div>
+<p>We can select a subset of data along any dimension in a variety of ways: by integer index (order) or coordinate label.</p>
+<div id="6466a155" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First individual, first time point</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>poses_ds.position.isel(individuals<span class="op">=</span><span class="dv">0</span>, time<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 0-10 seconds, two specific keypoints</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>poses_ds.position.sel(time<span class="op">=</span><span class="bu">slice</span>(<span class="dv">0</span>, <span class="dv">10</span>), keypoints<span class="op">=</span>[<span class="st">"EarLeft"</span>, <span class="st">"EarRight"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewbox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewbox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name,
+.xr-group-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-group-name::before {
+  content: "📁";
+  padding-right: 0.3em;
+}
+
+.xr-group-name,
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 20px auto;
+  width: 100%;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 20px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class="xr-text-repr-fallback">&lt;xarray.DataArray 'position' (time: 501, space: 2, keypoints: 2, individuals: 2)&gt; Size: 16kB
+812.8 721.0 816.9 704.9 853.0 984.8 ... 359.9 340.0 852.2 811.8 835.9 800.6
+Coordinates: (4)</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-obj-name">'position'</div><ul class="xr-dim-list"><li><span class="xr-has-index">time</span>: 501</li><li><span class="xr-has-index">space</span>: 2</li><li><span class="xr-has-index">keypoints</span>: 2</li><li><span class="xr-has-index">individuals</span>: 2</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-dcaf469c-481e-4bf3-9d02-57d0a7ca50c9" class="xr-array-in" type="checkbox"><label for="section-dcaf469c-481e-4bf3-9d02-57d0a7ca50c9" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>812.8 721.0 816.9 704.9 853.0 984.8 ... 340.0 852.2 811.8 835.9 800.6</span></div><div class="xr-array-data"><pre>array([[[[812.7791 , 721.03235],
+         [816.9322 , 704.87585]],
+
+        [[853.02704, 984.7694 ],
+         [836.6645 , 992.73926]]],
+
+
+       [[[804.41455, 721.14667],
+         [808.7286 , 705.17615]],
+
+        [[852.35284, 984.18274],
+         [836.1602 , 992.3926 ]]],
+
+
+       [[[795.77686, 721.2672 ],
+         [800.2279 , 705.41705]],
+
+        [[849.3385 , 980.82336],
+         [833.1362 , 988.9888 ]]],
+
+...
+
+       [[[364.0884 , 356.805  ],
+         [359.95502, 340.36093]],
+
+        [[851.93097, 812.11383],
+         [835.68134, 804.3751 ]]],
+
+
+       [[[364.20483, 356.02448],
+         [360.05804, 340.04025]],
+
+        [[852.05334, 811.99725],
+         [835.7557 , 800.7991 ]]],
+
+
+       [[[364.10153, 355.91064],
+         [359.89383, 339.9605 ]],
+
+        [[852.17737, 811.76544],
+         [835.8717 , 800.5599 ]]]], shape=(501, 2, 2, 2), dtype=float32)</pre></div></div></li><li class="xr-section-item"><input id="section-c8143926-23fa-46af-a1e3-54cd4c837f34" class="xr-section-summary-in" type="checkbox"><label for="section-c8143926-23fa-46af-a1e3-54cd4c837f34" class="xr-section-summary">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">time</span></div><div class="xr-var-dims">(time)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.0 0.02 0.04 ... 9.96 9.98 10.0</div><input id="attrs-9b7f91ac-daf6-4b7e-b86e-4f3cd9cbfa71" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-9b7f91ac-daf6-4b7e-b86e-4f3cd9cbfa71" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-5e1060fa-77d0-45f0-830b-52472c0143e3" class="xr-var-data-in" type="checkbox"><label for="data-5e1060fa-77d0-45f0-830b-52472c0143e3" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([ 0.  ,  0.02,  0.04, ...,  9.96,  9.98, 10.  ], shape=(501,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">space</span></div><div class="xr-var-dims">(space)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'x' 'y'</div><input id="attrs-5a23e634-81fd-4de0-9afa-9f169f7b8611" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-5a23e634-81fd-4de0-9afa-9f169f7b8611" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-328bf5e6-7d0e-446e-9341-8039104dccab" class="xr-var-data-in" type="checkbox"><label for="data-328bf5e6-7d0e-446e-9341-8039104dccab" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['x', 'y'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">keypoints</span></div><div class="xr-var-dims">(keypoints)</div><div class="xr-var-dtype">&lt;U9</div><div class="xr-var-preview xr-preview">'EarLeft' 'EarRight'</div><input id="attrs-217573a4-4576-424b-83c6-8c10f62d0057" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-217573a4-4576-424b-83c6-8c10f62d0057" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-c18caafb-ab91-4d03-9765-32186acc37d2" class="xr-var-data-in" type="checkbox"><label for="data-c18caafb-ab91-4d03-9765-32186acc37d2" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['EarLeft', 'EarRight'], dtype='&lt;U9')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">individuals</span></div><div class="xr-var-dims">(individuals)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'1' '2'</div><input id="attrs-af856e53-6377-4629-b73f-ee444bec285e" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-af856e53-6377-4629-b73f-ee444bec285e" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-14d0a508-b45d-4a73-aa8d-6e23e18f59fe" class="xr-var-data-in" type="checkbox"><label for="data-14d0a508-b45d-4a73-aa8d-6e23e18f59fe" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['1', '2'], dtype='&lt;U1')</pre></div></li></ul></div></li></ul></div></div>
+</div>
+</div>
+<p>We can also do all sorts of <a href="https://docs.xarray.dev/en/stable/user-guide/computation.html">computations</a> on the data, along any dimension.</p>
+<div id="fb23693f" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Each point's median confidence score across time</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>poses_ds.confidence.median(dim<span class="op">=</span><span class="st">"time"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Take the block mean for every 10 frames.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>poses_ds.position.coarsen(time<span class="op">=</span><span class="dv">10</span>, boundary<span class="op">=</span><span class="st">"trim"</span>).mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewbox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewbox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name,
+.xr-group-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-group-name::before {
+  content: "📁";
+  padding-right: 0.3em;
+}
+
+.xr-group-name,
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 20px auto;
+  width: 100%;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 20px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class="xr-text-repr-fallback">&lt;xarray.DataArray 'position' (time: 900, space: 2, keypoints: 7, individuals: 2)&gt; Size: 101kB
+757.0 733.4 771.6 725.0 779.1 711.3 ... 553.9 116.5 544.9 124.2 541.0 128.6
+Coordinates: (4)</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.DataArray</div><div class="xr-obj-name">'position'</div><ul class="xr-dim-list"><li><span class="xr-has-index">time</span>: 900</li><li><span class="xr-has-index">space</span>: 2</li><li><span class="xr-has-index">keypoints</span>: 7</li><li><span class="xr-has-index">individuals</span>: 2</li></ul></div><ul class="xr-sections"><li class="xr-section-item"><div class="xr-array-wrap"><input id="section-01dce202-35d3-4a45-83ea-ed0ea1c259d3" class="xr-array-in" type="checkbox"><label for="section-01dce202-35d3-4a45-83ea-ed0ea1c259d3" title="Show/hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-array-preview xr-preview"><span>757.0 733.4 771.6 725.0 779.1 711.3 ... 116.5 544.9 124.2 541.0 128.6</span></div><div class="xr-array-data"><pre>array([[[[ 756.962   ,  733.3821  ],
+         [ 771.5825  ,  724.9951  ],
+         [ 779.1285  ,  711.3096  ],
+         ...,
+         [ 798.9844  ,  707.4451  ],
+         [ 818.64166 ,  698.38007 ],
+         [ 848.1536  ,  695.7847  ]],
+
+        [[ 824.01636 , 1003.74567 ],
+         [ 838.2208  ,  979.5837  ],
+         [ 823.0009  ,  989.7912  ],
+         ...,
+         [ 841.6796  ,  968.4575  ],
+         [ 844.6781  ,  955.7819  ],
+         [ 848.83325 ,  938.32935 ]]],
+
+
+       [[[ 682.5006  ,  767.1878  ],
+         [ 694.0696  ,  751.6518  ],
+         [ 704.2795  ,  747.1867  ],
+...
+         [ 544.6389  ,  124.39598 ],
+         [ 542.1672  ,         nan]]],
+
+
+       [[[1177.5676  ,  626.08044 ],
+         [1165.5343  ,  636.6763  ],
+         [1157.4653  ,  645.02875 ],
+         ...,
+         [1147.251   ,  656.4906  ],
+         [1135.7996  ,  667.9657  ],
+         [1119.3905  ,  680.6386  ]],
+
+        [[ 577.2025  ,   99.16615 ],
+         [ 558.778   ,  112.888275],
+         [ 572.0012  ,   99.46965 ],
+         ...,
+         [ 553.9388  ,  116.50942 ],
+         [ 544.8991  ,  124.15985 ],
+         [ 541.02795 ,  128.59134 ]]]],
+      shape=(900, 2, 7, 2), dtype=float32)</pre></div></div></li><li class="xr-section-item"><input id="section-cd2992c6-fbcd-4f76-bbc5-232449d6f718" class="xr-section-summary-in" type="checkbox"><label for="section-cd2992c6-fbcd-4f76-bbc5-232449d6f718" class="xr-section-summary">Coordinates: <span>(4)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">time</span></div><div class="xr-var-dims">(time)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">0.09 0.29 0.49 ... 179.7 179.9</div><input id="attrs-13ffbf05-ad88-4b5c-b795-dacbd7d1822d" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-13ffbf05-ad88-4b5c-b795-dacbd7d1822d" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-ec251ecf-9b68-408f-bf36-0646d58f4bdd" class="xr-var-data-in" type="checkbox"><label for="data-ec251ecf-9b68-408f-bf36-0646d58f4bdd" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([9.0000e-02, 2.9000e-01, 4.9000e-01, ..., 1.7949e+02, 1.7969e+02,
+       1.7989e+02], shape=(900,))</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">space</span></div><div class="xr-var-dims">(space)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'x' 'y'</div><input id="attrs-08dc79b5-7ecf-481b-b8a2-703743d2bfad" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-08dc79b5-7ecf-481b-b8a2-703743d2bfad" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-044344aa-ebf2-4996-a4d8-8b3a6aae7e1b" class="xr-var-data-in" type="checkbox"><label for="data-044344aa-ebf2-4996-a4d8-8b3a6aae7e1b" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['x', 'y'], dtype='&lt;U1')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">keypoints</span></div><div class="xr-var-dims">(keypoints)</div><div class="xr-var-dtype">&lt;U9</div><div class="xr-var-preview xr-preview">'Nose' 'EarLeft' ... 'TailBase'</div><input id="attrs-5fe5c585-8cb7-46eb-950e-30b13cb18be2" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-5fe5c585-8cb7-46eb-950e-30b13cb18be2" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-bc4c6028-4c57-47fa-b827-39e1edd891ca" class="xr-var-data-in" type="checkbox"><label for="data-bc4c6028-4c57-47fa-b827-39e1edd891ca" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['Nose', 'EarLeft', 'EarRight', 'Neck', 'BodyUpper', 'BodyLower',
+       'TailBase'], dtype='&lt;U9')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">individuals</span></div><div class="xr-var-dims">(individuals)</div><div class="xr-var-dtype">&lt;U1</div><div class="xr-var-preview xr-preview">'1' '2'</div><input id="attrs-51955946-b22a-4634-a0db-4777ec905047" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-51955946-b22a-4634-a0db-4777ec905047" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-ab6daa1a-2eb6-45f7-af89-9ada62633cf9" class="xr-var-data-in" type="checkbox"><label for="data-ab6daa1a-2eb6-45f7-af89-9ada62633cf9" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['1', '2'], dtype='&lt;U1')</pre></div></li></ul></div></li></ul></div></div>
+</div>
+</div>
+<p><code>xarray</code> also provides a rich set of built-in <a href="https://docs.xarray.dev/en/stable/user-guide/plotting.html">plotting methods</a> for visualising the data.</p>
+<div id="cell-fig-plot-tail-base-pos" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>tail_base_pos <span class="op">=</span> poses_ds.sel(keypoints<span class="op">=</span><span class="st">"TailBase"</span>).position</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>tail_base_pos.plot.line(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"time"</span>, row<span class="op">=</span><span class="st">"individuals"</span>, hue<span class="op">=</span><span class="st">"space"</span>, aspect<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span><span class="fl">2.5</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-plot-tail-base-pos" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plot-tail-base-pos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-movement-intro_files/figure-html/fig-plot-tail-base-pos-output-1.png" width="622" height="467" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-tail-base-pos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.4: The x,y spatial coordinates of the TailBase keypoint across time
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>You can also combine those with <code>matplotlib</code> figures.</p>
+<div id="cell-fig-plot-confidence-histograms" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.tab10.colors</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> kp, color <span class="kw">in</span> <span class="bu">zip</span>(poses_ds.keypoints, colors):</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> poses_ds.confidence.sel(keypoints<span class="op">=</span>kp)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    data.plot.hist(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        bins<span class="op">=</span><span class="dv">50</span>, histtype<span class="op">=</span><span class="st">"step"</span>, density<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax, color<span class="op">=</span>color, label<span class="op">=</span>kp</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Confidence histograms per keypoint"</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-plot-confidence-histograms" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plot-confidence-histograms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-movement-intro_files/figure-html/fig-plot-confidence-histograms-output-1.png" width="576" height="449" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plot-confidence-histograms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.5: Confidence histograms per keypoint
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>You may also want to export date to structures you may be more familiar with, such as <a href="https://docs.xarray.dev/en/stable/user-guide/pandas.html">Pandas DataFrames</a> or <a href="https://docs.xarray.dev/en/stable/user-guide/duckarrays.html">NumPy arrays</a>.</p>
+<p>Export the position data array as a pandas DataFrame:</p>
+<div id="0db4af18" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>position_df <span class="op">=</span> poses_ds.position.to_dataframe(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    dim_order<span class="op">=</span>[<span class="st">"time"</span>, <span class="st">"individuals"</span>, <span class="st">"keypoints"</span>, <span class="st">"space"</span>]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>position_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">position</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">time</th>
+<th data-quarto-table-cell-role="th">individuals</th>
+<th data-quarto-table-cell-role="th">keypoints</th>
+<th data-quarto-table-cell-role="th">space</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th rowspan="5" data-quarto-table-cell-role="th" data-valign="top">0.0</th>
+<th rowspan="5" data-quarto-table-cell-role="th" data-valign="top">1</th>
+<th rowspan="2" data-quarto-table-cell-role="th" data-valign="top">Nose</th>
+<th data-quarto-table-cell-role="th">x</th>
+<td>796.473145</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">y</th>
+<td>843.941101</td>
+</tr>
+<tr class="odd">
+<th rowspan="2" data-quarto-table-cell-role="th" data-valign="top">EarLeft</th>
+<th data-quarto-table-cell-role="th">x</th>
+<td>812.779114</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">y</th>
+<td>853.027039</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">EarRight</th>
+<th data-quarto-table-cell-role="th">x</th>
+<td>816.932190</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Export data variables or coordinates as numpy arrays:</p>
+<div id="7a7caccf" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>position_array <span class="op">=</span> poses_ds.position.values</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Position array shape: </span><span class="sc">{</span>position_array<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>time_array <span class="op">=</span> poses_ds.time.values</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Time array shape: </span><span class="sc">{</span>time_array<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Position array shape: (9000, 2, 7, 2)
+Time array shape: (9000,)</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>.to_numpy()</code> method is equivalent to <code>.values</code> and is more explicit. It may make the code easier to read.</p>
+</div>
+</div>
+<p>For saving datasets to disk, we recommend leveraging <code>xarray</code>’s built-in <a href="https://docs.xarray.dev/en/stable/user-guide/io.html#netcdf">support for the netCDF file format</a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># To save a dataset to disk</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>poses_ds.to_netcdf(<span class="st">"poses_ds.nc"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># To load the dataset back from memory</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>poses_ds <span class="op">=</span> xr.open_dataset(<span class="st">"poses_ds.nc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="sec-movement-load" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-movement-load"><span class="header-section-number">4.3</span> Load and explore data</h2>
+<p>As stated above, our goal with <code>movement</code> is to enable pipelines that are input-agnostic, meaning they are not tied to a specific motion tracking tool or data format. Therefore, <code>movement</code> offers input/output functions that facilitate data flows between various motion tracking frameworks and <code>movement</code>’s own <code>xarray</code> data structure.</p>
+<p>Please refer to the <a href="https://movement.neuroinformatics.dev/user_guide/input_output.html">Input/Output section</a> of the <code>movement</code> documentation for more details, including a full list of supported formats.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise A">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exercise A
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Load the predictions you generated in <a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a> into a <code>movement</code> dataset. Alternatively, feel free to work with the <code>CalMS21/mouse044_task1_annotator1.slp</code> file from Dropbox (refer to <a href="prerequisites.html#sec-data" class="quarto-xref">prerequisites&nbsp;<span>A.4</span></a>) or any of <code>movement</code>’s <a href="https://movement.neuroinformatics.dev/user_guide/input_output.html#sample-data">sample datasets</a>.</li>
+<li>Compute the overall minimum and maximum x,y positions.</li>
+<li>Select a narrow time window (e.g.&nbsp;10 seconds) and plot the x, y positions of a certain keypoint across time.</li>
+<li>Plot the centroid trajectory of a given individual across time.</li>
+</ol>
+<p><strong>Bonus:</strong> Overlay the centroid trajectory (task 4) on top of a frame extracted from the video. You may find inspiration in the <a href="https://movement.neuroinformatics.dev/examples/mouse_eye_movements.html">“Pupil tracking” example</a>.</p>
+<p>Useful resources:</p>
+<ul>
+<li><a href="https://movement.neuroinformatics.dev/user_guide/input_output.html">Input/Output guide</a></li>
+<li><a href="https://movement.neuroinformatics.dev/examples/load_and_explore_poses.html">The “Load and explore pose tracks” example</a></li>
+<li><a href="https://movement.neuroinformatics.dev/api/movement.plots.plot_centroid_trajectory.html"><code>plot_centroid_trajectory()</code> function</a></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="sec-movement-gui" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-movement-gui"><span class="header-section-number">4.4</span> Visualise motion tracks interactively</h2>
+<p>The <code>movement</code> <a href="https://movement.neuroinformatics.dev/user_guide/gui.html">graphical user interface (GUI)</a>, powered by our custom plugin for <a href="https://napari.org/dev/">napari</a>, makes it easy to view and explore motion tracks. Currently, you can use it to visualise 2D <code>movement</code> datasets as points, tracks, and rectangular bounding boxes (if defined) overlaid on video frames.</p>
+<p>We’ll first demonstrate how the GUI works by using it to explore the <code>CalMS21</code> dataset and some of the <a href="https://movement.neuroinformatics.dev/user_guide/input_output.html#sample-data">sample data</a> we can fetch with <code>movement</code>.</p>
+<div id="fig-napari-calms21" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-napari-calms21-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="img/napari_calms21_screenshot.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-napari-calms21-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.6: Data from the CalMS21 dataset viewed via the <code>movement</code> plugin for <code>napari</code>
+</figcaption>
+</figure>
+</div>
+<p>After that you are free to play with the GUI on your own. You may try to explore the predictions you generated in <a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a>, or any other tracking data you have at hand and is supported by <code>movement</code>.</p>
+<p>Consult the <a href="https://movement.neuroinformatics.dev/user_guide/gui.html">GUI user guide</a> in the <code>movement</code> documentation for more details.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Discuss
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Did you spot any errors in the data you’ve explored?</li>
+<li>What kinds of errors do you expect in pose tracks?</li>
+<li>What are some common sources of errors?</li>
+<li>How can such errors be avoided or corrected?</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="sec-movement-filtering" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sec-movement-filtering"><span class="header-section-number">4.5</span> Clean motion tracks</h2>
+<p>In this section, we will walk through the tools <code>movement</code> offers for dealing with errors in motion tracking. These tools are implemented in the <a href="https://movement.neuroinformatics.dev/api/movement.filtering.html"><code>movement.filtering</code></a> module and include functions for:</p>
+<ul>
+<li>identifying and removing outliers</li>
+<li>interpolating missing data</li>
+<li>smoothing trajectories over time</li>
+</ul>
+<p>We will go through two notebooks from <code>movement</code>’s <a href="https://movement.neuroinformatics.dev/examples/index.html">example gallery</a>:</p>
+<ul>
+<li><a href="https://movement.neuroinformatics.dev/examples/filter_and_interpolate.html">Drop outliers and interpolate</a></li>
+<li><a href="https://movement.neuroinformatics.dev/examples/smooth.html">Smooth pose tracks</a></li>
+</ul>
+<p>To run these examples as interactive Jupyter notebooks, you can go to end of each example and either:</p>
+<ul>
+<li>Click the <strong>Download Jupyter Notebook</strong> button and open the <code>.ipynb</code> file in your code editor of choice (recommended), or</li>
+<li>Click the <strong>launch binder</strong> button and run the notebook in your browser.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise B">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exercise B
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For this exercise you may continue working with the dataset you used to solve Exercise A in <a href="#sec-movement-load" class="quarto-xref"><span>Section 4.3</span></a>, or load another one. You should store each intermediate output as a data variable within the same dataset.</p>
+<ol type="1">
+<li>Drop position values that are below a certain confidence threshold.</li>
+<li>Smooth the data across time using rolling median filter.</li>
+<li>Interpolate missing values across time.</li>
+<li>Save the dataset, including the processed position data, to a netCDF file.</li>
+</ol>
+<p>Refer to the <a href="https://movement.neuroinformatics.dev/api/movement.filtering.html">filtering module documentation</a> and to the examples we went through above.</p>
+<p>Each filtering step involves selecting one or more parameters. We encourage you to experiment with different parameters values and inspect their effects by plotting the data.</p>
+</div>
+</div>
+</section>
+<section id="sec-movement-kinematics" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="sec-movement-kinematics"><span class="header-section-number">4.6</span> Quantify motion</h2>
+<p>In this section, we will familiarise ourselves with the <a href="https://movement.neuroinformatics.dev/api/movement.kinematics.html"><code>movement.kinematics</code></a> module, which provides functions for deriving various useful quantities from motion tracks, such as velocity, acceleration, distances, orientations, and angles.</p>
+<p>As in the previous section, we will go through a specific example from <code>movement</code>’s <a href="https://movement.neuroinformatics.dev/examples/index.html">example gallery</a>:</p>
+<ul>
+<li><a href="https://movement.neuroinformatics.dev/examples/compute_kinematics.html">Compute and visualise kinematics</a></li>
+</ul>
+<p>You can run this notebook interactively in the same way as in <a href="#sec-movement-filtering" class="quarto-xref"><span>Section 4.5</span></a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise C">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exercise C
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For this exercise you may continue working with the dataset you used to solve Exercise B in <a href="#sec-movement-filtering" class="quarto-xref"><span>Section 4.5</span></a>. In fact, you can use the fully processed position data as your starting point.</p>
+<ol type="1">
+<li>Take the mean position across keypoints (each individual’s centroid).</li>
+<li>Compute and plot the centroid speed across time.</li>
+<li>Compute the distance travelled by each individual within a certain time window.</li>
+<li>Compute the distance between two individuals (or between two keypoints) and plot it across time.</li>
+</ol>
+<p>Refer to the <a href="https://movement.neuroinformatics.dev/api/movement.kinematics.html">kinematics module documentation</a> and to the example we went through above.</p>
+</div>
+</div>
+<p>If you wish to learn more about quantifying motion with <code>movement</code>, including things we didn’t cover here, the following example notebooks are good follow-ups:</p>
+<ul>
+<li><a href="https://movement.neuroinformatics.dev/examples/compute_head_direction.html">Compute head direction</a>: a good place to learn about orientations and angles</li>
+<li><a href="https://movement.neuroinformatics.dev/examples/mouse_eye_movements.html">Pupil tracking</a>: an interesting application of kinematics to analyse mouse eye movements</li>
+</ul>
+<p>The following two chapters—<a href="05-movement-mouse.html" class="quarto-xref"><span>Chapter 5</span></a> and <a href="06-movement-zebras.html" class="quarto-xref"><span>Chapter 6</span></a>—constitute case studies in which we apply <code>movement</code> to some real-world datasets. The two case studies represent quite different applications:</p>
+<ul>
+<li><a href="05-movement-mouse.html" class="quarto-xref"><span>Chapter 5</span></a>: Continuous home cage monitoring of mouse activity levels for weeks.</li>
+<li><a href="06-movement-zebras.html" class="quarto-xref"><span>Chapter 6</span></a>: Collective escape behaviour in a herd of zebras.</li>
+</ul>
+</section>
+<section id="sec-movement-next" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="sec-movement-next"><span class="header-section-number">4.7</span> Join the movement</h2>
+<p>This chapter does not represent a full list of <code>movement</code>’s current and future capabilities. The package will continue to evolve as it’s being actively developed by a core team of engineers (aka the authors of this book) supported by a growing, global <a href="https://movement.neuroinformatics.dev/community/people.html">community of contributors</a>.</p>
+<p>We are committed to openness and transparency and always welcome feedback and contributions from the community, especially from practicing animal behaviour researchers, to shape the project’s direction.</p>
+<p>Visit the <a href="https://movement.neuroinformatics.dev/community">movement community page</a> to find about ways to get help and get involved.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Discuss
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>What do you think of the <code>movement</code> package? What aspects of it could be improved?</li>
+<li>What is currently missing? What types of analyses would you like for <code>movement</code> to support?</li>
+</ul>
+<p>If you have ideas, tell us about them on Zulip, open an issue on GitHub, or suggest a project for the hackday!</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03-sleap-tutorial.html" class="pagination-link" aria-label="Pose estimation with SLEAP">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05-movement-mouse.html" class="pagination-link" aria-label="A mouse's daily activity log">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A mouse’s daily activity log</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>This website is made with <a href="https://quarto.org/docs/books">Quarto Book</a>, see <a href="contributing.html" class="quarto-xref"><span>Appendix B</span></a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/edit/main/book/04-movement-intro.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/book/04-movement-intro.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
