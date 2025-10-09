@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Pose estimation with SLEAP – Animals In Motion (with answers)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04-movement-intro.html" rel="next">
+<link href="./02-deep-learning.html" rel="prev">
+<link href="./img/logo_niu_light.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-9cf5928a4c8d0141e8ae8d9397ab45b5.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-41288311c2a520e3482547eb8ea4b627.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-6edfb73c787725f6aa8d7d356ddbd81c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-sleap-tutorial.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Animals In Motion (with answers)</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/tree/main/book/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-deep-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Deep learning for computer vision primer</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-sleap-tutorial.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-movement-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysing tracks with movement</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-movement-mouse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A mouse’s daily activity log</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-movement-zebras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./contributing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Contributing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#single-animal-vs-multi-animal-pose-estimation" id="toc-single-animal-vs-multi-animal-pose-estimation" class="nav-link active" data-scroll-target="#single-animal-vs-multi-animal-pose-estimation"><span class="header-section-number">3.1</span> Single-animal vs multi-animal pose estimation</a></li>
+  <li><a href="#top-down-vs-bottom-up-approaches" id="toc-top-down-vs-bottom-up-approaches" class="nav-link" data-scroll-target="#top-down-vs-bottom-up-approaches"><span class="header-section-number">3.2</span> Top-down vs bottom-up approaches</a></li>
+  <li><a href="#identity-tracking-approaches" id="toc-identity-tracking-approaches" class="nav-link" data-scroll-target="#identity-tracking-approaches"><span class="header-section-number">3.3</span> Identity tracking approaches</a></li>
+  <li><a href="#residentintruder-assay" id="toc-residentintruder-assay" class="nav-link" data-scroll-target="#residentintruder-assay"><span class="header-section-number">3.4</span> Resident–intruder assay</a></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset"><span class="header-section-number">3.5</span> Dataset</a></li>
+  <li><a href="#sleap-workflow" id="toc-sleap-workflow" class="nav-link" data-scroll-target="#sleap-workflow"><span class="header-section-number">3.6</span> SLEAP workflow</a>
+  <ul class="collapse">
+  <li><a href="#create-a-new-project" id="toc-create-a-new-project" class="nav-link" data-scroll-target="#create-a-new-project"><span class="header-section-number">3.6.1</span> Create a new project</a></li>
+  <li><a href="#define-skeleton" id="toc-define-skeleton" class="nav-link" data-scroll-target="#define-skeleton"><span class="header-section-number">3.6.2</span> Define skeleton</a></li>
+  <li><a href="#sample-frames" id="toc-sample-frames" class="nav-link" data-scroll-target="#sample-frames"><span class="header-section-number">3.6.3</span> Sample frames</a></li>
+  <li><a href="#label-frames" id="toc-label-frames" class="nav-link" data-scroll-target="#label-frames"><span class="header-section-number">3.6.4</span> Label frames</a></li>
+  <li><a href="#configure-and-train-models" id="toc-configure-and-train-models" class="nav-link" data-scroll-target="#configure-and-train-models"><span class="header-section-number">3.6.5</span> Configure and train models</a></li>
+  <li><a href="#monitor-training-progress" id="toc-monitor-training-progress" class="nav-link" data-scroll-target="#monitor-training-progress"><span class="header-section-number">3.6.6</span> Monitor training progress</a></li>
+  <li><a href="#run-inference-and-proofread-predictions" id="toc-run-inference-and-proofread-predictions" class="nav-link" data-scroll-target="#run-inference-and-proofread-predictions"><span class="header-section-number">3.6.7</span> Run inference and proofread predictions</a></li>
+  <li><a href="#evaluate-trained-models" id="toc-evaluate-trained-models" class="nav-link" data-scroll-target="#evaluate-trained-models"><span class="header-section-number">3.6.8</span> Evaluate trained models</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/edit/main/book/03-sleap-tutorial.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/book/03-sleap-tutorial.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-sleap" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- markdownlint-disable MD045 -->
+<p>Before we proceed, make sure you have installed <a href="http://legacy.sleap.ai/installation.html">SLEAP</a> <span class="citation" data-cites="pereira_sleap_2022">(<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">Pereira et al. 2022</a>)</span> and activated the corresponding <code>conda</code> environment (see <a href="prerequisites.html#sec-install-sleap" class="quarto-xref">prerequisites&nbsp;<span>A.3.2</span></a>). You will also need to download the <a href="https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset">CalMS21 dataset</a> <span class="citation" data-cites="sun_caltech_2021">(<a href="references.html#ref-sun_caltech_2021" role="doc-biblioref">Sun et al. 2021</a>)</span> video file <code>mouse044_task1_annotator1.mp4</code> from <a href="https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&amp;st=w1zueyi9&amp;dl=0">Dropbox</a> (see <a href="prerequisites.html#sec-data" class="quarto-xref">prerequisites&nbsp;<span>A.4</span></a> for details on the folder contents).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This workshop uses <strong>SLEAP version 1.3.4</strong> with a TensorFlow backend. Documentation for this version is available at <a href="http://legacy.sleap.ai/">legacy.sleap.ai</a>.</p>
+<p>From <strong>SLEAP 1.5.0 onwards</strong>, the software uses a PyTorch backend. Installation and usage instructions differ for these newer versions, with updated docs at <a href="https://docs.sleap.ai/">docs.sleap.ai</a>.</p>
+</div>
+</div>
+<section id="single-animal-vs-multi-animal-pose-estimation" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="single-animal-vs-multi-animal-pose-estimation"><span class="header-section-number">3.1</span> Single-animal vs multi-animal pose estimation</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/pose_estimation_2D.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Single-animal pose estimation, source: <span class="citation" data-cites="pereira_quantifying_2020">Pereira, Shaevitz, and Murthy (<a href="references.html#ref-pereira_quantifying_2020" role="doc-biblioref">2020</a>)</span>.</figcaption>
+</figure>
+</div>
+<p><strong>Single-animal pose estimation</strong> focuses on detecting keypoints for one animal per frame, which is considered a landmark-localisation task where each body part has a unique coordinate. This approach is simpler and faster to train and run.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/SLEAP/part_grouping.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>The part-grouping problem in multi-animal pose estimation.</figcaption>
+</figure>
+</div>
+<p><strong>Multi-animal pose estimation</strong> aims to detect and track multiple animals simultaneously within the same frame. This is essential for studying social behaviours, group dynamics, or any scenario where animals interact, as it addresses the unique challenges of assigning detections reliably to individuals both within an image (part-grouping problem) and across frames (identity-tracking problem).</p>
+</section>
+<section id="top-down-vs-bottom-up-approaches" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="top-down-vs-bottom-up-approaches"><span class="header-section-number">3.2</span> Top-down vs bottom-up approaches</h2>
+<p>For multi-animal pose estimation, SLEAP offers both top-down and bottom-up approaches.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/SLEAP/pose_estimation_topdown.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Source:<span class="citation" data-cites="pereira_sleap_2022">Pereira et al. (<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">2022</a>)</span></figcaption>
+</figure>
+</div>
+<p><strong>Top-down approaches</strong> use <strong>two models</strong> in sequence. First, an anchor detection model (e.g.&nbsp;a centroid model) locates each animal in the frame. Then, for each detected animal, a pose estimation model processes an anchor-centred crop to predict confidence maps for the body parts of the centred animal.</p>
+<p>This approach typically yields more accurate pose estimates and is well-suited to datasets with few animals. As the second stage of the network runs once per animal, inference speed scales linearly with the number of animals.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/SLEAP/pose_estimation_bottomup.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Source: <span class="citation" data-cites="pereira_sleap_2022">Pereira et al. (<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">2022</a>)</span></figcaption>
+</figure>
+</div>
+<p><strong>Bottom-up approaches</strong> use a <strong>single model</strong> that processes the entire frame in a single pass. This model outputs confidence maps for all body parts in the image, along with Part Affinity Fields (PAFs)—vector fields that represent spatial relationships between parts and are used to group them into individual animal instances.</p>
+<p>Due to their single-stage construction, bottom-up models scale efficiently with increasing numbers of animals and are particularly effective in crowded or high-occupancy scenes.</p>
+</section>
+<section id="identity-tracking-approaches" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="identity-tracking-approaches"><span class="header-section-number">3.3</span> Identity tracking approaches</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/SLEAP/id_tracking.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+<p>SLEAP addresses the challenge of maintaining consistent animal identities across frames using two primary strategies: <strong>temporal-based</strong> and <strong>appearance-based</strong> cues.</p>
+<p><strong>Temporal-based tracking</strong> uses optical flow to estimate pose displacement across frames, associating past with current poses without requiring model training. This makes it well-suited for animals that are visually similar, as it avoids the need to label consecutive frames. However, errors, such as identity switches, can accumulate and propagate, limiting its reliability in long videos or real-time settings where post-hoc correction is not feasible.</p>
+<p><strong>Appearance-based tracking (ID models)</strong> assigns identities based on visual features while simultaneously detecting and grouping landmarks. This approach mitigates error propagation but relies on animals having distinguishable visual traits that allow manual identification during labelling.</p>
+<ul>
+<li><strong>Top-down ID models</strong> extend the centered-instance network to predict class probabilities for each animal-centred crop.</li>
+<li><strong>Bottom-up ID models</strong> replace PAFs with multi-class segmentation maps, collapsing body part masks into separate channels for each unique class ID. Grouping is implicit in the ID assignment.</li>
+</ul>
+</section>
+<section id="residentintruder-assay" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="residentintruder-assay"><span class="header-section-number">3.4</span> Resident–intruder assay</h2>
+<p>The resident–intruder assay <span class="citation" data-cites="jove4367">(<a href="references.html#ref-jove4367" role="doc-biblioref">Koolhaas Jaap M. 2013</a>)</span> is a behavioural test used to study social interactions, especially aggression and territoriality, in rodents. A resident mouse, habituated to its home cage, is confronted with an unfamiliar intruder, and their interactions—such as chasing, attacking, or investigating—are observed and quantified. This assay is widely used in neuroscience to explore the neural and genetic basis of social behaviour.</p>
+</section>
+<section id="dataset" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="dataset"><span class="header-section-number">3.5</span> Dataset</h2>
+<p>In this tutorial, we will use <a href="https://sleap.ai/">SLEAP</a> to train a <strong>multi-animal top-down identity model</strong> to simultaneously perform pose estimation and identity tracking of two mice in a short video (<code>mouse044_task1_annotator1.mp4</code>) from the <a href="https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset">CalMS21 dataset</a>.</p>
+<p>This video captures a brief interaction between two mice in a resident–intruder assay, where the black mouse (the resident), implanted with a head-mounted microendoscope, has established territory and the white mouse (the intruder) is newly introduced into the resident’s cage.</p>
+</section>
+<section id="sleap-workflow" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sleap-workflow"><span class="header-section-number">3.6</span> SLEAP workflow</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    videos("Videos&lt;br&gt;(1,2,...,n)") --&gt; |extract| frames[/Sampled&lt;br&gt;frames/]
+    frames --&gt; |"label&lt;br&gt;body parts&lt;br&gt;and ID"| labels[/Training&lt;br&gt;dataset/]
+    labels --&gt; |train| model[/Model/]
+
+    videos --&gt; test[/Unseen&lt;br&gt;frames/]
+    test --&gt; model
+    model --&gt; |infer| predictions[/Predictions/]
+    
+    predictions --&gt; |fix labels&lt;br&gt;and merge| labels
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>A typical SLEAP workflow for multi-animal pose estimation and identity tracking consists of the following key steps:</p>
+<ol type="1">
+<li><strong>Create project</strong>: Start a new SLEAP project and import your video(s).</li>
+<li><strong>Define skeleton</strong>: Create a <code>Skeleton</code> that defines the <code>Nodes</code> (each representing a keypoint or body part of interest, e.g.&nbsp;nose, left ear, right ear) and <code>Edges</code> (each representing the connections between keypoints, e.g.&nbsp;nose–left ear, nose–right ear) for the animals to be tracked.</li>
+<li><strong>Sample frames</strong>: Extract frames from your video(s) to create a set of frames for annotation.</li>
+<li><strong>Label frames</strong>: Annotate the sampled frames by marking the body parts and assigning identities (<code>Tracks</code>) to each animal. These labelled frames together form the training dataset.</li>
+<li><strong>Train model</strong>: Use the training dataset to train a pose estimation and identity tracking model.</li>
+<li><strong>Predict on new data</strong>: Apply the trained model to new, unlabelled video frames to generate pose and identity predictions for each animal.</li>
+<li><strong>Proofread predictions</strong>: Review and correct the predictions as needed.</li>
+<li><strong>Refine model</strong>: Corrected predictions can be merged back into the training dataset to retrain the model as needed.</li>
+</ol>
+<section id="create-a-new-project" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="create-a-new-project"><span class="header-section-number">3.6.1</span> Create a new project</h3>
+<p>Activate the <code>sleap</code> environment and launch the SLEAP GUI.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate sleap</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sleap-label</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Add a video by navigating to the “Videos” panel and clicking on “Add Videos” (or go to “File” then “Add Videos”). Since the video is in greyscale, enable the “Grayscale” option in the video import dialogue. This ensures SLEAP processes the input as a single-channel image, which can improve performance and reduce memory usage for greyscale videos. Further details can be found in <a href="http://legacy.sleap.ai/tutorials/new-project.html">SLEAP’s Creating a project guide</a>.</p>
+<p><img src="img/SLEAP/1_create_project.png" class="img-fluid" style="width:100.0%"></p>
+</section>
+<section id="define-skeleton" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="define-skeleton"><span class="header-section-number">3.6.2</span> Define skeleton</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/SLEAP/mouse_annotated.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<p>In SLEAP, <code>Skeletons</code> are defined as a set of <code>Nodes</code> (body parts or keypoints of interest) and <code>Edges</code> (connections between body parts or keypoints). With the exception of bottom-up models, <code>Edges</code> serve primarily for visualisation.</p>
+<p>Switch to the <code>Skeleton</code> panel and add <code>Nodes</code> for each body part of interest, e.g.:</p>
+<ul>
+<li><code>nose</code></li>
+<li><code>right_ear</code></li>
+<li><code>left_ear</code></li>
+<li><code>neck</code></li>
+<li><code>right_hip</code></li>
+<li><code>left_hip</code></li>
+<li><code>tail_base</code></li>
+</ul>
+<p>Then, define the <code>Edges</code> to connect the <code>Nodes</code> using the drop-down menus, e.g.:</p>
+<ul>
+<li><code>nose</code>–<code>left_ear</code></li>
+<li><code>nose</code>–<code>right_ear</code></li>
+<li><code>left_ear</code>–<code>neck</code></li>
+<li><code>right_ear</code>–<code>neck</code></li>
+<li><code>neck</code>–<code>left_hip</code></li>
+<li><code>neck</code>–<code>right_hip</code></li>
+<li><code>left_hip</code>–<code>tail_base</code></li>
+<li><code>right_hip</code>–<code>tail_base</code></li>
+</ul>
+<p><img src="img/SLEAP/2_define_skeleton.png" class="img-fluid" style="width:100.0%"></p>
+<p>Once you have defined the skeleton, save the project by clicking on “File” then “Save” (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).</p>
+</section>
+<section id="sample-frames" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="sample-frames"><span class="header-section-number">3.6.3</span> Sample frames</h3>
+<p>For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the “Labeling Suggestions” panel, which offers several <a href="http://legacy.sleap.ai/guides/gui.html#suggestion-methods">automated sampling strategies</a> to help select informative and diverse frames.</p>
+<p>In this example, we will use the “Labeling Suggestions” panel to randomly sample 20 frames from the video.</p>
+<p><img src="img/SLEAP/3_sample_frames.png" class="img-fluid" style="width:100.0%"></p>
+</section>
+<section id="label-frames" class="level3" data-number="3.6.4">
+<h3 data-number="3.6.4" class="anchored" data-anchor-id="label-frames"><span class="header-section-number">3.6.4</span> Label frames</h3>
+<p>To begin labelling, click on “Labels” then “Add Instance” in the top menu bar. The initial instance will have its nodes placed randomly. Adjust each point to its correct location by dragging it with the mouse.</p>
+<p>In this example, the black mouse’s nose is occluded by an implant. To mark the node as hidden, right-click the node or its name to toggle visibility. If you can reasonably infer its location, you can also mark it as “visible” to help the model learn to predict occluded nodes.</p>
+<p>For tracking the identities of the mice, we will also assign identities to each instance by adding a <code>Track</code>. This step is optional if you are only tracking a single animal or if the animals are visually indistinguishable.</p>
+<p>To assign a track, select an instance and click on “Tracks” then “Set Instance Track” in the top menu bar. A new <code>Track</code> (“Track 1”) will be created. <code>Tracks</code> can be renamed in the “Track” column. In this example, we will name the black mouse <code>resident_b</code> and the white mouse <code>intruder_w</code>.</p>
+<p><img src="img/SLEAP/4_label_frames.png" class="img-fluid" style="width:100.0%"></p>
+<p>Once you have labelled the initial frame, you can navigate to the previous or next suggested frame by clicking “Previous” or “Next” in the “Labeling Suggestions” panel.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Remember to save your progress frequently by clicking “File” then “Save” (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).</p>
+</div>
+</div>
+<p>You may also find the following keyboard shortcuts and mouse actions helpful:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 76%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Keyboard shortcut/Mouse actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Add instance</td>
+<td><kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>I</kbd></td>
+</tr>
+<tr class="even">
+<td>Add new track</td>
+<td><kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>0</kbd></td>
+</tr>
+<tr class="odd">
+<td>Assign track</td>
+<td>Select instance, then <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>1-9</kbd> (number = track ID)</td>
+</tr>
+<tr class="even">
+<td>Toggle node visibility (occlusion)</td>
+<td>Right-click on node or its label</td>
+</tr>
+<tr class="odd">
+<td>Move entire instance</td>
+<td>Hold <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) and drag any node</td>
+</tr>
+<tr class="even">
+<td>Rotate instance</td>
+<td>Hold <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac), click on any node, and scroll mouse wheel</td>
+</tr>
+<tr class="odd">
+<td>Zoom in/out</td>
+<td>Place cursor over area to zoom in or out, then scroll mouse wheel</td>
+</tr>
+<tr class="even">
+<td>Delete instance</td>
+<td>Select instance, then <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>Backspace</kbd></td>
+</tr>
+<tr class="odd">
+<td>Navigate between frames</td>
+<td><kbd>Left</kbd>/<kbd>Right</kbd></td>
+</tr>
+<tr class="even">
+<td>Go to the next suggested frame</td>
+<td><kbd>Space</kbd></td>
+</tr>
+<tr class="odd">
+<td>Go to the previous suggested frame</td>
+<td><kbd>Shift</kbd> + <kbd>Space</kbd></td>
+</tr>
+<tr class="even">
+<td>Go to the next labelled frame</td>
+<td><kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>right</kbd></td>
+</tr>
+<tr class="odd">
+<td>Go to the previous labelled frame</td>
+<td><kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd></td>
+</tr>
+</tbody>
+</table>
+<p>To speed up labelling in subsequent frames, right-click on the frame and choose from several options for adding a new instance. For example, selecting “Copy prior frame” will duplicate the instance(s) from the previous labelled frame, allowing you to quickly adjust only the necessary points. This is especially useful when animal poses change gradually between frames.</p>
+<p>See also <a href="http://legacy.sleap.ai/guides/gui.html#labels">SLEAP’s GUI guide on “Labels”</a> for a complete reference of all labelling functions.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Discuss
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>How did you find the labelling process? What challenges did you encounter?</li>
+<li>What strategies could annotators use to ensure consistency throughout the labelling process?</li>
+<li>How might the quality of annotations affect model performance?</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="configure-and-train-models" class="level3" data-number="3.6.5">
+<h3 data-number="3.6.5" class="anchored" data-anchor-id="configure-and-train-models"><span class="header-section-number">3.6.5</span> Configure and train models</h3>
+<p>Once you have labelled a sufficient number of frames, you can configure and train your first model. To do this, go to “Predict” then “Run training” in the top menu bar.</p>
+<p>Here, we will employ the <a href="#identity-tracking-approaches">appearance-based tracking approach</a> for maintaining consistent identities of individual mice across frames. To do so, select <strong>“multi-animal top-down-id”</strong> as the “Training Pipeline Type”. We will also configure the training pipeline to predict on 20 more frames randomly sampled from the video once training is complete.</p>
+<p><img src="img/SLEAP/5_config_model.png" class="img-fluid" style="width:100.0%"></p>
+<p>See also <a href="http://legacy.sleap.ai/guides/choosing-models.html">SLEAP’s Configuring models guide</a> for further details on model types and training options.</p>
+<section id="centroid-model" class="level4" data-number="3.6.5.1">
+<h4 data-number="3.6.5.1" class="anchored" data-anchor-id="centroid-model"><span class="header-section-number">3.6.5.1</span> Centroid model</h4>
+<p>We will now configure the <strong>Centroid model</strong>, which predicts the location of each animal in each frame.</p>
+<p>Since we have labelled only a small number of frames, increase the validation split (e.g.&nbsp;0.2) to obtain more stable and representative validation metrics. To reduce the risk of overfitting, set the number of training epochs to a low value (e.g.&nbsp;10–20 epochs). In the “Data” and “Optimization” panels, adjust “Validation” and “Epochs” accordingly.</p>
+<p>Next, adjust the receptive field size to match the scale of the features you want the model to detect. This can be achieved by adjusting “Input Scaling” and “Max Stride”. As a rule of thumb, the receptive field (blue box in the preview) should be large enough to cover the whole animal.</p>
+<p>To help the model generalise to animals in different orientations, enable random rotation augmentation. In the “Augmentation” panel, enable “Rotation” and set the rotation range (e.g.&nbsp;-180° to 180°).</p>
+<p><img src="img/SLEAP/5_config_model_centroid.png" class="img-fluid" style="width:100.0%"></p>
+</section>
+<section id="top-down-id-model" class="level4" data-number="3.6.5.2">
+<h4 data-number="3.6.5.2" class="anchored" data-anchor-id="top-down-id-model"><span class="header-section-number">3.6.5.2</span> Top-down ID model</h4>
+<p>The <strong>Top-down ID model</strong> predicts the full pose (locations of all defined nodes) and assigns identities to each animal in each frame.</p>
+<p>As with the Centroid model, configure the validation split, number of training epochs, random rotation augmentation, and receptive field size accordingly.</p>
+<p>You may also want to reduce the batch size (e.g.&nbsp;to 4) to ensure the model trains reliably and fits within memory constraints, especially when using limited hardware resources (e.g.&nbsp;CPU or lower-end GPUs).</p>
+<p><img src="img/SLEAP/5_config_model_id.png" class="img-fluid" style="width:100.0%"></p>
+<p>Once you have configured the models, click “Run” to begin training.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For top-down models, set a larger receptive field for the centroid model (by decreasing the “Input Scaling” value) than for the top-down ID model, since you only need to locate the animal, not fine details.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="monitor-training-progress" class="level3" data-number="3.6.6">
+<h3 data-number="3.6.6" class="anchored" data-anchor-id="monitor-training-progress"><span class="header-section-number">3.6.6</span> Monitor training progress</h3>
+<p>You should now see a training progress window showing the loss curves and metrics for each model as it trains.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/SLEAP/5_train_model_centroid.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Centroid model training progress</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/SLEAP/5_train_model_id.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Top-down ID model training progress</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>SLEAP supports remote training and inference workflows, allowing users to leverage external computational resources, particularly those with GPU support, for batch training or inference. For detailed instructions and guidance, see the <a href="http://legacy.sleap.ai/guides/remote.html">Running SLEAP remotely guide</a>.</p>
+</div>
+</div>
+</section>
+<section id="run-inference-and-proofread-predictions" class="level3" data-number="3.6.7">
+<h3 data-number="3.6.7" class="anchored" data-anchor-id="run-inference-and-proofread-predictions"><span class="header-section-number">3.6.7</span> Run inference and proofread predictions</h3>
+<p>After the models are trained, if you had configured the training pipeline to run inference upon completion, SLEAP will automatically apply the trained models to the selected frames.</p>
+<p>Alternatively, to manually run inference on random frames with your trained models, go to the “Predict” and select “Run Inference” in the top menu bar.</p>
+<p><img src="img/SLEAP/6_inference.png" class="img-fluid" style="width:100.0%"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Since we have trained an <a href="#identity-tracking-approaches">appearance-based ID model</a>, which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a “Tracker” (typically used for temporal-based tracking). Further details on the Tracker module is available in <a href="http://legacy.sleap.ai/guides/proofreading.html">SLEAP’s Tracking and proofreading guide</a>.</p>
+</div>
+</div>
+<p>Labelled frames (frames with user or predicted labels) will be marked in the seekbar.</p>
+<p><img src="img/SLEAP/6_predictions.png" class="img-fluid" style="width:100.0%"></p>
+<p>To step through labelled frames, click on “Go” and “Next Labeled Frame” (or use <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd>/<kbd>right</kbd>).</p>
+<p>The models are not expected to perform well at this stage, but you can review and correct these predictions, and merge them back into your training dataset. You can also generate more labelling suggestions and label them to ensure your training dataset captures a wider range of poses and variations. Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video.</p>
+<p>See <a href="http://legacy.sleap.ai/tutorials/assisted-labeling.html">SLEAP’s Prediction-assisted labeling guide</a> for more details on this iterative process.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Predicted instances will not be used for model training unless you correct the predictions in the GUI.</p>
+</div>
+</div>
+</section>
+<section id="evaluate-trained-models" class="level3" data-number="3.6.8">
+<h3 data-number="3.6.8" class="anchored" data-anchor-id="evaluate-trained-models"><span class="header-section-number">3.6.8</span> Evaluate trained models</h3>
+<p>The metrics of trained models can be accessed by clicking on “Predict” then “Evaluation Metrics for Trained Models” in the top menu bar.</p>
+<p><img src="img/SLEAP/7_evaluate_model.png" class="img-fluid" style="width:100.0%"></p>
+<p>See <a href="http://legacy.sleap.ai/notebooks/Model_evaluation.html">SLEAP’s Model evaluation guide</a> for examples on generating accuracy metrics for your trained model.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-jove4367" class="csl-entry" role="listitem">
+Koolhaas Jaap M., de Boer Sietse F., Coppens Caroline M. 2013. <span>“The Resident-Intruder Paradigm: A Standardized Test for Aggression, Violence and Social Stress.”</span> <em>JoVE</em>, no. 77: e4367. <a href="https://doi.org/doi:10.3791/4367">https://doi.org/doi:10.3791/4367</a>.
+</div>
+<div id="ref-pereira_quantifying_2020" class="csl-entry" role="listitem">
+Pereira, Talmo D., Joshua W. Shaevitz, and Mala Murthy. 2020. <span>“Quantifying Behavior to Understand the Brain.”</span> <em>Nature Neuroscience</em> 23 (12): 1537–49. <a href="https://doi.org/10.1038/s41593-020-00734-z">https://doi.org/10.1038/s41593-020-00734-z</a>.
+</div>
+<div id="ref-pereira_sleap_2022" class="csl-entry" role="listitem">
+Pereira, Talmo D., Nathaniel Tabris, Arie Matsliah, David M. Turner, Junyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, et al. 2022. <span>“<span>SLEAP</span>: <span>A</span> Deep Learning System for Multi-Animal Pose Tracking.”</span> <em>Nature Methods</em> 19 (4): 486–95. <a href="https://doi.org/10.1038/s41592-022-01426-1">https://doi.org/10.1038/s41592-022-01426-1</a>.
+</div>
+<div id="ref-sun_caltech_2021" class="csl-entry" role="listitem">
+Sun, Jennifer J., Tomomi Karigo, David J. Anderson, Pietro Perona, Yisong Yue, and Ann Kennedy. 2021. <span>“Caltech Mouse Social Interactions (CalMS21) Dataset.”</span> CaltechDATA. <a href="https://doi.org/10.22002/D1.1991">https://doi.org/10.22002/D1.1991</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-deep-learning.html" class="pagination-link" aria-label="Deep learning for computer vision primer">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Deep learning for computer vision primer</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./04-movement-intro.html" class="pagination-link" aria-label="Analysing tracks with movement">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysing tracks with movement</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>This website is made with <a href="https://quarto.org/docs/books">Quarto Book</a>, see <a href="contributing.html" class="quarto-xref"><span>Appendix B</span></a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/edit/main/book/03-sleap-tutorial.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/book/03-sleap-tutorial.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
