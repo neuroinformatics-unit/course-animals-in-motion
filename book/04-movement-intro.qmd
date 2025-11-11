@@ -49,7 +49,7 @@ We started building in early 2023 to answer the question: __what can I do now wi
 by providing a consistent, modular interface for analysing motion tracks,
 enabling steps such as data cleaning, visualisation, and motion quantification.
 
-See [movement's mission and scope statement](https://movement.neuroinformatics.dev/community/mission-scope.html) for more details.
+See [movement's mission and scope statement](https://movement.neuroinformatics.dev/latest/community/mission-scope.html) for more details.
 
 :::
 
@@ -111,14 +111,14 @@ bboxes_ds
 - What are some limitations of `movement`'s approach? What kinds of data cannot be accommodated?
 - Can you think of alternative ways of representing these data?
 
-See the [documentation on movement datasets](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html) for more details
+See the [documentation on movement datasets](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html) for more details
 on `movement` data structures.
 :::
 
 ### Working with xarray objects
 
 Since `movement` represents motion tracking data as `xarray` objects, we can use all of `xarray`'s intuitive interface and rich
-[built-in functionalities](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html#using-xarrays-built-in-functionality)
+[built-in functionalities](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html#using-xarrays-built-in-functionality)
 for data manipulation and analysis.
 
 Accessing data variables and attributes (metadata) is straightforward:
@@ -236,25 +236,25 @@ meaning they are not tied to a specific motion tracking tool or data format.
 Therefore, `movement` offers input/output functions that facilitate data flows
 between various motion tracking frameworks and `movement`'s own `xarray` data structure.
 
-Please refer to the [Input/Output section](https://movement.neuroinformatics.dev/user_guide/input_output.html)
+Please refer to the [Input/Output section](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html)
 of the `movement` documentation for more details, including a full list of
 supported formats.
 
 ::: {.callout-tip title="Exercise A"}
 
-1. Load the predictions you generated in @sec-sleap into a `movement` dataset. Alternatively, feel free to work with the `CalMS21/mouse044_task1_annotator1.slp` file from Dropbox (refer to [prerequisites @sec-data]) or any of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/user_guide/input_output.html#sample-data).
+1. Load the predictions you generated in @sec-sleap into a `movement` dataset. Alternatively, feel free to work with the `CalMS21/mouse044_task1_annotator1.slp` file from Dropbox (refer to [prerequisites @sec-data]) or any of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#sample-data).
 2. Compute the overall minimum and maximum x,y positions.
 3. Select a narrow time window (e.g. 10 seconds) and plot the x, y positions of a certain keypoint across time.
 4. Plot the centroid trajectory of a given individual across time.
 
 __Bonus:__ Overlay the centroid trajectory (task 4) on top of a frame extracted from the video.
-You may find inspiration in the ["Pupil tracking" example](https://movement.neuroinformatics.dev/examples/mouse_eye_movements.html).
+You may find inspiration in the ["Pupil tracking" example](https://movement.neuroinformatics.dev/latest/examples/mouse_eye_movements.html).
 
 Useful resources:
 
-- [Input/Output guide](https://movement.neuroinformatics.dev/user_guide/input_output.html)
-- [The "Load and explore pose tracks" example](https://movement.neuroinformatics.dev/examples/load_and_explore_poses.html)
-- [`plot_centroid_trajectory()` function](https://movement.neuroinformatics.dev/api/movement.plots.plot_centroid_trajectory.html)
+- [Input/Output guide](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html)
+- [The "Load and explore pose tracks" example](https://movement.neuroinformatics.dev/latest/examples/load_and_explore_poses.html)
+- [`plot_centroid_trajectory()` function](https://movement.neuroinformatics.dev/latest/api/movement.plots.plot_centroid_trajectory.html)
 
 :::
 
@@ -338,7 +338,7 @@ plt.show()
 
 ## Visualise motion tracks interactively {#sec-movement-gui}
 
-The `movement` [graphical user interface (GUI)](https://movement.neuroinformatics.dev/user_guide/gui.html),
+The `movement` [graphical user interface (GUI)](https://movement.neuroinformatics.dev/latest/user_guide/gui.html),
 powered by our custom plugin for [napari](https://napari.org/dev/),
 makes it easy to view and explore motion tracks.
 Currently, you can use it to visualise 2D `movement` datasets as points, tracks,
@@ -346,7 +346,7 @@ and rectangular bounding boxes (if defined) overlaid on video frames.
 
 We'll first demonstrate how the GUI works by using it to explore the
 `CalMS21` dataset and some of the
-[sample data](https://movement.neuroinformatics.dev/user_guide/input_output.html#sample-data)
+[sample data](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#sample-data)
 we can fetch with `movement`.
 
 ![Data from the CalMS21 dataset viewed via the `movement` plugin for `napari`](img/napari_calms21_screenshot.png){#fig-napari-calms21}
@@ -355,7 +355,7 @@ After that you are free to play with the GUI on your own.
 You may try to explore the predictions you generated in @sec-sleap,
 or any other tracking data you have at hand and is supported by `movement`.
 
-Consult the [GUI user guide](https://movement.neuroinformatics.dev/user_guide/gui.html)
+Consult the [GUI user guide](https://movement.neuroinformatics.dev/latest/user_guide/gui.html)
 in the `movement` documentation for more details.
 
 ::: {.callout-tip title="Discuss"}
@@ -371,7 +371,7 @@ in the `movement` documentation for more details.
 
 In this section, we will walk through the tools `movement` offers for dealing with errors in motion tracking.
 These tools are implemented in the
-[`movement.filtering`](https://movement.neuroinformatics.dev/api/movement.filtering.html)
+[`movement.filtering`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.html)
 module and include functions for:
 
 - identifying and removing outliers
@@ -379,10 +379,10 @@ module and include functions for:
 - smoothing trajectories over time
 
 We will go through two notebooks from `movement`'s
-[example gallery](https://movement.neuroinformatics.dev/examples/index.html):
+[example gallery](https://movement.neuroinformatics.dev/latest/examples/index.html):
 
-- [Drop outliers and interpolate](https://movement.neuroinformatics.dev/examples/filter_and_interpolate.html)
-- [Smooth pose tracks](https://movement.neuroinformatics.dev/examples/smooth.html)
+- [Drop outliers and interpolate](https://movement.neuroinformatics.dev/latest/examples/filter_and_interpolate.html)
+- [Smooth pose tracks](https://movement.neuroinformatics.dev/latest/examples/smooth.html)
 
 To run these examples as interactive Jupyter notebooks, you can go to end
 of each example and either:
@@ -402,7 +402,7 @@ within the same dataset.
 3. Interpolate missing values across time.
 4. Save the dataset, including the processed position data, to a netCDF file.
 
-Refer to the [filtering module documentation](https://movement.neuroinformatics.dev/api/movement.filtering.html)
+Refer to the [filtering module documentation](https://movement.neuroinformatics.dev/latest/api/movement.filtering.html)
 and to the examples we went through above.
 
 Each filtering step involves selecting one or more parameters.
@@ -515,14 +515,14 @@ plt.show()
 ## Quantify motion {#sec-movement-kinematics}
 
 In this section, we will familiarise ourselves with the
-[`movement.kinematics`](https://movement.neuroinformatics.dev/api/movement.kinematics.html)
+[`movement.kinematics`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.html)
 module, which provides functions for deriving various useful quantities
 from motion tracks, such as velocity, acceleration, distances, orientations, and angles.
 
 As in the previous section, we will go through a specific example from `movement`'s
-[example gallery](https://movement.neuroinformatics.dev/examples/index.html):
+[example gallery](https://movement.neuroinformatics.dev/latest/examples/index.html):
 
-- [Compute and visualise kinematics](https://movement.neuroinformatics.dev/examples/compute_kinematics.html)
+- [Compute and visualise kinematics](https://movement.neuroinformatics.dev/latest/examples/compute_kinematics.html)
 
 You can run this notebook interactively in the same way as in @sec-movement-filtering.
 
@@ -538,7 +538,7 @@ can use the fully processed position data as your starting point.
 4. Compute the distance between two individuals (or between two keypoints)
 and plot it across time.
 
-Refer to the [kinematics module documentation](https://movement.neuroinformatics.dev/api/movement.kinematics.html)
+Refer to the [kinematics module documentation](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.html)
 and to the example we went through above.
 
 :::
@@ -613,8 +613,8 @@ If you wish to learn more about quantifying motion with `movement`,
 including things we didn't cover here, the following example notebooks
 are good follow-ups:
 
-- [Compute head direction](https://movement.neuroinformatics.dev/examples/compute_head_direction.html): a good place to learn about orientations and angles
-- [Pupil tracking](https://movement.neuroinformatics.dev/examples/mouse_eye_movements.html): an interesting application of kinematics to analyse mouse eye movements
+- [Compute head direction](https://movement.neuroinformatics.dev/latest/examples/compute_head_direction.html): a good place to learn about orientations and angles
+- [Pupil tracking](https://movement.neuroinformatics.dev/latest/examples/mouse_eye_movements.html): an interesting application of kinematics to analyse mouse eye movements
 
 The following two chapters—[@sec-movement-mouse] and [@sec-movement-zebras]—constitute
 case studies in which we apply `movement` to some real-world datasets.
@@ -628,12 +628,12 @@ The two case studies represent quite different applications:
 This chapter does not represent a full list of `movement`'s current and future capabilities.
 The package will continue to evolve as it's being actively developed by a core team of engineers
 (aka the authors of this book) supported by a growing, global
-[community of contributors](https://movement.neuroinformatics.dev/community/people.html).
+[community of contributors](https://movement.neuroinformatics.dev/latest/community/people.html).
 
 We are committed to openness and transparency and always welcome feedback and contributions from the community,
 especially from practicing animal behaviour researchers, to shape the project's direction.
 
-Visit the [movement community page](https://movement.neuroinformatics.dev/community)
+Visit the [movement community page](https://movement.neuroinformatics.dev/latest/community)
 to find about ways to get help and get involved.
 
 ::: {.callout-tip title="Discuss"}

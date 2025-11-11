@@ -63,7 +63,7 @@ for file in files:
 ```
 
 The tracking data are stored in two`.nc` (netCDF) files: `kage14` and `kage17`.
-netCDF is an HDF5-based file format that can be natively saved/loaded by the `xarray` library, and is therefore [convenient to use with `movement`](https://movement.neuroinformatics.dev/user_guide/input_output.html#native-saving-and-loading-with-netcdf).
+netCDF is an HDF5-based file format that can be natively saved/loaded by the `xarray` library, and is therefore [convenient to use with `movement`](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#native-saving-and-loading-with-netcdf).
 
 Apart from these, we also have two `.png` files: `kage14_background.png` and `kage17_background.png`, which constitute frames extracted from the videos.
 
@@ -340,8 +340,8 @@ for kage, ds in ds_kages.items():
 
 Next, we'll compute the body centroid's speed in cm/sec via the following steps:
 
-1. Convert the body centroid position data to cm units using [`scale()`](https://movement.neuroinformatics.dev/api/movement.transforms.scale.html).
-2. Temporarily switch to "elapsed time" mode, because [`compute_speed()`](https://movement.neuroinformatics.dev/api/movement.kinematics.compute_speed.html) does not (yet) support datetime coordinates.
+1. Convert the body centroid position data to cm units using [`scale()`](https://movement.neuroinformatics.dev/latest/api/movement.transforms.scale.html).
+2. Temporarily switch to "elapsed time" mode, because [`compute_speed()`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_speed.html) does not (yet) support datetime coordinates.
 3. Compute the speed in cm/sec
 4. Restore the original datetime coordinates to the speed data.
 
@@ -654,7 +654,7 @@ exhibits a "restless" behavioural phenotype.
 Apart from quantifying how active the mice were over time, we might also
 be interested in which parts of the habitat they tend to frequent.
 
-`movement` provides a [`plot_occupancy()`](https://movement.neuroinformatics.dev/api/movement.plots.plot_occupancy.html) function to help us visualise the space occupancy.
+`movement` provides a [`plot_occupancy()`](https://movement.neuroinformatics.dev/latest/api/movement.plots.plot_occupancy.html) function to help us visualise the space occupancy.
 
 ```{python}
 #| label: fig-occupancy1
@@ -800,7 +800,7 @@ spends some of its downtime resting on the wheel?
 
 Let us precisely measure running wheel occupancy, i.e. the proportion of time
 the mouse spends on the running wheel.
-Here we'll use `movement`'s [functionality for defining regions of interest (ROIs)](https://movement.neuroinformatics.dev/api/movement.roi.html).
+Here we'll use `movement`'s [functionality for defining regions of interest (ROIs)](https://movement.neuroinformatics.dev/latest/api/movement.roi.html).
 
 Let us create a circular "running wheel" ROI for each of the two kages.
 
@@ -836,7 +836,7 @@ Stay tuned for updates in `movement` by joining the
 :::
 
 Now that we have the ROIs defined as `PolygonOfInterest` objects, we can use some of their
-[built-in methods](https://movement.neuroinformatics.dev/api/movement.roi.PolygonOfInterest.html).
+[built-in methods](https://movement.neuroinformatics.dev/latest/api/movement.roi.PolygonOfInterest.html).
 
 For example, we can use `.plot()` to visualise the ROIs and verify that they are roughly in the right place.
 

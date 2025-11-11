@@ -45,7 +45,7 @@ ds = sample_data.fetch_dataset("SLEAP_OSFM_zebras_drone.h5")
 ds
 ```
 
-We can see the [poses dataset](https://movement.neuroinformatics.dev/user_guide/movement_dataset.html#dataset-structure) `ds` is made up of two data arrays, `position` and `confidence`. In this example, we will use the `position` data array only, which spans four dimensions: `time`, `space`, `keypoints` and `individuals`. We can verify there are 44 individuals in this dataset (`track_0` to `track_43`) and two keypoints per individual, labelled `H` (head) and `T` (tailbase). The data was collected at 29.97 frames per second, and the dataloader used this information to automatically express the `time` dimension in seconds.
+We can see the [poses dataset](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html#dataset-structure) `ds` is made up of two data arrays, `position` and `confidence`. In this example, we will use the `position` data array only, which spans four dimensions: `time`, `space`, `keypoints` and `individuals`. We can verify there are 44 individuals in this dataset (`track_0` to `track_43`) and two keypoints per individual, labelled `H` (head) and `T` (tailbase). The data was collected at 29.97 frames per second, and the dataloader used this information to automatically express the `time` dimension in seconds.
 
 ::: {.callout-note title="Position units"}
 The `position` data in `ds` is expressed in arbitrary units. This is because no GPS data was available for georeferencing or defining ground control points in the structure-from-motion (SfM) analysis. As a result, the scale factor remains a free parameter in the reconstruction of the world coordinates.
