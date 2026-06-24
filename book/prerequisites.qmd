@@ -34,12 +34,30 @@ If you already have one you're comfortable with, feel free to use it. Otherwise,
 
 ### For the SLEAP tutorial {#sec-install-sleap}
 
-Please install [SLEAP](https://sleap.ai/) following the official [SLEAP pip installation guide](https://docs.sleap.ai/v1.6.3/installation/#pip-installation).
+Create a conda environment with Python 3.13 and activate it:
 
-You can [verify the installation](https://docs.sleap.ai/v1.6.3/installation/#verify-installation) by running `sleap doctor`.
+```sh
+conda create -n sleap_env python=3.13
+conda activate sleap_env
+```
+
+Then install [SLEAP v1.6.3](https://docs.sleap.ai/v1.6.3/):
+
+```sh
+# CPU only
+pip install "sleap[nn]==1.6.3" --extra-index-url https://download.pytorch.org/whl/cpu
+
+# NVIDIA GPU (CUDA 12.8)
+pip install "sleap[nn]==1.6.3" --extra-index-url https://download.pytorch.org/whl/cu128
+```
+
+To verify the installation:
+```sh
+sleap doctor
+```
 
 ::: {.callout-note}
-The installation command installs the latest SLEAP version. To install a specific version, append `==<version>` to the package name, e.g. `sleap[nn]==1.6.3`. For this workshop, use **version 1.6.3**.
+The installation command installs SLEAP v1.6.3. To install a different version, replace `1.6.3` with the desired version number in the command above.
 :::
 
 ### For the interactive notebooks {#sec-install-movement}
