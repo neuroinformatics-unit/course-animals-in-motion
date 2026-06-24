@@ -34,20 +34,12 @@ If you already have one you're comfortable with, feel free to use it. Otherwise,
 
 ### For the SLEAP tutorial {#sec-install-sleap}
 
-Please install [SLEAP](https://sleap.ai/) following the official [SLEAP installation guide](https://docs.sleap.ai/latest/installation/).
+Please install [SLEAP](https://sleap.ai/) following the official [SLEAP pip installation guide](https://docs.sleap.ai/v1.6.3/installation/#pip-installation).
 
-The recommended method is to use [uv](https://docs.astral.sh/uv/), as described in the guide. 
-Alternatively, if you prefer using `conda` with `pip`, you can follow [SLEAP's pip installation guide](https://docs.sleap.ai/v1.6.3/installation/#pip-installation).
+You can [verify the installation](https://docs.sleap.ai/v1.6.3/installation/#verify-installation) by running `sleap doctor`.
 
 ::: {.callout-note}
-For this workshop, use **SLEAP version 1.6.3**. The official installation guide may show a different version number. When following those instructions, replace any version numbers with the ones below:
-
-| Package | Version |
-|---------|---------|
-| `sleap[nn]` | `1.6.3` |
-| `sleap-io` | `0.7.0` |
-| `sleap-nn` | `0.2.0` |
-
+The installation command installs the latest SLEAP version. To install a specific version, append `==<version>` to the package name, e.g. `sleap[nn]==1.6.3`. For this workshop, use **version 1.6.3**.
 :::
 
 ### For the interactive notebooks {#sec-install-movement}
