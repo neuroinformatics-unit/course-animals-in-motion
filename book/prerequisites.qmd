@@ -24,7 +24,7 @@ To prepare your computer for Python development, we recommend following the [Sof
 
 - [Bash Shell](https://carpentries.github.io/workshop-template/install_instructions/#shell), to run terminal commands
 - [Git](https://carpentries.github.io/workshop-template/install_instructions/#git), including a GitHub account
-- [Python](https://carpentries.github.io/workshop-template/install_instructions/#python), via the [conda-forge installer](https://conda-forge.org/download/). Please make sure you install a **Python version >= 3.12** (e.g. 3.12 is fine, 3.10 is not).
+- [Python](https://carpentries.github.io/workshop-template/install_instructions/#python), via the [conda-forge installer](https://conda-forge.org/download/). Please make sure you install **Python 3.13**.
 
 You'll also need a code editor (IDE) configured for Python.  
 If you already have one you're comfortable with, feel free to use it. Otherwise, we recommend:
@@ -34,20 +34,21 @@ If you already have one you're comfortable with, feel free to use it. Otherwise,
 
 ### For the SLEAP tutorial {#sec-install-sleap}
 
-Please install [SLEAP](https://sleap.ai/) following the [legacy installation instructions](http://legacy.sleap.ai/installation.html).
+Please install [SLEAP](https://sleap.ai/) following the official [SLEAP installation guide](https://docs.sleap.ai/latest/installation/).
 
-::: {.callout-note}  
-For this workshop, use **SLEAP version 1.3.4**. Be sure to replace the default version number (e.g. `1.4.1`) in the instructions with `1.3.4`.  
+The recommended method is to use [uv](https://docs.astral.sh/uv/), as described in the guide. 
+Alternatively, if you prefer using `conda` with `pip`, you can follow [SLEAP's pip installation guide](https://docs.sleap.ai/v1.6.3/installation/#pip-installation).
+
+::: {.callout-note}
+For this workshop, use **SLEAP version 1.6.3**. The official installation guide may show a different version number. When following those instructions, replace any version numbers with the ones below:
+
+| Package | Version |
+|---------|---------|
+| `sleap[nn]` | `1.6.3` |
+| `sleap-io` | `0.7.0` |
+| `sleap-nn` | `0.2.0` |
+
 :::
-
-This should create a `conda` environment named `sleap` with the necessary dependencies. You can verify the installation by running:
-
-```bash
-conda activate sleap
-sleap-label
-```
-
-This should launch the SLEAP graphical user interface (GUI).
 
 ### For the interactive notebooks {#sec-install-movement}
 
@@ -97,6 +98,7 @@ Animals-in-Motion_2025-08/
 │   ├── mouse044_task1_annotator1.mp4
 │   ├── mouse044_task1_annotator1.slp
 │   └── readme.md
+├── JABS-sample-data/
 └── Smart-Kages.zip
 ```
 
@@ -111,4 +113,5 @@ Animals-in-Motion_2025-08/
   - **mouse044_task1_annotator1.mp4**: Video file used in [@sec-sleap].
   - **mouse044_task1_annotator1.slp**: Fully annotated SLEAP labels file containing 3394 labelled frames used in [@sec-movement-intro] (converted from `calms21_task1_train.json`). The train/test splits above were derived from this file using a 20:80 random partition.
   - **readme.md**: Information about the dataset (from the CalMS21 dataset).
+- **JABS-sample-data**: Sample data from the [JAX Animal Behavior System (JABS)](https://github.com/KumarLabJax/JABS-behavior-classifier) — not used in this workshop.
 - **Smart-Kages.zip**: Compressed dataset used in [@sec-movement-mouse].
