@@ -1,11 +1,11 @@
 channels:
   - conda-forge
 dependencies:
-  - movement>=0.10.0
+  - movement
   - napari
   - pyqt
   - jupyter
-  - python>3.11
+  - python>=3.12
   - pip
   # Tools for development
   - pre-commit
