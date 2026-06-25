@@ -3,7 +3,6 @@ channels:
 dependencies:
   - movement
   - napari
-  - pyqt
+  - pyqt6
   - jupyter
-  - python>=3.12
-  - pip
+  - python>=3.12,<3.14 # SLEAP v1.6.3 doesn't support Python 3.14 yet
