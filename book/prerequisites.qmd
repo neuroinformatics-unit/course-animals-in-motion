@@ -34,11 +34,11 @@ If you already have one you're comfortable with, feel free to use it. Otherwise,
 
 ### For the SLEAP tutorial {#sec-install-sleap}
 
-Create a conda environment with Python 3.13 and activate it:
+Create a conda environment named `sleap` with Python 3.13 and activate it:
 
 ```bash
-conda create -n sleap_env python=3.13
-conda activate sleap_env
+conda create -n sleap python=3.13
+conda activate sleap
 ```
 
 Then install [SLEAP v1.6.3](https://docs.sleap.ai/v1.6.3/):
