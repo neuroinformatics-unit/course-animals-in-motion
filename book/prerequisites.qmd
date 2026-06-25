@@ -52,6 +52,7 @@ pip install "sleap[nn]==1.6.3" --extra-index-url https://download.pytorch.org/wh
 ```
 
 To verify the installation:
+
 ```bash
 sleap doctor
 ```
