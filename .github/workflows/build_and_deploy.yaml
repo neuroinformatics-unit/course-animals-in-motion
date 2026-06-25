@@ -83,7 +83,7 @@ jobs:
         run: |
           mkdir -p ~/.movement
           curl -L "https://www.dropbox.com/scl/fi/iddcyw04kmx3oxjjw6b8o/Smart-Kages.zip?rlkey=45ckr4xg5oc2vl3p1jicg3wlz&st=j7nf5yzr&dl=1" -o ~/.movement/Smart-Kages.zip
-          unzip ~/.movement/Smart-Kages.zip -d ~/.movement
+          unzip ~/.movement/Smart-Kages.zip -d ~/.movement/Smart-Kages
           rm ~/.movement/Smart-Kages.zip
           ls -lR ~/.movement/Smart-Kages
 
