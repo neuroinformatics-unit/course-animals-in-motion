@@ -28,7 +28,7 @@ xr.set_options(
 
 ## What is movement?
 
-In [chapters @sec-intro] and [-@sec-dl-cv] we saw how the rise of deep learning-based markerless motion tracking tools is transforming the study of animal behaviour.
+In [Chapters @sec-intro] and [-@sec-dl-cv] we saw how the rise of deep learning-based markerless motion tracking tools is transforming the study of animal behaviour.
 
 In [@sec-sleap] we dove deeper into [SLEAP](https://sleap.ai/), a popular package for pose estimation and tracking.
 We saw how SLEAP and similar tools—like
