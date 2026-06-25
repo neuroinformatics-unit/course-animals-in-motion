@@ -20,11 +20,11 @@ You'll need both general tools for Python programming and specific software requ
 If you already have a working Anaconda or Miniconda installation and have used it to run Python scripts or Jupyter notebooks, you can likely skip the steps below.  
 :::
 
-To prepare your computer for Python development, we recommend following the [Software Carpentries installation instructions](https://carpentries.github.io/workshop-template/install_instructions), in particular:
+To prepare your computer, please install the following:
 
-- [Bash Shell](https://carpentries.github.io/workshop-template/install_instructions/#shell), to run terminal commands
-- [Git](https://carpentries.github.io/workshop-template/install_instructions/#git), including a GitHub account
-- [Python](https://carpentries.github.io/workshop-template/install_instructions/#python), via the [conda-forge installer](https://conda-forge.org/download/). Please make sure you install **Python 3.13**.
+- [Git](https://carpentries.github.io/workshop-template/install_instructions/#git) and create a [GitHub account](https://github.com/signup) if you don't already have one
+- [Bash Shell](https://carpentries.github.io/workshop-template/install_instructions/#shell)
+- [Miniforge](https://conda-forge.org/download/)
 
 You'll also need a code editor (IDE) configured for Python.  
 If you already have one you're comfortable with, feel free to use it. Otherwise, we recommend:
@@ -36,14 +36,14 @@ If you already have one you're comfortable with, feel free to use it. Otherwise,
 
 Create a conda environment with Python 3.13 and activate it:
 
-```sh
+```bash
 conda create -n sleap_env python=3.13
 conda activate sleap_env
 ```
 
 Then install [SLEAP v1.6.3](https://docs.sleap.ai/v1.6.3/):
 
-```sh
+```bash
 # CPU only
 pip install "sleap[nn]==1.6.3" --extra-index-url https://download.pytorch.org/whl/cpu
 
@@ -52,7 +52,7 @@ pip install "sleap[nn]==1.6.3" --extra-index-url https://download.pytorch.org/wh
 ```
 
 To verify the installation:
-```sh
+```bash
 sleap doctor
 ```
 
