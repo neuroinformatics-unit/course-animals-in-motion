@@ -51,15 +51,16 @@ pip install "sleap[nn]==1.6.3" --extra-index-url https://download.pytorch.org/wh
 pip install "sleap[nn]==1.6.3" --extra-index-url https://download.pytorch.org/whl/cu128
 ```
 
+::: {.callout-note}
+The CUDA version in the install command (e.g. `cu128`) must not exceed the CUDA version supported by your NVIDIA driver. Run `nvidia-smi` to check your driver's CUDA version, then pick a wheel with an equal or lower CUDA version from the [PyTorch install page](https://pytorch.org/get-started/locally/#start-locally).
+For example, if `nvidia-smi` reports CUDA 12.8, you can use `cu128` or `cu126`, but not `cu132`.
+:::
+
 To verify the installation:
 
 ```bash
 sleap doctor
 ```
-
-::: {.callout-note}
-The installation command installs SLEAP v1.6.3. To install a different version, replace `1.6.3` with the desired version number in the command above.
-:::
 
 ### For the interactive notebooks {#sec-install-movement}
 
