@@ -164,7 +164,7 @@ For tracking the identities of the animals, we will also assign identities to ea
 This step is optional if you are only tracking a single animal or if the animals are visually indistinguishable.
 
 To assign a track, select an instance and click on "Tracks" → "Set Instance Track" in the top menu bar.
-A new `Track` ("Track 1") will be created.
+A new `Track` ("1") will be created.
 `Tracks` can be renamed in the "Track" column.
 In this example, we will name the black mouse `resident_b` and the white mouse `intruder_w`.
 
@@ -237,11 +237,11 @@ As a rule of thumb, the receptive field (blue box in the preview) should be larg
 
 #### Top-down ID model
 
-The **Top-down ID model** predicts the full pose (locations of all defined nodes) and assigns identities to each animal in each frame.
+The **Top-down ID model** predicts the full pose (locations of all defined nodes) and assigns identities to each animal in each frame. It has two output heads: **confmaps** (confidence maps), which predict the spatial location of each body part, and **class_vectors**, which predict the identity of each animal.
 
 As with the Centroid model, configure the validation split, number of training epochs, random rotation augmentation, and receptive field size accordingly.
 
-You may also want to reduce the batch size (e.g. to 4) to ensure the model trains reliably and fits within memory constraints, especially when using limited hardware resources (e.g. CPU or lower-end GPUs).
+You may also want to increase the sigma of the confmaps head (e.g. to 5.0) to produce wider peaks that are easier to learn from limited training data, increase the loss weight of the class_vectors head (e.g. to 1.0) so that the model places more emphasis on learning identity prediction, and reduce the batch size (e.g. to 4) to fit within memory constraints, especially when using limited hardware resources (e.g. CPU or lower-end GPUs).
 
 ![](img/SLEAP/5_config_model_id.png){width=100%}
 
@@ -264,29 +264,33 @@ For detailed instructions and guidance, see the [Running SLEAP remotely guide](h
 
 After the models are trained, if you had configured the training pipeline to run inference upon completion, SLEAP will automatically apply the trained models to the selected frames.
 
-Alternatively, to manually run inference on random frames with your trained models, go to the "Predict" and select "Run Inference" in the top menu bar.
+Alternatively, to manually run inference on random frames with your trained models, go to "Predict" → "Run Inference" in the top menu bar.
 
 ![](img/SLEAP/6_inference.png){width=100%}
 
 ::: {.callout-note}
 Since we have trained an [appearance-based ID model](#identity-tracking-approaches), which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a "Tracker" (typically used for temporal-based tracking).
-Further details on the Tracker module is available in [SLEAP's Tracking and proofreading guide](http://legacy.sleap.ai/guides/proofreading.html).
+Further details on the Tracker module is available in [SLEAP's Tracking and proofreading guide](https://docs.sleap.ai/latest/guides/tracking-and-proofreading/).
 :::
 
 Labelled frames (frames with user or predicted labels) will be marked in the seekbar.
 
 ![](img/SLEAP/6_predictions.png){width=100%}
 
-To step through labelled frames, click on "Go" and "Next Labeled Frame" (or use <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd>/<kbd>right</kbd>).
+To step through labelled frames, click on "Go" → "Next Labeled Frame" (or use <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd>/<kbd>right</kbd>).
 
 The models are not expected to perform well at this stage, but you can review and correct these predictions, and merge them back into your training dataset.
 You can also generate more labelling suggestions and label them to ensure your training dataset captures a wider range of poses and variations.
 Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video.
 
-See [SLEAP's Prediction-assisted labeling guide](http://legacy.sleap.ai/tutorials/assisted-labeling.html) for more details on this iterative process.
+See [SLEAP's Prediction-assisted labeling guide](https://docs.sleap.ai/latest/learnings/prediction-assisted-labeling/) for more details on this iterative process.
 
 ::: {.callout-note}
-Predicted instances will not be used for model training unless you correct the predictions in the GUI.
+Predicted instances will not be used for model training until you convert them into editable instances (by double-clicking on them).
+:::
+
+::: {.callout-tip}
+SLEAP includes a [Label Quality Control (QC) module](https://docs.sleap.ai/latest/guides/label-quality-control/) that automatically detects common labelling errors using anomaly detection. Use it to check your labels for errors before training or after proofreading predictions.
 :::
 
 ### Evaluate trained models
@@ -295,4 +299,4 @@ The metrics of trained models can be accessed by clicking on "Predict" → "Eval
 
 ![](img/SLEAP/7_evaluate_model.png){width=100%}
 
-See [SLEAP's Model evaluation guide](http://legacy.sleap.ai/notebooks/Model_evaluation.html) for examples on generating accuracy metrics for your trained model.
+See [SLEAP's Model evaluation guide](https://docs.sleap.ai/latest/notebooks/Model_evaluation/) for examples on generating accuracy metrics for your trained model.
