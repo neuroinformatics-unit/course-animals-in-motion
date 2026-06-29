@@ -199,6 +199,7 @@ You may also find the following keyboard shortcuts and mouse actions helpful (go
 See also [SLEAP's GUI guide on "Labels"](https://docs.sleap.ai/latest/learnings/gui/#labels) for a complete reference of all labelling functions.
 
 ::: {.callout-tip title="Discuss"}
+
 - How did you find the labelling process? What challenges did you encounter?
 - What strategies could annotators use to ensure consistency throughout the labelling process?
 - How might the quality of annotations affect model performance?
