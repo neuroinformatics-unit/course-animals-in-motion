@@ -96,12 +96,9 @@ for i, img in enumerate(images):
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Solution" collapse="true"}
-
 1. The habitat contains several objects, including the mouse's nest, a running wheel, a climbing platform, a toilet paper roll, and a corridor with two arms near the top.
 2. The presence of these objects is likely to cause occlusions, meaning the mouse or parts of it may frequently be obscured from the camera's view.
 3. The requirements for animal welfare, such as providing a rich environment, often conflict with the needs of the tracking system. While a single black mouse on a white background would be straightforward to track, such conditions would not support the mouse's well-being over time, nor would they yield naturalistic behavior.
-:::
 
 :::
 
@@ -219,8 +216,6 @@ For each of the two kages:
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Solution" collapse="true"}
-
 ```{python}
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(8, 5), sharex=True)
 
@@ -250,8 +245,6 @@ for i, kage in enumerate(["kage14", "kage17"]):
 plt.tight_layout()
 plt.show()
 ```
-
-:::
 
 :::
 
@@ -308,8 +301,6 @@ Let's smooth the data with a rolling median filter.
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Solution" collapse="true"}
-
 ```{python}
 window_size = 3  # frames
 
@@ -320,8 +311,6 @@ for kage, ds in ds_kages.items():
         statistic="median",
     )
 ```
-
-:::
 
 :::
 
@@ -390,8 +379,6 @@ plt.show()
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Solution" collapse="true"}
-
 **Potential sources of error in speed calculation:** The accuracy of speed computation is heavily reliant on precise position data. Any inaccuracies in predicting keypoint positions (i.e., the discrepancy between actual and estimated positions) can be exacerbated when calculating speed, as it is derived from the differences between consecutive positions. Additionally, we have assumed a fixed conversion factor of 10 pixels per cm. While this value may be accurate for the habitat's floor, the environment is not entirely flat. It includes objects for climbing, which means the conversion factor will vary depending on the mouse's vertical position (distance from the camera).
 
 The speed seems to fluctuate in a circadian pattern, especially apparent in kage14.
@@ -420,7 +407,6 @@ plt.show()
 We also note that the circadian pattern is more pronounced in kage14,
 and seems to be somewhat disrupted in kage17. The mouse in kage17
 seems to be more active overall, both during the day and at night.
-:::
 
 :::
 
@@ -603,8 +589,6 @@ plt.show()
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Solution" collapse="true"}
-
 The mouse in kage17 shows higher overall activity levels, stays constantly
 active during dark periods and also exhibits many activity bursts during the day
 (at least more than kage14 does).
@@ -632,8 +616,6 @@ ax.set_xticklabels([f"{i:02d}:00" for i in np.arange(0, 25, 4)])
 ax.legend()
 plt.show()
 ```
-
-:::
 
 :::
 
