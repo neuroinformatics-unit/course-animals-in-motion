@@ -260,7 +260,7 @@ Useful resources:
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 
 Loading pose tracks from a file:
 
@@ -413,7 +413,7 @@ inspect their effects by plotting the data.
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 
 We will work with the same "SLEAP_two-mice_octagon.analysis.h5"
 dataset we loaded in @sec-movement-ds-poses.
@@ -545,7 +545,7 @@ and to the example we went through above.
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 
 We will continue working with the `ds_oct` from the previous exercise,
 using the `position_interpolated` data variable as our starting point.

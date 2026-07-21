@@ -220,7 +220,7 @@ Use the `centroid` data array to:
 :::
 
 ::: {.exercise-solution}
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 
 ```{python}
 # Compute speed of each zebra's centroid

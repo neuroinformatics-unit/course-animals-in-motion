@@ -96,7 +96,7 @@ for i, img in enumerate(images):
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 
 1. The habitat contains several objects, including the mouse's nest, a running wheel, a climbing platform, a toilet paper roll, and a corridor with two arms near the top.
 2. The presence of these objects is likely to cause occlusions, meaning the mouse or parts of it may frequently be obscured from the camera's view.
@@ -219,7 +219,7 @@ For each of the two kages:
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 
 ```{python}
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(8, 5), sharex=True)
@@ -308,7 +308,7 @@ Let's smooth the data with a rolling median filter.
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 
 ```{python}
 window_size = 3  # frames
@@ -390,7 +390,7 @@ plt.show()
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 
 **Potential sources of error in speed calculation:** The accuracy of speed computation is heavily reliant on precise position data. Any inaccuracies in predicting keypoint positions (i.e., the discrepancy between actual and estimated positions) can be exacerbated when calculating speed, as it is derived from the differences between consecutive positions. Additionally, we have assumed a fixed conversion factor of 10 pixels per cm. While this value may be accurate for the habitat's floor, the environment is not entirely flat. It includes objects for climbing, which means the conversion factor will vary depending on the mouse's vertical position (distance from the camera).
 
@@ -603,7 +603,7 @@ plt.show()
 
 ::: {.exercise-solution}
 
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 
 The mouse in kage17 shows higher overall activity levels, stays constantly
 active during dark periods and also exhibits many activity bursts during the day

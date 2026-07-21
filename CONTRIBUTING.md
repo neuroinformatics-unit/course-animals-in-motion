@@ -86,18 +86,22 @@ collapsible callout:
 
 ```{.markdown}
 ::: {.exercise-solution}
-::: {.callout-tip title="Click to reveal the solution" collapse="true"}
+::: {.callout-tip title="Solution" collapse="true"}
 Write your solution here (prose and `{python}` code cells).
 :::
 :::
 ```
 
 The filter numbers exercises and solutions per chapter (Exercise 1 ↔ Solution 1,
-and so on), leaves a "→ See Solution N" link where the solution was, moves the
-solution to a "Solutions" section at the end of the chapter, and adds a "↩ back to
-exercise" backlink. Solution code cells execute in the chapter's kernel (before
-the filter runs), so they can use variables and imports defined earlier in the
-chapter.
+and so on). It moves each solution to a "Solutions" section at the end of the
+chapter, titles the collapsed callout "Exercise N" to match its exercise (the
+authored `title` is a placeholder — the filter overwrites it), and prepends a
+"↩ back to exercise" link
+at the top of the solution body (so it appears only once the solution is expanded).
+There is deliberately no forward link from an exercise to its solution, to
+discourage jumping straight to the answer. Solution code cells execute in the
+chapter's kernel (before the filter runs), so they can use variables and imports
+defined earlier in the chapter.
 
 Each `.exercise-block` must be followed by exactly one `.exercise-solution`, in
 order — this keeps the numbering aligned. If they get out of sync, the render
