@@ -210,7 +210,7 @@ For simplicity, we would also like to reduce the position of each individual to 
 centroid = position_scaled.mean("keypoint")
 ```
 
-::: {.exercise-block}
+::: {.exercise-prompt}
 
 Use the `centroid` data array to:
 

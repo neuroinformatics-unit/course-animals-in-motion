@@ -77,10 +77,10 @@ Exercises and their solutions are authored inline in the chapter source, but at
 render time each solution is moved into a per-chapter "Solutions" section by the
 `book/collect-solutions.lua` filter (registered in `book/_quarto.yml`).
 
-Write each exercise prompt as an `.exercise-block` div:
+Write each exercise prompt as an `.exercise-prompt` div:
 
 ```{.markdown}
-::: {.exercise-block}
+::: {.exercise-prompt}
 Describe the task here.
 :::
 ```
@@ -93,7 +93,7 @@ Write your solution here (prose and `{python}` code cells).
 :::
 ```
 
-Each `.exercise-block` must be followed by exactly one `.exercise-solution`, in
+Each `.exercise-prompt` must be followed by exactly one `.exercise-solution`, in
 order. As long as this contract is respected, the filter will automatically number and style the exercises and solutions, and move the solutions to the end of the chapter (with back-links to the corresponding exercise).
 
 Solution code cells execute in the chapter's kernel (before the filter runs), so

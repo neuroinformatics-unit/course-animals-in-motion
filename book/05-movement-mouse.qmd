@@ -87,7 +87,7 @@ for i, img in enumerate(images):
 
 ```
 
-::: {.exercise-block}
+::: {.exercise-prompt}
 
 1. What objects do you see in the habitat?
 2. What challenges do you anticipate with tracking a mouse in this environment?
@@ -206,7 +206,7 @@ Whenever we want to switch to "elapsed time" mode, we can simply set the `second
 ds_14.set_index(time="seconds_elapsed").sel(time=slice(0, 1800))
 ```
 
-::: {.exercise-block}
+::: {.exercise-prompt}
 
 For each of the two kages:
 
@@ -292,7 +292,7 @@ for kage, ds in ds_kages.items():
     )
 ```
 
-::: {.exercise-block}
+::: {.exercise-prompt}
 
 Let's smooth the data with a rolling median filter.
 
@@ -370,7 +370,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-::: {.exercise-block}
+::: {.exercise-prompt}
 
 1. What are potential sources of error in the speed calculation?
 2. What do you notice about the overall speed fluctuations over time? What do you think is the reason for this?
@@ -577,7 +577,7 @@ plt.show()
 
 ```
 
-::: {.exercise-block}
+::: {.exercise-prompt}
 
 1. How would you describe the observed differences between the two mice?
 2. Compute the mean activity profile (across days) for each mouse.

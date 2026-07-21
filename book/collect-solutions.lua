@@ -7,14 +7,14 @@
 -- its already-executed {python} output (plots, stdout) and chapter-kernel state.
 --
 -- The filter assumes exercises and solutions are paired one-to-one, in order:
---   ::: {.exercise-block}     <prompt> :::
+--   ::: {.exercise-prompt}     <prompt> :::
 --   ::: {.exercise-solution}  <answer> :::
 
 local collected = {}
 local ex_n, sol_n = 0, 0
 
 function Div(el)
-  if el.classes:includes("exercise-block") then
+  if el.classes:includes("exercise-prompt") then
     ex_n = ex_n + 1
     el.identifier = "exercise-" .. ex_n
     -- Wrap the exercise prompt in a static (always-open) callout
@@ -48,7 +48,7 @@ function Div(el)
 end
 
 function Pandoc(doc)
-  assert(ex_n == sol_n, "collect-solutions: " .. ex_n .. " exercise-block(s) but " .. sol_n .. " exercise-solution(s) — each .exercise-block needs exactly one .exercise-solution")
+  assert(ex_n == sol_n, "collect-solutions: " .. ex_n .. " exercise-prompt(s) but " .. sol_n .. " exercise-solution(s) — each .exercise-prompt needs exactly one .exercise-solution")
   if #collected == 0 then return doc end
   doc.blocks:insert(pandoc.Header(2, { pandoc.Str("Solutions") }, pandoc.Attr("sec-solutions")))
   doc.blocks:insert(pandoc.Para({

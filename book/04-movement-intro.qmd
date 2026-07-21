@@ -240,7 +240,7 @@ Please refer to the [Input/Output section](https://movement.neuroinformatics.dev
 of the `movement` documentation for more details, including a full list of
 supported formats.
 
-::: {.exercise-block}
+::: {.exercise-prompt}
 
 1. Load the predictions you generated in @sec-sleap into a `movement` dataset. Alternatively, feel free to work with the `CalMS21/mouse044_task1_annotator1.slp` file from Dropbox (refer to [prerequisites @sec-data]) or any of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#sample-data).
 2. Compute the overall minimum and maximum x,y positions.
@@ -386,7 +386,7 @@ of each example and either:
 - Click the __Download Jupyter Notebook__ button and open the `.ipynb` file in your code editor of choice (recommended), or
 - Click the __launch binder__ button and run the notebook in your browser.
 
-::: {.exercise-block}
+::: {.exercise-prompt}
 
 For this exercise you may continue working with the dataset you used
 to solve Exercise 1 in @sec-movement-load, or load another one.
@@ -518,7 +518,7 @@ As in the previous section, we will go through a specific example from `movement
 
 You can run this notebook interactively in the same way as in @sec-movement-filtering.
 
-::: {.exercise-block}
+::: {.exercise-prompt}
 
 For this exercise you may continue working with the dataset you used
 to solve Exercise 2 in @sec-movement-filtering. In fact, you
