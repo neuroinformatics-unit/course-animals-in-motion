@@ -2,7 +2,7 @@
 
 **Animals in Motion** is an online handbook that introduces free, open-source tools for tracking animal motion from videos and extracting quantitative descriptions of behaviour from motion tracks.
 
-[Earlier @sec-versions] of this handbook have been taught as hands-on workshops in the following settings:
+[@sec-versions] of this handbook have been taught as hands-on workshops in the following settings:
 
 - the [Neuroinformatics Unit Open Software Summer School](https://neuroinformatics.dev/open-software-summer-school/index.html)
 - the Sainsbury Wellcome Centre's (SWC) [Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme).
@@ -42,12 +42,10 @@ To view other versions, replace `latest` in the URL with one of the following ve
 | Version | Description |
 |---------|-------------|
 | [dev](https://animals-in-motion.neuroinformatics.dev/dev/) | development version, corresponding to the `main` branch |
-| [v2025.10](https://animals-in-motion.neuroinformatics.dev/v2025.10/) | version taught as part of the [SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme) in October 2025 |
-| [v2025.10-answers](https://animals-in-motion.neuroinformatics.dev/v2025.10-answers/) | same as `v2025.10` but with answers to exercises |
-| [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/) | version used during the inaugural [Open Software Week](https://neuroinformatics.dev/open-software-summer-school/2025/index.html) in August 2025 |
-| [v2025.08-answers](https://animals-in-motion.neuroinformatics.dev/v2025.08-answers/) | same as `v2025.08` but with answers to exercises |
+| [v2025.10](https://animals-in-motion.neuroinformatics.dev/v2025.10/)^*^ | version taught as part of the [2025 SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme) |
+| [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/)^*^ | version used during the inaugural [2025 Open Software Week](https://neuroinformatics.dev/open-software-summer-school/2025/index.html). |
 
-: The `-answers` versions (up to `v2025.10`) are historical archives from when answers were published as a separate build. From later versions, solutions are included in the main build, in each chapter's "Solutions" section.
+^*^*A companion `-answers` build is also available for these versions, e.g. `v2025.10-answers`. These are historical archives: later versions include solutions in the main build, at the end of each chapter.*
 
 ## Funding & acknowledgements
 
