@@ -1,8 +1,9 @@
 -- collect-solutions.lua  (runs at the default/post-quarto stage)
 -- Numbers exercises + solutions per chapter and relocates solutions to a
 -- "Solutions" section at the end of the document. Each solution is wrapped in a
--- collapsible callout titled to match its exercise ("Exercise N") and links back
--- to it (there is deliberately no forward link, to discourage jumping to answers).
+-- collapsible callout titled to match its exercise ("Exercise C.N", where C is the
+-- chapter number) and links back to it (there is deliberately no forward link, to
+-- discourage jumping to answers).
 -- Quarto executes code BEFORE Lua filters run, so a relocated solution keeps
 -- its already-executed {python} output (plots, stdout) and chapter-kernel state.
 --
@@ -13,6 +14,20 @@
 local collected = {}
 local ex_n, sol_n = 0, 0
 
+-- Chapter-number prefix ("4.") derived from the source filename (e.g.
+-- 04-movement-intro.qmd -> chapter 4). Files with no numeric
+-- prefix fall back to bare numbering.
+local chap_prefix
+local function chapter_prefix()
+  if chap_prefix == nil then
+    local path = quarto.doc and quarto.doc.input_file or ""
+    local base = path:match("([^/\\]+)$") or path
+    local n = base:match("^(%d+)")
+    chap_prefix = n and (tonumber(n) .. ".") or ""
+  end
+  return chap_prefix
+end
+
 function Div(el)
   if el.classes:includes("exercise-prompt") then
     ex_n = ex_n + 1
@@ -21,7 +36,7 @@ function Div(el)
     el.content = pandoc.Blocks({
       quarto.Callout({
         type = "tip",
-        title = pandoc.Inlines({ pandoc.Str("Exercise " .. ex_n) }),
+        title = pandoc.Inlines({ pandoc.Str("Exercise " .. chapter_prefix() .. ex_n) }),
         content = pandoc.Blocks(el.content),
       }),
     })
@@ -37,7 +52,7 @@ function Div(el)
     el.content = pandoc.Blocks({
       quarto.Callout({
         type = "tip",
-        title = pandoc.Inlines({ pandoc.Str("Exercise " .. sol_n) }),
+        title = pandoc.Inlines({ pandoc.Str("Exercise " .. chapter_prefix() .. sol_n) }),
         collapse = true,
         content = pandoc.Blocks(el.content),
       }),
