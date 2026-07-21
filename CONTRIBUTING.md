@@ -42,8 +42,16 @@ Then, you can render the book using:
 
 ```bash
 quarto render book
-# or if you want to run executable code blocks before rendering to html
-quarto render book --execute
+```
+
+Code cells in `.qmd` files execute automatically on render.
+Their results are cached (`execute: cache: true` in `book/_quarto.yml`),
+so on subsequent renders only cells you've edited re-run.
+If you need to force a full re-execution—e.g. after changing data or an
+imported dependency that Quarto can't see—refresh the cache:
+
+```bash
+quarto render book --cache-refresh
 ```
 
 You can view the rendered book by opening the `book/_book/index.html` file in your browser.
