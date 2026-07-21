@@ -234,7 +234,7 @@ To reduce the risk of overfitting, in "Optimization", set the number of training
 Next, adjust the receptive field size to match the scale of the features you want the model to detect.
 This can be achieved by adjusting "Input Scaling" in "Data" and "Max Stride" in "Model".
 
-To help the model generalise to animals in different orientations, in "Augmentation", set "Rotation" to match how much orientation varies in your data. 
+To help the model generalise to animals in different orientations, in "Augmentation", set "Rotation" to match how much orientation varies in your data.
 The default (±180°) is reasonable when animals can appear at any orientation, but unnecessarily broad when they cannot.
 For example, in a head-fixed pupillometry setup, eye rotation is minimal, so a narrow range (e.g. ±15°) is more appropriate and avoids forcing the model to learn orientations it will never encounter.
 
@@ -291,10 +291,10 @@ To step through labelled frames, click on "Go" → "Next Labeled Frame" (or use 
 With only a handful of labelled frames, the first models may produce poor predictions, but you can use these initial predictions as a starting point: review and correct them, merge the corrections back into your training dataset, and optionally generate additional labelling suggestions to broaden the range of poses and variations represented in your data.
 Once you have added and/or corrected more instances, you can begin the iterative workflow: train a new model, predict on more frames, correct those predictions, and repeat this cycle until the model is ready to be applied to the entire video.
 
-Although early rounds use a low number of epochs for faster iteration, with very few labelled frames the model may occasionally fail to learn anything and inference returns no instances. 
+Although early rounds use a low number of epochs for faster iteration, with very few labelled frames the model may occasionally fail to learn anything and inference returns no instances.
 If this happens, increase the number of training epochs for that round.
-Even though the model will overfit such a small dataset, the extra training can help it latch onto the limited signal and produce usable predictions for the next iteration. 
-"Stop training on plateau" is enabled by default, so training will stop automatically once the model stops improving. 
+Even though the model will overfit such a small dataset, the extra training can help it latch onto the limited signal and produce usable predictions for the next iteration.
+"Stop training on plateau" is enabled by default, so training will stop automatically once the model stops improving.
 You can also increase the number of filters (e.g. to 32) under "Model" to increase model capacity, at the cost of longer training time.
 
 See [SLEAP's Prediction-assisted labeling guide](https://docs.sleap.ai/latest/learnings/prediction-assisted-labeling/) for more details on this iterative process.
