@@ -6,10 +6,9 @@
 -- Quarto executes code BEFORE Lua filters run, so a relocated solution keeps
 -- its already-executed {python} output (plots, stdout) and chapter-kernel state.
 --
--- Author contract (matched pairs, in document order, one-to-one):
+-- The filter assumes exercises and solutions are paired one-to-one, in order:
 --   ::: {.exercise-block}     <prompt> :::
 --   ::: {.exercise-solution}  <answer> :::
--- The filter builds the collapsible callout around the answer; authors don't.
 
 local collected = {}
 local ex_n, sol_n = 0, 0
@@ -18,8 +17,7 @@ function Div(el)
   if el.classes:includes("exercise-block") then
     ex_n = ex_n + 1
     el.identifier = "exercise-" .. ex_n
-    -- Wrap the prompt in a static (always-open) tip callout, so exercises and
-    -- their solutions share one visual style. Omitting `collapse` keeps it open.
+    -- Wrap the exercise prompt in a static (always-open) callout
     el.content = pandoc.Blocks({
       quarto.Callout({
         type = "tip",
@@ -45,7 +43,7 @@ function Div(el)
       }),
     })
     table.insert(collected, el)
-    return {}  -- remove from original position; relocated in Pandoc()
+    return {}
   end
 end
 

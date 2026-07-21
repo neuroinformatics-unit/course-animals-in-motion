@@ -2,9 +2,7 @@ name: Build and Deploy Quarto Book
 
 # This workflow builds the Quarto book and deploys it to GitHub Pages.
 # The "build" job is triggered by pull requests, pushes to the main branch,
-# releases (tags starting with "v", e.g., v2025.08), or manually. A single
-# build is produced: exercises appear in the chapter body and their solutions
-# in a per-chapter "Solutions" section (handled by book/collect-solutions.lua).
+# releases (tags starting with "v", e.g., v2025.08), or manually.
 #
 # The "deploy" job runs only for pushes to main and releases. It copies the
 # book artifact to an appropriate folder in the gh-pages branch (e.g. v2025.08
