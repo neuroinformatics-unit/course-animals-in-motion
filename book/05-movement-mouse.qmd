@@ -87,14 +87,14 @@ for i, img in enumerate(images):
 
 ```
 
-::: {.callout-tip title="Questions A"}
+::: {.exercise-block}
 
 1. What objects do you see in the habitat?
 2. What challenges do you anticipate with tracking a mouse in this environment?
 3. What are the trade-offs one has to consider when designing a continuous monitoring system?
 :::
 
-::: {.content-visible when-profile="answers"}
+::: {.exercise-solution}
 
 ::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
@@ -209,7 +209,7 @@ Whenever we want to switch to "elapsed time" mode, we can simply set the `second
 ds_14.set_index(time="seconds_elapsed").sel(time=slice(0, 1800))
 ```
 
-::: {.callout-tip title="Exercise A"}
+::: {.exercise-block}
 
 For each of the two kages:
 
@@ -217,7 +217,7 @@ For each of the two kages:
 2. Plot the median confidence of the body center for each day, over the entire duration of the experiment.
 :::
 
-::: {.content-visible when-profile="answers"}
+::: {.exercise-solution}
 
 ::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
@@ -299,14 +299,14 @@ for kage, ds in ds_kages.items():
     )
 ```
 
-::: {.callout-tip title="Exercise B"}
+::: {.exercise-block}
 
 Let's smooth the data with a rolling median filter.
 
 **Hint**: Remember doing this in @sec-movement-intro ?
 :::
 
-::: {.content-visible when-profile="answers"}
+::: {.exercise-solution}
 
 ::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
@@ -381,14 +381,14 @@ plt.tight_layout()
 plt.show()
 ```
 
-::: {.callout-tip title="Questions B"}
+::: {.exercise-block}
 
 1. What are potential sources of error in the speed calculation?
 2. What do you notice about the overall speed fluctuations over time? What do you think is the reason for this?
 3. Do you notice any differences between the two kages? Feel free to "zoom in" on specific time windows to investigate this.
 :::
 
-::: {.content-visible when-profile="answers"}
+::: {.exercise-solution}
 
 ::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
@@ -591,7 +591,7 @@ plt.show()
 
 ```
 
-::: {.callout-tip title="Exercise C"}
+::: {.exercise-block}
 
 1. How would you describe the observed differences between the two mice?
 2. Compute the mean activity profile (across days) for each mouse.
@@ -601,7 +601,7 @@ plt.show()
 
 :::
 
-::: {.content-visible when-profile="answers"}
+::: {.exercise-solution}
 
 ::: {.callout-tip title="Click to reveal the answers" collapse="true"}
 
