@@ -47,6 +47,8 @@ To view other versions, replace `latest` in the URL with one of the following ve
 | [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/) | version used during the inaugural [Open Software Week](https://neuroinformatics.dev/open-software-summer-school/2025/index.html) in August 2025 |
 | [v2025.08-answers](https://animals-in-motion.neuroinformatics.dev/v2025.08-answers/) | same as `v2025.08` but with answers to exercises |
 
+: The `-answers` versions (up to `v2025.10`) are historical archives from when answers were published as a separate build. From later versions, solutions are included in the main build, in each chapter's "Solutions" section.
+
 ## Funding & acknowledgements
 
 The inaugural [Open Software Week](https://neuroinformatics.dev/open-software-summer-school/2025/index.html),

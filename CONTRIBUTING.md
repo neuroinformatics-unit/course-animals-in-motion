@@ -160,9 +160,11 @@ The CI workflow is defined in the `.github/workflows/build_and_deploy.yaml` file
 The workflow is built using [GitHub actions](https://docs.github.com/en/actions) and includes three jobs:
 
 - **linting**: running the [pre-commit hooks](#pre-commit-hooks);
-- **build**: rendering the Quarto book with and without answers, and uploading the rendered artifacts;
+- **build**: rendering the Quarto book (a single build; solutions are moved to a per-chapter "Solutions" section by `book/collect-solutions.lua`) and uploading the rendered artifact;
 - **deploy**: deploying the book artifact(s) to the `gh-pages` branch (only for pushes to the `main` branch and releases).
 
-Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08`). This is accompanied by a `vYYYY.0M-answers` folder containing a version of the book with answers to exercises (e.g. `v2025.08-answers`).
+Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08`). Solutions are included in that single build, in each chapter's "Solutions" section.
 
-There's also a special folder called `dev` that is deployed for pushes to the `main` branch. This folder always includes the answers to exercises.
+There's also a special folder called `dev` that is deployed for pushes to the `main` branch.
+
+Versions up to and including `v2025.10` were additionally deployed to a `vYYYY.0M-answers` folder (a separate build with answers). Those folders remain online as historical archives; new versions no longer produce them.
