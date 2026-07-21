@@ -16,14 +16,11 @@ You'll need both general tools for Python programming and specific software requ
 
 ### General development tools {#sec-install-devtools}
 
-::: {.callout-note}  
-If you already have a working Anaconda or Miniconda installation and have used it to run Python scripts or Jupyter notebooks, you can likely skip the steps below.  
-:::
+To get your computer ready, make sure you have the following:
 
-To prepare your computer, please install the following:
-
-- [Git](https://carpentries.github.io/workshop-template/install_instructions/#git) and create a [GitHub account](https://github.com/signup) if you don't already have one
 - [Bash shell](https://carpentries.github.io/workshop-template/install_instructions/#shell)
+- [Git](https://carpentries.github.io/workshop-template/install_instructions/#git) and a [GitHub account](https://github.com/signup)
+  - *Windows users*: Installing the Bash shell via Git for Windows also installs Git, so you only need to create a GitHub account.
 - [Miniforge](https://conda-forge.org/download/)
 - [uv](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer)
 
@@ -34,7 +31,7 @@ If you already have one you're comfortable with, feel free to use it. Otherwise,
 - [JupyterLab](https://jupyter.org/install)
 
 ::: {.callout-note}
-Run all commands in the following two sections using the Bash shell.
+Run all commands in the following sections using the Bash shell.
 :::
 
 ### For the SLEAP tutorial {#sec-install-sleap}
