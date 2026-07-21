@@ -228,7 +228,9 @@ To reduce the risk of overfitting, in "Optimization", set the number of training
 Next, adjust the receptive field size to match the scale of the features you want the model to detect.
 This can be achieved by adjusting "Input Scaling" in "Data" and "Max Stride" in "Model".
 
-To help the model generalise to animals in different orientations, in "Augmentation", enable random rotation augmentation by setting "Rotation" (e.g. ±180°).
+To help the model generalise to animals in different orientations, in "Augmentation", set "Rotation" to match how much orientation varies in your data. 
+The default (±180°) is reasonable when animals can appear at any orientation, but unnecessarily broad when they cannot.
+For example, in a head-fixed pupillometry setup, eye rotation is minimal, so a narrow range (e.g. ±15°) is more appropriate and avoids forcing the model to learn orientations it will never encounter.
 
 ![](img/SLEAP/5_config_model_centroid.png){width=100%}
 
