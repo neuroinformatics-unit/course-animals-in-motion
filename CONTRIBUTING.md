@@ -55,8 +55,6 @@ These can contain a mix of narrative and interactive content, such as code exerc
 
 We recommend using the [Quarto VSCode extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) for authoring and previewing content.
 
-Alternatively, you may also use JupyterLab, with Jupyter Notebooks (`.ipynb`) as source files—see [Quarto tools > JupyterLab](https://quarto.org/docs/tools/jupyter-lab.html) for more information.
-
 The chapter source files reside in the `book/` directory and have to be linked in the `book/_quarto.yml` file for them to show up.
 See [Book Crossrefs](https://quarto.org/docs/books/book-crossrefs.html) on how to reference other chapters.
 
@@ -69,9 +67,7 @@ In general, [cross-referencing objects](https://quarto.org/docs/manuscripts/auth
 
 Exercises and their solutions are authored inline in the chapter source, but at
 render time each solution is moved into a per-chapter "Solutions" section by the
-`book/collect-solutions.lua` filter (registered in `book/_quarto.yml`). The book
-is rendered as a single build — there are no longer separate "with/without
-answers" profiles.
+`book/collect-solutions.lua` filter (registered in `book/_quarto.yml`).
 
 Write each exercise prompt as an `.exercise-block` div:
 
@@ -89,22 +85,11 @@ Write your solution here (prose and `{python}` code cells).
 :::
 ```
 
-You write plain divs — the filter builds the callouts, so exercises and solutions
-share one visual style. It numbers them per chapter (Exercise 1 ↔ Solution 1, and
-so on), wraps each prompt in a static tip callout titled "Exercise N", moves each
-solution to a "Solutions" section at the end of the chapter, wraps the answer in a
-collapsed tip callout with the same "Exercise N" title, and prepends a "↩ back to
-exercise" link at the top of the solution body (so it appears only once the
-solution is expanded). There is deliberately no forward link
-from an exercise to its solution, to discourage jumping straight to the answer.
+Each `.exercise-block` must be followed by exactly one `.exercise-solution`, in
+order. As long as this contract is respected, the filter will automatically number and style the exercises and solutions, and move the solutions to the end of the chapter (with back-links to the corresponding exercise).
+
 Solution code cells execute in the chapter's kernel (before the filter runs), so
 they can use variables and imports defined earlier in the chapter.
-
-Each `.exercise-block` must be followed by exactly one `.exercise-solution`, in
-order — this keeps the numbering aligned. If they get out of sync, the render
-fails with an assertion error.
-
-Do not use the reserved Quarto classes `.exercise` or `.solution` for these divs.
 
 ## Pre-commit hooks
 
@@ -128,11 +113,10 @@ pre-commit run -a  # for all files in the repository
 
 We use [Calendar Versioning (CalVer)](https://calver.org/) and specifically the `YYYY.0M` scheme (e.g. `2025.08` for August 2025).
 
-To create a new release, first update the `book/index.qmd` file. Specifically, add two rows like the following to the "Versions" table:
+To create a new release, first update the `book/index.qmd` file. Specifically, add a row like the following to the "Versions" table:
 
 ```md
-| `v2025.08` | version used for the inaugural workshop in August 2025 |
-| `v2025.08-answers` | same as `v2025.08` but with answers to exercises |
+| `v2026.08` | version used for the OSSS in August 2025 |
 ```
 
 You also need to create a new tag in the `vYYYY.0M` format (e.g. `v2025.08`)
@@ -141,7 +125,7 @@ and push it to the repository. Don't forget the `v` prefix for the tag name!
 For example:
 
 ```bash
-git tag v2025.08
+git tag v2026.08
 git push origin --tags
 ```
 
@@ -151,17 +135,17 @@ The CI workflow is defined in the `.github/workflows/build_and_deploy.yaml` file
 
 - Pushes to the `main` branch
 - Pull requests
-- Releases, i.e. tags starting with `v` (e.g., `v2025.08`)
+- Releases, i.e. tags starting with `v` (e.g., `v2026.08`)
 - Manual dispatches
 
 The workflow is built using [GitHub actions](https://docs.github.com/en/actions) and includes three jobs:
 
 - **linting**: running the [pre-commit hooks](#pre-commit-hooks);
-- **build**: rendering the Quarto book (a single build; solutions are moved to a per-chapter "Solutions" section by `book/collect-solutions.lua`) and uploading the rendered artifact;
+- **build**: rendering the Quarto book and uploading the rendered artifact;
 - **deploy**: deploying the book artifact(s) to the `gh-pages` branch (only for pushes to the `main` branch and releases).
 
-Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08`). Solutions are included in that single build, in each chapter's "Solutions" section.
+Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2026.08`).
 
 There's also a special folder called `dev` that is deployed for pushes to the `main` branch.
 
-Versions up to and including `v2025.10` were additionally deployed to a `vYYYY.0M-answers` folder (a separate build with answers). Those folders remain online as historical archives; new versions no longer produce them.
+Versions up to and including `v2025.10` were additionally deployed to a `vYYYY.0M-answers` folder (separate builds for with and without solutions). Those folders remain online as historical archives; new versions no longer produce them.
