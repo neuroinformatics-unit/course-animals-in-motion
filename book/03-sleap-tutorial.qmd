@@ -314,3 +314,29 @@ The metrics of trained models can be accessed by clicking on "Predict" → "Eval
 ![](img/SLEAP/7_evaluate_model.png){width=100%}
 
 See [SLEAP's Model evaluation guide](https://docs.sleap.ai/latest/notebooks/Model_evaluation/) for examples on generating accuracy metrics for your trained model.
+
+### Continue training across sessions
+
+SLEAP lets you stop a run early, pick it up again later, or start over from scratch.
+
+#### Stop a run early
+
+While a model is [training](#monitor-training-progress), the training window offers two ways to end it early:
+
+- **Stop Early** ends the current training loop and saves the model weights from the epoch with the lowest validation loss.
+- **Cancel Training** aborts the run and discards it entirely; no model is saved.
+
+#### Choose a starting point for the next run
+
+To resume training, go to "Predict" → "Run Training" as before, then on the "Model Configuration" tab, use the dropdown at the top to select a previously trained config (prefixed with `[Trained]`).
+You can then choose one of three options:
+
+| Option | What it does | When to use it |
+|---|---|---|
+| **Reuse config (train from scratch)** | Keeps the previous run's settings but discards its weights, training a new model from a random initialisation on all currently available labelled frames. | You've added new labelled frames since the last run—especially early on, while your dataset is still small. Full retrains are fast at this scale, and starting fresh avoids inheriting weaknesses from a model trained on very little data. |
+| **Resume training (fine-tune)** | Initialises the new model with the previous run's weights, then trains further on all currently available labelled frames. | You stopped early and want to resume the same run with no new data; your dataset/model has grown large enough that a full retrain would be slow; you proofread predictions and corrected a systematic mistake (e.g. a consistently misplaced tail) and want the model to learn from those specific corrections; or you want transfer learning—adapting an accurate model from one setting (e.g. black mice) to a related one (e.g. white mice in the same cage). |
+| **Reuse model (don't retrain)** | Uses the previous run's weights as-is, with no further training | For top-down approaches: e.g. you're satisfied with the centroid model and only want to retrain the top‑down ID model. |
+
+To train a brand-new model instead, leave the dropdown on its default `baseline.*.yaml` entry rather than selecting a previous run.
+
+See also SLEAP's [Interactive and resumable training guide](https://docs.sleap.ai/latest/notebooks/Interactive_and_resumable_training/) for customising your own training workflow using [`sleap-nn`'s](https://nn.sleap.ai/latest/) low-level API.
