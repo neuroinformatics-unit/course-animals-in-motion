@@ -1,0 +1,10 @@
+.exercise-block {
+  border-left: 0.3rem solid var(--bs-success, #03A062);
+  border-radius: 0.25rem;
+  padding: 0.6rem 1rem;
+  margin: 1.5rem 0;
+  background-color: rgba(3, 160, 98, 0.06);
+}
+.exercise-block > p:first-child strong {
+  color: var(--bs-success, #03A062);
+}
