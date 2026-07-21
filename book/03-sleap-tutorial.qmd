@@ -288,13 +288,18 @@ Labelled frames (frames with user or predicted labels) will be marked in the see
 
 To step through labelled frames, click on "Go" → "Next Labeled Frame" (or use <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd>/<kbd>right</kbd>).
 
-The models are not expected to perform well at this stage, but you can review and correct these predictions, and merge them back into your training dataset.
-You can also generate more labelling suggestions and label them to ensure your training dataset captures a wider range of poses and variations.
-Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video.
+With only a handful of labelled frames, the first models may produce poor predictions, but you can use these initial predictions as a starting point: review and correct them, merge the corrections back into your training dataset, and optionally generate additional labelling suggestions to broaden the range of poses and variations represented in your data.
+Once you have added and/or corrected more instances, you can begin the iterative workflow: train a new model, predict on more frames, correct those predictions, and repeat this cycle until the model is ready to be applied to the entire video.
+
+Although early rounds use a low number of epochs for faster iteration, with very few labelled frames the model may occasionally fail to learn anything and inference returns no instances. 
+If this happens, increase the number of training epochs for that round.
+Even though the model will overfit such a small dataset, the extra training can help it latch onto the limited signal and produce usable predictions for the next iteration. 
+"Stop training on plateau" is enabled by default, so training will stop automatically once the model stops improving. 
+You can also increase the number of filters (e.g. to 32) under "Model" to increase model capacity, at the cost of longer training time.
 
 See [SLEAP's Prediction-assisted labeling guide](https://docs.sleap.ai/latest/learnings/prediction-assisted-labeling/) for more details on this iterative process.
 
-::: {.callout-note}
+::: {.callout-important}
 Predicted instances will not be used for model training until you convert them into editable instances (by double-clicking on them).
 :::
 
