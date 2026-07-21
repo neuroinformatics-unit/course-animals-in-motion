@@ -65,7 +65,6 @@ format:
       - brand
     highlight-style: atom-one
     toc-expand: 3
-    css: custom.css
 
 
 # Options for code execution: https://quarto.org/docs/computations/caching.html

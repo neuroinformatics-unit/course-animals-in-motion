@@ -89,12 +89,13 @@ Write your solution here (prose and `{python}` code cells).
 :::
 ```
 
-You don't write the collapsible callout yourself — the filter builds it. It
-numbers exercises and solutions per chapter (Exercise 1 ↔ Solution 1, and so on),
-moves each solution to a "Solutions" section at the end of the chapter, wraps the
-answer in a collapsed callout titled "Exercise N" to match its exercise, and
-prepends a "↩ back to exercise" link at the top of the solution body (so it
-appears only once the solution is expanded). There is deliberately no forward link
+You write plain divs — the filter builds the callouts, so exercises and solutions
+share one visual style. It numbers them per chapter (Exercise 1 ↔ Solution 1, and
+so on), wraps each prompt in a static tip callout titled "Exercise N", moves each
+solution to a "Solutions" section at the end of the chapter, wraps the answer in a
+collapsed tip callout with the same "Exercise N" title, and prepends a "↩ back to
+exercise" link at the top of the solution body (so it appears only once the
+solution is expanded). There is deliberately no forward link
 from an exercise to its solution, to discourage jumping straight to the answer.
 Solution code cells execute in the chapter's kernel (before the filter runs), so
 they can use variables and imports defined earlier in the chapter.

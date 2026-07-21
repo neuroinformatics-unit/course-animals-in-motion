@@ -18,8 +18,15 @@ function Div(el)
   if el.classes:includes("exercise-block") then
     ex_n = ex_n + 1
     el.identifier = "exercise-" .. ex_n
-    table.insert(el.content, 1,
-      pandoc.Para({ pandoc.Strong({ pandoc.Str("Exercise " .. ex_n) }) }))
+    -- Wrap the prompt in a static (always-open) tip callout, so exercises and
+    -- their solutions share one visual style. Omitting `collapse` keeps it open.
+    el.content = pandoc.Blocks({
+      quarto.Callout({
+        type = "tip",
+        title = pandoc.Inlines({ pandoc.Str("Exercise " .. ex_n) }),
+        content = pandoc.Blocks(el.content),
+      }),
+    })
     return el
   elseif el.classes:includes("exercise-solution") then
     sol_n = sol_n + 1
