@@ -110,6 +110,12 @@ Further details can be found in [SLEAP's Import videos guide](https://docs.sleap
 
 ![](img/SLEAP/1_create_project.png){width=100%}
 
+::: {.callout-tip}
+This tutorial uses a single video for simplicity, but actual projects should include all videos you intend to analyse.
+Add them all to the project upfront, then [sample frames](#sample-frames) from across as many of them as possible when building your training set.
+A model trained on frames from only one video tends to overfit to that video's specific conditions (lighting, background, camera angle) and generalises poorly to others.
+:::
+
 ### Define skeleton
 
 ![](img/SLEAP/mouse_annotated.png){fig-align="center" width="40%"}
