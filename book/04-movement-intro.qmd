@@ -393,7 +393,7 @@ of each example and either:
 ::: {.exercise-block}
 
 For this exercise you may continue working with the dataset you used
-to solve Exercise A in @sec-movement-load, or load another one.
+to solve Exercise 1 in @sec-movement-load, or load another one.
 You should store each intermediate output as a data variable
 within the same dataset.
 
@@ -529,7 +529,7 @@ You can run this notebook interactively in the same way as in @sec-movement-filt
 ::: {.exercise-block}
 
 For this exercise you may continue working with the dataset you used
-to solve Exercise B in @sec-movement-filtering. In fact, you
+to solve Exercise 2 in @sec-movement-filtering. In fact, you
 can use the fully processed position data as your starting point.
 
 1. Take the mean position across keypoints (each individual's centroid).

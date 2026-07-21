@@ -34,6 +34,7 @@ function Div(el)
 end
 
 function Pandoc(doc)
+  assert(ex_n == sol_n, "collect-solutions: " .. ex_n .. " exercise-block(s) but " .. sol_n .. " exercise-solution(s) — each .exercise-block needs exactly one .exercise-solution")
   if #collected == 0 then return doc end
   doc.blocks:insert(pandoc.Header(2, "Solutions", pandoc.Attr("sec-solutions")))
   for _, el in ipairs(collected) do doc.blocks:insert(el) end

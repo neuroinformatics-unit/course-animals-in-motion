@@ -65,49 +65,47 @@ See [Quarto authoring > Citations](https://quarto.org/docs/manuscripts/authoring
 
 In general, [cross-referencing objects](https://quarto.org/docs/manuscripts/authoring/vscode.html#cross-ref) (e.g. figures, tables, chapters, equations, citations, etc.) should be done using the `@ref` syntax, e.g. `See @fig-overview for more details`.
 
-### Adding answers to exercises
+### Adding exercises and their solutions
 
-This book is configured to be rendered with or without answers to exercises,
-using [Quarto profiles](https://quarto.org/docs/projects/profiles.html).
+Exercises and their solutions are authored inline in the chapter source, but at
+render time each solution is moved into a per-chapter "Solutions" section by the
+`book/collect-solutions.lua` filter (registered in `book/_quarto.yml`). The book
+is rendered as a single build — there are no longer separate "with/without
+answers" profiles.
 
-- The `_quarto.yml` file defines the "default" profile for the book, which
-  does not show the answers to exercises.
-- The `_quarto-answers.yml` file defines the "answers" profile, which
-  is identical to the "default" profile, but also includes solutions
-  to code exercises.
+Write each exercise prompt as an `.exercise-block` div:
 
-To add answers to code exercises, please enclose them in a block of the following form:
-
-```{.bash}
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
-
-Write your solution here.
-
-:::
-
+```{.markdown}
+::: {.exercise-block}
+Describe the task here.
 :::
 ```
 
-Then you can control whether the answers are shown or not by passing the appropriate Quarto profile to the `quarto render` command:
+Immediately after it, write the solution as an `.exercise-solution` div wrapping a
+collapsible callout:
 
-```bash
-quarto render book --execute --profile default  # equivalent to no profile
-quarto render book --execute --profile answers
+```{.markdown}
+::: {.exercise-solution}
+::: {.callout-tip title="Click to reveal the solution" collapse="true"}
+Write your solution here (prose and `{python}` code cells).
+:::
+:::
 ```
 
-You can achieve the same effect by setting the `QUARTO_PROFILE` environment variable before rendering the book:
+The filter numbers exercises and solutions per chapter (Exercise 1 ↔ Solution 1,
+and so on), leaves a "→ See Solution N" link where the solution was, moves the
+solution to a "Solutions" section at the end of the chapter, and adds a "↩ back to
+exercise" backlink. Solution code cells execute in the chapter's kernel (before
+the filter runs), so they can use variables and imports defined earlier in the
+chapter.
 
-```bash
-export QUARTO_PROFILE=answers
-quarto render book --execute
-```
+Each `.exercise-block` must be followed by exactly one `.exercise-solution`, in
+order — this keeps the numbering aligned. If they get out of sync, the render
+fails with an assertion error.
 
-In general, it's most convenient to show the answers while you are developing the content,
-and then hide them to preview the book as a student would see it.
-
-See the [@sec-versioning] for more information on how to create releases with or without answers.
+Do not use the reserved Quarto classes `.exercise` or `.solution`, and do not put
+the `.exercise-solution` class directly on the callout — it must wrap the callout
+in a plain div, or the filter will not match it.
 
 ## Pre-commit hooks
 
