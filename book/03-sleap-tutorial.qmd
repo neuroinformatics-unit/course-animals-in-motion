@@ -37,7 +37,7 @@ This model outputs confidence maps for all body parts in the image, along with P
 
 Due to their single-stage construction, bottom-up models scale efficiently with increasing numbers of animals and are particularly effective in crowded or high-occupancy scenes.
 
-## Identity tracking approaches
+## Identity tracking approaches {#sec-identity-tracking-approaches}
 
 ![](img/SLEAP/id_tracking.png){fig-align="center" width="80%"}
 
@@ -112,7 +112,7 @@ Further details can be found in [SLEAP's Import videos guide](https://docs.sleap
 
 ::: {.callout-tip}
 This tutorial uses a single video for simplicity, but actual projects should include all videos you intend to analyse.
-Add them all to the project upfront, then [sample frames](#sample-frames) from across as many of them as possible when building your training set.
+Add them all to the project upfront, then [sample frames](#sec-sample-frames) from across as many of them as possible when building your training set.
 A model trained on frames from only one video tends to overfit to that video's specific conditions (lighting, background, camera angle) and generalises poorly to others.
 :::
 
@@ -148,7 +148,7 @@ Then, define the `Edges` to connect the `Nodes` using the drop-down menus, e.g.:
 
 Once you have defined the skeleton, save the project by clicking on "File" → "Save" (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).
 
-### Sample frames
+### Sample frames {#sec-sample-frames}
 
 For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the "Labeling Suggestions" panel, which offers several [automated sampling strategies](https://docs.sleap.ai/latest/learnings/gui/#labeling-suggestions) to help select informative and diverse frames.
 
@@ -216,7 +216,7 @@ See also [SLEAP's GUI guide on "Labels"](https://docs.sleap.ai/latest/learnings/
 Once you have labelled a sufficient number of frames, you can configure and train your first model.
 To do this, go to "Predict" → "Run training" in the top menu bar.
 
-Here, we will employ the [appearance-based tracking approach](#identity-tracking-approaches) for maintaining consistent identities of individual animals across frames.
+Here, we will employ the [appearance-based tracking approach](#sec-identity-tracking-approaches) for maintaining consistent identities of individual animals across frames.
 To do so, select **"multi-animal top-down-id"** as the "Pipeline Type".
 We will also configure the training pipeline to predict on 20 more frames randomly sampled from the video (skipping user-labelled frames) once training is complete.
 
@@ -256,13 +256,16 @@ You may also want to increase the sigma of the confmaps head (e.g. to 5.0) to pr
 
 Once you have configured the models, click "Run" to begin training.
 
-### Monitor training progress
+### Monitor training progress {#sec-monitor-training-progress}
 
 You should now see a training progress window showing the loss curves and metrics for each model as it trains.
 
 ![Centroid model training progress](img/SLEAP/5_train_model_centroid.png){width=100%}
 
 ![Top-down ID model training progress](img/SLEAP/5_train_model_id.png){width=100%}
+
+You can stop a training run at any time and resume it later, or start a new run using the weights from a previous model. 
+For details, see @sec-continue-training-across-sessions.
 
 ::: {.callout-tip}
 SLEAP supports remote training and inference workflows, allowing users to leverage external computational resources, particularly those with GPU support, for batch training or inference.
@@ -278,7 +281,7 @@ Alternatively, to manually run inference on random frames with your trained mode
 ![](img/SLEAP/6_inference.png){width=100%}
 
 ::: {.callout-note}
-Since we have trained an [appearance-based ID model](#identity-tracking-approaches), which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a "Tracker" (typically used for temporal-based tracking).
+Since we have trained an [appearance-based ID model](#sec-identity-tracking-approaches), which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a "Tracker" (typically used for temporal-based tracking).
 Further details on the Tracker module is available in [SLEAP's Tracking and proofreading guide](https://docs.sleap.ai/latest/guides/tracking-and-proofreading/).
 :::
 
@@ -315,13 +318,13 @@ The metrics of trained models can be accessed by clicking on "Predict" → "Eval
 
 See [SLEAP's Model evaluation guide](https://docs.sleap.ai/latest/notebooks/Model_evaluation/) for examples on generating accuracy metrics for your trained model.
 
-### Continue training across sessions
+### Continue training across sessions {#sec-continue-training-across-sessions}
 
 SLEAP lets you stop a run early, pick it up again later, or start over from scratch.
 
 #### Stop a run early
 
-While a model is [training](#monitor-training-progress), the training window offers two ways to end it early:
+While a model is [training](#sec-monitor-training-progress), the training window offers two ways to end it early:
 
 - **Stop Early** ends the current training loop and saves the model weights from the epoch with the lowest validation loss.
 - **Cancel Training** aborts the run and discards it entirely; no model is saved.
