@@ -225,9 +225,9 @@ For each of the two kages:
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(8, 5), sharex=True)
 
 for i, kage in enumerate(["kage14", "kage17"]):
-    ds = ds_kages[kage].squeeze()  # remove redundant "individuals" dimension
+    ds = ds_kages[kage].squeeze()  # remove redundant "individual" dimension
     body_center = ds.position.sel(
-        keypoints="bodycenter",
+        keypoint="bodycenter",
         time=slice("2024-04-15 00:00:00", "2024-04-21 23:59:59"),
         space="x"
     )
@@ -244,7 +244,7 @@ fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(8, 5), sharex=True)
 for i, kage in enumerate(["kage14", "kage17"]):
     ds = ds_kages[kage].squeeze()
     ds_daily = ds.resample(time="1D").median()
-    ds_daily.confidence.sel(keypoints="bodycenter").plot.line(ax=axes[i])
+    ds_daily.confidence.sel(keypoint="bodycenter").plot.line(ax=axes[i])
     axes[i].set_title(f"{kage} body center")
 
 plt.tight_layout()
@@ -333,9 +333,9 @@ We derive this by taking the mean of the 4 reliable keypoints, using their smoot
 ```{python}
 for kage, ds in ds_kages.items():
     ds["body_centroid"] = ds.position_filtered.sel(
-        individuals="individual_0",  # the only individual in the dataset
-        keypoints=reliable_keypoints
-    ).mean(dim="keypoints")
+        individual="individual_0",  # the only individual in the dataset
+        keypoint=reliable_keypoints
+    ).mean(dim="keypoint")
 ```
 
 Next, we'll compute the body centroid's speed in cm/sec via the following steps:

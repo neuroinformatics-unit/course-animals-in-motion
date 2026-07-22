@@ -16,38 +16,53 @@ You'll need both general tools for Python programming and specific software requ
 
 ### General development tools {#sec-install-devtools}
 
-::: {.callout-note}  
-If you already have a working Anaconda or Miniconda installation and have used it to run Python scripts or Jupyter notebooks, you can likely skip the steps below.  
-:::
+To get your computer ready, make sure you have the following:
 
-To prepare your computer for Python development, we recommend following the [Software Carpentries installation instructions](https://carpentries.github.io/workshop-template/install_instructions), in particular:
+- [Bash shell](https://carpentries.github.io/workshop-template/install_instructions/#shell)
+- [Git](https://carpentries.github.io/workshop-template/install_instructions/#git) and a [GitHub account](https://github.com/signup)
+  - *Windows users*: Installing the Bash shell via Git for Windows also installs Git, so you only need to create a GitHub account.
+- [Miniforge](https://conda-forge.org/download/)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer)
 
-- [Bash Shell](https://carpentries.github.io/workshop-template/install_instructions/#shell), to run terminal commands
-- [Git](https://carpentries.github.io/workshop-template/install_instructions/#git), including a GitHub account
-- [Python](https://carpentries.github.io/workshop-template/install_instructions/#python), via the [conda-forge installer](https://conda-forge.org/download/). Please make sure you install a **Python version >= 3.12** (e.g. 3.12 is fine, 3.10 is not).
-
-You'll also need a code editor (IDE) configured for Python.  
+You'll also need a code editor (IDE) configured for Python.
 If you already have one you're comfortable with, feel free to use it. Otherwise, we recommend:
 
 - [Visual Studio Code](https://code.visualstudio.com/) with the [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
 - [JupyterLab](https://jupyter.org/install)
 
-### For the SLEAP tutorial {#sec-install-sleap}
-
-Please install [SLEAP](https://sleap.ai/) following the [legacy installation instructions](http://legacy.sleap.ai/installation.html).
-
-::: {.callout-note}  
-For this workshop, use **SLEAP version 1.3.4**. Be sure to replace the default version number (e.g. `1.4.1`) in the instructions with `1.3.4`.  
+::: {.callout-note}
+Run all commands in the following sections using the Bash shell.
 :::
 
-This should create a `conda` environment named `sleap` with the necessary dependencies. You can verify the installation by running:
+### For the SLEAP tutorial {#sec-install-sleap}
+
+Create a conda environment named `sleap` with Python 3.13 and activate it:
 
 ```bash
+conda create -n sleap python=3.13
 conda activate sleap
-sleap-label
 ```
 
-This should launch the SLEAP graphical user interface (GUI).
+Then install [SLEAP v1.6.3](https://docs.sleap.ai/v1.6.3/):
+
+```bash
+# CPU only
+uv pip install "sleap[nn]==1.6.3" --extra-index-url https://download.pytorch.org/whl/cpu
+
+# NVIDIA GPU (CUDA 12.8)
+uv pip install "sleap[nn]==1.6.3" --extra-index-url https://download.pytorch.org/whl/cu128
+```
+
+::: {.callout-note}
+The CUDA version in the install command (e.g. `cu128`) must not exceed the CUDA version supported by your NVIDIA driver. Run `nvidia-smi` to check your driver's CUDA version, then pick a wheel with an equal or lower CUDA version from the [PyTorch install page](https://pytorch.org/get-started/locally/#start-locally).
+For example, if `nvidia-smi` reports CUDA 12.8, you can use `cu128` or `cu126`, but not `cu132`.
+:::
+
+To verify the installation:
+
+```bash
+sleap doctor
+```
 
 ### For the interactive notebooks {#sec-install-movement}
 
@@ -97,6 +112,7 @@ Animals-in-Motion_2025-08/
 │   ├── mouse044_task1_annotator1.mp4
 │   ├── mouse044_task1_annotator1.slp
 │   └── readme.md
+├── JABS-sample-data/
 └── Smart-Kages.zip
 ```
 
@@ -111,4 +127,5 @@ Animals-in-Motion_2025-08/
   - **mouse044_task1_annotator1.mp4**: Video file used in [@sec-sleap].
   - **mouse044_task1_annotator1.slp**: Fully annotated SLEAP labels file containing 3394 labelled frames used in [@sec-movement-intro] (converted from `calms21_task1_train.json`). The train/test splits above were derived from this file using a 20:80 random partition.
   - **readme.md**: Information about the dataset (from the CalMS21 dataset).
+- **JABS-sample-data**: Sample data from the [JAX Animal Behavior System (JABS)](https://github.com/KumarLabJax/JABS-behavior-classifier) — not used in this workshop.
 - **Smart-Kages.zip**: Compressed dataset used in [@sec-movement-mouse].

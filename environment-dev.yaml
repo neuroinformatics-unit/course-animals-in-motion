@@ -1,12 +1,11 @@
 channels:
   - conda-forge
 dependencies:
-  - movement>=0.10.0
+  - movement>=0.17.0
   - napari
-  - pyqt
+  - pyqt6
   - jupyter
-  - python>3.11
-  - pip
+  - python=3.13 # SLEAP v1.6.3 doesn't support Python 3.14 yet
   # Tools for development
   - pre-commit
   - ruff

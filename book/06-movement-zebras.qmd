@@ -45,7 +45,7 @@ ds = sample_data.fetch_dataset("SLEAP_OSFM_zebras_drone.h5")
 ds
 ```
 
-We can see the [poses dataset](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html#dataset-structure) `ds` is made up of two data arrays, `position` and `confidence`. In this example, we will use the `position` data array only, which spans four dimensions: `time`, `space`, `keypoints` and `individuals`. We can verify there are 44 individuals in this dataset (`track_0` to `track_43`) and two keypoints per individual, labelled `H` (head) and `T` (tailbase). The data was collected at 29.97 frames per second, and the dataloader used this information to automatically express the `time` dimension in seconds.
+We can see the [poses dataset](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html#dataset-structure) `ds` is made up of two data arrays, `position` and `confidence`. In this example, we will use the `position` data array only, which spans four dimensions: `time`, `space`, `keypoint` and `individual`. We can verify there are 44 individuals in this dataset (`track_0` to `track_43`) and two keypoints per individual, labelled `H` (head) and `T` (tailbase). The data was collected at 29.97 frames per second, and the dataloader used this information to automatically express the `time` dimension in seconds.
 
 ::: {.callout-note title="Position units"}
 The `position` data in `ds` is expressed in arbitrary units. This is because no GPS data was available for georeferencing or defining ground control points in the structure-from-motion (SfM) analysis. As a result, the scale factor remains a free parameter in the reconstruction of the world coordinates.
@@ -58,7 +58,7 @@ Note however that this will not be a problem for our analysis, since the relativ
 We define the body vector for each individual as the vector going from the `T` keypoint (tail) to the `H` keypoint (head).
 
 ```{python}
-body_vector = ds.position.sel(keypoints="H") - ds.position.sel(keypoints="T")
+body_vector = ds.position.sel(keypoint="H") - ds.position.sel(keypoint="T")
 
 body_vector
 ```
@@ -163,7 +163,7 @@ print(compute_norm(body_vector_filtered_unit))
 We now define the **herd vector** as the mean of the unit body vectors across all individuals. The mean vector of a set of $n$ vectors is the sum of all the vectors (i.e., the resultant vector) scaled by $1/n$.
 
 ```{python}
-herd_vector = body_vector_filtered_unit.mean("individuals")
+herd_vector = body_vector_filtered_unit.mean("individual")
 print(herd_vector) 
 ```
 
@@ -207,7 +207,7 @@ position_scaled = scale(
 For simplicity, we would also like to reduce the position of each individual to a single point. A good candidate for this is the centroid, which is the mean of all the keypoints per individual. In our case, the centroid will be the midpoint between the head and tail keypoints.
 
 ```{python}
-centroid = position_scaled.mean("keypoints")
+centroid = position_scaled.mean("keypoint")
 ```
 
 ::: {.callout-tip title="Exercise A"}
@@ -227,7 +227,7 @@ Use the `centroid` data array to:
 centroid_speed = compute_speed(centroid)
 
 # Compute the average speed across all individuals
-herd_speed = centroid_speed.mean("individuals")
+herd_speed = centroid_speed.mean("individual")
 
 # Plot the evolution of the herd speed over time
 fig, ax = plt.subplots()

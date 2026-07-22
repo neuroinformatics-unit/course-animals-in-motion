@@ -61,7 +61,7 @@ format:
       - cosmo
       - brand
     highlight-style: atom-one
-
+    toc-expand: 3
 
 # Options for code execution: https://quarto.org/docs/computations/caching.html
 execute: 

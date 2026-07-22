@@ -28,7 +28,7 @@ xr.set_options(
 
 ## What is movement?
 
-In [chapters @sec-intro] and [-@sec-dl-cv] we saw how the rise of deep learning-based markerless motion tracking tools is transforming the study of animal behaviour.
+In [Chapters @sec-intro] and [-@sec-dl-cv] we saw how the rise of deep learning-based markerless motion tracking tools is transforming the study of animal behaviour.
 
 In [@sec-sleap] we dove deeper into [SLEAP](https://sleap.ai/), a popular package for pose estimation and tracking.
 We saw how SLEAP and similar tools—like
@@ -135,10 +135,10 @@ by integer index (order) or coordinate label.
 
 ```{python}
 # First individual, first time point
-poses_ds.position.isel(individuals=0, time=0)
+poses_ds.position.isel(individual=0, time=0)
 
 # 0-10 seconds, two specific keypoints
-poses_ds.position.sel(time=slice(0, 10), keypoints=["EarLeft", "EarRight"])
+poses_ds.position.sel(time=slice(0, 10), keypoint=["EarLeft", "EarRight"])
 ```
 
 We can also do all sorts of [computations](https://docs.xarray.dev/en/stable/user-guide/computation.html)
@@ -161,9 +161,9 @@ for visualising the data.
 
 from matplotlib import pyplot as plt
 
-tail_base_pos = poses_ds.sel(keypoints="TailBase").position
+tail_base_pos = poses_ds.sel(keypoint="TailBase").position
 tail_base_pos.plot.line(
-    x="time", row="individuals", hue="space", aspect=2, size=2.5
+    x="time", row="individual", hue="space", aspect=2, size=2.5
 )
 plt.show()
 ```
@@ -177,8 +177,8 @@ You can also combine those with `matplotlib` figures.
 colors = plt.cm.tab10.colors
 
 fig, ax = plt.subplots()
-for kp, color in zip(poses_ds.keypoints, colors):
-    data = poses_ds.confidence.sel(keypoints=kp)
+for kp, color in zip(poses_ds.keypoint, colors):
+    data = poses_ds.confidence.sel(keypoint=kp)
     data.plot.hist(
         bins=50, histtype="step", density=True, ax=ax, color=color, label=kp
     )
@@ -197,7 +197,7 @@ Export the position data array as a pandas DataFrame:
 
 ```{python}
 position_df = poses_ds.position.to_dataframe(
-    dim_order=["time", "individuals", "keypoints", "space"]
+    dim_order=["time", "individual", "keypoint", "space"]
 )
 position_df.head()
 ```
@@ -266,12 +266,12 @@ Loading pose tracks from a file:
 
 ```{python}
 from pathlib import Path
-from movement.io import load_poses
+from movement.io import load_dataset
 
 file_name = "mouse044_task1_annotator1.slp"
 file_path = Path.home() / ".movement" / "CalMS21" / file_name
 
-ds = load_poses.from_file(file_path, source_software="SLEAP", fps=30)
+ds = load_dataset(file_path, source_software="SLEAP", fps=30)
 ds
 ```
 
@@ -287,8 +287,8 @@ for space_coord in ["x", "y"]:
 Plotting the x,y positions of a certain keypoint across time, within a narrow time window:
 
 ```{python}
-ds.position.sel(keypoints="tail_base", time=slice(0, 10)).plot.line(
-    x="time", row="individuals", hue="space", aspect=2, size=2.5
+ds.position.sel(keypoint="tail_base", time=slice(0, 10)).plot.line(
+    x="time", row="individual", hue="space", aspect=2, size=2.5
 )
 ```
 
@@ -502,7 +502,7 @@ position_all_steps
 Let's plot the position of the EarLeft keypoint across time for every step.
 
 ```{python}
-position_all_steps.sel(individuals="1", keypoints="EarLeft").plot.line(
+position_all_steps.sel(individual="1", keypoint="EarLeft").plot.line(
     x="time", row="step", hue="space", aspect=2, size=2.5
 )
 plt.show()
@@ -563,7 +563,7 @@ from movement.kinematics import (
 To compute the centroid position and speed:
 
 ```{python}
-ds_oct["centroid_position"] = ds_oct.position_interpolated.mean(dim="keypoints")
+ds_oct["centroid_position"] = ds_oct.position_interpolated.mean(dim="keypoint")
 ds_oct["centroid_speed"] = compute_speed(ds_oct.centroid_position)
 
 ds_oct.centroid_speed
@@ -572,7 +572,7 @@ ds_oct.centroid_speed
 To plot it across time:
 
 ```{python}
-ds_oct.centroid_speed.plot.line(x="time", row="individuals", aspect=2, size=2.5)
+ds_oct.centroid_speed.plot.line(x="time", row="individual", aspect=2, size=2.5)
 plt.show()
 ```
 
@@ -591,7 +591,7 @@ We will compute the distance between the centroids of the two individuals and pl
 ```{python}
 ds_oct["inter_individual_distance"] = compute_pairwise_distances(
     ds_oct.centroid_position,
-    dim="individuals",
+    dim="individual",
     pairs={"1": "2"}
 )
 
