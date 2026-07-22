@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>3&nbsp; Pose estimation with SLEAP – Animals In Motion (with answers)</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -59,7 +62,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -90,19 +92,18 @@ div.csl-indent {
 <link href="./img/logo_niu_light.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-217d6bec77869dd8fefad70768407f98.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-39e0428bbf48e862574152c7409fb968.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-217d6bec77869dd8fefad70768407f98.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d9b87e63cb90a7227c145b2efad221f1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-79f8409b5a7ac01cd14756f9dbb21e14.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-d9b87e63cb90a7227c145b2efad221f1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-6edfb73c787725f6aa8d7d356ddbd81c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-ba1048b94af671dc16147fc231169922.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0da12020101ad643d06f996f4d36884b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-7623c061e075fcf2068003f664b326ff.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0da12020101ad643d06f996f4d36884b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -167,7 +168,7 @@ div.csl-indent {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Animals In Motion (with answers)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/tree/main/book/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/tree/main/book/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code" target="_blank"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -255,25 +256,26 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
   <li><a href="#single-animal-vs-multi-animal-pose-estimation" id="toc-single-animal-vs-multi-animal-pose-estimation" class="nav-link active" data-scroll-target="#single-animal-vs-multi-animal-pose-estimation"><span class="header-section-number">3.1</span> Single-animal vs multi-animal pose estimation</a></li>
   <li><a href="#top-down-vs-bottom-up-approaches" id="toc-top-down-vs-bottom-up-approaches" class="nav-link" data-scroll-target="#top-down-vs-bottom-up-approaches"><span class="header-section-number">3.2</span> Top-down vs bottom-up approaches</a></li>
-  <li><a href="#identity-tracking-approaches" id="toc-identity-tracking-approaches" class="nav-link" data-scroll-target="#identity-tracking-approaches"><span class="header-section-number">3.3</span> Identity tracking approaches</a></li>
+  <li><a href="#sec-identity-tracking-approaches" id="toc-sec-identity-tracking-approaches" class="nav-link" data-scroll-target="#sec-identity-tracking-approaches"><span class="header-section-number">3.3</span> Identity tracking approaches</a></li>
   <li><a href="#residentintruder-assay" id="toc-residentintruder-assay" class="nav-link" data-scroll-target="#residentintruder-assay"><span class="header-section-number">3.4</span> Resident–intruder assay</a></li>
   <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset"><span class="header-section-number">3.5</span> Dataset</a></li>
   <li><a href="#sleap-workflow" id="toc-sleap-workflow" class="nav-link" data-scroll-target="#sleap-workflow"><span class="header-section-number">3.6</span> SLEAP workflow</a>
   <ul class="collapse">
   <li><a href="#create-a-new-project" id="toc-create-a-new-project" class="nav-link" data-scroll-target="#create-a-new-project"><span class="header-section-number">3.6.1</span> Create a new project</a></li>
   <li><a href="#define-skeleton" id="toc-define-skeleton" class="nav-link" data-scroll-target="#define-skeleton"><span class="header-section-number">3.6.2</span> Define skeleton</a></li>
-  <li><a href="#sample-frames" id="toc-sample-frames" class="nav-link" data-scroll-target="#sample-frames"><span class="header-section-number">3.6.3</span> Sample frames</a></li>
+  <li><a href="#sec-sample-frames" id="toc-sec-sample-frames" class="nav-link" data-scroll-target="#sec-sample-frames"><span class="header-section-number">3.6.3</span> Sample frames</a></li>
   <li><a href="#label-frames" id="toc-label-frames" class="nav-link" data-scroll-target="#label-frames"><span class="header-section-number">3.6.4</span> Label frames</a></li>
   <li><a href="#configure-and-train-models" id="toc-configure-and-train-models" class="nav-link" data-scroll-target="#configure-and-train-models"><span class="header-section-number">3.6.5</span> Configure and train models</a></li>
-  <li><a href="#monitor-training-progress" id="toc-monitor-training-progress" class="nav-link" data-scroll-target="#monitor-training-progress"><span class="header-section-number">3.6.6</span> Monitor training progress</a></li>
+  <li><a href="#sec-monitor-training-progress" id="toc-sec-monitor-training-progress" class="nav-link" data-scroll-target="#sec-monitor-training-progress"><span class="header-section-number">3.6.6</span> Monitor training progress</a></li>
   <li><a href="#run-inference-and-proofread-predictions" id="toc-run-inference-and-proofread-predictions" class="nav-link" data-scroll-target="#run-inference-and-proofread-predictions"><span class="header-section-number">3.6.7</span> Run inference and proofread predictions</a></li>
   <li><a href="#evaluate-trained-models" id="toc-evaluate-trained-models" class="nav-link" data-scroll-target="#evaluate-trained-models"><span class="header-section-number">3.6.8</span> Evaluate trained models</a></li>
+  <li><a href="#sec-continue-training-across-sessions" id="toc-sec-continue-training-across-sessions" class="nav-link" data-scroll-target="#sec-continue-training-across-sessions"><span class="header-section-number">3.6.9</span> Continue training across sessions</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/edit/main/book/03-sleap-tutorial.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/book/03-sleap-tutorial.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -301,27 +303,13 @@ div.csl-indent {
 
 
 <!-- markdownlint-disable MD045 -->
-<p>Before we proceed, make sure you have installed <a href="http://legacy.sleap.ai/installation.html">SLEAP</a> <span class="citation" data-cites="pereira_sleap_2022">(<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">Pereira et al. 2022</a>)</span> and activated the corresponding <code>conda</code> environment (see <a href="prerequisites.html#sec-install-sleap" class="quarto-xref">prerequisites&nbsp;<span>A.3.2</span></a>). You will also need to download the <a href="https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset">CalMS21 dataset</a> <span class="citation" data-cites="sun_caltech_2021">(<a href="references.html#ref-sun_caltech_2021" role="doc-biblioref">Sun et al. 2021</a>)</span> video file <code>mouse044_task1_annotator1.mp4</code> from <a href="https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&amp;st=w1zueyi9&amp;dl=0">Dropbox</a> (see <a href="prerequisites.html#sec-data" class="quarto-xref">prerequisites&nbsp;<span>A.4</span></a> for details on the folder contents).</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This workshop uses <strong>SLEAP version 1.3.4</strong> with a TensorFlow backend. Documentation for this version is available at <a href="http://legacy.sleap.ai/">legacy.sleap.ai</a>.</p>
-<p>From <strong>SLEAP 1.5.0 onwards</strong>, the software uses a PyTorch backend. Installation and usage instructions differ for these newer versions, with updated docs at <a href="https://docs.sleap.ai/">docs.sleap.ai</a>.</p>
-</div>
-</div>
+<p>Before we proceed, make sure you have installed <a href="https://docs.sleap.ai/v1.6.3/installation/">SLEAP v1.6.3</a> <span class="citation" data-cites="pereira_sleap_2022">(<a href="references.html#ref-pereira_sleap_2022" role="doc-biblioref">Pereira et al. 2022</a>)</span> and activated the corresponding <code>conda</code> environment (see <a href="prerequisites.html#sec-install-sleap" class="quarto-xref">prerequisites&nbsp;<span>A.3.2</span></a>). You will also need to download the <a href="https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset">CalMS21 dataset</a> <span class="citation" data-cites="sun_caltech_2021">(<a href="references.html#ref-sun_caltech_2021" role="doc-biblioref">Sun et al. 2021</a>)</span> video file <code>mouse044_task1_annotator1.mp4</code> from <a href="https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&amp;st=w1zueyi9&amp;dl=0">Dropbox</a> (see <a href="prerequisites.html#sec-data" class="quarto-xref">prerequisites&nbsp;<span>A.4</span></a> for details on the folder contents).</p>
 <section id="single-animal-vs-multi-animal-pose-estimation" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="single-animal-vs-multi-animal-pose-estimation"><span class="header-section-number">3.1</span> Single-animal vs multi-animal pose estimation</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/pose_estimation_2D.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Single-animal pose estimation, source: <span class="citation" data-cites="pereira_quantifying_2020">Pereira, Shaevitz, and Murthy (<a href="references.html#ref-pereira_quantifying_2020" role="doc-biblioref">2020</a>)</span>.</figcaption>
+<figcaption>Single-animal pose estimation, source: <span class="citation" data-cites="pereira_quantifying_2020">Pereira et al. (<a href="references.html#ref-pereira_quantifying_2020" role="doc-biblioref">2020</a>)</span>.</figcaption>
 </figure>
 </div>
 <p><strong>Single-animal pose estimation</strong> focuses on detecting keypoints for one animal per frame, which is considered a landmark-localisation task where each body part has a unique coordinate. This approach is simpler and faster to train and run.</p>
@@ -353,8 +341,8 @@ Warning
 <p><strong>Bottom-up approaches</strong> use a <strong>single model</strong> that processes the entire frame in a single pass. This model outputs confidence maps for all body parts in the image, along with Part Affinity Fields (PAFs)—vector fields that represent spatial relationships between parts and are used to group them into individual animal instances.</p>
 <p>Due to their single-stage construction, bottom-up models scale efficiently with increasing numbers of animals and are particularly effective in crowded or high-occupancy scenes.</p>
 </section>
-<section id="identity-tracking-approaches" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="identity-tracking-approaches"><span class="header-section-number">3.3</span> Identity tracking approaches</h2>
+<section id="sec-identity-tracking-approaches" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-identity-tracking-approaches"><span class="header-section-number">3.3</span> Identity tracking approaches</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/SLEAP/id_tracking.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
@@ -370,7 +358,7 @@ Warning
 </section>
 <section id="residentintruder-assay" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="residentintruder-assay"><span class="header-section-number">3.4</span> Resident–intruder assay</h2>
-<p>The resident–intruder assay <span class="citation" data-cites="jove4367">(<a href="references.html#ref-jove4367" role="doc-biblioref">Koolhaas Jaap M. 2013</a>)</span> is a behavioural test used to study social interactions, especially aggression and territoriality, in rodents. A resident mouse, habituated to its home cage, is confronted with an unfamiliar intruder, and their interactions—such as chasing, attacking, or investigating—are observed and quantified. This assay is widely used in neuroscience to explore the neural and genetic basis of social behaviour.</p>
+<p>The resident–intruder assay <span class="citation" data-cites="jove4367">(<a href="references.html#ref-jove4367" role="doc-biblioref"><span class="nocase">Koolhaas Jaap M.</span> 2013</a>)</span> is a behavioural test used to study social interactions, especially aggression and territoriality, in rodents. A resident mouse, habituated to its home cage, is confronted with an unfamiliar intruder, and their interactions—such as chasing, attacking, or investigating—are observed and quantified. This assay is widely used in neuroscience to explore the neural and genetic basis of social behaviour.</p>
 </section>
 <section id="dataset" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="dataset"><span class="header-section-number">3.5</span> Dataset</h2>
@@ -379,6 +367,19 @@ Warning
 </section>
 <section id="sleap-workflow" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="sleap-workflow"><span class="header-section-number">3.6</span> SLEAP workflow</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The workflow described here closely follows the <a href="https://docs.sleap.ai/latest/tutorial/overview/">official SLEAP tutorial</a>, adapted to our dataset. Refer to the official docs for additional details and alternative workflows.</p>
+</div>
+</div>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -415,9 +416,22 @@ Warning
 <h3 data-number="3.6.1" class="anchored" data-anchor-id="create-a-new-project"><span class="header-section-number">3.6.1</span> Create a new project</h3>
 <p>Activate the <code>sleap</code> environment and launch the SLEAP GUI.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate sleap</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sleap-label</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Add a video by navigating to the “Videos” panel and clicking on “Add Videos” (or go to “File” then “Add Videos”). Since the video is in greyscale, enable the “Grayscale” option in the video import dialogue. This ensures SLEAP processes the input as a single-channel image, which can improve performance and reduce memory usage for greyscale videos. Further details can be found in <a href="http://legacy.sleap.ai/tutorials/new-project.html">SLEAP’s Creating a project guide</a>.</p>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sleap</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Add a video by navigating to the “Videos” panel and clicking on “Add Videos” (or go to “File” → “Add Videos”). Since the video is in greyscale, enable the “Grayscale” option in the video import dialogue. This ensures SLEAP processes the input as a single-channel image, which can improve performance and reduce memory usage for greyscale videos. Further details can be found in <a href="https://docs.sleap.ai/latest/tutorial/importing-data/#import-videos-into-sleap">SLEAP’s Import videos guide</a>.</p>
 <p><img src="img/SLEAP/1_create_project.png" class="img-fluid" style="width:100.0%"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This tutorial uses a single video for simplicity, but actual projects should include all videos you intend to analyse. Add them all to the project upfront, then <a href="#sec-sample-frames">sample frames</a> from across as many of them as possible when building your training set. A model trained on frames from only one video tends to overfit to that video’s specific conditions (lighting, background, camera angle) and generalises poorly to others.</p>
+</div>
+</div>
 </section>
 <section id="define-skeleton" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="define-skeleton"><span class="header-section-number">3.6.2</span> Define skeleton</h3>
@@ -449,22 +463,23 @@ Warning
 <li><code>right_hip</code>–<code>tail_base</code></li>
 </ul>
 <p><img src="img/SLEAP/2_define_skeleton.png" class="img-fluid" style="width:100.0%"></p>
-<p>Once you have defined the skeleton, save the project by clicking on “File” then “Save” (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).</p>
+<p>Once you have defined the skeleton, save the project by clicking on “File” → “Save” (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).</p>
 </section>
-<section id="sample-frames" class="level3" data-number="3.6.3">
-<h3 data-number="3.6.3" class="anchored" data-anchor-id="sample-frames"><span class="header-section-number">3.6.3</span> Sample frames</h3>
-<p>For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the “Labeling Suggestions” panel, which offers several <a href="http://legacy.sleap.ai/guides/gui.html#suggestion-methods">automated sampling strategies</a> to help select informative and diverse frames.</p>
+<section id="sec-sample-frames" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="sec-sample-frames"><span class="header-section-number">3.6.3</span> Sample frames</h3>
+<p>For assembling a set of frames for annotation, you can either pick your own frames, or let SLEAP suggest a set of frames using the “Labeling Suggestions” panel, which offers several <a href="https://docs.sleap.ai/latest/learnings/gui/#labeling-suggestions">automated sampling strategies</a> to help select informative and diverse frames.</p>
 <p>In this example, we will use the “Labeling Suggestions” panel to randomly sample 20 frames from the video.</p>
 <p><img src="img/SLEAP/3_sample_frames.png" class="img-fluid" style="width:100.0%"></p>
 </section>
 <section id="label-frames" class="level3" data-number="3.6.4">
 <h3 data-number="3.6.4" class="anchored" data-anchor-id="label-frames"><span class="header-section-number">3.6.4</span> Label frames</h3>
-<p>To begin labelling, click on “Labels” then “Add Instance” in the top menu bar. The initial instance will have its nodes placed randomly. Adjust each point to its correct location by dragging it with the mouse.</p>
+<p>To begin labelling, click on “Labels” → “Add Instance” in the top menu bar. The initial instance will have its nodes placed randomly. Adjust each point to its correct location by dragging it with the mouse.</p>
 <p>In this example, the black mouse’s nose is occluded by an implant. To mark the node as hidden, right-click the node or its name to toggle visibility. If you can reasonably infer its location, you can also mark it as “visible” to help the model learn to predict occluded nodes.</p>
-<p>For tracking the identities of the mice, we will also assign identities to each instance by adding a <code>Track</code>. This step is optional if you are only tracking a single animal or if the animals are visually indistinguishable.</p>
-<p>To assign a track, select an instance and click on “Tracks” then “Set Instance Track” in the top menu bar. A new <code>Track</code> (“Track 1”) will be created. <code>Tracks</code> can be renamed in the “Track” column. In this example, we will name the black mouse <code>resident_b</code> and the white mouse <code>intruder_w</code>.</p>
+<p>For tracking the identities of the animals, we will also assign identities to each instance by adding a <code>Track</code>. This step is optional if you are only tracking a single animal or if the animals are visually indistinguishable.</p>
+<p>To assign a track, select an instance and click on “Tracks” → “Set Instance Track” in the top menu bar. A new <code>Track</code> (“1”) will be created. <code>Tracks</code> can be renamed in the “Track” column. In this example, we will name the black mouse <code>resident_b</code> and the white mouse <code>intruder_w</code>.</p>
 <p><img src="img/SLEAP/4_label_frames.png" class="img-fluid" style="width:100.0%"></p>
 <p>Once you have labelled the initial frame, you can navigate to the previous or next suggested frame by clicking “Previous” or “Next” in the “Labeling Suggestions” panel.</p>
+<p>To speed up labelling in subsequent frames, right-click on the frame and choose from several options for adding a new instance. For example, selecting “Copy prior frame” will duplicate the instance(s) from the previous labelled frame, allowing you to quickly adjust only the necessary points. This is especially useful when animal poses change gradually between frames.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -475,10 +490,10 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Remember to save your progress frequently by clicking “File” then “Save” (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).</p>
+<p>Remember to save your progress frequently by clicking “File” → “Save” (or with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>).</p>
 </div>
 </div>
-<p>You may also find the following keyboard shortcuts and mouse actions helpful:</p>
+<p>You may also find the following keyboard shortcuts and mouse actions helpful (go to “Help” → “Keyboard Shortcuts” for the full list and optionally customise them):</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 23%">
@@ -545,8 +560,7 @@ Important
 </tr>
 </tbody>
 </table>
-<p>To speed up labelling in subsequent frames, right-click on the frame and choose from several options for adding a new instance. For example, selecting “Copy prior frame” will duplicate the instance(s) from the previous labelled frame, allowing you to quickly adjust only the necessary points. This is especially useful when animal poses change gradually between frames.</p>
-<p>See also <a href="http://legacy.sleap.ai/guides/gui.html#labels">SLEAP’s GUI guide on “Labels”</a> for a complete reference of all labelling functions.</p>
+<p>See also <a href="https://docs.sleap.ai/latest/learnings/gui/#labels">SLEAP’s GUI guide on “Labels”</a> for a complete reference of all labelling functions.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -567,25 +581,17 @@ Important
 </section>
 <section id="configure-and-train-models" class="level3" data-number="3.6.5">
 <h3 data-number="3.6.5" class="anchored" data-anchor-id="configure-and-train-models"><span class="header-section-number">3.6.5</span> Configure and train models</h3>
-<p>Once you have labelled a sufficient number of frames, you can configure and train your first model. To do this, go to “Predict” then “Run training” in the top menu bar.</p>
-<p>Here, we will employ the <a href="#identity-tracking-approaches">appearance-based tracking approach</a> for maintaining consistent identities of individual mice across frames. To do so, select <strong>“multi-animal top-down-id”</strong> as the “Training Pipeline Type”. We will also configure the training pipeline to predict on 20 more frames randomly sampled from the video once training is complete.</p>
+<p>Once you have labelled a sufficient number of frames, you can configure and train your first model. To do this, go to “Predict” → “Run training” in the top menu bar.</p>
+<p>Here, we will employ the <a href="#sec-identity-tracking-approaches">appearance-based tracking approach</a> for maintaining consistent identities of individual animals across frames. To do so, select <strong>“multi-animal top-down-id”</strong> as the “Pipeline Type”. We will also configure the training pipeline to predict on 20 more frames randomly sampled from the video (skipping user-labelled frames) once training is complete.</p>
 <p><img src="img/SLEAP/5_config_model.png" class="img-fluid" style="width:100.0%"></p>
-<p>See also <a href="http://legacy.sleap.ai/guides/choosing-models.html">SLEAP’s Configuring models guide</a> for further details on model types and training options.</p>
+<p>See also <a href="https://nn.sleap.ai/latest/reference/models/">SLEAP’s Configuring models guide</a> for further details on model types and training options.</p>
 <section id="centroid-model" class="level4" data-number="3.6.5.1">
 <h4 data-number="3.6.5.1" class="anchored" data-anchor-id="centroid-model"><span class="header-section-number">3.6.5.1</span> Centroid model</h4>
 <p>We will now configure the <strong>Centroid model</strong>, which predicts the location of each animal in each frame.</p>
-<p>Since we have labelled only a small number of frames, increase the validation split (e.g.&nbsp;0.2) to obtain more stable and representative validation metrics. To reduce the risk of overfitting, set the number of training epochs to a low value (e.g.&nbsp;10–20 epochs). In the “Data” and “Optimization” panels, adjust “Validation” and “Epochs” accordingly.</p>
-<p>Next, adjust the receptive field size to match the scale of the features you want the model to detect. This can be achieved by adjusting “Input Scaling” and “Max Stride”. As a rule of thumb, the receptive field (blue box in the preview) should be large enough to cover the whole animal.</p>
-<p>To help the model generalise to animals in different orientations, enable random rotation augmentation. In the “Augmentation” panel, enable “Rotation” and set the rotation range (e.g.&nbsp;-180° to 180°).</p>
+<p>Since we have labelled only a small number of frames, increase the validation fraction (e.g.&nbsp;0.2) in “Data” to obtain more stable and representative validation metrics. To reduce the risk of overfitting, in “Optimization”, set the number of training epochs to a low value (e.g.&nbsp;10–20 epochs).</p>
+<p>Next, adjust the receptive field size to match the scale of the features you want the model to detect. This can be achieved by adjusting “Input Scaling” in “Data” and “Max Stride” in “Model”.</p>
+<p>To help the model generalise to animals in different orientations, in “Augmentation”, set “Rotation” to match how much orientation varies in your data. The default (±180°) is reasonable when animals can appear at any orientation, but unnecessarily broad when they cannot. For example, in a head-fixed pupillometry setup, eye rotation is minimal, so a narrow range (e.g.&nbsp;±15°) is more appropriate and avoids forcing the model to learn orientations it will never encounter.</p>
 <p><img src="img/SLEAP/5_config_model_centroid.png" class="img-fluid" style="width:100.0%"></p>
-</section>
-<section id="top-down-id-model" class="level4" data-number="3.6.5.2">
-<h4 data-number="3.6.5.2" class="anchored" data-anchor-id="top-down-id-model"><span class="header-section-number">3.6.5.2</span> Top-down ID model</h4>
-<p>The <strong>Top-down ID model</strong> predicts the full pose (locations of all defined nodes) and assigns identities to each animal in each frame.</p>
-<p>As with the Centroid model, configure the validation split, number of training epochs, random rotation augmentation, and receptive field size accordingly.</p>
-<p>You may also want to reduce the batch size (e.g.&nbsp;to 4) to ensure the model trains reliably and fits within memory constraints, especially when using limited hardware resources (e.g.&nbsp;CPU or lower-end GPUs).</p>
-<p><img src="img/SLEAP/5_config_model_id.png" class="img-fluid" style="width:100.0%"></p>
-<p>Once you have configured the models, click “Run” to begin training.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -596,13 +602,21 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For top-down models, set a larger receptive field for the centroid model (by decreasing the “Input Scaling” value) than for the top-down ID model, since you only need to locate the animal, not fine details.</p>
+<p>As a rule of thumb, the receptive field (blue box in the preview) should be large enough to cover the whole animal. Since the centroid model only needs to locate animals coarsely, you can downsample the input more aggressively (e.g.&nbsp;to 0.25×) than for the top-down ID model, which needs to resolve fine details. This saves computation, especially in early labelling rounds with limited training data.</p>
 </div>
 </div>
 </section>
+<section id="top-down-id-model" class="level4" data-number="3.6.5.2">
+<h4 data-number="3.6.5.2" class="anchored" data-anchor-id="top-down-id-model"><span class="header-section-number">3.6.5.2</span> Top-down ID model</h4>
+<p>The <strong>Top-down ID model</strong> predicts the full pose (locations of all defined nodes) and assigns identities to each animal in each frame. It has two output heads: <strong>confmaps</strong> (confidence maps), which predict the spatial location of each body part, and <strong>class_vectors</strong>, which predict the identity of each animal.</p>
+<p>As with the Centroid model, configure the validation split, number of training epochs, random rotation augmentation, and receptive field size accordingly.</p>
+<p>You may also want to increase the sigma of the confmaps head (e.g.&nbsp;to 5.0) to produce wider peaks that are easier to learn from limited training data, increase the loss weight of the class_vectors head (e.g.&nbsp;to 1.0) so that the model places more emphasis on learning identity prediction, and reduce the batch size (e.g.&nbsp;to 4) to fit within memory constraints, especially when using limited hardware resources (e.g.&nbsp;CPU or lower-end GPUs).</p>
+<p><img src="img/SLEAP/5_config_model_id.png" class="img-fluid" style="width:100.0%"></p>
+<p>Once you have configured the models, click “Run” to begin training.</p>
 </section>
-<section id="monitor-training-progress" class="level3" data-number="3.6.6">
-<h3 data-number="3.6.6" class="anchored" data-anchor-id="monitor-training-progress"><span class="header-section-number">3.6.6</span> Monitor training progress</h3>
+</section>
+<section id="sec-monitor-training-progress" class="level3" data-number="3.6.6">
+<h3 data-number="3.6.6" class="anchored" data-anchor-id="sec-monitor-training-progress"><span class="header-section-number">3.6.6</span> Monitor training progress</h3>
 <p>You should now see a training progress window showing the loss curves and metrics for each model as it trains.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -616,6 +630,7 @@ Tip
 <figcaption>Top-down ID model training progress</figcaption>
 </figure>
 </div>
+<p>You can stop a training run at any time and resume it later, or start a new run using the weights from a previous model. For details, see <a href="#sec-continue-training-across-sessions" class="quarto-xref"><span>Section 3.6.9</span></a>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -626,14 +641,14 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>SLEAP supports remote training and inference workflows, allowing users to leverage external computational resources, particularly those with GPU support, for batch training or inference. For detailed instructions and guidance, see the <a href="http://legacy.sleap.ai/guides/remote.html">Running SLEAP remotely guide</a>.</p>
+<p>SLEAP supports remote training and inference workflows, allowing users to leverage external computational resources, particularly those with GPU support, for batch training or inference. For detailed instructions and guidance, see the <a href="https://docs.sleap.ai/latest/guides/running-sleap-remotely/">Running SLEAP remotely guide</a>.</p>
 </div>
 </div>
 </section>
 <section id="run-inference-and-proofread-predictions" class="level3" data-number="3.6.7">
 <h3 data-number="3.6.7" class="anchored" data-anchor-id="run-inference-and-proofread-predictions"><span class="header-section-number">3.6.7</span> Run inference and proofread predictions</h3>
 <p>After the models are trained, if you had configured the training pipeline to run inference upon completion, SLEAP will automatically apply the trained models to the selected frames.</p>
-<p>Alternatively, to manually run inference on random frames with your trained models, go to the “Predict” and select “Run Inference” in the top menu bar.</p>
+<p>Alternatively, to manually run inference on random frames with your trained models, go to “Predict” → “Run Inference” in the top menu bar.</p>
 <p><img src="img/SLEAP/6_inference.png" class="img-fluid" style="width:100.0%"></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -645,49 +660,112 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Since we have trained an <a href="#identity-tracking-approaches">appearance-based ID model</a>, which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a “Tracker” (typically used for temporal-based tracking). Further details on the Tracker module is available in <a href="http://legacy.sleap.ai/guides/proofreading.html">SLEAP’s Tracking and proofreading guide</a>.</p>
+<p>Since we have trained an <a href="#sec-identity-tracking-approaches">appearance-based ID model</a>, which outputs identity assignments directly for each detected animal in each frame, there is no need to configure a “Tracker” (typically used for temporal-based tracking). Further details on the Tracker module is available in <a href="https://docs.sleap.ai/latest/guides/tracking-and-proofreading/">SLEAP’s Tracking and proofreading guide</a>.</p>
 </div>
 </div>
 <p>Labelled frames (frames with user or predicted labels) will be marked in the seekbar.</p>
 <p><img src="img/SLEAP/6_predictions.png" class="img-fluid" style="width:100.0%"></p>
-<p>To step through labelled frames, click on “Go” and “Next Labeled Frame” (or use <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd>/<kbd>right</kbd>).</p>
-<p>The models are not expected to perform well at this stage, but you can review and correct these predictions, and merge them back into your training dataset. You can also generate more labelling suggestions and label them to ensure your training dataset captures a wider range of poses and variations. Once you have added and/or corrected more instances, you can repeat the process: train a new model, predict on more frames, correct those predictions, and so on until you are ready to apply the model on the entire video.</p>
-<p>See <a href="http://legacy.sleap.ai/tutorials/assisted-labeling.html">SLEAP’s Prediction-assisted labeling guide</a> for more details on this iterative process.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<p>To step through labelled frames, click on “Go” → “Next Labeled Frame” (or use <kbd>Alt</kbd> (Windows) / <kbd>Option</kbd> (Mac) + <kbd>left</kbd>/<kbd>right</kbd>).</p>
+<p>With only a handful of labelled frames, the first models may produce poor predictions, but you can use these initial predictions as a starting point: review and correct them, merge the corrections back into your training dataset, and optionally generate additional labelling suggestions to broaden the range of poses and variations represented in your data. Once you have added and/or corrected more instances, you can begin the iterative workflow: train a new model, predict on more frames, correct those predictions, and repeat this cycle until the model is ready to be applied to the entire video.</p>
+<p>Although early rounds use a low number of epochs for faster iteration, with very few labelled frames the model may occasionally fail to learn anything and inference returns no instances. If this happens, increase the number of training epochs for that round. Even though the model will overfit such a small dataset, the extra training can help it latch onto the limited signal and produce usable predictions for the next iteration. “Stop training on plateau” is enabled by default, so training will stop automatically once the model stops improving. You can also increase the number of filters (e.g.&nbsp;to 32) under “Model” to increase model capacity, at the cost of longer training time.</p>
+<p>See <a href="https://docs.sleap.ai/latest/learnings/prediction-assisted-labeling/">SLEAP’s Prediction-assisted labeling guide</a> for more details on this iterative process.</p>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Predicted instances will not be used for model training unless you correct the predictions in the GUI.</p>
+<p>Predicted instances will not be used for model training until you convert them into editable instances (by double-clicking on them).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>SLEAP includes a <a href="https://docs.sleap.ai/latest/guides/label-quality-control/">Label Quality Control (QC) module</a> that automatically detects common labelling errors using anomaly detection. Use it to check your labels for errors before training or after proofreading predictions.</p>
 </div>
 </div>
 </section>
 <section id="evaluate-trained-models" class="level3" data-number="3.6.8">
 <h3 data-number="3.6.8" class="anchored" data-anchor-id="evaluate-trained-models"><span class="header-section-number">3.6.8</span> Evaluate trained models</h3>
-<p>The metrics of trained models can be accessed by clicking on “Predict” then “Evaluation Metrics for Trained Models” in the top menu bar.</p>
+<p>The metrics of trained models can be accessed by clicking on “Predict” → “Evaluation Metrics for Trained Models” in the top menu bar.</p>
 <p><img src="img/SLEAP/7_evaluate_model.png" class="img-fluid" style="width:100.0%"></p>
-<p>See <a href="http://legacy.sleap.ai/notebooks/Model_evaluation.html">SLEAP’s Model evaluation guide</a> for examples on generating accuracy metrics for your trained model.</p>
+<p>See <a href="https://docs.sleap.ai/latest/notebooks/Model_evaluation/">SLEAP’s Model evaluation guide</a> for examples on generating accuracy metrics for your trained model.</p>
+</section>
+<section id="sec-continue-training-across-sessions" class="level3" data-number="3.6.9">
+<h3 data-number="3.6.9" class="anchored" data-anchor-id="sec-continue-training-across-sessions"><span class="header-section-number">3.6.9</span> Continue training across sessions</h3>
+<p>SLEAP lets you stop a run early, pick it up again later, or start over from scratch.</p>
+<section id="stop-a-run-early" class="level4" data-number="3.6.9.1">
+<h4 data-number="3.6.9.1" class="anchored" data-anchor-id="stop-a-run-early"><span class="header-section-number">3.6.9.1</span> Stop a run early</h4>
+<p>While a model is <a href="#sec-monitor-training-progress">training</a>, the training window offers two ways to end it early:</p>
+<ul>
+<li><strong>Stop Early</strong> ends the current training loop and saves the model weights from the epoch with the lowest validation loss.</li>
+<li><strong>Cancel Training</strong> aborts the run and discards it entirely; no model is saved.</li>
+</ul>
+</section>
+<section id="choose-a-starting-point-for-the-next-run" class="level4" data-number="3.6.9.2">
+<h4 data-number="3.6.9.2" class="anchored" data-anchor-id="choose-a-starting-point-for-the-next-run"><span class="header-section-number">3.6.9.2</span> Choose a starting point for the next run</h4>
+<p>To resume training, go to “Predict” → “Run Training” as before, then on the “Model Configuration” tab, use the dropdown at the top to select a previously trained config (prefixed with <code>[Trained]</code>). You can then choose one of three options:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>What it does</th>
+<th>When to use it</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Reuse config (train from scratch)</strong></td>
+<td>Keeps the previous run’s settings but discards its weights, training a new model from a random initialisation on all currently available labelled frames.</td>
+<td>You’ve added new labelled frames since the last run—especially early on, while your dataset is still small. Full retrains are fast at this scale, and starting fresh avoids inheriting weaknesses from a model trained on very little data.</td>
+</tr>
+<tr class="even">
+<td><strong>Resume training (fine-tune)</strong></td>
+<td>Initialises the new model with the previous run’s weights, then trains further on all currently available labelled frames.</td>
+<td>You stopped early and want to resume the same run with no new data; your dataset/model has grown large enough that a full retrain would be slow; you proofread predictions and corrected a systematic mistake (e.g.&nbsp;a consistently misplaced tail) and want the model to learn from those specific corrections; or you want transfer learning—adapting an accurate model from one setting (e.g.&nbsp;black mice) to a related one (e.g.&nbsp;white mice in the same cage).</td>
+</tr>
+<tr class="odd">
+<td><strong>Reuse model (don’t retrain)</strong></td>
+<td>Uses the previous run’s weights as-is, with no further training</td>
+<td>For top-down approaches: e.g.&nbsp;you’re satisfied with the centroid model and only want to retrain the top‑down ID model.</td>
+</tr>
+</tbody>
+</table>
+<p>To train a brand-new model instead, leave the dropdown on its default <code>baseline.*.yaml</code> entry rather than selecting a previous run.</p>
+<p>See also SLEAP’s <a href="https://docs.sleap.ai/latest/notebooks/Interactive_and_resumable_training/">Interactive and resumable training guide</a> for customising your own training workflow using <a href="https://nn.sleap.ai/latest/"><code>sleap-nn</code>’s</a> low-level API.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-jove4367" class="csl-entry" role="listitem">
-Koolhaas Jaap M., de Boer Sietse F., Coppens Caroline M. 2013. <span>“The Resident-Intruder Paradigm: A Standardized Test for Aggression, Violence and Social Stress.”</span> <em>JoVE</em>, no. 77: e4367. <a href="https://doi.org/doi:10.3791/4367">https://doi.org/doi:10.3791/4367</a>.
+<span class="nocase">Koolhaas Jaap M., de Boer Sietse F., Coppens Caroline M.</span> 2013. <span>“The Resident-Intruder Paradigm: A Standardized Test for Aggression, Violence and Social Stress.”</span> <em>JoVE</em>, no. 77: e4367. <a href="https://doi.org/doi:10.3791/4367">https://doi.org/doi:10.3791/4367</a>.
 </div>
 <div id="ref-pereira_quantifying_2020" class="csl-entry" role="listitem">
 Pereira, Talmo D., Joshua W. Shaevitz, and Mala Murthy. 2020. <span>“Quantifying Behavior to Understand the Brain.”</span> <em>Nature Neuroscience</em> 23 (12): 1537–49. <a href="https://doi.org/10.1038/s41593-020-00734-z">https://doi.org/10.1038/s41593-020-00734-z</a>.
 </div>
 <div id="ref-pereira_sleap_2022" class="csl-entry" role="listitem">
-Pereira, Talmo D., Nathaniel Tabris, Arie Matsliah, David M. Turner, Junyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, et al. 2022. <span>“<span>SLEAP</span>: <span>A</span> Deep Learning System for Multi-Animal Pose Tracking.”</span> <em>Nature Methods</em> 19 (4): 486–95. <a href="https://doi.org/10.1038/s41592-022-01426-1">https://doi.org/10.1038/s41592-022-01426-1</a>.
+Pereira, Talmo D., Nathaniel Tabris, Arie Matsliah, et al. 2022. <span>“<span>SLEAP</span>: <span>A</span> Deep Learning System for Multi-Animal Pose Tracking.”</span> <em>Nature Methods</em> 19 (4): 486–95. <a href="https://doi.org/10.1038/s41592-022-01426-1">https://doi.org/10.1038/s41592-022-01426-1</a>.
 </div>
 <div id="ref-sun_caltech_2021" class="csl-entry" role="listitem">
-Sun, Jennifer J., Tomomi Karigo, David J. Anderson, Pietro Perona, Yisong Yue, and Ann Kennedy. 2021. <span>“Caltech Mouse Social Interactions (CalMS21) Dataset.”</span> CaltechDATA. <a href="https://doi.org/10.22002/D1.1991">https://doi.org/10.22002/D1.1991</a>.
+Sun, Jennifer J., Tomomi Karigo, David J. Anderson, Pietro Perona, Yisong Yue, and Ann Kennedy. 2021. <em>Caltech Mouse Social Interactions (CalMS21) Dataset</em>. CaltechDATA. <a href="https://doi.org/10.22002/D1.1991">https://doi.org/10.22002/D1.1991</a>.
 </div>
 </div>
+</section>
 </section>
 </section>
 
