@@ -240,7 +240,7 @@ Please refer to the [Input/Output section](https://movement.neuroinformatics.dev
 of the `movement` documentation for more details, including a full list of
 supported formats.
 
-::: {.callout-tip title="Exercise A"}
+::: {.exercise-prompt}
 
 1. Load the predictions you generated in @sec-sleap into a `movement` dataset. Alternatively, feel free to work with the `CalMS21/mouse044_task1_annotator1.slp` file from Dropbox (refer to [prerequisites @sec-data]) or any of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#sample-data).
 2. Compute the overall minimum and maximum x,y positions.
@@ -258,9 +258,7 @@ Useful resources:
 
 :::
 
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.exercise-solution}
 
 Loading pose tracks from a file:
 
@@ -334,8 +332,6 @@ plt.show()
 
 :::
 
-:::
-
 ## Visualise motion tracks interactively {#sec-movement-gui}
 
 The `movement` [graphical user interface (GUI)](https://movement.neuroinformatics.dev/latest/user_guide/gui.html),
@@ -390,10 +386,10 @@ of each example and either:
 - Click the __Download Jupyter Notebook__ button and open the `.ipynb` file in your code editor of choice (recommended), or
 - Click the __launch binder__ button and run the notebook in your browser.
 
-::: {.callout-tip title="Exercise B"}
+::: {.exercise-prompt}
 
 For this exercise you may continue working with the dataset you used
-to solve Exercise A in @sec-movement-load, or load another one.
+to solve Exercise 1 in @sec-movement-load, or load another one.
 You should store each intermediate output as a data variable
 within the same dataset.
 
@@ -411,9 +407,7 @@ inspect their effects by plotting the data.
 
 :::
 
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.exercise-solution}
 
 We will work with the same "SLEAP_two-mice_octagon.analysis.h5"
 dataset we loaded in @sec-movement-ds-poses.
@@ -510,8 +504,6 @@ plt.show()
 
 :::
 
-:::
-
 ## Quantify motion {#sec-movement-kinematics}
 
 In this section, we will familiarise ourselves with the
@@ -526,10 +518,10 @@ As in the previous section, we will go through a specific example from `movement
 
 You can run this notebook interactively in the same way as in @sec-movement-filtering.
 
-::: {.callout-tip title="Exercise C"}
+::: {.exercise-prompt}
 
 For this exercise you may continue working with the dataset you used
-to solve Exercise B in @sec-movement-filtering. In fact, you
+to solve Exercise 2 in @sec-movement-filtering. In fact, you
 can use the fully processed position data as your starting point.
 
 1. Take the mean position across keypoints (each individual's centroid).
@@ -543,9 +535,7 @@ and to the example we went through above.
 
 :::
 
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.exercise-solution}
 
 We will continue working with the `ds_oct` from the previous exercise,
 using the `position_interpolated` data variable as our starting point.
@@ -604,8 +594,6 @@ To plot the inter-individual distance across time:
 ds_oct.inter_individual_distance.plot.line(x="time", aspect=2, size=2.5)
 plt.show()
 ```
-
-:::
 
 :::
 

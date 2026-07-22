@@ -42,8 +42,16 @@ Then, you can render the book using:
 
 ```bash
 quarto render book
-# or if you want to run executable code blocks before rendering to html
-quarto render book --execute
+```
+
+Code cells in `.qmd` files execute automatically on render.
+Their results are cached (`execute: cache: true` in `book/_quarto.yml`),
+so on subsequent renders only cells you've edited re-run.
+If you need to force a full re-execution—e.g. after changing data or an
+imported dependency that Quarto can't see—refresh the cache:
+
+```bash
+quarto render book --cache-refresh
 ```
 
 You can view the rendered book by opening the `book/_book/index.html` file in your browser.
@@ -55,8 +63,6 @@ These can contain a mix of narrative and interactive content, such as code exerc
 
 We recommend using the [Quarto VSCode extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) for authoring and previewing content.
 
-Alternatively, you may also use JupyterLab, with Jupyter Notebooks (`.ipynb`) as source files—see [Quarto tools > JupyterLab](https://quarto.org/docs/tools/jupyter-lab.html) for more information.
-
 The chapter source files reside in the `book/` directory and have to be linked in the `book/_quarto.yml` file for them to show up.
 See [Book Crossrefs](https://quarto.org/docs/books/book-crossrefs.html) on how to reference other chapters.
 
@@ -65,49 +71,33 @@ See [Quarto authoring > Citations](https://quarto.org/docs/manuscripts/authoring
 
 In general, [cross-referencing objects](https://quarto.org/docs/manuscripts/authoring/vscode.html#cross-ref) (e.g. figures, tables, chapters, equations, citations, etc.) should be done using the `@ref` syntax, e.g. `See @fig-overview for more details`.
 
-### Adding answers to exercises
+### Adding exercises and their solutions
 
-This book is configured to be rendered with or without answers to exercises,
-using [Quarto profiles](https://quarto.org/docs/projects/profiles.html).
+Exercises and their solutions are authored inline in the chapter source, but at
+render time each solution is moved into a per-chapter "Solutions" section by the
+`book/collect-solutions.lua` filter (registered in `book/_quarto.yml`).
 
-- The `_quarto.yml` file defines the "default" profile for the book, which
-  does not show the answers to exercises.
-- The `_quarto-answers.yml` file defines the "answers" profile, which
-  is identical to the "default" profile, but also includes solutions
-  to code exercises.
+Write each exercise prompt as an `.exercise-prompt` div:
 
-To add answers to code exercises, please enclose them in a block of the following form:
-
-```{.bash}
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
-
-Write your solution here.
-
-:::
-
+```{.markdown}
+::: {.exercise-prompt}
+Describe the task here.
 :::
 ```
 
-Then you can control whether the answers are shown or not by passing the appropriate Quarto profile to the `quarto render` command:
+Immediately after it, write the solution as an `.exercise-solution` div:
 
-```bash
-quarto render book --execute --profile default  # equivalent to no profile
-quarto render book --execute --profile answers
+```{.markdown}
+::: {.exercise-solution}
+Write your solution here (prose and `{python}` code cells).
+:::
 ```
 
-You can achieve the same effect by setting the `QUARTO_PROFILE` environment variable before rendering the book:
+Each `.exercise-prompt` must be followed by exactly one `.exercise-solution`, in
+order. As long as this contract is respected, the filter will automatically number and style the exercises and solutions, and move the solutions to the end of the chapter (with back-links to the corresponding exercise).
 
-```bash
-export QUARTO_PROFILE=answers
-quarto render book --execute
-```
-
-In general, it's most convenient to show the answers while you are developing the content,
-and then hide them to preview the book as a student would see it.
-
-See the [@sec-versioning] for more information on how to create releases with or without answers.
+Solution code cells execute in the chapter's kernel (before the filter runs), so
+they can use variables and imports defined earlier in the chapter.
 
 ## Pre-commit hooks
 
@@ -131,11 +121,10 @@ pre-commit run -a  # for all files in the repository
 
 We use [Calendar Versioning (CalVer)](https://calver.org/) and specifically the `YYYY.0M` scheme (e.g. `2025.08` for August 2025).
 
-To create a new release, first update the `book/index.qmd` file. Specifically, add two rows like the following to the "Versions" table:
+To create a new release, first update the `book/index.qmd` file. Specifically, add a row like the following to the "Versions" table:
 
 ```md
-| `v2025.08` | version used for the inaugural workshop in August 2025 |
-| `v2025.08-answers` | same as `v2025.08` but with answers to exercises |
+| `v2026.08` | version used for the OSSS in August 2025 |
 ```
 
 You also need to create a new tag in the `vYYYY.0M` format (e.g. `v2025.08`)
@@ -144,7 +133,7 @@ and push it to the repository. Don't forget the `v` prefix for the tag name!
 For example:
 
 ```bash
-git tag v2025.08
+git tag v2026.08
 git push origin --tags
 ```
 
@@ -154,15 +143,17 @@ The CI workflow is defined in the `.github/workflows/build_and_deploy.yaml` file
 
 - Pushes to the `main` branch
 - Pull requests
-- Releases, i.e. tags starting with `v` (e.g., `v2025.08`)
+- Releases, i.e. tags starting with `v` (e.g., `v2026.08`)
 - Manual dispatches
 
 The workflow is built using [GitHub actions](https://docs.github.com/en/actions) and includes three jobs:
 
 - **linting**: running the [pre-commit hooks](#pre-commit-hooks);
-- **build**: rendering the Quarto book with and without answers, and uploading the rendered artifacts;
+- **build**: rendering the Quarto book and uploading the rendered artifact;
 - **deploy**: deploying the book artifact(s) to the `gh-pages` branch (only for pushes to the `main` branch and releases).
 
-Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2025.08`). This is accompanied by a `vYYYY.0M-answers` folder containing a version of the book with answers to exercises (e.g. `v2025.08-answers`).
+Each release version is deployed to a folder in the `gh-pages` branch, with the same name as the release tag (e.g., `v2026.08`).
 
-There's also a special folder called `dev` that is deployed for pushes to the `main` branch. This folder always includes the answers to exercises.
+There's also a special folder called `dev` that is deployed for pushes to the `main` branch.
+
+Versions up to and including `v2025.10` were additionally deployed to a `vYYYY.0M-answers` folder (separate builds for with and without solutions). Those folders remain online as historical archives; new versions no longer produce them.

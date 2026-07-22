@@ -210,7 +210,7 @@ For simplicity, we would also like to reduce the position of each individual to 
 centroid = position_scaled.mean("keypoint")
 ```
 
-::: {.callout-tip title="Exercise A"}
+::: {.exercise-prompt}
 
 Use the `centroid` data array to:
 
@@ -219,8 +219,7 @@ Use the `centroid` data array to:
 3. Plot the evolution of `herd_speed` over time.
 :::
 
-::: {.content-visible when-profile="answers"}
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.exercise-solution}
 
 ```{python}
 # Compute speed of each zebra's centroid
@@ -239,7 +238,6 @@ ax.grid()
 
 We can see that there are four periods in the dataset in which the speed of the herd surpasses 2 BL/s for about 10 to 20 seconds.
 
-:::
 :::
 
 We can also inspect how the speed of each individual changes over time.

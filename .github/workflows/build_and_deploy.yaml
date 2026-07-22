@@ -4,15 +4,10 @@ name: Build and Deploy Quarto Book
 # The "build" job is triggered by pull requests, pushes to the main branch,
 # releases (tags starting with "v", e.g., v2025.08), or manually.
 #
-# If the trigger is a release tag, the book is rendered with two profiles,
-# with and without answers, and each profile is uploaded as an artifact.
-# For other triggers, the book is rendered with answers only.
-#
-# The "deploy" job is only triggered by pushes to main and releases.
-# It copies the book artifact(s) to an appropriate folder in the gh-pages branch,
-# e.g., v2025.08 / v2025.08-answers for a release or dev for pushes to main.
-# It also copies the most recent release version without answers to the
-# "latest/" folder where the home page is redirected to.
+# The "deploy" job runs only for pushes to main and releases. It copies the
+# book artifact to an appropriate folder in the gh-pages branch (e.g. v2025.08
+# for a release, or dev for pushes to main), and copies the most recent release
+# to the "latest/" folder that the home page redirects to.
 
 on:
   push:
@@ -107,29 +102,14 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Render book with answers profile
+      - name: Render book
         env:
           # Make sure quarto uses the activated conda environment
           QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
         run: |
-          quarto render book --execute --profile answers --output-dir _book-answers
+          quarto render book --execute --output-dir _book
 
-      - name: Upload rendered answers profile book
-        uses: actions/upload-artifact@v4
-        with:
-          name: book-${{ steps.context.outputs.version }}-answers
-          path: book/_book-answers
-
-      # The following steps are only executed for release tags
-      - name: Render book with default profile (no answers)
-        if: steps.context.outputs.is_release == 'true'
-        env:
-          QUARTO_PYTHON: ${{ env.CONDA }}/envs/animals-in-motion-env/bin/python
-        run: |
-          quarto render book --execute --profile default --output-dir _book
-
-      - name: Upload rendered book with default profile (no answers)
-        if: steps.context.outputs.is_release == 'true'
+      - name: Upload rendered book
         uses: actions/upload-artifact@v4
         with:
           name: book-${{ steps.context.outputs.version }}
@@ -153,41 +133,23 @@ jobs:
             echo "is_release=true" >> $GITHUB_OUTPUT
             echo "version=${VERSION}" >> $GITHUB_OUTPUT
             echo "destination_dir=${VERSION}" >> $GITHUB_OUTPUT
-            echo "destination_dir_answers=${VERSION}-answers" >> $GITHUB_OUTPUT
           else
             echo "is_release=false" >> $GITHUB_OUTPUT
             echo "destination_dir=dev" >> $GITHUB_OUTPUT
-            echo "destination_dir_answers=dev" >> $GITHUB_OUTPUT
             echo "version=dev" >> $GITHUB_OUTPUT
           fi
 
-      - name: Download book with answers profile artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: book-${{ steps.context.outputs.version }}-answers
-          path: answers-artifact
-
-      - name: Deploy answers version
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: answers-artifact
-          destination_dir: ${{ steps.context.outputs.destination_dir_answers }}
-
-      # Default (no answers) version is only deployed for release tags
-      - name: Download book with default profile artifact
-        if: steps.context.outputs.is_release == 'true'
+      - name: Download rendered book artifact
         uses: actions/download-artifact@v5
         with:
           name: book-${{ steps.context.outputs.version }}
-          path: default-artifact
+          path: book-artifact
 
-      - name: Deploy default version
-        if: steps.context.outputs.is_release == 'true'
+      - name: Deploy version
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: default-artifact
+          publish_dir: book-artifact
           destination_dir: ${{ steps.context.outputs.destination_dir }}
 
       # Clone gh-pages branch
@@ -210,7 +172,7 @@ jobs:
       - name: Ensure CNAME file is present in gh-pages root
         run: echo "animals-in-motion.neuroinformatics.dev" > gh-pages/CNAME
 
-      # Copy release folder without answers to "latest"
+      # Copy release folder to "latest"
       # If no releases exist, "dev" is copied to "latest"
       # The gh-pages branch root already contains an index.html file that redirects to latest/
       - name: Copy to latest

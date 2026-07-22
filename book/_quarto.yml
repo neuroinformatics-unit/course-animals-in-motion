@@ -52,6 +52,9 @@ book:
 
 bibliography: references.bib
 
+filters:
+  - collect-solutions.lua
+
 # Explicitly disable PDF rendering
 pdf: false
 
@@ -62,6 +65,7 @@ format:
       - brand
     highlight-style: atom-one
     toc-expand: 3
+
 
 # Options for code execution: https://quarto.org/docs/computations/caching.html
 execute: 
