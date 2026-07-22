@@ -264,7 +264,7 @@ You should now see a training progress window showing the loss curves and metric
 
 ![Top-down ID model training progress](img/SLEAP/5_train_model_id.png){width=100%}
 
-You can stop a training run at any time and resume it later, or start a new run using the weights from a previous model. 
+You can stop a training run at any time and resume it later, or start a new run using the weights from a previous model.
 For details, see @sec-continue-training-across-sessions.
 
 ::: {.callout-tip}
