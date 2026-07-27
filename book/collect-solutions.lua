@@ -7,7 +7,7 @@
 -- Quarto executes code BEFORE Lua filters run, so a relocated solution keeps
 -- its already-executed {python} output (plots, stdout) and chapter-kernel state.
 --
--- The filter assumes exercises and solutions are paired one-to-one, in order:
+-- The filter enforces a one‑to‑one pairing between exercises and solutions, in this order:
 --   ::: {.exercise-prompt}     <prompt> :::
 --   ::: {.exercise-solution}  <answer> :::
 
@@ -28,6 +28,10 @@ local function chapter_prefix()
   return chap_prefix
 end
 
+local function exercise_title(n)
+  return pandoc.Inlines({ pandoc.Str("Exercise " .. chapter_prefix() .. n) })
+end
+
 function Div(el)
   if el.classes:includes("exercise-prompt") then
     ex_n = ex_n + 1
@@ -36,7 +40,7 @@ function Div(el)
     el.content = pandoc.Blocks({
       quarto.Callout({
         type = "tip",
-        title = pandoc.Inlines({ pandoc.Str("Exercise " .. chapter_prefix() .. ex_n) }),
+        title = exercise_title(ex_n),
         content = pandoc.Blocks(el.content),
       }),
     })
@@ -52,7 +56,7 @@ function Div(el)
     el.content = pandoc.Blocks({
       quarto.Callout({
         type = "tip",
-        title = pandoc.Inlines({ pandoc.Str("Exercise " .. chapter_prefix() .. sol_n) }),
+        title = exercise_title(sol_n),
         collapse = true,
         content = pandoc.Blocks(el.content),
       }),
