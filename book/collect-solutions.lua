@@ -13,6 +13,9 @@
 
 local collected = {}
 local ex_n, sol_n = 0, 0
+-- Tracks whether the last prompt is still waiting for its solution, so we can
+-- enforce strict prompt-solution alternation.
+local awaiting_solution = false
 
 -- Chapter-number prefix ("4.") derived from the source filename (e.g.
 -- 04-movement-intro.qmd -> chapter 4). Files with no numeric
@@ -34,6 +37,8 @@ end
 
 function Div(el)
   if el.classes:includes("exercise-prompt") then
+    assert(not awaiting_solution, ".exercise-prompt #" .. (ex_n + 1) .. " appears before the previous exercise's .exercise-solution — each prompt must be immediately followed by its solution.")
+    awaiting_solution = true
     ex_n = ex_n + 1
     el.identifier = "exercise-" .. ex_n
     -- Wrap the exercise prompt in a static (always-open) callout
@@ -46,6 +51,8 @@ function Div(el)
     })
     return el
   elseif el.classes:includes("exercise-solution") then
+    assert(awaiting_solution, ".exercise-solution #" .. (sol_n + 1) .. " has no preceding .exercise-prompt — each solution must directly follow its prompt.")
+    awaiting_solution = false
     sol_n = sol_n + 1
     el.identifier = "solution-" .. sol_n
     -- Back-link at the top of the answer, so it shows only once expanded.
@@ -67,7 +74,7 @@ function Div(el)
 end
 
 function Pandoc(doc)
-  assert(ex_n == sol_n, "collect-solutions: " .. ex_n .. " exercise-prompt(s) but " .. sol_n .. " exercise-solution(s) — each .exercise-prompt needs exactly one .exercise-solution")
+  assert(not awaiting_solution, ".exercise-prompt #" .. ex_n .. " has no following .exercise-solution — each prompt must be immediately followed by its solution.")
   if #collected == 0 then return doc end
   doc.blocks:insert(pandoc.Header(2, { pandoc.Str("Solutions") }, pandoc.Attr("sec-solutions")))
   doc.blocks:insert(pandoc.Para({
