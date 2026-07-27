@@ -50,7 +50,7 @@ jobs:
           fi
 
       - name: Cache movement sample data
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.movement/data/*
@@ -59,7 +59,7 @@ jobs:
 
       - name: Cache Smart-Kages data
         id: cache-smartkages
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.movement/Smart-Kages
@@ -67,7 +67,7 @@ jobs:
 
       - name: Cache CalMS21 data
         id: cache-calms21
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.movement/CalMS21
