@@ -87,21 +87,18 @@ for i, img in enumerate(images):
 
 ```
 
-::: {.callout-tip title="Questions A"}
+::: {.exercise-prompt}
 
 1. What objects do you see in the habitat?
 2. What challenges do you anticipate with tracking a mouse in this environment?
 3. What are the trade-offs one has to consider when designing a continuous monitoring system?
 :::
 
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.exercise-solution}
 
 1. The habitat contains several objects, including the mouse's nest, a running wheel, a climbing platform, a toilet paper roll, and a corridor with two arms near the top.
 2. The presence of these objects is likely to cause occlusions, meaning the mouse or parts of it may frequently be obscured from the camera's view.
 3. The requirements for animal welfare, such as providing a rich environment, often conflict with the needs of the tracking system. While a single black mouse on a white background would be straightforward to track, such conditions would not support the mouse's well-being over time, nor would they yield naturalistic behavior.
-:::
 
 :::
 
@@ -209,7 +206,7 @@ Whenever we want to switch to "elapsed time" mode, we can simply set the `second
 ds_14.set_index(time="seconds_elapsed").sel(time=slice(0, 1800))
 ```
 
-::: {.callout-tip title="Exercise A"}
+::: {.exercise-prompt}
 
 For each of the two kages:
 
@@ -217,9 +214,7 @@ For each of the two kages:
 2. Plot the median confidence of the body center for each day, over the entire duration of the experiment.
 :::
 
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.exercise-solution}
 
 ```{python}
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(8, 5), sharex=True)
@@ -250,8 +245,6 @@ for i, kage in enumerate(["kage14", "kage17"]):
 plt.tight_layout()
 plt.show()
 ```
-
-:::
 
 :::
 
@@ -299,16 +292,14 @@ for kage, ds in ds_kages.items():
     )
 ```
 
-::: {.callout-tip title="Exercise B"}
+::: {.exercise-prompt}
 
 Let's smooth the data with a rolling median filter.
 
 **Hint**: Remember doing this in @sec-movement-intro ?
 :::
 
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.exercise-solution}
 
 ```{python}
 window_size = 3  # frames
@@ -320,8 +311,6 @@ for kage, ds in ds_kages.items():
         statistic="median",
     )
 ```
-
-:::
 
 :::
 
@@ -381,16 +370,14 @@ plt.tight_layout()
 plt.show()
 ```
 
-::: {.callout-tip title="Questions B"}
+::: {.exercise-prompt}
 
 1. What are potential sources of error in the speed calculation?
 2. What do you notice about the overall speed fluctuations over time? What do you think is the reason for this?
 3. Do you notice any differences between the two kages? Feel free to "zoom in" on specific time windows to investigate this.
 :::
 
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.exercise-solution}
 
 **Potential sources of error in speed calculation:** The accuracy of speed computation is heavily reliant on precise position data. Any inaccuracies in predicting keypoint positions (i.e., the discrepancy between actual and estimated positions) can be exacerbated when calculating speed, as it is derived from the differences between consecutive positions. Additionally, we have assumed a fixed conversion factor of 10 pixels per cm. While this value may be accurate for the habitat's floor, the environment is not entirely flat. It includes objects for climbing, which means the conversion factor will vary depending on the mouse's vertical position (distance from the camera).
 
@@ -420,7 +407,6 @@ plt.show()
 We also note that the circadian pattern is more pronounced in kage14,
 and seems to be somewhat disrupted in kage17. The mouse in kage17
 seems to be more active overall, both during the day and at night.
-:::
 
 :::
 
@@ -591,7 +577,7 @@ plt.show()
 
 ```
 
-::: {.callout-tip title="Exercise C"}
+::: {.exercise-prompt}
 
 1. How would you describe the observed differences between the two mice?
 2. Compute the mean activity profile (across days) for each mouse.
@@ -601,9 +587,7 @@ plt.show()
 
 :::
 
-::: {.content-visible when-profile="answers"}
-
-::: {.callout-tip title="Click to reveal the answers" collapse="true"}
+::: {.exercise-solution}
 
 The mouse in kage17 shows higher overall activity levels, stays constantly
 active during dark periods and also exhibits many activity bursts during the day
@@ -632,8 +616,6 @@ ax.set_xticklabels([f"{i:02d}:00" for i in np.arange(0, 25, 4)])
 ax.legend()
 plt.show()
 ```
-
-:::
 
 :::
 
