@@ -46,9 +46,9 @@ quarto render book
 
 Code cells in `.qmd` files execute automatically on render.
 Their results are cached (`execute: cache: true` in `book/_quarto.yml`),
-so on subsequent renders only cells you've edited re-run.
+so on subsequent renders only cells you've modified are re-run.
 If you need to force a full re-execution—e.g. after changing data or an
-imported dependency that Quarto can't see—refresh the cache:
+imported dependency that Quarto cannot detect—refresh the cache:
 
 ```bash
 quarto render book --cache-refresh
@@ -75,7 +75,7 @@ In general, [cross-referencing objects](https://quarto.org/docs/manuscripts/auth
 
 Exercises and their solutions are authored inline in the chapter source, but at
 render time each solution is moved into a per-chapter "Solutions" section by the
-`book/collect-solutions.lua` filter (registered in `book/_quarto.yml`).
+`book/collect-solutions.lua` [filter](https://quarto.org/docs/extensions/filters.html) (registered in `book/_quarto.yml`).
 
 Write each exercise prompt as an `.exercise-prompt` div:
 
@@ -124,10 +124,10 @@ We use [Calendar Versioning (CalVer)](https://calver.org/) and specifically the 
 To create a new release, first update the `book/index.qmd` file. Specifically, add a row like the following to the "Versions" table:
 
 ```md
-| `v2026.08` | version used for the OSSS in August 2025 |
+| `v2026.08` | version used for the OSSS in August 2026 |
 ```
 
-You also need to create a new tag in the `vYYYY.0M` format (e.g. `v2025.08`)
+You also need to create a new tag in the `vYYYY.MM` format (e.g. `v2025.08`)
 and push it to the repository. Don't forget the `v` prefix for the tag name!
 
 For example:
@@ -156,4 +156,4 @@ Each release version is deployed to a folder in the `gh-pages` branch, with the 
 
 There's also a special folder called `dev` that is deployed for pushes to the `main` branch.
 
-Versions up to and including `v2025.10` were additionally deployed to a `vYYYY.0M-answers` folder (separate builds for with and without solutions). Those folders remain online as historical archives; new versions no longer produce them.
+Versions up to and including `v2025.10` were additionally deployed to a `vYYYY.MM-answers` folder (separate builds for with and without solutions). Those folders remain online as historical archives; new versions no longer produce them.
