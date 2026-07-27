@@ -92,7 +92,7 @@ jobs:
           ls -lR ~/.movement/CalMS21
 
       - name: Set up Conda
-        uses: conda-incubator/setup-miniconda@v3
+        uses: conda-incubator/setup-miniconda@v4
         with:
           environment-file: environment-dev.yaml
           activate-environment: animals-in-motion-env
