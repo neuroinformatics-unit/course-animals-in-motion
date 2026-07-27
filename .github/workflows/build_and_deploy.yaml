@@ -140,7 +140,7 @@ jobs:
           fi
 
       - name: Download rendered book artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: book-${{ steps.context.outputs.version }}
           path: book-artifact
