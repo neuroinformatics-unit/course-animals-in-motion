@@ -110,7 +110,7 @@ jobs:
           quarto render book --execute --output-dir _book
 
       - name: Upload rendered book
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: book-${{ steps.context.outputs.version }}
           path: book/_book
