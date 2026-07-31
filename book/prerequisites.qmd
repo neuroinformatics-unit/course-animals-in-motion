@@ -23,6 +23,7 @@ To get your computer ready, make sure you have the following:
   - *Windows users*: Installing the Bash shell via Git for Windows also installs Git, so you only need to create a GitHub account.
 - [Miniforge](https://conda-forge.org/download/)
 - [uv](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer)
+- [brew](https://brew.sh/) (for *macOS users* only)
 
 You'll also need a code editor (IDE) configured for Python.
 If you already have one you're comfortable with, feel free to use it. Otherwise, we recommend:
@@ -64,9 +65,9 @@ To verify the installation:
 sleap doctor
 ```
 
-### For the interactive notebooks {#sec-install-movement}
+### For movement tutorials {#sec-install-movement}
 
-You will also need a separate `conda` environment with everything required for the interactive exercises, including the [movement](https://movement.neuroinformatics.dev/) and [jupyter](https://jupyter.org/) packages.
+You will also need a separate `conda` environment for the tutorials and case studies involving [movement](https://movement.neuroinformatics.dev/). This environment includes `movement` itself as well as [jupyter](https://jupyter.org/), which is required for following along interactively and solving the exercises.
 
 We recommend cloning this workshop's repository and creating the environment using the provided `environment.yaml` file:
 
@@ -88,6 +89,14 @@ This should open the [movement GUI](https://movement.neuroinformatics.dev/latest
 ::: {.callout-note}  
 There are other ways to [install the movement package](https://movement.neuroinformatics.dev/latest/user_guide/installation.html).  
 However, for this workshop, we recommend using the `environment.yaml` file to ensure that all necessary dependencies, including those beyond `movement`, are included.  
+:::
+
+### For the BORIS tutorial {#sec-install-boris}
+
+We recommend following the official [BORIS installation instructions](https://www.boris.unito.it) for your operating system.
+
+::: {.callout-note}
+For *macOS users*, BORIS installation requires `brew` and `uv`, which are both listed under [general development tools](#sec-install-devtools). You may safely ignore the warning about this being an *experimental* version of BORIS.
 :::
 
 ## Data {#sec-data}
