@@ -56,6 +56,14 @@ quarto render book --cache-refresh
 
 You can view the rendered book by opening the `book/_book/index.html` file in your browser.
 
+Alternatively, use `quarto preview` for live-reloading during development—the book rebuilds and refreshes in the browser automatically as you save changes:
+
+```bash
+quarto preview book
+```
+
+Note that `quarto preview` still executes code cells and uses the cache, so the first preview after a change may take a moment.
+
 ## Authoring content
 
 Book chapters are written primarily as [Quarto Markdown](https://quarto.org/docs/authoring/markdown-basics.html) files (`.qmd`).
