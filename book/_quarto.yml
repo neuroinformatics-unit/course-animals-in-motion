@@ -39,6 +39,7 @@ book:
     - 04-movement-intro.qmd
     - 05-movement-mouse.qmd
     - 06-movement-zebras.qmd
+    - 07-boris-tutorial.qmd
   appendices:
     - prerequisites.qmd
     - contributing.qmd
