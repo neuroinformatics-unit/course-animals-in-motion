@@ -145,6 +145,7 @@ Frame indices are required when loading annotations into tools such as `movement
 :::
 
 ::: {.callout-tip title="Discuss"}
+
 - How did you find the annotation process? What ambiguous cases did you encounter (e.g. partial or interrupted mounts)?
 - How would you define clear onset and offset criteria for mounting, so that multiple annotators produce consistent labels?
 - How might annotation inconsistencies affect a downstream supervised classifier trained on these labels?
