@@ -66,6 +66,8 @@ We recommend using the [Quarto VSCode extension](https://marketplace.visualstudi
 The chapter source files reside in the `book/` directory and have to be linked in the `book/_quarto.yml` file for them to show up.
 See [Book Crossrefs](https://quarto.org/docs/books/book-crossrefs.html) on how to reference other chapters.
 
+Visual styling (colours, fonts, logo) is centralised in `book/_brand.yml`, applied via the `brand` theme layer in `book/_quarto.yml`'s `format.html.theme`. Update that file when changing the book's appearance.
+
 Bibliographical references should be added to the `book/references.bib` file in BibTeX format.
 See [Quarto authoring > Citations](https://quarto.org/docs/manuscripts/authoring/vscode.html#citations) for more information.
 
