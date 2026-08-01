@@ -197,7 +197,6 @@ The exported file contains one row per annotated event, with relevant columns in
 
 Open the TSV file you exported in Excel, Google Sheets, LibreOffice Calc, Numbers, or any text editor. Compare it with the ground-truth annotations provided as `mouse044_task1_mount_events_boris.tsv`, which are also shown here for your convenience (only relevant columns are displayed):
 
-
 ```{python}
 #| echo: false
 
