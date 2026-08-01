@@ -3,7 +3,7 @@
 # Behaviour annotation with BORIS {#sec-boris}
 
 Before we proceed, make sure you have installed [BORIS](https://www.boris.unito.it/) (see [prerequisites @sec-install-boris]).
-You will also need the video file `mouse044_task1_annotator1.mp4` downloaded from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=xni448zl&dl=0) (see [prerequisites @sec-data]). If you have gone through @sec-sleap, you should already have this video.
+You will also need the files `mouse044_task1_annotator1.mp4` and `mouse044_task1_mount_events_boris.tsv` downloaded from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=xni448zl&dl=0) (see [prerequisites @sec-data]). If you have gone through @sec-sleap, you should already have these files.
 
 ## Supervised behaviour classification
 
@@ -193,10 +193,31 @@ In the dialogue:
 
 The exported file contains one row per annotated event, with columns including the subject, behaviour code, start and stop times (in seconds), and start and stop frame indices.
 
-::: {.exercise-prompt}
-Compare the .tsv file you exported (you can open it in Excel, LibreOffice Calc, Numbers, or any text editor) with the ground-truth annotations provided as `mouse044_task1_mount_gt.tsv`. How did your annotations differ from the ground truth? Did you miss any events, or annotate any events that were not present in the ground truth? Did you annotate the start and stop times accurately?
-:::
+::: {.callout-tip title="Discuss"}
 
-::: {.exercise-solution}
-Some Python block loading both .tsv files with pandas.
+Open the TSV file you exported in Excel, Google Sheets, LibreOffice Calc, Numbers, or any text editor. Compare it with the ground-truth annotations provided as `mouse044_task1_mount_events_boris.tsv`, which are also shown here for your convenience (only the importand columns are displayed):
+
+
+```{python}
+#| echo: false
+
+from pathlib import Path
+import pandas as pd
+
+file_name = "mouse044_task1_mount_events_boris.tsv"
+file_path = Path.home() / ".movement" / "CalMS21" / file_name
+
+df = pd.read_csv(file_path, sep="\t")
+n_rows = len(df)
+show_columns = [
+   "Subject", "Behavior", "Start (s)", "Stop (s)", "Duration (s)",
+   "Image index start", "Image index stop"
+]
+df[show_columns].head(n_rows)
+```
+
+- How did your annotations differ from the ground truth?
+- Did you miss any bouts or found some extra ones?
+- Did you annotate the start and stop times differently?
+
 :::
