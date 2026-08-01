@@ -98,7 +98,7 @@ We will add a single behaviour: `mount`.
 
 ![Ethogram configuration in BORIS](img/BORIS/2_ethogram.png){width=100%}
 
-::: {.callout-tip title="Exclusion matrix"} 
+::: {.callout-tip title="Exclusion matrix"}
 For a single behaviour there is no need to configure an "Exclusion matrix" (which defines mutually exclusive behaviours that cannot co-occur).
 If you later extend the ethogram—e.g. adding `attack` or `investigation`—you can return to the "Ethogram" tab and define which pairs are mutually exclusive, so that starting one behaviour automatically closes any conflicting open event.
 
