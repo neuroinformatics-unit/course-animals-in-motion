@@ -64,7 +64,7 @@ In this tutorial, we will use [SLEAP](https://sleap.ai/) to train a **multi-anim
 This video captures a brief interaction between two mice in a resident–intruder assay, where the black mouse (the resident), implanted with a
 head-mounted microendoscope, has established territory and the white mouse (the intruder) is newly introduced into the resident's cage.
 
-## SLEAP workflow
+## SLEAP workflow {#sec-workflow-sleap}
 
 ::: {.callout-note}
 The workflow described here closely follows the [official SLEAP tutorial](https://docs.sleap.ai/latest/tutorial/overview/), adapted to our dataset. Refer to the official docs for additional details and alternative workflows.

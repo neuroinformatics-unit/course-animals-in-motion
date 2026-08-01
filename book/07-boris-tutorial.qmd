@@ -7,30 +7,39 @@ You will also need the video file `mouse044_task1_annotator1.mp4` downloaded fro
 
 ## Supervised behaviour classification
 
-Pose estimation tools such as SLEAP (see @sec-sleap) reveal *where* animals are and *how* they move, but they do not by themselves tell us *what* behaviour is occurring at any given moment.
+Pose estimation tools such as SLEAP (see @sec-sleap) reveal *where* animals are, while motion quantification tools like movement (see @sec-movement-intro) show us *how* they move. Neither category tells us *what* behaviour is occurring at any given moment.
 
-Identifying discrete behaviours—e.g. distinguishing a groooming bout from an investigation or a chase—requires a **behaviour classifier**. This task is also often referred to as **behavior segmentation**, since the goal is to segment a continuous stream of data into discrete behavioural states.
+Identifying discrete behaviours—e.g. distinguishing a grooming bout from an investigation or a chase—requires a **behaviour classifier**. This task is also often referred to as **behaviour segmentation**, since the goal is to segment a continuous stream of data into discrete behavioural states.
 
-Behaviour segmentation relies on one or more of the following inputs:
+Behaviour segmentation takes as input one or more of the following **features**:
 
 - segments of video
-- the associated motion tracking data, i.e. the outputs of SLEAP, DeepLabCut, etc.
-- kinematic features—such as speed, distances and angles—derived from the motion tracking data
+- the associated motion tracking data
+- kinematic variables derived from motion tracking data.
 
-**Supervised behaviour classifiers** learn to recognise behaviours from labelled examples that a human expert has tagged with the behaviour present in them. The quality and quantity of those manual annotations directly determines what the classifier can learn, making careful, consistent annotation a foundational step in any supervised behaviour analysis pipeline.
+![Behaviour segmentation can be based on videos, motion tracking data, and kinematic features.](img/ethology_workflow.png)
 
-[BORIS](https://www.boris.unito.it/) [@friard_boris_2016] is a free, open-source, cross-platform tool designed for annotating behaviours.
-It provides a keyboard-shortcut-driven interface for annotating behaviours in video recordings, organised around a structured project that contains an **ethogram**—a catalogue of all behaviours to be annotated.
+**Supervised behaviour classifiers** learn to map such features to discrete behavioural states based on labelled examples provided by a human expert. These **labels** indicate which behavioural states occur at each time point or frame. The quality and quantity of those labels directly determines what the classifier can learn, making careful, consistent annotation a foundational step in any supervised behaviour analysis pipeline.
+
+## How can we annotate behaviours?
+
+There are various tools to help with behaviour annotation.
+Here, we will introduce [BORIS](https://www.boris.unito.it/) [@friard_boris_2016], a widely used, free, open-source, tool designed for this task.
+It provides a keyboard shortcut-driven interface for annotating behaviours in video recordings, organised around a structured project that contains an **ethogram**—a catalogue of all behaviours to be annotated.
 Annotations can be exported in several formats for downstream analysis.
 
-While, in principle, one could use BORIS to manually annotate every frame of every video in a dataset, this is often impractical for large datasets. Therefore, a common approach is to annotate a subset of videos, train a supervised classifier on those annotations, and then use the trained classifier to automatically label the remaining videos.
-We can conceptualise this workflow as teaching a computer to mimic the annotation "style" of a human expert.
+While, in principle, one could use BORIS to manually annotate every frame of every video in a dataset, this is often impractical for large datasets.
+A common approach is therefore to annotate a subset of videos, train a supervised classifier on those annotations, and then let it automatically label the remaining videos—in effect, teaching a computer to mimic the annotation "style" of a human expert.
+
+Structurally, this is the same supervised workflow we followed for pose estimation (see @sec-workflow-sleap): select data, annotate, train, predict—only with behaviour labels instead of keypoints.
+However, unlike SLEAP, which covers this entire workflow within a single application, BORIS addresses only the annotation step.
+Classifier training and inference are handled by separate tools, covered in a subsequent chapter.
 
 ## Dataset and task
 
 The [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) [@sun_caltech_2021], as introduced in @sec-sleap, captures interactions between two mice in a **resident-intruder assay** [@jove4367]: a black resident mouse and a white intruder mouse.
 
-In this tutorial, we will annotate a single, easily identifiable behaviour—the resident mounting the intruder—on the same video we used for the SLEAP tutorial (@sec-sleap): `mouse044_task1_annotator1.mp4`. These annotations could be used to train a **binary classifier**: at any given frame, the behavior is either taking place or not.
+In this tutorial, we will annotate a single, easily identifiable behaviour—the resident mounting the intruder—on the same video we used for the SLEAP tutorial (@sec-sleap): `mouse044_task1_annotator1.mp4`. These annotations can be used to train a **binary classifier**: at any given frame, the behavior is either taking place or not.
 
 ::: {.callout-note}
 The original "Task 1" defined by @sun_caltech_2021 is **multi-class classification problem** aiming to identify four behavioural states—`attack`, `investigation`, `mount` and `other`. Here, we focus solely on `mount` in the interest of time, but the annotation workflow presented below could be easily extended by adding more behaviours to the ethogram.
@@ -50,14 +59,14 @@ graph LR
     events --> |export| tsv[/TSV file/]
 ```
 
-A BORIS annotation workflow consists of the following key steps:
+Our annotation workflow will go through the following key steps:
 
 1. **Create a project**: open a new BORIS project and configure its basic settings.
-2. **Define the ethogram**: add the behaviours to be annotated, each with a type and a keyboard shortcut.
+2. **Define the ethogram**: add the behaviours to be annotated, each with a keyboard shortcut.
 3. **Add subjects**: define the individual animals whose behaviour will be recorded.
 4. **Start an observation**: create an observation linked to the video file.
 5. **Annotate events**: step through the video and use keyboard shortcuts to record behaviour onsets and offsets.
-6. **Export the data**: save the annotations as a TSV file for downstream analysis.
+6. **Export the data**: save the annotations as a tab-separated values (TSV) file for downstream analysis.
 
 ### Create a new project
 
@@ -70,7 +79,7 @@ On the "Project" tab:
 - Optionally add a "Project description".
 - Set "Time format" to "Seconds".
 
-![](img/BORIS/1_new_project.png){width=100%}
+![Creating a new BORIS project](img/BORIS/1_new_project.png){width=100%}
 
 ### Define the ethogram
 
@@ -83,15 +92,17 @@ We will add a single behaviour: `mount`.
 2. Under "Behaviour type", select "State event"—a state event has a start and an end, as opposed to a point event, which is instantaneous.
 3. Set the "Behaviour code" to `mount`.
 4. Assign the "Key" `m`.
-5. Optionally add a description, e.g. you can copy the definition from @sun_caltech_2021, which reads:
+5. Optionally add a description, e.g. you can copy part of the definition from @sun_caltech_2021, which reads:
 
 > **Mount**: behavior in which the resident is hunched over the intruder, typically from the  rear, and grasping the sides of the intruder using forelimbs. Early-stage copulation is accompanied by rapid pelvic thrusting, while later-stage copulation (sometimes annotated separately as intromission) has a slower rate of pelvic thrusting with some pausing: for the purpose of this analysis, both behaviors should be counted as mounting, however periods where the resident is climbing on the intruder but not attempting to grasp the intruder or initiate thrusting should not.
 
-![](img/BORIS/2_ethogram.png){width=100%}
+![Ethogram configuration in BORIS](img/BORIS/2_ethogram.png){width=100%}
 
-::: {.callout-tip}
+::: {.callout-tip title="Exclusion matrix"} 
 For a single behaviour there is no need to configure an "Exclusion matrix" (which defines mutually exclusive behaviours that cannot co-occur).
-If you later extend the ethogram—e.g. adding `attack` or `investigation`—you can return to the Ethogram tab and define which pairs are mutually exclusive, so that starting one behaviour automatically closes any conflicting open event.
+If you later extend the ethogram—e.g. adding `attack` or `investigation`—you can return to the "Ethogram" tab and define which pairs are mutually exclusive, so that starting one behaviour automatically closes any conflicting open event.
+
+For a more complex worked example that make extensive use of the "Exclusion matrix", see the [`movement` documentation: Annotate and load events with BORIS](https://movement.neuroinformatics.dev/dev/examples/advanced/annotate_boris_events.html).
 :::
 
 ### Add subjects
@@ -104,17 +115,13 @@ If you wanted to also annotate the intruder mounting the resident, you could add
 
 Click "Subject" → "Add subject" and add one subject:
 
-| Key | Subject name | Description |
-|---|---|-------------|
-| `b` | `resident_b` | resident mouse (black) |
-
-![](img/BORIS/3_subjects.png){width=100%}
+![Adding subjects to a BORIS project](img/BORIS/3_subjects.png){width=100%}
 
 Click "OK" to close the project dialogue.
 Save the project via "Project" → "Save project" (or <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>), choosing a location and filename such as `calms21_resident_intruder.boris`.
 
 ::: {.callout-important}
-BORIS does not auto-save. Get into the habit of saving frequently throughout the annotation session with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>.
+BORIS does not auto-save by default. Get into the habit of saving frequently throughout the annotation session with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>.
 :::
 
 ### Start an observation
@@ -126,11 +133,11 @@ Create a new observation via "Observations" → "New observation".
 - Click "Add media" → "with absolute path" and navigate to `mouse044_task1_annotator1.mp4`.
 - Click "Start".
 
-![](img/BORIS/4_new_observation.png){width=100%}
+![Adding a new BORIS observation](img/BORIS/4_new_observation.png){width=100%}
 
 The video will open in the main BORIS window alongside the ethogram and subjects panels.
 
-![](img/BORIS/5_observation_view.png){width=100%}
+![Observation view in BORIS](img/BORIS/5_observation_view.png){width=100%}
 
 ::: {.callout-note title="For macOS users"}
 On macOS, the video will appear in a separate floating window alongside the main BORIS GUI. You can resize and reposition the video window as needed.
@@ -158,7 +165,7 @@ The <kbd>←</kbd>/<kbd>→</kbd> arrow keys may not work for frame stepping on 
 If this happens, use the step buttons in the media player controls instead.
 :::
 
-![](img/BORIS/6_annotating.png){width=100%}
+![Annotating events in BORIS](img/BORIS/6_annotating.png){width=100%}
 
 After a first pass through the video, you may want to review your annotations and make adjustments.
 You can double-click a row in the event log to jump to an event's frame, and right-click the row to reveals some helpful options, such as:
@@ -173,6 +180,8 @@ You can double-click a row in the event log to jump to an event's frame, and rig
 If you notice any event lacking a "Frame index" in the event log, you can populate the corresponding column by running "Observations" → "Add frame indexes". Typically, this is only necessary if you are implicitly closing one behaviour by starting another mutually exclusive behaviour. This should not be an issue in our single-behaviour example.
 :::
 
+You may also visualise your annotations in BORIS. Try the "Plot current observation" and "Plot current time budget" buttons in top toolbar.
+
 ### Export the data
 
 Export your annotations via "Observations" → "Export events" → "Aggregated events".
@@ -180,7 +189,7 @@ In the dialogue:
 
 - Select your observation (`mouse044_task1`)
 - Select the observed subject (`resident_b`) and behaviour (`mount`) to export.
-- Choose a destination and filename, e.g. `mouse044_task1_mount.tsv`. Leave the format as "Tab-separated values (TSV)".
+- Choose a destination and filename, e.g. `mouse044_task1_mount.tsv`. Leave the format as "Tab Separated Values (*.tsv)".
 
 The exported file contains one row per annotated event, with columns including the subject, behaviour code, start and stop times (in seconds), and start and stop frame indices.
 
@@ -190,8 +199,4 @@ Compare the .tsv file you exported (you can open it in Excel, LibreOffice Calc, 
 
 ::: {.exercise-solution}
 Some Python block loading both .tsv files with pandas.
-:::
-
-::: {.callout-note}
-For a worked example of how to load a BORIS-exported TSV into a `movement` dataset and attach the annotations as per-frame behaviour labels, see the [`movement` documentation: Annotate and load events with BORIS](https://movement.neuroinformatics.dev/dev/examples/advanced/annotate_boris_events.html).
 :::
