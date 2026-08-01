@@ -7,7 +7,7 @@ You will also need the files `mouse044_task1_annotator1.mp4` and `mouse044_task1
 
 ## Supervised behaviour classification
 
-Pose estimation tools such as SLEAP (see @sec-sleap) reveal *where* animals are, while motion quantification tools like movement (see @sec-movement-intro) show us *how* they move. Neither category tells us *what* behaviour is occurring at any given moment.
+Pose estimation tools such as SLEAP (see @sec-sleap) reveal *where* animals are, while motion quantification tools like `movement` (see @sec-movement-intro) show us *how* they move. Neither category tells us *what* behaviour is occurring at any given moment.
 
 Identifying discrete behaviours—e.g. distinguishing a grooming bout from an investigation or a chase—requires a **behaviour classifier**. This task is also often referred to as **behaviour segmentation**, since the goal is to segment a continuous stream of data into discrete behavioural states.
 
@@ -17,7 +17,7 @@ Behaviour segmentation takes as input one or more of the following **features**:
 - the associated motion tracking data
 - kinematic variables derived from motion tracking data.
 
-![Behaviour segmentation can be based on videos, motion tracking data, and kinematic features.](img/ethology_workflow.png)
+![@fig-ethology-workflow, revisited. Behaviour segmentation can be based on videos, motion tracks or kinematic features.](img/ethology_workflow.png){width=100%}
 
 **Supervised behaviour classifiers** learn to map such features to discrete behavioural states based on labelled examples provided by a human expert. These **labels** indicate which behavioural states occur at each time point or frame. The quality and quantity of those labels directly determines what the classifier can learn, making careful, consistent annotation a foundational step in any supervised behaviour analysis pipeline.
 
@@ -37,18 +37,18 @@ Classifier training and inference are handled by separate tools, covered in a su
 
 ## Dataset and task
 
-The [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) [@sun_caltech_2021], as introduced in @sec-sleap, captures interactions between two mice in a **resident-intruder assay** [@jove4367]: a black resident mouse and a white intruder mouse.
+The [CalMS21 dataset](https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset) [@sun_caltech_2021], as introduced in @sec-sleap, captures interactions between two mice in a **resident–intruder assay** [@jove4367]: a black resident mouse and a white intruder mouse.
 
-In this tutorial, we will annotate a single, easily identifiable behaviour—the resident mounting the intruder—on the same video we used for the SLEAP tutorial (@sec-sleap): `mouse044_task1_annotator1.mp4`. These annotations can be used to train a **binary classifier**: at any given frame, the behavior is either taking place or not.
+In this tutorial, we will annotate a single, easily identifiable behaviour—the resident mounting the intruder—on the same video we used for the SLEAP tutorial: `mouse044_task1_annotator1.mp4`. These annotations can be used to train a **binary classifier**: at any given frame, the behaviour is either taking place or not.
 
 ::: {.callout-note}
-The original "Task 1" defined by @sun_caltech_2021 is **multi-class classification problem** aiming to identify four behavioural states—`attack`, `investigation`, `mount` and `other`. Here, we focus solely on `mount` in the interest of time, but the annotation workflow presented below could be easily extended by adding more behaviours to the ethogram.
+The original "Task 1" defined by @sun_caltech_2021 is a **multi-class classification problem** aiming to identify four behavioural states—`attack`, `investigation`, `mount` and `other`. Here, we focus solely on `mount` in the interest of time, but the annotation workflow presented below could be easily extended by adding more behaviours to the ethogram.
 :::
 
 ## BORIS workflow
 
 ::: {.callout-note}
-The workflow described here follows the [official user guide](https://www.boris.unito.it/user_guide/) for BORIS v9.x., adapted to our dataset and task. The interface may differ slightly in other versions. Refer to the official docs for additional details and alternative workflows.
+The workflow described here follows the [official user guide](https://www.boris.unito.it/user_guide/) for BORIS v9.x, adapted to our dataset and task. The interface may differ slightly in other versions. Refer to the official docs for additional details and alternative workflows.
 :::
 
 ```{mermaid}
@@ -102,7 +102,7 @@ We will add a single behaviour: `mount`.
 For a single behaviour there is no need to configure an "Exclusion matrix" (which defines mutually exclusive behaviours that cannot co-occur).
 If you later extend the ethogram—e.g. adding `attack` or `investigation`—you can return to the "Ethogram" tab and define which pairs are mutually exclusive, so that starting one behaviour automatically closes any conflicting open event.
 
-For a more complex worked example that make extensive use of the "Exclusion matrix", see the [`movement` documentation: Annotate and load events with BORIS](https://movement.neuroinformatics.dev/dev/examples/advanced/annotate_boris_events.html).
+For a more complex worked example that makes extensive use of the "Exclusion matrix", see the [`movement` documentation: Annotate and load events with BORIS](https://movement.neuroinformatics.dev/dev/examples/advanced/annotate_boris_events.html).
 :::
 
 ### Add subjects
@@ -113,7 +113,7 @@ Subjects allow you to attribute each annotation to a specific individual rather 
 Because of the way we've defined `mount` above, we only need to annotate the resident mouse, so we will add a single subject.
 If you wanted to also annotate the intruder mounting the resident, you could add a second subject for the intruder (and adapt the behaviour's description in the ethogram accordingly).
 
-Click "Subject" → "Add subject" and add one subject:
+Click "Subject" → "Add subject" and add one subject named `resident_b`, with the "Key" `b` and an optional description.
 
 ![Adding subjects to a BORIS project](img/BORIS/3_subjects.png){width=100%}
 
@@ -158,7 +158,7 @@ The following steps describe the basic annotation cycle:
    The event appears in the event log at the bottom of the screen with its start time recorded.
 4. **Close the mount event** by pressing <kbd>m</kbd> again at the frame where mounting ends.
    The event is now recorded with both a start and a stop time.
-5. Repeat steps 3-4 for each mounting bout throughout the video.
+5. Repeat steps 3–4 for each mounting bout throughout the video.
 
 ::: {.callout-warning title="Arrow keys on macOS"}
 The <kbd>←</kbd>/<kbd>→</kbd> arrow keys may not work for frame stepping on macOS—BORIS can misidentify them as numpad keys, which are unassigned by default.
@@ -168,7 +168,7 @@ If this happens, use the step buttons in the media player controls instead.
 ![Annotating events in BORIS](img/BORIS/6_annotating.png){width=100%}
 
 After a first pass through the video, you may want to review your annotations and make adjustments.
-You can double-click a row in the event log to jump to an event's frame, and right-click the row to reveals some helpful options, such as:
+You can double-click a row in the event log to jump to an event's frame, and right-click the row to reveal some helpful options, such as:
 
 - "Edit selected event(s)"
 - "Shift time of selected event(s)"
@@ -180,7 +180,7 @@ You can double-click a row in the event log to jump to an event's frame, and rig
 If you notice any event lacking a "Frame index" in the event log, you can populate the corresponding column by running "Observations" → "Add frame indexes". Typically, this is only necessary if you are implicitly closing one behaviour by starting another mutually exclusive behaviour. This should not be an issue in our single-behaviour example.
 :::
 
-You may also visualise your annotations in BORIS. Try the "Plot current observation" and "Plot current time budget" buttons in top toolbar.
+You may also visualise your annotations in BORIS. Try the "Plot current observation" and "Plot current time budget" buttons in the top toolbar.
 
 ### Export the data
 
@@ -191,7 +191,7 @@ In the dialogue:
 - Select the observed subject (`resident_b`) and behaviour (`mount`) to export.
 - Choose a destination and filename, e.g. `mouse044_task1_mount.tsv`. Leave the format as "Tab Separated Values (*.tsv)".
 
-The exported file contains one row per annotated event, with columns including the subject, behaviour code, start and stop times (in seconds), and start and stop frame indices.
+The exported file contains one row per annotated event, with relevant columns including "Subject", "Behavior", "Start (s)", "Stop (s)", "Duration (s)", "Image index start", and "Image index stop".
 
 ::: {.callout-tip title="Discuss"}
 
@@ -208,16 +208,15 @@ file_name = "mouse044_task1_mount_events_boris.tsv"
 file_path = Path.home() / ".movement" / "CalMS21" / file_name
 
 df = pd.read_csv(file_path, sep="\t")
-n_rows = len(df)
 show_columns = [
    "Subject", "Behavior", "Start (s)", "Stop (s)", "Duration (s)",
    "Image index start", "Image index stop"
 ]
-df[show_columns].head(n_rows)
+df[show_columns]
 ```
 
 - How did your annotations differ from the ground truth?
-- Did you miss any bouts or found some extra ones?
+- Did you miss any bouts or find extra ones?
 - Did you annotate the start and stop times differently?
 
 :::
