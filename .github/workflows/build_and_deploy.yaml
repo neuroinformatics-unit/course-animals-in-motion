@@ -20,7 +20,7 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-      - uses: neuroinformatics-unit/actions/lint@v2
+      - uses: neuroinformatics-unit/actions/lint@v3
 
   build:
     name: Build Quarto book
