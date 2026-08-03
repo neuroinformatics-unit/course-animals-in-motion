@@ -2,7 +2,6 @@
 
 In this tutorial, we will introduce the main features of [movement](https://movement.neuroinformatics.dev/),
 a Python package for analysing animal motion tracks.
-
 You will be given a set of exercises to complete—using `movement` to analyse the pose tracks you've generated in @sec-sleap or any other tracking data you may have access to.
 
 ::: {.callout-note title="Using the right environment"}
@@ -57,7 +56,7 @@ See [movement's mission and scope statement](https://movement.neuroinformatics.d
 You can interface with `movement` in two ways:
 
 1. Use the [graphical user interface (GUI)](https://movement.neuroinformatics.dev/latest/user_guide/gui.html) to interactively explore motion tracks overlaid on video frames, and to define regions of interest (ROIs) for further analysis
-2. Use the [programmatic interface (Python API)](https://movement.neuroinformatics.dev/latest/api_index.html) to call `movement` functions from your own scripts and Jupyter notebooks, accessign its full capabilities for cleaning, plotting and analysing motion tracks.
+2. Use the [programmatic interface (Python API)](https://movement.neuroinformatics.dev/latest/api_index.html) to call `movement` functions from your own scripts and Jupyter notebooks, accessing its full capabilities for cleaning, plotting and analysing motion tracks.
 
 This tutorial will introduce both approaches.
 
@@ -95,7 +94,7 @@ You will see a window like the one below.
 
 ### Load a video
 
-Though this is not strictly necessary, it is usually informative to view the motion tracks overlaid on a background that provides some spatial context. You can either load the video corresponding to the dataset, or load a single image (e.g., a still frame derived from that video).
+Though not strictly necessary, it is informative to view the motion tracks overlaid on a background that provides some spatial context. You can either load the video corresponding to the dataset, or load a single image (e.g., a still frame derived from that video).
 
 Here we will load `mouse044_task1_annotator1.mp4` from the CalMS21 dataset, i.e., the video we used in @sec-sleap to generate pose tracks.
 
@@ -111,7 +110,7 @@ You may also use the left and right arrow keys to navigate frame-by-frame.
 Clicking on the play button will start the video playback at a default rate of 10 frames per second.
 You can adjust the playback speed by right-clicking on the play button.
 
-## Load the motion tracks
+### Load motion tracks
 
 Now you are ready to load some motion tracks over the video.
 
@@ -121,8 +120,8 @@ You can load data from one of the [supported third-party formats](https://moveme
 To load tracked data in napari:
 
 1. From the "source software" dropdown menu select the name of the tracking software you used to generate the data (in this case `SLEAP`).
-2. Set the "fps" (frames per second) of the video the data refers to (in this case `30`).
-3. Click the "Browse" button to select a file containing the tracked data—i.e. one of the predictions .slp you generated in @sec-sleap, or the `mouse044_task1_annotator1.slp` file that came with the CalMS21 dataset (see [prerequisites @sec-data]).
+2. Set the "fps" (frames per second) of the video the data corresponds to (in this case `30`).
+3. Click the "Browse" button to select a file containing the tracked data—i.e. one of the predictions .slp files you generated in @sec-sleap, or the `mouse044_task1_annotator1.slp` file that came with the CalMS21 dataset ([prerequisites @sec-data]).
 4. Click "Load".
 
 The data will be loaded into the viewer as a [points layer](https://napari.org/stable/howtos/layers/points.html) and as a [tracks layer](https://napari.org/stable/howtos/layers/tracks.html).
@@ -132,19 +131,62 @@ You will see a view similar to this:
 
 ![Tracked data loaded into `napari` as a points and a tracks layer, on top of the image layer containing the video.](img/movement/3_load_tracked_data.png){width=100%}
 
-::: {.callout-note title="Layers in `napari` and `movement`"}
-In `napari`, data is typically loaded into [layers](https://napari.org/stable/getting_started/layers.html#layers-glance), which can be reordered and toggled for visibility in the layers list panel.
+::: {.callout-note title="Layer types"}
+In `napari`, data is represented as [layers](https://napari.org/stable/getting_started/layers.html#layers-glance), which can be reordered and toggled for visibility in the layers list panel.
 There are many types of layers, each corresponding to a different data type, visualisation, and interactivity. 
 
 The important layer types for `movement` are:
 
 1. [Image layers](https://napari.org/stable/howtos/layers/image.html) for displaying images and stacks of images (including videos).
 2. [Points layers](https://napari.org/stable/howtos/layers/points.html) for displaying collections of points.
-3. [Tracks layers](https://napari.org/stable/howtos/layers/tracks.html) for displaying collections of points connected by lines, representing trajectories over time.
-4. [Shapes layers](https://napari.org/stable/howtos/layers/shapes.html) for displaying geometric shapes, such as rectangles, circles, and polygons. In `movement`, they are used to represent bounding boxes around tracked animals, or user-defined regions of interest (ROIs).
+3. [Tracks layers](https://napari.org/stable/howtos/layers/tracks.html) for displaying collections of trajectories over time.
+4. [Shapes layers](https://napari.org/stable/howtos/layers/shapes.html) for displaying geometric shapes, such as rectangles, circles, and polygons.
 
 :::
- 
+
+### Explore motion tracks
+
+Let's focus on the points layer first (make sure it's selected), which shows the keypoints detected on the current frame.
+You may turn off the visibility of the tracks layer for now, to reduce visual clutter.
+
+Video frames and keypoints are synchronised, so you can see how the keypoints move across frames as you navigate through the video.
+
+Enabling the "display text" option in the layer controls panel will show the keypoint names next to each point.
+
+Hovering with your mouse over a point will bring up a tooltip containing the properties of that point:
+individual identity, keypoint name, time (in seconds), and the confidence score.
+
+![Tooltip showing the properties of a tracked point.](img/movement/4_explore_points.png){width=100%}
+
+Now select the tracks layer and turn its visibility back on.
+
+The tracks layer allows us to visualise the positions of a keypoint before (the **tail**) and after the current frame (the **head**).
+This view is especially useful for identifying tracking errors, such as identity swaps, which are often hard to spot when looking at a single frame.
+
+The tail and head lengths can be adjusted independently in the tracks layer controls panel, using the "tail length" and "head length" sliders, respectively. 
+
+![Customising the tracks view via head and tail length sliders.](img/movement/5_explore_tracks.png){width=100%}
+
+::: {.callout-tip title="Discuss"}
+- Did you spot any errors in the data you've explored?
+- What kinds of errors do you expect in pose tracks?
+- How can such errors be avoided or corrected?
+:::
+
+### Additional GUI features
+
+Apart from what we covered above, the `movement` GUI also allows you to:
+
+- [visualise tracked bounding boxes](https://movement.neuroinformatics.dev/latest/user_guide/gui.html#the-boxes-layer) (for the formats that support them), and
+- define regions of interest (ROIs) and export them for further analysis (we will cover this in  @sec-movement-mouse).
+
+We are also actively working on adding more featuresto the GUI, including the ability to manually fix tracking errors.
+
+::: {.callout-tip title="Discuss"}
+What features would **you** like to see in the `movement` GUI?
+
+Visit the [movement community page](https://movement.neuroinformatics.dev/latest/community) to find about ways to let us know and get involved.
+:::
 
 ## A unified interface for motion tracks
 
