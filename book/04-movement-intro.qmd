@@ -83,11 +83,6 @@ First, launch the GUI from the command line:
 movement launch
 ```
 
-::: {.callout-note}
-It may take a few seconds (up to a minute) for the GUI to launch,
-especially if this is your first time running it.
-:::
-
 You will see a window like the one below.
 
 ![A `napari` window with an empty viewer and the `movement` plugin docked on the right-hand side.](img/movement/1_launch.png){width=100%}
@@ -188,65 +183,170 @@ What features would **you** like to see in the `movement` GUI?
 Visit the [movement community page](https://movement.neuroinformatics.dev/latest/community) to find about ways to let us know and get involved.
 :::
 
-## A unified interface for motion tracks
+## Analyse data in Python {#sec-movement-python}
 
-`movement` aims to support all popular animal tracking frameworks and file formats,
+For the rest of this chapter, we encourage you to follow along in a Jupyter notebook or in your favourite Python IDE (see @sec-install-devtools), with the `animals-in-motion-env` environment activated (see @sec-install-movement).
+
+### Load motion tracks
+
+`movement` supports many popular animal tracking frameworks and file formats,
 in 2D and 3D, tracking single or multiple animals of any species.
 
-To achieve this level of versatility, we had to identify what's common across the outputs of motion tracking tools
-and how we can represent them in a standardised way.
+This allows for analysis pipelines that are input-agnostic, meaning they are not tied to a specific motion tracking tool or data format.
+To achieve this, `movement` includes input/output functions that facilitate data flows between various [third-party formats](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-supported-formats) and `movement`'s own native data structure based on `xarray`
+(more on that structure later in this chapter).
 
-What we came up with takes the form of collections of multi-dimensional arrays—an `xarray.Dataset` object.
-Each array within a dataset is an `xarray.DataArray` object holding different aspects of the collected data (position, time, confidence scores…).
-You can think of an `xarray.DataArray` as a multi-dimensional `numpy.ndarray` with pandas-style indexing and labelling.
+![Overview of `movement`'s input/output capabilities](img/movement_io.png){width="100%"}
 
-This may sound complicated but fear not, we'll build some understanding by exploring some example datasets
-that are included in the `movement` package.
+Let's see these capabilities in action, by loading the same SLEAP predictions file we explored in the GUI, but this time in Python.
+
+First, let's define the path to the file we want to load.
+Here we choose to express the path relative to our home directory, but you can also use an absolute path.
+
+```{python}
+from pathlib import Path
+
+file_name = "mouse044_task1_annotator1.slp"
+file_path = Path.home() / ".movement" / "CalMS21" / file_name
+```
+
+To load the data, we pass the above path to `movement`'s [`load_dataset()` function](https://movement.neuroinformatics.dev/latest/api/movement.io.load.load_dataset.html).
+
+```{python}
+from movement.io import load_dataset
+
+ds = load_dataset(file_path, fps=30)
+```
+
+::: {.callout-note}
+When we loaded this file in the GUI, this same `load_dataset` function was called behind the scenes to parse the data into a standardised format that `movement` can work with.
+
+Note that we didn't have to specify the source software (`SLEAP`) this time;
+`movement` can automatically infer that from the file's extension and contents, and in most cases it will do the right thing.
+That said, you can also be explicit if you want to:
+
+```{.python}
+ds = load_dataset(file_path, source_software="SLEAP", fps=30)
+``` 
+:::
+
+## The anatomy of a movement dataset
+
+Let's look into the dataset we just loaded.
+
+```{python}
+ds
+```
+
+We see an interactive description of a so-called `xarray.Dataset`.
+*What is that?*
+It's okay if you've never worked with such data before, we will build some understanding as we go along.
+
+The dataset description refers to **dimensions**, **coordinates**, **data variables**, and **attributes**.
+
+**Dimensions** are the axes along which the data can vary.
+
+```{python}
+#| echo: false
+for dim in ds.dims:
+    print(f"{dim}: size {ds.sizes[dim]}")
+```
+
+**Coordinates** are the labels that identify the values along each dimension.
+Think of them as "tick marks" along each axis.
+
+```{python}
+#| echo: false
+import numpy as np
+
+with np.printoptions(precision=3, suppress=True):
+    for coord, da in ds.coords.items():
+        print(f"{coord}: {da.values}")
+```
+
+**Data variables** are the actual data arrays (matrices) that hold the measurements we are interested in. We have two of them in this dataset: `position` and `confidence`.
+
+```{python}
+ds.position
+```
+
+`position` is a 4-dimensional array with all the same dimensions as the dataset itself. Its values are the `(x,y)` spatial coordinates of each keypoint, for each individual, at each time point.
+
+```{python}
+ds.confidence
+```
+
+`confidence` is a 3-dimensional array, with the same dimensions minus `space`. Its values are the confidence scores associated with each keypoint, for each individual, at each time point.
+
+So, a **dataset** (`xarray.Dataset`) is a collection of **data variables** that share some **dimensions** and **coordinates**. Each **data variable** is a multi-dimensional array (`xarray.DataArray`) that holds the actual measurements.
+
+Finally, **attributes** are metadata that describe the dataset as a whole.
+
+```{python}
+for attr, value in ds.attrs.items():
+    print(f"{attr}: {value}")
+```
+
+Let's put it all together:
+
+![A schematic representation of a `movement` dataset containing pose tracks for 3 mice (6 keypoints).](img/movement_poses_dataset_card.png){#fig-movement-ds-poses}
+
+::: {.callout-note title="Xarray, Numpy, and Pandas" collapse="true"}
+If you've worked with data in Python before, you may be familiar with [NumPy](https://numpy.org/) and [Pandas](https://pandas.pydata.org/).
+
+`xarray` builds on top of both, and is a kind of hybrid between them.
+- Like NumPy, `xarray` provides multi-dimensional arrays and a rich set of built-in numerical operations.
+- Like Pandas, the data in `xarray` are labelled, which makes it easy to select and manipulate data along any axis.
+
+If you are used to working with NumPy and Pandas, `xarray`'s syntax will feel familiar. And if you need to convert to those formats, you can easily do so.
+
+Export the position data array as a Pandas DataFrame:
+
+```{python}
+position_df = ds.position.to_dataframe(
+    dim_order=["time", "individual", "keypoint", "space"]
+)
+position_df.head()
+```
+
+Export data variables or coordinates as Numpy arrays:
+
+```{python}
+position_array = ds.position.to_numpy()
+print(f"Position array shape: {position_array.shape}")
+
+time_array = ds.time.to_numpy()
+print(f"Time array shape: {time_array.shape}")
+```
+:::
+
+::: {.callout-note title="Poses and bounding boxes"}
+What we just described is a so-called `movement` *poses dataset*, for representing pose tracking data.
+`movement` also supports *bounding boxes datasets*, consisting of boxes that enclose animals, tracked over time.
+You could get those by performing object detection on a video,
+followed by tracking identities across time.
+
+The dataset structure is similar for both types, with a few differences. See [the documentation on movement datasets](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html).
+::: 
+
+::: {.callout-tip title="Discuss"}
+
+- How would we represent 3D pose tracks in a `movement` dataset? What would change?
+- What of tracking data with only one individual, or one keypoint?
+- Can you think of a pose tracking scenario that would not fit into this dataset structure?
+:::
+
 
 ```{python}
 from movement import sample_data
 ```
 
-### Poses datasets {#sec-movement-ds-poses}
-
-First, let's see how `movement` represents pose tracks, like the ones we get with SLEAP.
-
-![The structure of a `movement` poses dataset](img/movement_poses_dataset_card.png){#fig-movement-ds-poses}
-
-Let's load an example dataset and explore its contents.
 
 ```{python}
 poses_ds = sample_data.fetch_dataset("SLEAP_two-mice_octagon.analysis.h5")
 poses_ds
 ```
 
-### Bounding boxes datasets
-
-`movement` also supports datasets that consist of bounding boxes, like the ones
-we would get if we performed object detection on a video, followed by
-tracking identities across time.
-
-![The structure of a `movement` bounding boxes dataset](img/movement_bboxes_dataset_card.png){#fig-movement-ds-bboxes}
-
-```{python}
-#| output: false
-bboxes_ds = sample_data.fetch_dataset(
-    "VIA_single-crab_MOCA-crab-1_linear-interp.csv"
-)
-```
-
-```{python}
-bboxes_ds
-```
-
-::: {.callout-tip title="Discuss"}
-
-- What are some limitations of `movement`'s approach? What kinds of data cannot be accommodated?
-- Can you think of alternative ways of representing these data?
-
-See the [documentation on movement datasets](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html) for more details
-on `movement` data structures.
-:::
 
 ### Working with xarray objects
 
