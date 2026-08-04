@@ -714,6 +714,7 @@ The two mice repeatedly come together and move apart again, so this single varia
 already gives us a compact summary of the encounter.
 
 ::: {.callout-tip title="Discuss"}
+
 - Roughly how much of the session do the mice spend near each other?
 - The distance is measured in pixels. What would you need to know about the recording
   setup to express it in centimetres instead?
@@ -732,7 +733,7 @@ what they do when they get there. Speed adds that missing piece.
 3. Now plot the speed and the inter-mouse distance one above the other, sharing a
    common time axis. What relationships—if any—can you spot between the two?
 
-__Bonus__
+**Bonus**
 
 4. The raw speed traces are very spiky, which makes them hard to read. Try smoothing
    them with a rolling median (e.g. `speed.rolling(time=15, center=True).median()`)
@@ -777,7 +778,7 @@ axes[1].set_ylabel("speed (pixels/s)")
 fig.tight_layout()
 ```
 
-__Bonus__
+**Bonus**
 
 A rolling median replaces each value with the median of the 15 frames (0.5 s) centred
 on it, which suppresses the frame-to-frame spikes while preserving the slower changes.
