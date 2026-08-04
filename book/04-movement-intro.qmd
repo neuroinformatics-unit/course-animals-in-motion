@@ -59,7 +59,6 @@ You can interface with `movement` in two ways:
 
 This tutorial will introduce both approaches.
 
-
 ## Visualise data in the GUI {#sec-movement-gui}
 
 The `movement` [graphical user interface (GUI)](https://movement.neuroinformatics.dev/latest/user_guide/gui.html),
@@ -127,7 +126,7 @@ You will see a view similar to this:
 
 ::: {.callout-note title="Layer types"}
 In `napari`, data is represented as [layers](https://napari.org/stable/getting_started/layers.html#layers-glance), which can be reordered and toggled for visibility in the layers list panel.
-There are many types of layers, each corresponding to a different data type, visualisation, and interactivity. 
+There are many types of layers, each corresponding to a different data type, visualisation, and interactivity.
 
 The important layer types for `movement` are:
 
@@ -157,11 +156,12 @@ Now select the tracks layer and turn its visibility back on.
 The tracks layer allows us to visualise the positions of a keypoint before (the **tail**) and after the current frame (the **head**).
 This view is especially useful for identifying tracking errors, such as identity swaps, which are often hard to spot when looking at a single frame.
 
-The tail and head lengths can be adjusted independently in the tracks layer controls panel, using the "tail length" and "head length" sliders, respectively. 
+The tail and head lengths can be adjusted independently in the tracks layer controls panel, using the "tail length" and "head length" sliders, respectively.
 
 ![Customising the tracks view via head and tail length sliders.](img/movement/5_explore_tracks.png){width=100%}
 
 ::: {.callout-tip title="Discuss"}
+
 - Did you spot any errors in the data you've explored?
 - What kinds of errors do you expect in pose tracks?
 - How can such errors be avoided or corrected?
@@ -227,7 +227,8 @@ That said, you can also be explicit if you want to:
 
 ```{.python}
 ds = load_dataset(file_path, source_software="SLEAP", fps=30)
-``` 
+```
+
 :::
 
 ### The anatomy of a movement dataset
@@ -253,6 +254,7 @@ These are the axes along which the data can vary.
 for dim in ds.dims:
     print(f"{dim}: size {ds.sizes[dim]}")
 ```
+
 :::
 
 ::: {.callout-note title="Coordinates" appearance="minimal" collapse="true"}
@@ -267,6 +269,7 @@ with np.printoptions(precision=3, suppress=True):
     for coord, da in ds.coords.items():
         print(f"{coord}: {da.values}")
 ```
+
 :::
 
 ::: {.callout-note title="Data variables" appearance="minimal" collapse="true"}
@@ -283,7 +286,7 @@ ds.confidence
 ```
 
 `confidence` is a 3-dimensional array, with the same dimensions minus `space`. Its values are the confidence scores associated with each keypoint, for each individual, at each time point.
-::: 
+:::
 
 ::: {.callout-note title="Attributes" appearance="minimal" collapse="true"}
 
@@ -312,6 +315,7 @@ What we just described is a so-called `movement` **poses dataset**, for represen
 The dataset structure is similar for both types, with a few differences. See [the documentation on movement datasets](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html).
 
 ::: {.callout-tip title="Discuss"}
+
 - How would we represent 3D pose tracks in a `movement` dataset? What would change?
 - What of tracking data with only one individual, or one keypoint?
 - Can you think of a pose tracking scenario that would not fit into this dataset structure?
@@ -343,8 +347,8 @@ position_df = ds.position.to_dataframe(
 )
 position_df.head()
 ```
-:::
 
+:::
 
 ### Working with movement datasets
 
@@ -401,7 +405,6 @@ min_x
 
 `xarray` also provides a rich set of built-in [plotting methods](https://docs.xarray.dev/en/stable/user-guide/plotting.html) for quickly visualising the data. Let's use them to create some line plots.
 
-
 ```{python}
 #| label: fig-plot-tail-base-pos
 #| fig-cap: "The x,y spatial coordinates of the TailBase keypoint across time"
@@ -413,7 +416,7 @@ tail_base_pos.plot.line(
 ```
 
 ::: {.callout-note title="Understanding the plot.line command" collapse="true"}
-The data variable named before `.plot.line`—in this case `tail_base_pos`—corresponds to the y-axis of the figure. 
+The data variable named before `.plot.line`—in this case `tail_base_pos`—corresponds to the y-axis of the figure.
 
 You can understand the rest of the command as mapping dataset dimensions to various features of the figure.
 
@@ -428,7 +431,6 @@ The `aspect` and `size` arguments control the size and shape of the resulting fi
 via the formula `figsize = (aspect * size, size)`.
 :::
 
-
 ::: {.exercise-prompt}
 Keep working with the loaded dataset `ds` and try the following:
 
@@ -436,7 +438,7 @@ Keep working with the loaded dataset `ds` and try the following:
 2. Compute the median position of the `neck` across the selected time window, for each individual. Which individual is closer to the left side (`x` closer to zero) of the arena?
 3. Show the centroid position of both individuals as a line plot across time. Plot the `x` and `y` positions on different subplots and give a different colour to each individual.
 
-__Bonus__
+**Bonus**
 
 4. Select 3 keypoints of `resident_b`, and show their confidence values across time as a line plot. Plot each keypoint on a different subplot.
 5. Visualise the overall distribution of confidence scores in the dataset, using the `plot.hist` method. Does anything surprise you about the distribution?
@@ -469,7 +471,7 @@ centroid_pos.plot.line(
 )
 ```
 
-__Bonus__
+**Bonus**
 
 We select 3 keypoints on the head of `resident_b` and plot their confidence scores across time.
 
@@ -483,7 +485,6 @@ head_conf.plot.line(
 )
 ```
 
-
 The overall distribution of confidence scores as a histogram.
 
 ```{python}
@@ -493,12 +494,11 @@ ds.confidence.plot.hist(bins=50, aspect=2, size=2.5);
 Surprisingly, a few confidence scores have values >1.0. That's because SLEAP's point-wise confidence scores—unlike the likelihood scores output by DeepLabCut—are not confined to the [0,1] range.
 :::
 
-
 ### Clean motion tracks
 
 Referring back to @fig-plot-tail-base-pos, we can see that the position trajectories exchibit some errors:
 
-- There are brief gaps of missing values. These are likely due to occlusions, when a body part is not visible in the video frame. 
+- There are brief gaps of missing values. These are likely due to occlusions, when a body part is not visible in the video frame.
 - There are a few sudden jumps in the trajectories, which look implausible. These can occur when the pose estimation model misidentifies a keypoint, or when the tracking algorithm swaps the identities of two individuals.
 
 Another common type of pose estimation error is jitter in the predicted positions of a keypoint across frames, which is not consistent with the animal's actual motion.
@@ -552,7 +552,7 @@ Some of the gaps in the filtered data are quite short (a few frames), and we can
 2. Plot the interpolated data for the `tail_base` keypoint. Are you happy with the result?
 3. Experiment with different values of the `max_gap` argument, plotting the results each time. How does it affect the interpolation?
 
-__Bonus__
+**Bonus**
 
 4. What if the dataset suffers from frame-to-frame jitter? Which of the functions from `movement.filtering` would you use to deal with that?
 :::
@@ -560,6 +560,7 @@ __Bonus__
 ::: {.exercise-solution}
 
 First we interpolate the filtered data with `method="linear"`.
+
 ```{python}
 position_interp = interpolate_over_time(
     position_filtered, method="linear", print_report=True
@@ -567,6 +568,7 @@ position_interp = interpolate_over_time(
 ```
 
 Then we plot the interpolated data for the `tail_base` keypoint.
+
 ```{python}
 position_interp.sel(keypoint="tail_base").plot.line(
     x="time", row="individual", hue="space", aspect=2, size=2.5
@@ -588,7 +590,7 @@ position_interp.sel(keypoint="tail_base").plot.line(
 )
 ```
 
-__Bonus__
+**Bonus**
 If the dataset suffers from frame-to-frame jitter, we could use either a rolling
 median filter, or a Savitzky-Golay filter, as outlined in
 [this movement example](https://movement.neuroinformatics.dev/latest/examples/smooth.html).
@@ -663,14 +665,12 @@ You can learn more about `movement.kinematics` by  going through the following n
 - [Pupil tracking](https://movement.neuroinformatics.dev/latest/examples/mouse_eye_movements.html)
 :::
 
-
 The following two chapters—[@sec-movement-mouse] and [@sec-movement-zebras]—constitute
 case studies in which we apply `movement` to some real-world datasets.
 The two case studies represent quite different applications:
 
 - @sec-movement-mouse: Continuous home cage monitoring of mouse activity levels for weeks.
 - @sec-movement-zebras: Collective escape behaviour in a herd of zebras.
-
 
 ## Join the movement {#sec-movement-next}
 
