@@ -503,7 +503,7 @@ Referring back to @fig-plot-tail-base-pos, we can see that the position trajecto
 
 Another common type of pose estimation error is jitter in the predicted positions of a keypoint across frames, which is not consistent with the animal's actual motion.
 That's because most pose estimation models operate on a frame-by-frame basis, without taking into account the animal's motion across time.
-Each frame-level prediction has a small error, and when these are connected into tracks, the resulting trajectories appear jittery.
+Each frame-level prediction may have a small error, and when these are connected into tracks, the resulting trajectories appear jittery.
 
 `movement` offers several methods for for dealing with errors in motion tracking, as part of its
 [`movement.filtering`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.html) module.
@@ -512,21 +512,87 @@ These include functions for:
 - identifying and removing outliers
 - interpolating missing data
 - smoothing trajectories over time
-
-Here we will present one such function—the
-[`rolling_filter`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html);
-We will also encounter others in @sec-movement-mouse.
   
-Let's import the function:
+Let's import two such functions from `movement.filtering` and see them in action.
 
 ```{python}
-from movement.filtering import rolling_filter
+from movement.filtering import filter_by_confidence, interpolate_over_time
 ```
 
-This function applies a rolling window across the `time` dimension
-of the input data array (typically `position`) and compute a specified statistic
-over each window. *How is that useful?*
+First, let's use [`filter_by_confidence`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.filter_by_confidence.html)
+to drop all positions with confidence scores below a chosen threshold.
+Dropping here means replacing them with `NaN` (not-a-number) values, which are recognised as missing data by `xarray`.
 
+```{python}
+position_filtered = filter_by_confidence(
+    ds.position, ds.confidence, threshold=0.6, print_report=True
+)
+```
+
+The choice of threshold is arbitrary, and should be guided by the confidence score distribution in the dataset, and by inspection of the resulting filtered tracks.
+
+Setting `print_report=True` prints a report on the number of missing values before and after filtering, so we can see how much data we 'lost' in the process.
+
+Let's generated the same plot as @fig-plot-tail-base-pos, but this time with the filtered data.
+
+```{python}
+position_filtered.sel(keypoint="tail_base").plot.line(
+    x="time", row="individual", hue="space", aspect=2, size=2.5
+)
+```
+
+We managed to remove most implausible jumps in the trajectories, but we also introduced more gaps in the data.
+This is a typical trade-off when filtering data, and settling on the right threshold requires some experimentation.
+
+::: {.exercise-prompt}
+
+Some of the gaps in the filtered data are quite short (a few frames), and we can try to fill them in by interpolating the missing values. `movement` provides the [`interpolate_over_time`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.interpolate_over_time.html) function for this purpose.
+
+1. Use `interpolate_over_time` to fill in the gaps in `position_filtered` with linear interpolation.
+2. Plot the interpolated data for the `tail_base` keypoint. Are you happy with the result?
+3. Experiment with different values of the `max_gap` argument, plotting the results each time. How does it affect the interpolation?
+
+__Bonus__
+
+4. What if the dataset suffers from frame-to-frame jitter? Which of the functions from `movement.filtering` would you use to deal with that?
+:::
+
+::: {.exercise-solution}
+
+First we interpolate the filtered data with `method="linear"`.
+```{python}
+position_interp = interpolate_over_time(
+    position_filtered, method="linear", print_report=True
+)
+```
+
+Then we plot the interpolated data for the `tail_base` keypoint.
+```{python}
+position_interp.sel(keypoint="tail_base").plot.line(
+    x="time", row="individual", hue="space", aspect=2, size=2.5
+)
+```
+
+We can see that gaps in the data have been filled in, but some of the interpolated segments are implausibly straight.
+That's because interpolation tried to fill every gap by default, even the long ones.
+We would be better off restricting interpolation to only short gaps, by setting `max_gap` to a small value (e.g., 5 frames).
+The choice of `max_gap` is, again, arbitrary and should be guided by inspection of the results.
+
+```{python}
+position_interp = interpolate_over_time(
+    position_filtered, method="linear", max_gap=5, print_report=True
+)
+
+position_interp.sel(keypoint="tail_base").plot.line(
+    x="time", row="individual", hue="space", aspect=2, size=2.5
+)
+```
+
+__Bonus__
+If the dataset suffers from frame-to-frame jitter, we could use either a rolling
+median filter, or a Savitzky-Golay filter, as outlined in
+[this movement example](https://movement.neuroinformatics.dev/latest/examples/smooth.html).
+:::
 
 ::: {.callout-tip}
 You can learn more about `movement.filtering` by  going through the following notebooks in `movement`'s
@@ -534,6 +600,49 @@ You can learn more about `movement.filtering` by  going through the following no
 
 - [Drop outliers and interpolate](https://movement.neuroinformatics.dev/latest/examples/filter_and_interpolate.html)
 - [Smooth pose tracks](https://movement.neuroinformatics.dev/latest/examples/smooth.html)
+:::
+
+### Save movement datasets
+
+If we want to closely inspect what our data cleaning accomplished, it would help to overlay the 'cleaned' motion tracks on the original video in the GUI, like we did in @sec-movement-gui.
+
+To do that, we need to first created a new `movement` dataset containing the cleaned data, and then save it to disk in a format that the GUI can read.
+
+We can accommplish the first step by updating the `position` data variable in the original dataset:
+
+```{python}
+ds_cleaned = ds.copy()
+ds_cleaned.update({"position": position_interp})
+ds_cleaned
+```
+
+This dataset is in every way identical to the original one, except that the `position` data variable now contains the filtered and interpolated data.
+
+For saving datasets to disk, we recommend leveraging `xarray`'s built-in
+[support for the netCDF file format](https://docs.xarray.dev/en/stable/user-guide/io.html#netcdf).
+
+```{.python}
+import xarray as xr
+
+save_path = predictions_dir / "ds_cleaned.nc"
+ds_cleaned.to_netcdf(save_path)
+```
+
+The same dataset can be loaded back into Python with `xr.open_dataset(save_path)`, or into the GUI by selecting "movement (netCDF)" as the source software when loading tracked data.
+
+::: {.callout-tip title="Discuss"}
+Repeat the workflow outlined in @sec-movement-gui, but this time load the cleaned dataset `ds_cleaned.nc` instead of the original SLEAP predictions file.
+
+Keep in mind that the tracks layer display linearly interpolates between consecutive points, so the gaps in the original data will be filled in with straight lines (in that way, it's similar to the `max_gap=None` case in the previous exercise). You're better off turning off the tracks layer visibility and focusing on the points layer, which shows the actual positions of the keypoints.
+
+Are you happy with what you see? If not, what would you do differently?
+:::
+
+::: {.callout-note title="Exporting to other file formats"}
+Saving to netCDF is the recommended way to preserve the complete state of your `movement` analysis, including all variables, coordinates, and attributes.
+That said, in some cases it's useful to export data back to the original DeepLabCut or SLEAP formats, or to neuroscientific standards like [NWB files](https://pynwb.readthedocs.io/en/stable/).
+
+`movement` provides some functions for exporting datasets to third-party formats, which you can find in the [input/output section of the documentation](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#saving-pose-tracks).
 :::
 
 ### Quantify motion
@@ -554,20 +663,6 @@ You can learn more about `movement.kinematics` by  going through the following n
 - [Pupil tracking](https://movement.neuroinformatics.dev/latest/examples/mouse_eye_movements.html)
 :::
 
-### Saving movement datasets
-
-For saving datasets to disk, we recommend leveraging `xarray`'s built-in
-[support for the netCDF file format](https://docs.xarray.dev/en/stable/user-guide/io.html#netcdf).
-
-```{.python}
-import xarray as xr
-
-# To save a dataset to disk
-ds.to_netcdf("poses_ds.nc")
-
-# To load the dataset back from memory
-ds = xr.open_dataset("poses_ds.nc")
-```
 
 The following two chapters—[@sec-movement-mouse] and [@sec-movement-zebras]—constitute
 case studies in which we apply `movement` to some real-world datasets.
