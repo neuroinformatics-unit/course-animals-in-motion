@@ -34,7 +34,7 @@ We saw how SLEAP and similar tools—like
 group the keypoints into poses, and connect their identities across time into sequential collections we call pose tracks.
 
 The extraction of pose tracks is often just the beginning of the analysis.
-Researchers use these tracks to investigate various aspects of animal behaviour, such as kinematics, spatial navigation, social interactions, etc (the *motion quantification* step from @fig-ethology-workflow).
+Researchers use these tracks to investigate various aspects of animal behaviour, such as kinematics, spatial navigation, social interactions, etc. (the *motion quantification* step from @fig-ethology-workflow).
 Typically, these analyses involve custom, project-specific scripts that are hard to reuse across different projects and are rarely maintained after the project's conclusion.
 
 In response to these challenges, we saw the need for a versatile and easy-to-use toolbox that is compatible with a range of ML-based motion tracking frameworks and supports interactive data exploration and analysis.
@@ -50,7 +50,7 @@ See [movement's mission and scope statement](https://movement.neuroinformatics.d
 
 :::
 
-![Overview of the `movement` package](img/movement_overview.png){#fig-movement-overview}
+![Overview of the `movement` package.](img/movement_overview.png){#fig-movement-overview}
 
 You can interface with `movement` in two ways:
 
@@ -98,7 +98,7 @@ You can optionally select to remember this reader for all files with the same ex
 The video will be loaded as an [image layer](https://napari.org/stable/howtos/layers/image.html) with a slider at the bottom that you can use to navigate through frames.
 You may also use the left and right arrow keys to navigate frame-by-frame.
 
-![A video loaded into `napari` as an image layer](img/movement/2_load_video.png){width=100%}
+![A video loaded into `napari` as an image layer.](img/movement/2_load_video.png){width=100%}
 
 Clicking on the play button will start the video playback at a default rate of 10 frames per second.
 You can adjust the playback speed by right-clicking on the play button.
@@ -195,7 +195,7 @@ This allows for analysis pipelines that are input-agnostic, meaning they are not
 To achieve this, `movement` includes input/output functions that facilitate data flows between various [third-party formats](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-supported-formats) and `movement`'s own native data structure based on `xarray`
 (more on that structure later in this chapter).
 
-![Overview of `movement`'s input/output capabilities](img/movement_io.png){#fig-movement-io}
+![Overview of `movement`'s input/output capabilities.](img/movement_io.png){#fig-movement-io}
 
 Let's see these capabilities in action, by loading the same SLEAP predictions file we explored in the GUI, but this time in Python.
 
@@ -395,7 +395,7 @@ Note that the dimension being averaged disappears from the output.
 In other words: the average position across time no longer varies with time.
 :::
 
-We can take a similar approach with many common statistical operators, including minimum (`min`), maximum (`max`) and median `median`.
+We can take a similar approach with many common statistical operators, including minimum (`min`), maximum (`max`) and median (`median`).
 
 ```{python}
 # The minimum x positions across time, for every individual and keypoint
@@ -411,7 +411,7 @@ min_x
 
 tail_base_pos = ds.sel(keypoint="tail_base").position
 tail_base_pos.plot.line(
-    x="time", hue="individual", row="space",  aspect=2, size=2.5
+    x="time", hue="individual", row="space", aspect=2, size=2.5
 )
 ```
 
@@ -467,7 +467,7 @@ The centroid position of each individual is plotted across time.
 ```{python}
 centroid_pos = ds.position.mean(dim="keypoint")
 centroid_pos.plot.line(
-    x="time", hue="individual", row="space",  aspect=2, size=2.5
+    x="time", hue="individual", row="space", aspect=2, size=2.5
 )
 ```
 
@@ -536,7 +536,7 @@ Let's generate the same plot as @fig-plot-tail-base-pos, but this time with the 
 #| fig-cap: "The tail_base trajectories after filtering by confidence score."
 
 position_filtered.sel(keypoint="tail_base").plot.line(
-    x="time", hue="individual", row="space",  aspect=2, size=2.5
+    x="time", hue="individual", row="space", aspect=2, size=2.5
 )
 ```
 
@@ -576,16 +576,17 @@ Now experiment with the median filter yourself.
    11 (keeping `statistic="median"`). For each, plot the `tail_base` keypoint
    trajectory. How do the results differ?
 
-__Bonus__
+**Bonus**
 
-1. By default (`min_periods=None`). Using `window=11`, set `min_periods=1`
-   and plot the result. How does the output differ? What is the trade-off? *(Tip: set
-   `print_report=True` to observe the effect on the number of missing values.)*
+2. By default (`min_periods=None`), any window containing a NaN returns NaN, expanding
+   existing gaps. Using `window=11`, try setting `min_periods=1` and plot the result.
+   How does the output differ? What is the trade-off? *(Tip: set `print_report=True`
+   to observe the effect on the number of missing values.)*
 :::
 
 ::: {.exercise-solution}
 
-We apply the filter with three different window sizes and plot the `tail_base` trajectory
+We apply the filter with two different window sizes and plot the `tail_base` trajectory
 each time.
 
 ```{python}
@@ -612,9 +613,9 @@ With `window=3` the result is very close to the unsmoothed data—only the sharp
 single-frame spikes are removed. With `window=11` the trajectory is much smoother,
 but also contains much longer gaps.
 
-Now we compare the default `min_periods=None` against `min_periods=1` with `window=11`.
+**Bonus**
 
-__Bonus__
+Now we compare the default `min_periods=None` against `min_periods=1` with `window=11`.
 
 ```{python}
 #| fig-cap: "Rolling median filter with window=11 and min_periods=None (default)."
@@ -770,7 +771,7 @@ during close encounters by looking at their instantaneous speed over time.
    to compute the speed of each mouse's centroid across time.
 2. Plot the speed of both mice on separate rows. Which mouse appears more active overall?
 
-__Bonus__
+**Bonus**
 
 3. Now plot the intruder's speed and the inter-mouse distance on top of each other, sharing a
    common time axis. What relationships—if any—can you spot between the two?
@@ -798,11 +799,11 @@ We plot the speed of both mice on separate rows.
 speed.plot.line(x="time", row="individual", aspect=2, size=2.5)
 ```
 
-The intruders appears more active overall, with higher-amplitude speed bursts.
-But beware: the speed spike near the 40-second mark looks like an artifact that has lingered despite out cleaning;
+The intruder appears more active overall, with higher-amplitude speed bursts.
+But beware: the speed spike near the 40-second mark looks like an artefact that has lingered despite our cleaning;
 3000 pixels per second doesn't look plausible.
 
-__Bonus__
+**Bonus**
 
 We select the intruder's speed and place it alongside the inter-mouse distance in two
 stacked subplots that share a common time axis.
