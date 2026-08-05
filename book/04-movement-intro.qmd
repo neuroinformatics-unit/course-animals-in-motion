@@ -186,7 +186,7 @@ Visit the [movement community page](https://movement.neuroinformatics.dev/latest
 
 For the rest of this chapter, we encourage you to follow along in a Jupyter notebook or in your favourite Python IDE (see @sec-install-devtools), using the `animals-in-motion-env` environment as your Python kernel (see @sec-install-movement).
 
-### Load motion tracks
+### Load a dataset
 
 `movement` supports many popular animal tracking frameworks and file formats,
 in 2D and 3D, tracking single or multiple animals of any species.
@@ -440,8 +440,8 @@ Keep working with the loaded dataset `ds` and try the following:
 
 **Bonus**
 
-4. Select 3 keypoints of `resident_b`, and show their confidence values across time as a line plot. Plot each keypoint on a different subplot.
-5. Visualise the overall distribution of confidence scores in the dataset, using the `plot.hist` method. Does anything surprise you about the distribution?
+1. Select 3 keypoints of `resident_b`, and show their confidence values across time as a line plot. Plot each keypoint on a different subplot.
+2. Visualise the overall distribution of confidence scores in the dataset, using the `plot.hist` method. Does anything surprise you about the distribution?
 :::
 
 ::: {.exercise-solution}
@@ -578,7 +578,7 @@ Now experiment with the median filter yourself.
 
 **Bonus**
 
-2. By default (`min_periods=None`), any window containing a NaN returns NaN, expanding
+1. By default (`min_periods=None`), any window containing a NaN returns NaN, expanding
    existing gaps. Using `window=11`, try setting `min_periods=1` and plot the result.
    How does the output differ? What is the trade-off? *(Tip: set `print_report=True`
    to observe the effect on the number of missing values.)*
@@ -773,10 +773,10 @@ during close encounters by looking at their instantaneous speed over time.
 
 **Bonus**
 
-3. Now plot the intruder's speed and the inter-mouse distance on top of each other, sharing a
+1. Now plot the intruder's speed and the inter-mouse distance on top of each other, sharing a
    common time axis. What relationships—if any—can you spot between the two?
    *(Tip: Use `matplotlib` to create the figure.)*
-4. What proportion of time do the two mice spend with their centroids within 130 pixels
+2. What proportion of time do the two mice spend with their centroids within 130 pixels
    (roughly equal to 1 mouse body length in this video) of each other?
    *(Tip: Look up and use the [`xarray.where` method](https://docs.xarray.dev/en/stable/user-guide/indexing.html#masking-with-where).)*
 :::
@@ -847,7 +847,6 @@ You can learn more about `movement.kinematics` by going through the following no
 - [Compute and visualise kinematics](https://movement.neuroinformatics.dev/latest/examples/compute_kinematics.html)
 - [Compute head direction](https://movement.neuroinformatics.dev/latest/examples/compute_head_direction.html)
 - [Pupil tracking](https://movement.neuroinformatics.dev/latest/examples/mouse_eye_movements.html)
-
 
 We will also cover some more advanced kinematic analyses in the next two chapters—[@sec-movement-mouse] and [@sec-movement-zebras]—where we will apply `movement` to some real-world datasets.
 :::
