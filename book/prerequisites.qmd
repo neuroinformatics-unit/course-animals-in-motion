@@ -122,7 +122,6 @@ Animals-in-Motion_2025-08/
 │   ├── mouse044_task1_annotator1.slp
 │   ├── mouse044_task1_mount_events_boris.tsv
 │   └── readme.md
-├── JABS-sample-data/
 └── Smart-Kages.zip
 ```
 
@@ -138,5 +137,4 @@ Animals-in-Motion_2025-08/
   - **mouse044_task1_annotator1.slp**: Fully annotated SLEAP labels file containing 3394 labelled frames used in [@sec-movement-intro] (converted from `calms21_task1_train.json`). The train/test splits above were derived from this file using a 20:80 random partition.
   - **mouse044_task1_mount_events_boris.tsv**: Ground-truth annotations of "mount" events in the video, extracted from `calms21_task1_train.json` to a BORIS-compatible TSV format. Used in [@sec-boris].
   - **readme.md**: Information about the dataset (from the CalMS21 dataset).
-- **JABS-sample-data**: Sample data from the [JAX Animal Behavior System (JABS)](https://github.com/KumarLabJax/JABS-behavior-classifier) — not used in this workshop.
 - **Smart-Kages.zip**: Compressed dataset used in [@sec-movement-mouse].
