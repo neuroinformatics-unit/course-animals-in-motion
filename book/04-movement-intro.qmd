@@ -713,52 +713,30 @@ That said, in some cases it's useful to export data back to the original DeepLab
 `movement` provides some functions for exporting datasets to third-party formats, which you can find in the [input/output section of the documentation](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#saving-pose-tracks).
 :::
 
-### Quantify motion
-
-In this section, we will familiarise ourselves with the
-[`movement.kinematics`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.html)
-module, which provides functions for deriving various useful quantities
-from motion tracks, such as velocity, acceleration, distances, orientations, and angles.
-
-![Examples of variables that can be derived from `position` using `movement.kinematics`.](img/movement_kinematics.png){#fig-movement-kinematics}
-
-As a starting point for all quantifications, we will use ground-truth position
-data that you have downloaded from the CalMS21 dataset, `mouse044_task1_annotator1.slp`.
-
-```{python}
-ds_gt = load_dataset(
-    Path.home() / ".movement" / "CalMS21" / "mouse044_task1_annotator1.slp",
-    fps=30,
-)
-position = ds_gt.position
-
-position
-```
-
-Our dataset tracks 7 keypoints per mouse, but many questions are easier to ask
-of a single point per animal. So, as we did in the previous section, let's reduce
-each mouse to its centroid.
-
-```{python}
-centroid_pos = position.mean(dim="keypoint")
-```
-
-#### How far apart are the two mice?
+### How far apart are the two mice?
 
 The resident-intruder assay is, at its core, about a social interaction between two
 animals. A natural first question is therefore: **how far apart are the two mice at
 each moment in time?**
 
-We can answer this with the
-[`compute_pairwise_distances`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_pairwise_distances.html)
-function, which computes distances between pairs of individuals—or, if we prefer,
-between pairs of keypoints.
+We can look into the [`movement.kinematics`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.html) module,
+which provides functions for deriving various useful quantities
+from motion tracks, such as velocity, acceleration, distances, orientations, and angles.
+
+![Examples of variables that can be derived from `position` using `movement.kinematics`.](img/movement_kinematics.png){#fig-movement-kinematics}
+
+The most suitable function to help us answer the above question is [`compute_pairwise_distances`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_pairwise_distances.html),
+which computes distances between pairs of individuals (or, if we prefer, between pairs of keypoints).
+
+As a starting point for all quantifications, we will use the smoothed centroid
+trajectories we computed at the end of the cleaning step
+(see @fig-plot-centroid-pos-smooth).
 
 ```{python}
 from movement.kinematics import compute_pairwise_distances
 
 distance = compute_pairwise_distances(
-    centroid_pos, dim="individual", pairs={"resident_b": "intruder_w"}
+    centroid_smooth, dim="individual", pairs={"resident_b": "intruder_w"}
 )
 distance
 ```
@@ -773,37 +751,33 @@ Let's plot it.
 #| label: fig-plot-inter-mouse-distance
 #| fig-cap: "Distance between the centroids of the two mice across time."
 
-distance.plot.line(x="time", aspect=2, size=2.5)
+distance.plot.line(x="time", aspect=3, size=2.5)
 ```
 
 The two mice repeatedly come together and move apart again, so this single variable
-already gives us a compact summary of the encounter.
+already gives us a compact, high-level summary of the encounter.
 
 ::: {.callout-tip title="Discuss"}
-
-- Roughly how much of the session do the mice spend near each other?
-- The distance is measured in pixels. What would you need to know about the recording
-  setup to express it in centimetres instead?
-- We computed the distance between centroids. What would change if we used the distance
-  between the two mice's noses instead? Which would you choose, and why?
+The distance is measured in pixels. What would you need to know to express it in centimetres instead?
 :::
 
 ::: {.exercise-prompt}
 Knowing *where* the mice are relative to each other tells us when they meet, but not
-what they do when they get there. Speed adds that missing piece.
+*what* they do when they get there. Perhaps we can get a sense of their activity levels
+during close encounters by looking at their instantaneous speed over time.
 
 1. Use [`compute_speed`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_speed.html)
    to compute the speed of each mouse's centroid across time.
-2. Plot the speed of both mice on the same axes, with one colour per individual.
-   Which mouse is more active overall?
-3. Now plot the speed and the inter-mouse distance one above the other, sharing a
+2. Plot the speed of both mice on separate rows. Which mouse appears more active overall?
+
+__Bonus__
+
+3. Now plot the intruder's speed and the inter-mouse distance on top of each other, sharing a
    common time axis. What relationships—if any—can you spot between the two?
-
-**Bonus**
-
-4. The raw speed traces are very spiky, which makes them hard to read. Try smoothing
-   them with a rolling median (e.g. `speed.rolling(time=15, center=True).median()`)
-   before plotting. Does the picture become clearer? What might you be losing?
+   *(Tip: Use `matplotlib` to create the figure.)*
+4. What proportion of time do the two mice spend with their centroids within 130 pixels
+   (roughly equal to 1 mouse body length in this video) of each other?
+   *(Tip: Look up and use the [`xarray.where` method](https://docs.xarray.dev/en/stable/user-guide/indexing.html#masking-with-where).)*
 :::
 
 ::: {.exercise-solution}
@@ -814,59 +788,55 @@ giving us one speed trace per mouse.
 ```{python}
 from movement.kinematics import compute_speed
 
-speed = compute_speed(centroid_pos)
+speed = compute_speed(centroid_smooth)
 speed
 ```
 
+We plot the speed of both mice on separate rows.
+
 ```{python}
-speed.plot.line(x="time", hue="individual", aspect=2, size=2.5)
+speed.plot.line(x="time", row="individual", aspect=2, size=2.5)
 ```
 
-To compare the two variables, we place them in two stacked subplots that share the
-same time axis. Here we use `matplotlib` directly to set up the figure, and then tell
-each `plot.line` call which subplot (`ax`) to draw into.
+The intruders appears more active overall, with higher-amplitude speed bursts.
+But beware: the speed spike near the 40-second mark looks like an artifact that has lingered despite out cleaning;
+3000 pixels per second doesn't look plausible.
+
+__Bonus__
+
+We select the intruder's speed and place it alongside the inter-mouse distance in two
+stacked subplots that share a common time axis.
 
 ```{python}
-#| label: fig-plot-speed-and-distance
-#| fig-cap: "Inter-mouse distance (top) and the speed of each mouse (bottom)."
+#| label: fig-plot-intruder-speed-and-distance
+#| fig-cap: "Intruder speed (top) and inter-mouse distance (bottom) across time."
 
 import matplotlib.pyplot as plt
 
-fig, axes = plt.subplots(2, 1, sharex=True, figsize=(8, 5))
+intruder_speed = speed.sel(individual="intruder_w")
 
-distance.plot.line(x="time", ax=axes[0], color="black")
-axes[0].set_ylabel("distance (pixels)")
+fig, axes = plt.subplots(2, 1, sharex=True, figsize=(7, 5))
+
+intruder_speed.plot.line(x="time", ax=axes[0])
+axes[0].set_ylabel("speed (pixels/s)")
 axes[0].set_xlabel("")
 
-speed.plot.line(x="time", hue="individual", ax=axes[1])
-axes[1].set_ylabel("speed (pixels/s)")
+distance.plot.line(x="time", ax=axes[1], color="black")
+axes[1].set_ylabel("distance (pixels)")
 
 fig.tight_layout()
 ```
 
-**Bonus**
-
-A rolling median replaces each value with the median of the 15 frames (0.5 s) centred
-on it, which suppresses the frame-to-frame spikes while preserving the slower changes.
+To find what proportion of frames the two mice spend within 130 pixels of each other,
+we use `xarray.where` to retain only the frames meeting that condition and compare
+the count of remaining values to the total.
 
 ```{python}
-speed_smooth = speed.rolling(time=15, center=True).median()
-
-fig, axes = plt.subplots(2, 1, sharex=True, figsize=(8, 5))
-
-distance.plot.line(x="time", ax=axes[0], color="black")
-axes[0].set_ylabel("distance (pixels)")
-axes[0].set_xlabel("")
-
-speed_smooth.plot.line(x="time", hue="individual", ax=axes[1])
-axes[1].set_ylabel("speed (pixels/s)")
-
-fig.tight_layout()
+close = distance.where(distance < 130)
+proportion = close.count() / distance.count()
+print(f"{proportion.item():.1%} of frames have centroids within 130 pixels of each other.")
 ```
 
-The traces are now much easier to follow, but we have traded away temporal precision:
-brief, genuine bursts of movement are flattened along with the noise. The wider the
-smoothing window, the more of the real signal we sacrifice.
 :::
 
 ::: {.callout-tip}
@@ -876,14 +846,10 @@ You can learn more about `movement.kinematics` by going through the following no
 - [Compute and visualise kinematics](https://movement.neuroinformatics.dev/latest/examples/compute_kinematics.html)
 - [Compute head direction](https://movement.neuroinformatics.dev/latest/examples/compute_head_direction.html)
 - [Pupil tracking](https://movement.neuroinformatics.dev/latest/examples/mouse_eye_movements.html)
+
+
+We will also cover some more advanced kinematic analyses in the next two chapters—[@sec-movement-mouse] and [@sec-movement-zebras]—where we will apply `movement` to some real-world datasets.
 :::
-
-The following two chapters—[@sec-movement-mouse] and [@sec-movement-zebras]—constitute
-case studies in which we apply `movement` to some real-world datasets.
-The two case studies represent quite different applications:
-
-- @sec-movement-mouse: Continuous home cage monitoring of mouse activity levels for weeks.
-- @sec-movement-zebras: Collective escape behaviour in a herd of zebras.
 
 ## Join the movement {#sec-movement-next}
 
