@@ -407,7 +407,7 @@ min_x
 
 ```{python}
 #| label: fig-plot-tail-base-pos
-#| fig-cap: "The x,y spatial coordinates of the tail_base keypoint across time"
+#| fig-cap: "The x,y spatial coordinates of the tail_base keypoint across time."
 
 tail_base_pos = ds.sel(keypoint="tail_base").position
 tail_base_pos.plot.line(
@@ -496,14 +496,10 @@ Surprisingly, a few confidence scores have values >1.0. That's because SLEAP's p
 
 ### Clean motion tracks
 
-Referring back to @fig-plot-tail-base-pos, we can see that the position trajectories exhibit some errors:
+Referring back to @fig-plot-tail-base-pos, we can see that the position trajectories exhibit some problems that are common to pose tracking data:
 
 - There are brief gaps of missing values. These are likely due to occlusions, when a body part is not visible in the video frame.
 - There are a few sudden jumps in the trajectories, which look implausible. These can occur when the pose estimation model misidentifies a keypoint, or when the tracking algorithm swaps the identities of two individuals.
-
-Another common type of pose estimation error is jitter in the predicted positions of a keypoint across frames, which is not consistent with the animal's actual motion.
-That's because most pose estimation models operate on a frame-by-frame basis, without taking into account the animal's motion across time.
-Each frame-level prediction may have a small error, and when these are connected into tracks, the resulting trajectories appear jittery.
 
 `movement` offers several methods for dealing with errors in motion tracking, as part of its
 [`movement.filtering`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.html) module.
@@ -516,12 +512,12 @@ These include functions for:
 Let's import two such functions from `movement.filtering` and see them in action.
 
 ```{python}
-from movement.filtering import filter_by_confidence, interpolate_over_time
+from movement.filtering import filter_by_confidence, rolling_filter
 ```
 
 First, let's use [`filter_by_confidence`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.filter_by_confidence.html)
 to drop all positions with confidence scores below a chosen threshold.
-Dropping here means replacing them with `NaN` (not-a-number) values, which are recognised as missing data by `xarray`.
+Dropping here means replacing them with `NaN` (not-a-number) values, which are recognised as missing data by most scientific computing libraries.
 
 ```{python}
 position_filtered = filter_by_confidence(
@@ -536,6 +532,9 @@ Setting `print_report=True` prints a report on the number of missing values befo
 Let's generate the same plot as @fig-plot-tail-base-pos, but this time with the filtered data.
 
 ```{python}
+#| label: fig-plot-tail-base-pos-filtered
+#| fig-cap: "The tail_base trajectories after filtering by confidence score."
+
 position_filtered.sel(keypoint="tail_base").plot.line(
     x="time", hue="individual", row="space",  aspect=2, size=2.5
 )
@@ -544,57 +543,124 @@ position_filtered.sel(keypoint="tail_base").plot.line(
 We managed to remove most implausible jumps in the trajectories, but we also introduced more gaps in the data.
 This is a typical trade-off when filtering data, and settling on the right threshold requires some experimentation.
 
+Even after dropping low-confidence positions, the remaining tracks may still exhibit
+frame-to-frame jitter—small, noisy fluctuations that do not reflect the animal's
+true motion but arise because pose estimation models process each frame independently.
+A rolling median filter can suppress this noise by replacing each value with the
+median of the surrounding frames within a sliding window.
+
+Let's apply [`rolling_filter`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html)
+to the confidence-filtered positions, using a window of 5 frames:
+
+```{python}
+position_smooth = rolling_filter(
+    position_filtered, window=5, statistic="median"
+)
+```
+
+```{python}
+#| label: fig-plot-tail-base-pos-smooth
+#| fig-cap: "The tail_base trajectories after applying a rolling median filter (window=5)."
+
+position_smooth.sel(keypoint="tail_base").plot.line(
+    x="time", hue="individual", row="space", aspect=2, size=2.5
+)
+```
+
+The trajectories are noticeably smoother, but some of the gaps seem to have grown.
+
 ::: {.exercise-prompt}
+Now experiment with the median filter yourself.
 
-Some of the gaps in the filtered data are quite short (a few frames), and we can try to fill them in by interpolating the missing values. `movement` provides the [`interpolate_over_time`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.interpolate_over_time.html) function for this purpose.
+1. Try applying `rolling_filter` to `position_filtered` with `window` values of 3 and
+   11 (keeping `statistic="median"`). For each, plot the `tail_base` keypoint
+   trajectory. How do the results differ?
 
-1. Use `interpolate_over_time` to fill in the gaps in `position_filtered` with linear interpolation.
-2. Plot the interpolated data for the `tail_base` keypoint. Are you happy with the result?
-3. Experiment with different values of the `max_gap` argument, plotting the results each time. How does it affect the interpolation?
+__Bonus__
 
-**Bonus**
-
-4. What if the dataset suffers from frame-to-frame jitter? Which of the functions from `movement.filtering` would you use to deal with that?
+1. By default (`min_periods=None`). Using `window=11`, set `min_periods=1`
+   and plot the result. How does the output differ? What is the trade-off? *(Tip: set
+   `print_report=True` to observe the effect on the number of missing values.)*
 :::
 
 ::: {.exercise-solution}
 
-First we interpolate the filtered data with `method="linear"`.
+We apply the filter with three different window sizes and plot the `tail_base` trajectory
+each time.
 
 ```{python}
-position_interp = interpolate_over_time(
-    position_filtered, method="linear", print_report=True
+#| fig-cap: "Rolling median filter with window=3."
+
+rolling_filter(
+    position_filtered, window=3, statistic="median"
+).sel(keypoint="tail_base").plot.line(
+    x="time", hue="individual", row="space", aspect=2, size=2.5
 )
 ```
 
-Then we plot the interpolated data for the `tail_base` keypoint.
-
 ```{python}
-position_interp.sel(keypoint="tail_base").plot.line(
-    x="time", hue="individual", row="space",  aspect=2, size=2.5
+#| fig-cap: "Rolling median filter with window=11."
+
+rolling_filter(
+    position_filtered, window=11, statistic="median"
+).sel(keypoint="tail_base").plot.line(
+    x="time", hue="individual", row="space", aspect=2, size=2.5
 )
 ```
 
-We can see that gaps in the data have been filled in, but some of the interpolated segments are implausibly straight.
-That's because interpolation tried to fill every gap by default, even the long ones.
-We would be better off restricting interpolation to only short gaps, by setting `max_gap` to a small value (e.g., 5 frames).
-The choice of `max_gap` is, again, arbitrary and should be guided by inspection of the results.
+With `window=3` the result is very close to the unsmoothed data—only the sharpest
+single-frame spikes are removed. With `window=11` the trajectory is much smoother,
+but also contains much longer gaps.
+
+Now we compare the default `min_periods=None` against `min_periods=1` with `window=11`.
+
+__Bonus__
 
 ```{python}
-position_interp = interpolate_over_time(
-    position_filtered, method="linear", max_gap=5, print_report=True
-)
+#| fig-cap: "Rolling median filter with window=11 and min_periods=None (default)."
 
-position_interp.sel(keypoint="tail_base").plot.line(
-    x="time", hue="individual", row="space",  aspect=2, size=2.5
+rolling_filter(
+    position_filtered, window=11, statistic="median"
+).sel(keypoint="tail_base").plot.line(
+    x="time", hue="individual", row="space", aspect=2, size=2.5
 )
 ```
 
-**Bonus**
-If the dataset suffers from frame-to-frame jitter, we could use either a rolling
-median filter, or a Savitzky-Golay filter, as outlined in
-[this movement example](https://movement.neuroinformatics.dev/latest/examples/smooth.html).
+```{python}
+#| fig-cap: "Rolling median filter with window=11 and min_periods=1."
+
+rolling_filter(
+    position_filtered, window=11, statistic="median", min_periods=1
+).sel(keypoint="tail_base").plot.line(
+    x="time", hue="individual", row="space", aspect=2, size=2.5
+)
+```
+
+By default, whenever one or more NaNs are present in the window, a NaN is returned to the output array.
+As a result, any stretch of NaNs present in the input data will be propagated proportionally to the size of the window (specifically, by `floor(window/2)`).
+To control this behaviour, the `min_periods` option can be used to specify the minimum number of valid (non-NaN) values required in the window to compute a result.
+For example, setting `min_periods=1` will result in the filter returning NaNs only when all values in the window are NaN, since 1 valid value is sufficient to compute the result.
+
 :::
+
+For what follows, we will use the smoothed position data with `window=7` and `min_periods=2`, which we will store as `position_smooth`.
+
+```{python}
+position_smooth = rolling_filter(
+    position_filtered, window=7, statistic="median", min_periods=2,
+)
+```
+
+Let's compute the centroid trajectories of the smoothed data (`centroid_smooth`) and plot them across time.
+
+```{python}
+#| label: fig-plot-centroid-pos-smooth
+#| fig-cap: "The centroid trajectories after filtering by confidence score and applying a rolling median filter."
+centroid_smooth = position_smooth.mean(dim="keypoint")
+centroid_smooth.plot.line(
+    x="time", hue="individual", row="space", aspect=2, size=2.5
+)
+```
 
 ::: {.callout-tip}
 You can learn more about `movement.filtering` by going through the following notebooks in `movement`'s
@@ -606,7 +672,7 @@ You can learn more about `movement.filtering` by going through the following not
 
 ### Save movement datasets
 
-If we want to closely inspect what our data cleaning accomplished, it would help to overlay the 'cleaned' motion tracks on the original video in the GUI, like we did in @sec-movement-gui.
+If we want to closely inspect what our data cleaning accomplished, it would help to overlay the smoothed motion tracks on the original video in the GUI, like we did in @sec-movement-gui.
 
 To do that, we need to first create a new `movement` dataset containing the cleaned data, and then save it to disk in a format that the GUI can read.
 
@@ -614,11 +680,11 @@ We can accomplish the first step by updating the `position` data variable in the
 
 ```{python}
 ds_cleaned = ds.copy()
-ds_cleaned.update({"position": position_interp})
+ds_cleaned.update({"position": position_smooth})
 ds_cleaned
 ```
 
-This dataset is in every way identical to the original one, except that the `position` data variable now contains the filtered and interpolated data.
+This dataset is in every way identical to the original one, except that the `position` data variable now contains the filtered and smoothed data.
 
 For saving datasets to disk, we recommend leveraging `xarray`'s built-in
 [support for the netCDF file format](https://docs.xarray.dev/en/stable/user-guide/io.html#netcdf).
@@ -626,16 +692,16 @@ For saving datasets to disk, we recommend leveraging `xarray`'s built-in
 ```{.python}
 import xarray as xr
 
-save_path = predictions_dir / "ds_cleaned.nc"
+save_path = predictions_dir / "ds_smooth.nc"
 ds_cleaned.to_netcdf(save_path)
 ```
 
 The same dataset can be loaded back into Python with `xr.open_dataset(save_path)`, or into the GUI by selecting "movement (netCDF)" as the source software when loading tracked data.
 
 ::: {.callout-tip title="Discuss"}
-Repeat the workflow outlined in @sec-movement-gui, but this time load the cleaned dataset `ds_cleaned.nc` instead of the original SLEAP predictions file.
+Repeat the workflow outlined in @sec-movement-gui, but this time load the cleaned dataset `ds_smooth.nc` instead of the original SLEAP predictions file.
 
-Keep in mind that the tracks layer display linearly interpolates between consecutive points, so the gaps in the original data will be filled in with straight lines (in that way, it's similar to the `max_gap=None` case in the previous exercise). You're better off turning off the tracks layer visibility and focusing on the points layer, which shows the actual positions of the keypoints.
+Keep in mind that the tracks layer display linearly interpolates between consecutive points, so the gaps in the original data will be filled in with straight lines. You're better off turning off the tracks layer visibility and focusing on the points layer, which shows the actual positions of the keypoints.
 
 Are you happy with what you see? If not, what would you do differently?
 :::
