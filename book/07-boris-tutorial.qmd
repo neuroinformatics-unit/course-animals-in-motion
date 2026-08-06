@@ -109,7 +109,7 @@ For a more complex worked example that uses the "Exclusion matrix" extensively, 
 
 Navigate to the "Subjects" tab.
 
-BORIS allows coding behaviours for different subjects within a single observation. 
+BORIS allows coding behaviours for different subjects within a single observation.
 By defining "Subjects", you can specify which individual is performing each behaviour.
 Because `mount` is defined in the ethogram as a behaviour performed by the resident mouse, we only need to add a single subject to represent the resident mouse.
 If you wish to annotate the intruder mounting the resident mouse, you can add a second subject representing the intruder (and update the behaviour description in the ethogram accordingly).
@@ -152,7 +152,7 @@ You are now ready to annotate the video.
 The following steps describe the basic annotation cycle:
 
 1. **Select the focal subject** by double-clicking `resident_b` in the Subjects panel. If you assigned a key (e.g. <kbd>b</kbd>), you can also press it to select the subject.
-2. **Step through the video** frame by frame using the <kbd>←</kbd> and <kbd>→</kbd> arrow keys, or use the step buttons and slider in the video playback controls at the top of the observation window. 
+2. **Step through the video** frame by frame using the <kbd>←</kbd> and <kbd>→</kbd> arrow keys, or use the step buttons and slider in the video playback controls at the top of the observation window.
    You can also press the <kbd>Space</kbd> bar to play or pause the video.
    For brief or fast-moving events, reducing playback speed (e.g. to 0.5×) can make them easier to identify.
 3. **Annotate the start of a mount event** by pressing <kbd>m</kbd> at the frame where mounting begins.
