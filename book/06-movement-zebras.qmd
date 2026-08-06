@@ -15,7 +15,7 @@ make sure to run all code snippets with the `animals-in-motion-env` environment 
 <!-- Some information about the dataset, with credits to Isla, and citing the preprint.
 Analysis will roughly follow <https://github.com/neuroinformatics-unit/zebras-stitching/blob/main/notebooks/03_notebook_compute_behaviour_metrics.py>. -->
 
-The 3.5-min dataset presented here consists of 44 trajectories of zebras (_Equus quagga_) expressed in a coordinate system fixed to the ground. Each individual has two keypoints (`head` and `tail`). 
+The 3.5-min dataset presented here consists of 44 trajectories of zebras (_Equus quagga_) expressed in a coordinate system fixed to the ground. Each individual has two keypoints (`head` and `tail`).
 
 The data was collected with a camera drone that followed the herd and recorded video data. Note that since both camera and animals are in motion, applying a pose estimation directly to the video data would confound both sources of movement. We need the trajectories of the animals relative to the ground, rather than relative to the drone. We computed the ground trajectories as follows: first, a trained [`SLEAP`](https://sleap.ai/) model was run on a video clip recorded from the drone. This way we obtained the trajectories of the zebras in a coordinate system linked to the drone. Then, we computed the position and orientation of the camera drone at each timestep by applying [Structure-from-motion](https://en.wikipedia.org/wiki/Structure_from_motion) (with [`OpenSFM`](https://github.com/mapillary/OpenSfM) and [`OpenDroneMap`](https://github.com/OpenDroneMap/OpenDroneMap)). This allowed us to express the trajectories in a coordinate system fixed to the ground, and allowed us to disentangle the motion of the zebras from the movement of the camera drone. After this coordinate transformation, the data was cleaned by removing low-confidence keypoints and implausible data points.
 
@@ -192,14 +192,13 @@ ax.grid()
 
 The plot suggests that the herd alternates between periods of higher and lower polarization.
 
-To visually check this matches the input data, we can plot polarization in time along with the unit body vectors per individual, the herd vector and the drone video. We did that in the animated plot below. The plot on the top right shows the unit body vectors (in black) and the herd vector (in red), whose norm is the polarization value. The purple line under the herd vector is the equivalent unit vector. 
+To visually check this matches the input data, we can plot polarization in time along with the unit body vectors per individual, the herd vector and the drone video. We did that in the animated plot below. The plot on the top right shows the unit body vectors (in black) and the herd vector (in red), whose norm is the polarization value. The purple line under the herd vector is the equivalent unit vector.
 
 ::: {#fig-zebras-polarization}
 <video src="https://github.com/neuroinformatics-unit/zebras-stitching/releases/download/zebras-clip/zebras_20250912_174038_w1440_crf23.mp4" autoplay loop muted playsinline width="100%"></video>
 
 Polarization over time alongside the unit body vectors, the herd vector and the drone video.
 :::
-
 
 ## Compute average speed of the herd
 
@@ -291,7 +290,6 @@ Let's put it all together and inspect how polarization changes with the speed of
 The distribution of herd speeds is skewed towards low values, so we use the
 logarithm of the speed to better resolve differences across the lower and
 middle range when colouring the points.
-
 
 ```{python}
 log10_herd_speed = np.log10(herd_speed)
