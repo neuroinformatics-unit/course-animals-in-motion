@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD045 -->
 
-# Training a behaviour classifier {#sec-classification}
+# Training a supervised behaviour classifier {#sec-classification}
 
 ::: {.callout-important title="Skeleton chapter"}
 This chapter is currently a **skeleton**: section titles with a short description of
@@ -13,33 +13,27 @@ In @sec-boris we used BORIS to annotate `mount` events on the video
 we train a **supervised behaviour classifier** that learns to flag `mount` frames
 automatically from features derived from the pose tracks.
 
-Make sure you have the `animals-in-motion-env` environment activated (see
-[prerequisites @sec-install-movement]), including `scikit-learn`. You will need the
-SLEAP predictions (`mouse044_task1_annotator1.slp`) and the BORIS ground-truth
-annotations (`mouse044_task1_mount_events_boris.tsv`) from earlier chapters.
+We will use `movement` to derive the features, and `scikit-learn` to train a simple random forest classifier.
+Both packages are included in the `animals-in-motion-env` environment (see
+[@sec-install-movement]), so make sure you have that environment activated before proceeding.
+We also need the fully annotated SLEAP file (`mouse044_task1_annotator1.slp`) containing pose tracks
+and the BORIS ground-truth annotations (`mouse044_task1_mount_events_boris.tsv`) (see [@sec-data]).
 
-::: {.callout-note title="Manage expectations"}
+```{mermaid}
+graph LR
+    video[/"Video"/] --SLEAP-->poses[/"Pose tracks"/]
+    poses --movement--> feat[Kinematic<br>features]
+    video --"BORIS"--> labels[Behaviour<br>annotations]
+    feat --train--> model
+    labels --train--> model[Random<br>Forest]
+```
+
+::: {.callout-note}
 The goal here is to teach the **workflow and the main concepts**, not to train a
 production-grade classifier. We deliberately use a single annotated video and a
 handful of interpretable features. A good model would need far more data, as we
 discuss at the end.
 :::
-
-## The pipeline
-
-Structurally this is the same supervised loop as pose estimation (@sec-workflow-sleap)
-and behaviour annotation (@sec-boris): select data, label, train, predict. Here the
-labels are behaviour states and the features come from the pose tracks.
-
-```{mermaid}
-graph LR
-    poses[/Pose tracks/] --> feat[Kinematic features]
-    boris[/BORIS labels/] --> labels[Per-frame labels]
-    feat --> train
-    labels --> train[Train random forest]
-    train --> eval[Evaluate on validation]
-    eval --> test[Test on a new video]
-```
 
 ## Load pose tracks and annotations
 
