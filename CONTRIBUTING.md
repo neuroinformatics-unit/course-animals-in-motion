@@ -64,6 +64,8 @@ quarto preview book
 
 Note that `quarto preview` still executes code cells and uses the cache, so the first preview after a change may take a moment.
 
+Some chapters (e.g. `04-movement-intro.qmd`, `05-movement-mouse.qmd`, `07-boris-tutorial.qmd`) execute code cells that read the `CalMS21` dataset from `~/.movement/CalMS21/`. 
+`movement`'s own sample datasets are fetched automatically, but `CalMS21` needs to be manually downloaded from Dropbox and placed at that path (see [prerequisites @sec-data](book/prerequisites.qmd) for the link and folder structure), otherwise rendering those chapters will fail with a missing-file error.
 ## Authoring content
 
 Book chapters are written primarily as [Quarto Markdown](https://quarto.org/docs/authoring/markdown-basics.html) files (`.qmd`).
@@ -74,7 +76,8 @@ We recommend using the [Quarto VSCode extension](https://marketplace.visualstudi
 The chapter source files reside in the `book/` directory and have to be linked in the `book/_quarto.yml` file for them to show up.
 See [Book Crossrefs](https://quarto.org/docs/books/book-crossrefs.html) on how to reference other chapters.
 
-Visual styling (colours, fonts, logo) is centralised in `book/_brand.yml`, applied via the `brand` theme layer in `book/_quarto.yml`'s `format.html.theme`. Update that file when changing the book's appearance.
+Visual styling (colours, fonts, logo) is centralised in `book/_brand.yml`, applied via the `brand` theme layer specified under `format.html.theme` in `book/_quarto.yml`. 
+To change the book's appearance, update `book/_brand.yml`.
 
 Bibliographical references should be added to the `book/references.bib` file in BibTeX format.
 See [Quarto authoring > Citations](https://quarto.org/docs/manuscripts/authoring/vscode.html#citations) for more information.
