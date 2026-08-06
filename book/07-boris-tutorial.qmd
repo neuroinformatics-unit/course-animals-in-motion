@@ -23,7 +23,7 @@ Behaviour segmentation typically operates on one or more of the following **feat
 
 ## How can we annotate behaviours?
 
-There are various tools to help with behaviour annotation.
+There are various tools to help with behaviour annotation (refer to @sec-useful-tools and @luxem_open-source_2023).
 Here, we introduce [BORIS](https://www.boris.unito.it/) [@friard_boris_2016], a widely adopted, free, open-source, tool designed for this task.
 BORIS offers a keyboard-shortcut-based interface for annotating behaviours in video recordings, structured around a project that defines an **ethogram**—a catalogue of all behaviours to be annotated.
 Annotations can be exported in multiple formats for downstream analysis.
