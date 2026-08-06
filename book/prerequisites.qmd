@@ -67,7 +67,7 @@ sleap doctor
 
 ### For movement tutorials {#sec-install-movement}
 
-You will also need a separate `conda` environment for the tutorials and case studies involving [movement](https://movement.neuroinformatics.dev/). This environment includes `movement` itself as well as [jupyter](https://jupyter.org/), which is required for following along interactively and solving the exercises.
+You will also need a separate `conda` environment for the tutorials and case studies involving [movement](https://movement.neuroinformatics.dev/). This environment includes `movement` itself as well as [jupyter](https://jupyter.org/) (required for following along interactively and solving the exercises) and [scikit-learn](https://scikit-learn.org/stable/) (required for the chapter on supervised classification).
 
 We recommend cloning this workshop's repository and creating the environment using the provided `environment.yaml` file:
 
