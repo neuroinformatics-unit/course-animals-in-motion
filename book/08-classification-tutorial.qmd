@@ -1,0 +1,223 @@
+<!-- markdownlint-disable MD045 -->
+
+# Training a behaviour classifier {#sec-classification}
+
+::: {.callout-important title="Skeleton chapter"}
+This chapter is currently a **skeleton**: section titles with a short description of
+what will go in each, and indicative (not yet runnable) code stubs. It will be
+fleshed out into a full tutorial.
+:::
+
+In @sec-boris we used BORIS to annotate `mount` events on the video
+`mouse044_task1_annotator1.mp4`. In this chapter we put those annotations to work:
+we train a **supervised behaviour classifier** that learns to flag `mount` frames
+automatically from features derived from the pose tracks.
+
+Make sure you have the `animals-in-motion-env` environment activated (see
+[prerequisites @sec-install-movement]), including `scikit-learn`. You will need the
+SLEAP predictions (`mouse044_task1_annotator1.slp`) and the BORIS ground-truth
+annotations (`mouse044_task1_mount_events_boris.tsv`) from earlier chapters.
+
+::: {.callout-note title="Manage expectations"}
+The goal here is to teach the **workflow and the main concepts**, not to train a
+production-grade classifier. We deliberately use a single annotated video and a
+handful of interpretable features. A good model would need far more data, as we
+discuss at the end.
+:::
+
+## The pipeline
+
+Structurally this is the same supervised loop as pose estimation (@sec-workflow-sleap)
+and behaviour annotation (@sec-boris): select data, label, train, predict. Here the
+labels are behaviour states and the features come from the pose tracks.
+
+```{mermaid}
+graph LR
+    poses[/Pose tracks/] --> feat[Kinematic features]
+    boris[/BORIS labels/] --> labels[Per-frame labels]
+    feat --> train
+    labels --> train[Train random forest]
+    train --> eval[Evaluate on validation]
+    eval --> test[Test on a new video]
+```
+
+## Load pose tracks and annotations
+
+Load the pose tracks into a `movement` dataset (as in @sec-movement-load) and the
+BORIS aggregated-events TSV into a pandas DataFrame (as in @sec-boris).
+
+```{.python}
+# Pose tracks (from SLEAP)
+ds = load_dataset(slp_path, source_software="SLEAP", fps=30)
+
+# BORIS annotations (aggregated events: one row per mount bout)
+boris_df = pd.read_csv(tsv_path, sep="\t")
+```
+
+## Attach annotations as per-frame labels
+
+BORIS gives us one row per `mount` bout, with a start and stop frame. To use these
+as training labels we expand them into a **per-frame boolean array** aligned to the
+dataset's `time` dimension (`True` while a mount is ongoing), and attach it as a
+coordinate. This mirrors the [`movement` "Annotate and load events with BORIS"
+example](https://movement.neuroinformatics.dev/latest/examples/advanced/annotate_boris_events.html).
+
+```{.python}
+# Build a per-frame boolean label from (start_frame, stop_frame) intervals
+is_mount = np.zeros(ds.time.size, dtype=bool)
+for _, ev in boris_df.iterrows():
+    is_mount[ev["Image index start"]:ev["Image index stop"]] = True
+
+ds = ds.assign_coords(is_mount=("time", is_mount))
+```
+
+This `is_mount` array is our label vector `y`.
+
+## Clean the tracks
+
+Briefly filter low-confidence points, interpolate short gaps, and smooth, exactly as
+in @sec-movement-filtering. Clean tracks give cleaner features.
+
+```{.python}
+# filter_by_confidence -> interpolate_over_time -> rolling_filter (see @sec-movement-intro)
+```
+
+## Compute kinematic features
+
+We derive a small set of **interpretable** features, each motivated by what mounting
+looks like in the resident–intruder assay. Keeping the set small and meaningful makes
+the model easy to reason about and to plot.
+
+| Feature | `movement` function | Why it should help |
+|---|---|---|
+| Inter-mouse distance | `compute_pairwise_distances` (centroids) | Mounting ⇒ the two mice are very close |
+| Resident speed | `compute_speed` | Mounting ⇒ little locomotion of the resident |
+| Resident→intruder orientation | `compute_forward_vector` + `compute_signed_angle_2d` | Resident faces the intruder's rear |
+| Resident body length | neck→tail_base distance | Hunched-over posture shortens the body |
+
+```{.python}
+# Assemble features into a frame-by-feature table
+X = pd.DataFrame({
+    "inter_mouse_distance": ...,
+    "resident_speed": ...,
+    "relative_orientation": ...,
+    "resident_body_length": ...,   # neck -> tail_base (more reliable than nose)
+})
+y = ds.is_mount.values
+```
+
+::: {.callout-note}
+We use the **neck→tail_base** distance rather than nose→tail_base, because the neck is
+tracked more reliably than the nose.
+:::
+
+## Explore the features
+
+Plot each feature's distribution split by `mount` vs. non-`mount` frames. This shows
+which features are discriminative, and makes the **class imbalance** obvious: mounting
+occupies only a small fraction of frames.
+
+```{.python}
+# Overlaid histograms / violin plots of each feature, grouped by y
+```
+
+## Train / validation split (temporal, not random)
+
+We split the single video **in time**: train on roughly the first 70% of frames,
+validate on the last ~30%.
+
+::: {.callout-important title="Why not a random split?"}
+Adjacent frames are almost identical, so a *random* split would put near-duplicate
+frames in both sets. The model would appear to score brilliantly while having
+essentially memorised its neighbours — **information leakage**. A temporal split keeps
+train and validation genuinely separate.
+
+Note the naming: this held-out tail is a **validation** set, not a test set. As soon as
+we inspect its scores and adjust features or thresholds to improve them, it has
+influenced our choices. The honest **test** comes later, on a brand-new video
+the model never saw (see [The real test](#the-real-test-a-new-video) below).
+:::
+
+```{.python}
+split = int(0.7 * len(X))
+X_train, X_val = X.iloc[:split], X.iloc[split:]
+y_train, y_val = y[:split], y[split:]
+```
+
+## Train a random forest
+
+A `RandomForestClassifier` is a solid, low-fuss baseline for tabular features. We set
+`class_weight="balanced"` so the rare `mount` class is not swamped by the majority.
+
+```{.python}
+clf = RandomForestClassifier(class_weight="balanced", random_state=0)
+clf.fit(X_train, y_train)
+```
+
+## Evaluate on the validation set
+
+Report **precision, recall and F1** for the `mount` class, plus a confusion matrix —
+not plain accuracy.
+
+::: {.callout-warning title="Accuracy lies under imbalance"}
+If mounting is 5% of frames, a model that always predicts "not mount" scores 95%
+accuracy while catching zero mounts. Precision/recall tell the real story.
+:::
+
+```{.python}
+# classification_report(y_val, clf.predict(X_val))
+# ConfusionMatrixDisplay ...
+# clf.feature_importances_  -> which features carry the signal?
+```
+
+## From frame predictions to behaviour bouts
+
+Per-frame predictions are noisy (isolated flipped frames). We **post-process** them
+into clean bouts: fill short gaps, drop very short detections, then overlay the
+predicted bouts against the BORIS ground-truth bouts on a timeline. This connects back
+to the bout-style annotations from @sec-boris.
+
+```{.python}
+# smooth predictions -> merge into [start, stop] bouts -> timeline plot vs ground truth
+```
+
+## The real test: a new video
+
+Now we apply the trained model to a **different** video it has never seen — with its own
+BORIS ground-truth annotations (provided). We compute the same features, predict, and
+compare.
+
+Expect the scores to **drop** relative to validation. That gap is the honest measure of
+how well the model generalises, and a teaching moment in itself: differences in lighting,
+animals, and behaviour between videos (**domain shift**), combined with training on a
+single video and few positive examples, all hurt generalisation.
+
+```{.python}
+# load new video's tracks + BORIS labels -> same feature pipeline -> clf.predict -> metrics
+```
+
+## Good practice, limitations, and where to go next
+
+What we would do to build a classifier worth trusting:
+
+- **More data**: many videos, multiple animals, and ideally multiple annotators (and
+  measure inter-annotator agreement).
+- **Better validation**: cross-validation that splits by *video*, never mixing frames
+  from one video across folds.
+- **Richer features**: rolling-window summaries (mean/std over short time windows),
+  more keypoint relationships — closer to how tools like SimBA and MARS operate.
+- **Handle imbalance** deliberately (class weights, resampling, threshold tuning on the
+  precision/recall trade-off).
+- **Off-the-shelf tools** built for this: [SimBA](https://github.com/sgoldenlab/simba),
+  [MARS](https://github.com/neuroethology/MARS),
+  [DeepEthogram](https://github.com/jbohnslav/deepethogram),
+  [keypoint-MoSeq](https://keypoint-moseq.readthedocs.io/), and
+  [A-SOiD](https://github.com/YttriLab/A-SOID).
+
+::: {.callout-tip title="Discuss"}
+
+- Which feature was most important? Does that match your intuition about mounting?
+- How could you improve performance *without* collecting more data?
+- The validation score was optimistic compared to the new-video test. Why? Where else
+  in an ML pipeline can this kind of leakage sneak in?
+:::
