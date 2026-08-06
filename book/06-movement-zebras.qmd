@@ -35,9 +35,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 
-from IPython.display import HTML
-from matplotlib.animation import FuncAnimation
-
 from movement import sample_data
 from movement.kinematics import compute_speed
 from movement.transforms import scale
@@ -136,7 +133,7 @@ ax.legend()
 
 ```
 
-We can see there is some variability in the body lengths per individual. Part of it may reflect the diversity across individuals, but from visual inspection of the video we expect the majority of it to be due to imperfect tracking of the keypoints. To remove some of these outliers, we continue the next part of the analysis considering only body vectors that are within 2 standard deviations of the mean.
+We can see there is some variability in the body lengths per individual. Part of it may reflect the diversity across individuals, but from visual inspection of the video we expect the majority of it to be due to imperfect tracking of the keypoints. To remove some of these outliers, we continue the analysis considering only body vectors that are within 2 standard deviations of the mean.
 
 ```{python}
 body_vector_filtered = body_vector.where(
@@ -327,73 +324,3 @@ cbar.set_label("log10 herd speed (BL/s)")
 ```
 
 The plot shows that for this dataset, the periods of highest polarization are associated with higher speeds. This is consistent with the interpretation that the zebras become more aligned when escaping at speed, and more dispersed when they are at rest.
-
-## Pairwise distances
-
-As a final step, let's look at how the spatial arrangement of the herd changes over time. A convenient way to summarise this is the **pairwise distance matrix**: an `individuals` x `individuals` array whose element $(i, j)$ is the distance between individuals $i$ and $j$ at a given time.
-
-We can compute it in one go by exploiting `xarray`'s broadcasting and with a renaming trick. If we rename the `individual` dimension of the `centroid` array to `individual_i` in one copy and to `individual_j` in another they won't be considered the same dimension by `xarray`. Then, if we subtract them we get an array with the vector from every individual $j$ to every individual $i$, at every timestep. The norm of those vectors is the distance matrix we are after.
-
-```{python}
-vector_j_to_i = centroid.rename({"individual": "individual_i"}) - centroid.rename(
-    {"individual": "individual_j"}
-)
-
-dist_matrix = compute_norm(vector_j_to_i)
-```
-
-The resulting array has `(time, individual_i, individual_j)` dimensions. It is symmetric, and its diagonal is zero, since the distance of an individual to itself is zero.
-
-Because the matrix changes at every frame, an animation is a natural way to inspect it. Black rows and columns that cross correspond to individuals that were not detected.
-
-```{python}
-#| code-fold: true
-#| label: fig-distance-matrix-animation
-#| fig-cap: "Pairwise distances between individuals over time, in body lengths."
-
-video_fps = 29.97
-
-fig, ax = plt.subplots()
-
-# Initialise the image with the first frame, with a fixed colour scale
-im = ax.imshow(
-    dist_matrix.isel(time=0),
-    cmap="viridis",
-    vmin=0,
-    vmax=dist_matrix.max().item()
-)
-ax.set_xlabel("individual j")
-ax.set_ylabel("individual i")
-ax.set_facecolor("black") # NaN values shown in black rather than white
-title = ax.set_title("")
-
-cbar = plt.colorbar(im)
-cbar.set_label("distance (BL)")
-
-
-# Define update function for animation
-def update(t_i):
-    """Update the image data with the distance matrix at frame ``t_i``."""
-    im.set_data(dist_matrix.isel(time=t_i))
-    title.set_text(f"t = {dist_matrix.time.values[t_i]:.2f} s")
-    return im, title
-
-
-# Create animation
-frame_step = 60  # subsample frames to show data every 2 s approx.
-frame_idcs = range(0, centroid.time.size, frame_step)
-interval_from_fps_in_ms = (1 / video_fps) * 1000  # realtime interval between frames (ms)
-anim = FuncAnimation(
-    fig,
-    update,
-    frames=frame_idcs,
-    interval=interval_from_fps_in_ms * 3,  # delay between frames in ms for replay
-    blit=False,  # required because the title changes per frame
-)
-
-plt.close(fig)  # prevent the static first frame from being rendered too
-
-HTML(anim.to_jshtml())
-```
-
-Watching the animation, we can see how the overall brightness of the matrix changes as the herd contracts and expands, and how blocks of individuals that stay close to each other appear as darker patches. Comparing these changes with the polarization and speed traces above is a good starting point for exploring how the herd reorganises around each escape event.
