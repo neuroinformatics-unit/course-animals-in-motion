@@ -251,7 +251,7 @@ We can see that there are four periods in the dataset in which the speed of the 
 
 :::
 
-We can also inspect how the speed of each individual changes over time.
+We can now plot the speed of each individual over time as an array.
 
 ```{python}
 #| code-fold: true
@@ -288,7 +288,10 @@ The plot suggests that the individuals are quite coordinated also in their chang
 
 Let's put it all together and inspect how polarization changes with the speed of the herd.
 
-We will use the logarithm of the speed to focus on the higher range of speeds.
+The distribution of herd speeds is skewed towards low values, so we use the
+logarithm of the speed to better resolve differences across the lower and
+middle range when colouring the points.
+
 
 ```{python}
 log10_herd_speed = np.log10(herd_speed)
