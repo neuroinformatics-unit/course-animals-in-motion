@@ -194,8 +194,10 @@ The plot suggests that the herd alternates between periods of higher and lower p
 
 To visually check this matches the input data, we can plot polarization in time along with the unit body vectors per individual, the herd vector and the drone video. We did that in the animated plot below. The plot on the top right shows the unit body vectors (in black) and the herd vector (in red), whose norm is the polarization value. The purple line under the herd vector is the equivalent unit vector. 
 
-::: {.column-body style="text-align:center"}
+::: {#fig-zebras-polarization}
 <video src="https://github.com/neuroinformatics-unit/zebras-stitching/releases/download/zebras-clip/zebras_20250912_174038_w1440_crf23.mp4" autoplay loop muted playsinline width="100%"></video>
+
+Polarization over time alongside the unit body vectors, the herd vector and the drone video.
 :::
 
 
