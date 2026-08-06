@@ -133,15 +133,29 @@ ax.legend()
 
 ```
 
-We can see there is some variability in the body lengths per individual. Part of it may reflect the diversity across individuals, but from visual inspection of the video we expect the majority of it to be due to imperfect tracking of the keypoints. To remove some of these outliers, we continue the analysis considering only body vectors that are within 2 standard deviations of the mean.
+We can see there is some variability in the body lengths per individual. Part of it may reflect the diversity across individuals, but from visual inspection of the video we expect the majority of it to be due to imperfect tracking of the keypoints. To remove some of these outliers, we continue the analysis considering only the samples in which an individual's body length is within 2 standard deviations of the mean.
 
 ```{python}
-body_vector_filtered = body_vector.where(
-    np.logical_and(
-        body_length <= body_length_mean + 2 * body_length_std,
-        body_length >= body_length_mean - 2 * body_length_std,
-    )
+within_2_stds = np.logical_and(
+    body_length <= body_length_mean + 2 * body_length_std,
+    body_length >= body_length_mean - 2 * body_length_std,
 )
+```
+
+We apply the mask to the `position` data array itself, so that every metric we compute from here on is based on the same cleaned data.
+
+```{python}
+# `within_2_stds` has (time, individual) dimensions, so it broadcasts
+# across the space and keypoint dimensions of the position array
+position_filtered = ds.position.where(within_2_stds)
+```
+
+The filtered body vectors then follow from the filtered positions.
+
+```{python}
+body_vector_filtered = position_filtered.sel(
+    keypoint="H"
+) - position_filtered.sel(keypoint="T")
 
 ```
 
@@ -204,15 +218,17 @@ Polarization over time alongside the unit body vectors, the herd vector and the 
 
 We can also inspect how the speed of the herd changes over the course of the simulated escape events.
 
-First, let's scale the position data to express it in units of body lengths (BL). This will make the results more interpretable. We can use `movement`'s `scale` function to do this.
+First, let's scale the filtered position data to express it in units of body lengths (BL). This will make the results more interpretable. We can use `movement`'s `scale` function to do this.
 
 ```{python}
 position_scaled = scale(
-    ds.position, 
-    factor=1 / body_length_median.item(), 
+    position_filtered,
+    factor=1 / body_length_median.item(),
     space_unit="body_length",
 )
 ```
+
+Note that the scaling factor is the median body length computed over the *unfiltered* data. The median is quite robust to outliers, so we leave it as is since recomputing it after filtering would make little difference.
 
 For simplicity, we would also like to reduce the position of each individual to a single point. A good candidate for this is the centroid, which is the mean of all the keypoints per individual. In our case, the centroid will be the midpoint between the head and tail keypoints.
 
@@ -281,7 +297,7 @@ cbar.set_label("speed (BL/s)")
 ax.get_images()[0].set_clim(0, 6) # cap values at 6 BL/s
 ```
 
-The plot suggests that the individuals are quite coordinated also in their change of speed. We can clearly see the four periods of higher speed, which correspond to the four simulated escape events.
+The plot suggests that the individuals are quite coordinated also in their change of speed. We can clearly see the four periods of higher speed, which correspond to the four simulated escape events. The white gaps correspond to the samples we discarded, either because the individual was not detected or because its body length fell outside the range we defined above.
 
 ## Polarization vs speed
 
