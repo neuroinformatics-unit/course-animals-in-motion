@@ -2,12 +2,6 @@
 
 # Training a supervised behaviour classifier {#sec-classification}
 
-::: {.callout-important title="Skeleton chapter"}
-This chapter is currently a **skeleton**: section titles with a short description of
-what will go in each, and indicative (not yet runnable) code stubs. It will be
-fleshed out into a full tutorial.
-:::
-
 In @sec-boris we used BORIS to annotate `mount` events on the video
 `mouse044_task1_annotator1.mp4`. In this chapter we put those annotations to work:
 we train a **supervised behaviour classifier** that learns to flag `mount` frames
@@ -80,7 +74,7 @@ human labelers suffer from the same frame-to-frame jitter as pose estimation alg
 from movement.filtering import rolling_filter
 
 ds.update(
-  {"position": rolling_filter(ds.position, window=5, min_periods=2)}
+  {"position": rolling_filter(ds.position, window=7, min_periods=2)}
 )
 ```
 
@@ -112,39 +106,26 @@ columns_of_interest = [
 boris_df[columns_of_interest]
 ```
 
-## Attach annotations as per-frame labels
+## Add per-frame labels
 
 BORIS gives us one row per `mount` bout, with a start and stop frame. To use these
 as training labels we expand them into a **per-frame boolean array**,
-`True` while a mount is ongoing and `False` otherwise. This is our label vector `y`,
+`True` while a mount is ongoing and `False` otherwise.
+We can store this array in the dataset as a new **data variable**, alongside `position` and
+`confidence`, so the labels travel together with the tracks.
+This is our label vector `y`,
 i.e. the ground truth we want the classifier to learn to predict.
 
 ```{python}
 # Start with an all-False boolean array the size of dataset's time axis
-is_mount = xr.zeros_like(ds.time, dtype=bool)
+ds["is_mount"] = xr.zeros_like(ds.time, dtype=bool)
 
 # Fill in True between start and stop frames for each BORIS bout
 for _, ev in boris_df.iterrows():
   start, stop = ev["Image index start"], ev["Image index stop"]
-  is_mount[{"time": slice(start, stop)}] = True
-```
+  ds["is_mount"][{"time": slice(start, stop)}] = True
 
-For convenience, we can also attach this array to the `movement` dataset as an additional **coordinate**,
-aligned to the dataset's `time` dimension. This mirrors the [`movement` "Annotate and load events with BORIS"
-example](https://movement.neuroinformatics.dev/latest/examples/advanced/annotate_boris_events.html).
-
-```{python}
-# is_mount is already aligned to the time dimension, so we can assign it directly
-ds = ds.assign_coords(is_mount=is_mount)
-ds
-```
-
-Notice that there is now a new `is_mount` coordinate in the dataset.
-This allows us to easily select data by behavioural state.
-
-```{python}
-ds_mount = ds.sel(time=ds.is_mount)  # select all frames where mount=True
-ds_mount
+ds.is_mount
 ```
 
 Let's calculate the fraction of frames that are `mount`.
@@ -159,54 +140,312 @@ Computing a fraction involves summing up the number of values and dividing by th
 Because `True` is treated as `1` and `False` as `0`, the mean of a boolean array gives exactly this fraction.
 :::
 
+::: {.callout-tip title="Discuss"}
 We have much fewer `mount` frames than `non-mount` frames.
 This situation—often referred to as **class imbalance**—is quite common in behaviour classification scenarios.
-We will have to take that into account when training the binary classifier.
+Why could that be a problem for training and evaluating a classifier?
+:::
+
+## Our first classifier: a distance threshold
+
+A classifier can only be as good as the data we give it.
+In machine learning terms, the data variables we feed into the model are called **features**.
+
+Rather than throwing raw keypoint coordinates at the model, let's derive a small set of **interpretable features**,
+each motivated by what mounting actually looks like in the resident–intruder assay.
+
+*What would be a good set of features to distinguish `mount` from `non-mount` frames?*
+
+Let's start with an obvious one: the **distance between the two mice**.
+During a mount, the resident is on top of the intruder, so their centroids should be very close together.
+
+We compute the inter-mouse distance (as we did in @sec-movement-intro).
+
+```{python}
+from movement.kinematics import compute_pairwise_distances
+
+centroid_pos = ds.position.mean("keypoint")  # one point per mouse
+inter_mouse_distance = compute_pairwise_distances(
+    centroid_pos,
+    dim="individual",
+    pairs={"resident_b": "intruder_w"},
+)
+inter_mouse_distance
+```
+
+Let's plot it across time, while highlighting the `mount` frames (expand the code block if you want to see the plotting function).
+
+```{python}
+#| label: fig-inter-mouse-distance
+#| fig-cap: "Inter-mouse distance over time, with mount frames highlighted."
+#| code-fold: true
+
+import matplotlib.pyplot as plt
+
+
+def plot_over_time(data_array, mount, ylabel, ymax=None):
+    """Plot a per-frame quantity over time, with mount frames highlighted.
+
+    ``mount`` is a boolean array (aligned to ``data_array``'s time axis) marking
+    the frames to shade.
+    """
+    ymax = float(data_array.max()) if ymax is None else ymax
+    plt.figure(figsize=(7, 3))
+    plt.plot(data_array.time, data_array)
+    plt.fill_between(
+        data_array.time, 0, ymax,
+        where=mount, color="orange", edgecolor=None, alpha=0.3,
+    )
+    plt.xlabel("time (s)")
+    plt.ylabel(ylabel)
+    plt.tight_layout()
+    plt.show()
+
+plot_over_time(inter_mouse_distance, ds.is_mount, ylabel="distance (px)")
+```
+
+That looks very promising: the inter-mouse distance is clearly low during mounts.
+
+How far can this single feature take us? Let's turn the inter-mouse distance into a simple yes/no rule by choosing an arbitrary threshold of 100 pixels (based on eye-balling the above plot), and see how well it separates the two classes.
+
+```{python}
+distance_threshold = 100  # pixels
+
+ds["predicted_mount"] = inter_mouse_distance < distance_threshold
+ds.predicted_mount
+```
+
+This single rule is already a "classifier", if a crude one.
+To see how good it is, we compare its predictions against the ground-truth labels.
+A **confusion matrix** is the clearest place to start: it counts how many frames fall into each combination of predicted vs. actual state.
+We normalise the counts per row (`normalize="true"`), so every *true* class sums to 100%.
+
+```{python}
+#| label: fig-threshold-confusion
+#| fig-cap: "Row-normalised confusion matrix for the distance-threshold baseline (all frames)."
+from sklearn.metrics import ConfusionMatrixDisplay
+
+ConfusionMatrixDisplay.from_predictions(
+    ds.is_mount.values,
+    ds.predicted_mount.values,
+    display_labels=["not mount", "mount"],
+    normalize="true",      # normalise over each true-class row
+    values_format=".0%",
+    cmap="magma",
+)
+plt.show()
+```
+
+To boil these results down to a few numbers, we use `scikit-learn`'s
+[`classification_report`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html),
+which reports **precision**, **recall** and **F1-score** for each class.
+
+```{python}
+from sklearn.metrics import classification_report
+
+print(classification_report(
+    ds.is_mount.values,
+    ds.predicted_mount.values,
+    target_names=["not mount", "mount"],
+))
+```
+
+::: {.callout-note title="Understanding the classification report" collapse="true"}
+All metrics are built from just four counts, obtained by comparing predictions
+against the ground truth. Taking `mount` as the "positive" class:
+
+- **TP** (true positives): `mount` frames correctly predicted as `mount`.
+- **FP** (false positives): `non-mount` frames wrongly predicted as `mount`.
+- **TN** (true negatives): `non-mount` frames correctly predicted as `non-mount`.
+- **FN** (false negatives): `mount` frames wrongly predicted as `non-mount`.
+
+These are exactly the four cells of the confusion matrix above. From them:
+
+**Precision** (a.k.a. *positive predictive value*): of everything flagged as `mount`, what fraction really was?
+$$\text{Precision} = \frac{TP}{TP + FP}$$
+
+**Recall** (a.k.a. *sensitivity*, *true positive rate*, *hit rate*): of all true `mount` frames, what fraction did we catch?
+$$\text{Recall} = \frac{TP}{TP + FN}$$
+
+**F1 score**: the harmonic mean of precision and recall; high only when *both* are high.
+$$F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} = \frac{2\,TP}{2\,TP + FP + FN}$$
+
+**Accuracy**: the fraction of *all* frames classified correctly. Simple, but easily
+inflated when one class dominates (see below).
+$$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+:::
+
+Focusing on the `mount` class:
+
+- **Recall ≈ 0.76** — of all true `mount` frames, the distance rule catches about three-quarters.
+- **Precision ≈ 0.58** — of all frames it *labels* `mount`, only ~58% really are, so roughly 40% are false alarms.
+- **F1 ≈ 0.66** — the harmonic mean of the two, a convenient single-number summary that balances the two types of mistakes.
+
+That is remarkably good for a one-line rule! But look at what **accuracy** (0.84) hides.
+
+::: {.callout-warning title="Accuracy can be misleading"}
+Only ~21% of frames are mounts, so a lazy classifier that *always* predicts "not mount"
+would already score ~79% accuracy—while catching zero mounts. Our threshold scores only a
+little higher on accuracy, yet it actually finds most of the mounts. For imbalanced
+problems like this, precision, recall and F1 are far more informative than accuracy alone.
+:::
 
 ::: {.callout-tip title="Discuss"}
-Why is class imbalance a problem for training and evaluating a classifier?
+In real life, we will want to analyse more than 1.5 minutes of video, and we will want to apply the classifier to new videos.
+So let's think about generalisation:
+
+- Do you expect the above threshold to generalise well to a new video? Why or why not?
+- How would you go about picking the threshold more systematically, rather than by eye?
 :::
 
-## Compute kinematic features
+## Adding more features
 
-We derive a small set of **interpretable** features, each motivated by what mounting
-looks like in the resident–intruder assay. Keeping the set small and meaningful makes
-the model easy to reason about and to plot.
+One feature and a hand-tuned threshold already got us surprisingly far, but that's not going to be good enough.
+There are many situations—other than the resident mounting the intruder—in which the two mice are close together.
+For example:
 
-| Feature | `movement` function | Why it should help |
-|---|---|---|
-| Inter-mouse distance | `compute_pairwise_distances` (centroids) | Mounting ⇒ the two mice are very close |
-| Resident speed | `compute_speed` | Mounting ⇒ little locomotion of the resident |
-| Resident→intruder orientation | `compute_forward_vector` + `compute_signed_angle_2d` | Resident faces the intruder's rear |
-| Resident body length | neck→tail_base distance | Hunched-over posture shortens the body |
+- the intruder could be mounting the resident.
+- they could be interacting in other ways (sniffing, fighting, play).
 
-```{.python}
-# Assemble features into a frame-by-feature table
+We don't have many such examples in this single video, but we are likely to encounter them in new videos.
+
+One way to improve the classifier is to add more features so the model can learn a more nuanced decision boundary than a single yes/no threshold.
+
+Conceptually, can can think of each additional feature as a new yes/no question the model can ask about each frame, e.g. "are the mice close together?", "is the intruder facing away from the resident?", "is the resident moving fast?", etc. That's the exact intuition behind **tree-based models** like random forests: each **tree** is a series of yes/no questions that splits the data into smaller and smaller subsets (branches), ideally until each *leaf* contains only one class.
+
+```{mermaid}
+%%| label: fig-decision-tree
+%%| fig-cap: "A decision tree is just a cascade of simple threshold questions."
+graph TD
+    q1{"Are the mice close?<br/>distance &lt; 100 px"}
+    q1 -->|no| n1["not mount"]
+    q1 -->|yes| q2{"Is the intruder<br/>facing away?<br/>angle &gt; 90 deg"}
+    q2 -->|no| n2["not mount"]
+    q2 -->|yes| m1["mount"]
+
+    classDef mount fill:#3182bd,stroke:#08519c,color:#ffffff;
+    classDef notmount fill:#eeeeee,stroke:#bbbbbb,color:#000000;
+    class m1 mount;
+    class n1,n2 notmount;
+```
+
+So let's compute a few more **interpretable** features—each motivated by what
+mounting actually looks like in the resident–intruder assay.
+
+We've seen in the video that mounting typically involves the resident being on top and behind the intruder, while the intruder is facing away.
+This suggests that **orientation** features could be useful, in addition to the inter-mouse distance we already have.
+Let's compute one such feature with `movement`: the **intruder-facing-resident angle**.
+
+We'll do that in two steps:
+
+1. Compute the vector pointing from the intruder's centroid to the resident's centroid.
+2. Compute the angle between that vector and the intruder's forward-facing direction, using `compute_forward_vector_angle()`.
+
+```{python}
+from movement.kinematics import compute_forward_vector_angle
+
+resident_c = centroid_pos.sel(individual="resident_b")  # resident centroid
+intruder_c = centroid_pos.sel(individual="intruder_w")  # intruder centroid
+intruder = ds.position.sel(individual="intruder_w")     # intruder keypoints (for its facing direction)
+
+# We derive the vector by subtracting the centroids
+intruder_to_resident_vector = resident_c - intruder_c
+
+# We compute intruder's forward-facing angle
+# relative to the vector pointing to the resident
+intruder_facing_resident_angle = compute_forward_vector_angle(
+    data=intruder,
+    left_keypoint="left_ear",
+    right_keypoint="right_ear",
+    camera_view="top_down",
+    reference_vector=intruder_to_resident_vector,
+    in_degrees=True
+)
+intruder_facing_resident_angle
+```
+
+::: {.callout-tip title="How does `compute_forward_vector_angle()` work?" collapse="true"}
+Explain with schematics from movement head direction example.
+:::
+
+This is a signed angle, with 0° meaning the intruder is facing directly at the resident, and ±180° meaning it is facing directly away.
+Here we don't care about the sign, so we take the absolute value to get a range from 0° to 180°.
+
+```{python}
+intruder_facing_resident_angle = abs(intruder_facing_resident_angle)
+```
+
+```{python}
+#| label: fig-intruder-facing-resident-angle
+#| fig-cap: "Intruder-facing-resident angle over time, with mount frames highlighted."
+#| code-fold: true
+plot_over_time(intruder_facing_resident_angle, ds.is_mount, ylabel="angle (deg)", ymax=180)
+```
+
+Our intuition is confirmed: during many mounts the angle is near 180°,
+meaning the intruder is facing away from the resident.
+
+Let's add one last feature: the resident's centroid **speed**.
+During a mount, the resident is relatively stationary—hunched over the intruder rather than
+travelling across the arena—so its speed should be low. We compute it from the resident
+centroid with [`compute_speed`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_speed.html).
+
+```{python}
+from movement.kinematics import compute_speed
+
+resident_speed = compute_speed(resident_c)
+resident_speed
+```
+
+```{python}
+#| label: fig-resident-speed
+#| fig-cap: "Resident speed over time, with mount frames highlighted."
+#| code-fold: true
+plot_over_time(resident_speed, ds.is_mount, ylabel="speed (px/s)")
+```
+
+The signal here is weaker than for the other two features: the resident does tend to slow
+down during mounts, but it also slows down at plenty of other times, so speed alone would
+make a poor classifier. It may still help the model in combination with distance and
+orientation though.
+
+We now have three features. Following the `scikit-learn` convention, we collect them into a
+feature matrix `X`—one row per frame, one column per feature—alongside the label vector `y`
+(our `is_mount` ground truth).
+
+```{python}
 X = pd.DataFrame({
-    "inter_mouse_distance": ...,
-    "resident_speed": ...,
-    "relative_orientation": ...,
-    "resident_body_length": ...,   # neck -> tail_base (more reliable than nose)
+    "inter_mouse_distance": inter_mouse_distance.values,
+    "intruder_facing_resident_angle": intruder_facing_resident_angle.values,
+    "resident_speed": resident_speed.values,
 })
 y = ds.is_mount.values
+
+X.head()
 ```
 
-::: {.callout-note}
-We use the **neck→tail_base** distance rather than nose→tail_base, because the neck is
-tracked more reliably than the nose.
+::: {.callout-tip title="Discuss"}
+
+- Here we hand-picked three features that we thought would be useful. What are the pros and cons of this approach?
+- What if we were trying to distinguish between many different behaviours, not just `mount` vs `non-mount`?
+- Why don't we just feed the raw keypoint coordinates into the model and let it figure out the features itself?
 :::
 
-## Explore the features
+## What is a random forest?
 
-Plot each feature's distribution split by `mount` vs. non-`mount` frames. This shows
-which features are discriminative, and makes the **class imbalance** obvious: mounting
-occupies only a small fraction of frames.
+As feature numbers grow, it's no longer practical to eyeball each one individually and hand-pick thresholds.
+Instead, we will let a machine learning model to learn the best decision boundary from the data.
+Specifically, we will train a **random forest classifier** which is a type of ensemble model that combines many decision trees to make predictions.
 
-```{.python}
-# Overlaid histograms / violin plots of each feature, grouped by y
-```
+As we mentioned above, each **tree** is a cascade of yes/no questions about the features.
+Intuitevely, the **forest** aggregates votes from multiple trees to make a final prediction.
+The **random** part comes from training each tree on a random subset of the data and features, which helps to reduce overfitting and improve generalisation.
 
-## Train / validation split (temporal, not random)
+Random forests are an excellent starting point: they are robust, require little tuning, and can handle features on different scales (pixels, radians, pixels/second) without the need for normalization. Moreover, there are easy-to-train without consuming too much time or computational resources.
+
+Learn more about [decision trees](https://scikit-learn.org/stable/modules/tree.html) and [random forests](https://scikit-learn.org/stable/modules/ensemble.html#forest) in the `scikit-learn` documentation.
+
+## Train / validation split
 
 We split the single video **in time**: train on roughly the first 70% of frames,
 validate on the last ~30%.
@@ -223,37 +462,120 @@ influenced our choices. The honest **test** comes later, on a brand-new video
 the model never saw (see [The real test](#the-real-test-a-new-video) below).
 :::
 
-```{.python}
+```{python}
 split = int(0.7 * len(X))
 X_train, X_val = X.iloc[:split], X.iloc[split:]
 y_train, y_val = y[:split], y[split:]
+
+print(f"Train:      {len(X_train)} frames ({y_train.sum()} mount)")
+print(f"Validation: {len(X_val)} frames ({y_val.sum()} mount)")
+
+# A temporal split only works if mounts fall on *both* sides of the cut.
+# This is not guaranteed in general, so we check it explicitly.
+assert y_train.sum() > 0 and y_val.sum() > 0, "A split has no mount frames!"
 ```
+
+Both splits contain mount bouts, so the model has positive examples to learn from and we
+have some to evaluate on. This is worth checking rather than assuming: a purely temporal
+split gives no guarantee that the rare behaviour appears on both sides of the cut. Here
+it does, because this video happens to have mounts near the end. With a different video—or
+a behaviour that only occurs early—you might need to choose the split point more carefully,
+or reserve a whole separate video for validation.
+
+::: {.callout-tip title="Splitting across videos"}
+We split a single video in time only because we have just one annotated video here. When
+you have **several** annotated videos, the cleaner approach is to split *across* videos:
+train on some, validate on others. This keeps all frames from any given video on one side
+of the split, avoiding the frame-to-frame leakage that motivated our temporal split in the
+first place—and it better reflects the real goal of generalising to *new* videos.
+:::
 
 ## Train a random forest
 
-A `RandomForestClassifier` is a solid, low-fuss baseline for tabular features. We set
-`class_weight="balanced"` so the rare `mount` class is not swamped by the majority.
+We're finally ready to train. A
+[`RandomForestClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
+is a solid, low-fuss baseline for tabular features: it needs little tuning and copes well
+with features on different scales (pixels, radians, pixels/second). We set
+`class_weight="balanced"` so the rare `mount` class is not swamped by the majority, and
+fix `random_state` for reproducibility.
 
-```{.python}
+```{python}
+from sklearn.ensemble import RandomForestClassifier
+
 clf = RandomForestClassifier(class_weight="balanced", random_state=0)
 clf.fit(X_train, y_train)
 ```
 
+That's it—`clf` is now a trained classifier. Training on a few thousand frames with three
+features takes barely a moment.
+
 ## Evaluate on the validation set
 
-Report **precision, recall and F1** for the `mount` class, plus a confusion matrix —
-not plain accuracy.
+Now we ask the model to predict `mount` on the held-out validation frames and compare
+against the ground truth. For an imbalanced problem, we look at **precision, recall and
+F1** for the `mount` class rather than plain accuracy.
 
 ::: {.callout-warning title="Accuracy lies under imbalance"}
-If mounting is 5% of frames, a model that always predicts "not mount" scores 95%
-accuracy while catching zero mounts. Precision/recall tell the real story.
+A classifier that *never* predicts mount would still be correct on all 848 non-mount
+frames in our validation set—about **83% accuracy**—while catching not a single one of the
+171 mounts. Accuracy alone would call that useless model a success. Precision and recall
+tell the real story.
 :::
 
-```{.python}
-# classification_report(y_val, clf.predict(X_val))
-# ConfusionMatrixDisplay ...
-# clf.feature_importances_  -> which features carry the signal?
+```{python}
+from sklearn.metrics import classification_report
+
+y_pred = clf.predict(X_val)
+print(classification_report(y_val, y_pred, target_names=["not mount", "mount"]))
 ```
+
+A confusion matrix shows *where* the mistakes fall—false positives (non-mount frames
+flagged as mount) versus false negatives (missed mounts).
+
+```{python}
+#| label: fig-confusion-matrix
+#| fig-cap: "Confusion matrix on the validation set"
+from sklearn.metrics import ConfusionMatrixDisplay
+
+ConfusionMatrixDisplay.from_predictions(
+    y_val, y_pred, display_labels=["not mount", "mount"], cmap="Blues"
+)
+plt.show()
+```
+
+The scores are **modest**—recall around 0.70 means we still miss about 30% of mount frames,
+and precision around 0.67 means roughly a third of predicted mount frames are false alarms.
+That's about what we should expect from three hand-picked features and a single training
+video; the point here is the *workflow*, not the numbers. We'll recover some of the ragged
+edges in the next section by smoothing predictions into bouts.
+
+Finally, we can ask the model which features it leaned on most.
+
+```{python}
+#| label: fig-feature-importances
+#| fig-cap: "Random forest feature importances"
+importances = pd.Series(
+    clf.feature_importances_, index=X.columns
+).sort_values()
+
+importances.plot.barh()
+plt.xlabel("importance")
+plt.tight_layout()
+plt.show()
+```
+
+As the exploratory plots suggested, **inter-mouse distance** dominates, with the
+**intruder-facing angle** a clear second. **Resident speed** ranks last—consistent with the
+weak signal we saw in @fig-resident-speed—yet the model still makes some use of it.
+
+::: {.callout-note title="Take feature importances with a pinch of salt" collapse="true"}
+The importances reported by a random forest are *impurity-based*, and this measure is
+known to inflate the apparent importance of continuous, high-cardinality features (like
+our distances and angles) relative to coarse ones. It's a useful rough guide to what the
+model uses, but not a rigorous ranking. More reliable alternatives, such as
+[permutation importance](https://scikit-learn.org/stable/modules/permutation_importance.html),
+measure how much performance drops when a feature is shuffled.
+:::
 
 ## From frame predictions to behaviour bouts
 
@@ -272,6 +594,8 @@ Now we apply the trained model to a **different** video it has never seen — wi
 BORIS ground-truth annotations (provided). We compute the same features, predict, and
 compare.
 
+Use mouse0026 (already locally), make sure to put on dropbox and pre-requisites.
+
 Expect the scores to **drop** relative to validation. That gap is the honest measure of
 how well the model generalises, and a teaching moment in itself: differences in lighting,
 animals, and behaviour between videos (**domain shift**), combined with training on a
@@ -289,8 +613,8 @@ What we would do to build a classifier worth trusting:
   measure inter-annotator agreement).
 - **Better validation**: cross-validation that splits by *video*, never mixing frames
   from one video across folds.
-- **Richer features**: rolling-window summaries (mean/std over short time windows),
-  more keypoint relationships — closer to how tools like SimBA and MARS operate.
+- **Richer features**: compute many diverse features — closer to how tools like SimBA, MARS and JABS operate.
+- **Use more than just the current frame**: I think CalMS21 paper may have a good figure on this.
 - **Handle imbalance** deliberately (class weights, resampling, threshold tuning on the
   precision/recall trade-off).
 - **Off-the-shelf tools** built for this: [SimBA](https://github.com/sgoldenlab/simba),
@@ -298,11 +622,5 @@ What we would do to build a classifier worth trusting:
   [DeepEthogram](https://github.com/jbohnslav/deepethogram),
   [keypoint-MoSeq](https://keypoint-moseq.readthedocs.io/), and
   [A-SOiD](https://github.com/YttriLab/A-SOID).
-
-::: {.callout-tip title="Discuss"}
-
-- Which feature was most important? Does that match your intuition about mounting?
-- How could you improve performance *without* collecting more data?
-- The validation score was optimistic compared to the new-video test. Why? Where else
-  in an ML pipeline can this kind of leakage sneak in?
-:::
+- **Different architectures**: sequence models like RNNs and Transformers that can learn from the temporal structure of behaviour.
+- **Diffrenet features source**: models like FERAL for direct video-to-behaviour classification, or sequence models like RNNs and Transformers that can learn from the temporal structure of behaviour.
