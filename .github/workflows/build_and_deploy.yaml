@@ -26,7 +26,7 @@ jobs:
     name: Build Quarto book
     runs-on: ubuntu-latest
     permissions:
-      actions: write
+      actions: write # needed for caching
     defaults:
       run:
         # use a login shell to ensure conda is activated
