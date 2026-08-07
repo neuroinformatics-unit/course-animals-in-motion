@@ -433,7 +433,7 @@ X.head()
 - What if we were trying to distinguish between many different behaviours?
 :::
 
-## Train a random forest classifier
+## What is a random forest?
 
 As feature numbers grow, it's no longer practical to eyeball each one individually and hand-pick thresholds.
 Instead, we will let a machine learning model learn the best decision boundary from the data.
@@ -445,7 +445,7 @@ The **random** part comes from training each tree on a random subset of the data
 
 Random forests are an excellent starting point: they are robust, require little tuning, and can handle features on different scales (pixels, radians, pixels/second) without the need for normalization. Moreover, they don't require many computational resources, making them suitable for quick experimentation.
 
-### Train / validation split
+## Train / validation split
 
 We split our feature matrix `X` and our labels `y` **in time**: train on the first 70% of frames,
 validate on the last 30%.
@@ -497,7 +497,7 @@ Both splits contain mount bouts, so the model has positive examples to learn fro
 have some to evaluate on. This is worth checking rather than assuming: a purely temporal
 split gives no guarantee that a rare behaviour appears on both sides of the cut.
 
-### Train and evaluate the model
+## Train and evaluate the model
 
 We're finally ready to train a [RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html).
 We set `class_weight="balanced"` so the rare `mount` class is not swamped by the majority, and
@@ -548,8 +548,7 @@ print(classification_report(
 The scores are **modest**—recall around 0.70 means we still miss about 30% of mount frames,
 and precision around 0.67 means roughly a third of predicted mount frames are false alarms.
 That's about what we should expect from three hand-picked features and a single training
-video; the point here is the *workflow*, not the numbers. We'll recover some of the ragged
-edges in the next section by smoothing predictions into bouts.
+video.
 
 Finally, we can ask the model which features it leaned on most.
 
@@ -586,43 +585,26 @@ Another popular tool is [SHAP (SHapley Additive exPlanations)](https://github.co
 individual prediction to its features.
 :::
 
-## From frame predictions to behaviour bouts
-
-Per-frame predictions are noisy (isolated flipped frames). We **post-process** them
-into clean bouts: fill short gaps, drop very short detections, then overlay the
-predicted bouts against the BORIS ground-truth bouts on a timeline. This connects back
-to the bout-style annotations from @sec-boris.
-
-```{.python}
-# smooth predictions -> merge into [start, stop] bouts -> timeline plot vs ground truth
-```
-
-## The real test: a new video
+## Test on a new video
 
 The validation score told us how well the model does on the *tail of the same video* it was
-trained on. The honest question is different: how well does it do on a **completely new
-video**, with different animals, that it has never seen? That is the real test we alluded to
-when we were careful to call the held-out tail a *validation* set.
+trained on. How well does it do on a **completely new video**, with different animals, that it has never seen?
+That is the real test we alluded to earlier.
 
-We have exactly such a video to hand: `mouse026_task1_annotator1`, with its own SLEAP pose
-tracks and its own BORIS `mount` annotations (see [@sec-data]). Because the model was trained
-purely on `mouse044`, nothing about `mouse026` leaked into it—this is a fair test.
+We have data from exactly such a video to hand—`mouse026_task1_annotator1`—with its own SLEAP pose
+tracks and BORIS `mount` annotations (see [@sec-data]).
+You can find these files in the same folder as the data for `mouse044`.
 
-To apply the model we need to put the new video through **exactly the same pipeline**: load
+To apply the model we need to put the new data through **exactly the same pipeline**: load
 and smooth the tracks, expand the BORIS bouts into per-frame labels, and compute the same
 three features. Rather than repeat all those steps by hand, let's collect them into a single
-function—it's the very same code we already walked through, just gathered in one place.
+function—called `compute_features` (expand the code block to reveal it).
 
 ```{python}
-from movement.kinematics import (
-    compute_pairwise_distances,
-    compute_forward_vector_angle,
-    compute_speed,
-)
-
+#| code-fold: true
 
 def compute_features(slp_name, tsv_name):
-    """Run the full pipeline for one video and return its dataset, X and y."""
+    """Run the full pipeline for one video and return the movement dataset, X and y."""
     # Load pose tracks and smooth them
     ds = load_dataset(data_dir / slp_name, source_software="SLEAP", fps=30)
     ds.update({"position": rolling_filter(ds.position, window=7, min_periods=2)})
@@ -659,12 +641,12 @@ def compute_features(slp_name, tsv_name):
     return ds, X, y
 ```
 
-Now we run the new video through it and let the (already trained) classifier predict.
+Now we run the new data through it and let the (already trained) classifier predict.
 
 ```{python}
 ds_new, X_new, y_new = compute_features(
-    "mouse026_task1_annotator1.slp",
-    "mouse026_task1_mount_events_boris.tsv",
+    slp_name="mouse026_task1_annotator1.slp",
+    tsv_name="mouse026_task1_mount_events_boris.tsv",
 )
 
 print(f"New video: {len(y_new)} frames ({y_new.mean():.1%} mount)")
@@ -672,8 +654,7 @@ print(f"New video: {len(y_new)} frames ({y_new.mean():.1%} mount)")
 y_new_pred = clf.predict(X_new)
 ```
 
-Let's evaluate exactly as we did on the validation set, with a classification report and a
-confusion matrix.
+Let's see the classification report:
 
 ```{python}
 print(classification_report(
@@ -684,30 +665,24 @@ print(classification_report(
 ))
 ```
 
-```{python}
-#| label: fig-confusion-matrix-newvideo
-#| fig-cap: "Confusion matrix on the new video (mouse026)"
-ConfusionMatrixDisplay.from_predictions(
-    y_new, y_new_pred,
-    labels=[True, False],
-    display_labels=["mount", "not mount"],
-    normalize="true",
-    values_format=".0%",
-    cmap="Blues",
-)
-plt.show()
-```
-
 Encouragingly, the model **held up well**—in fact the `mount` scores are *higher*
-here than on our validation set. That's a nice result, but let's not over-read it: this new
-video simply happens to be favourable (its mounts are frequent and clearly separated), and a
+here than on our validation set! That's a nice result, but let's not over-read it: this new
+video may happen to be favourable (its mounts could be frequent and clearly separated), and a
 single lucky video is not proof of a robust classifier.
 
-It could easily have gone the other way. Differences in lighting, animals, and behaviour
-between videos (**domain shift**), combined with training on a single video with few positive
-examples, are exactly the kind of thing that *usually* makes performance drop on new data. The
-lesson is not "our model is great", but that **the only honest measure of generalisation is a
-genuinely unseen video**—and that you need many of them before you can trust the number.
+It could easily have gone the other way. Differences in lighting, animal appearance, and behavioural patterns
+between videos (**domain shift**) may make performance drop on other videos. You need test on many videos, that represent the full diversity of your datast, before you can trust the number.
+
+## From frame predictions to behaviour bouts
+
+Per-frame predictions are noisy (isolated flipped frames). We **post-process** them
+into clean bouts: fill short gaps, drop very short detections, then overlay the
+predicted bouts against the BORIS ground-truth bouts on a timeline. This connects back
+to the bout-style annotations from @sec-boris.
+
+```{.python}
+# smooth predictions -> merge into [start, stop] bouts -> timeline plot vs ground truth
+```
 
 ## Good practice, limitations, and where to go next
 
