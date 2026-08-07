@@ -676,7 +676,7 @@ between videos (**domain shift**) may make performance drop on other videos. You
 ## From frame predictions to behaviour bouts
 
 Our classifier decides each frame **independently**, so its predictions flicker:
-a single mount gets split into several fragments by a few stray `non-mount` frames, and vice-versa. 
+a single mount gets split into several fragments by a few stray `non-mount` frames, and vice-versa.
 Real behaviour doesn't work like that—it comes in continuous **bouts**, just like the ones we annotated in BORIS (@sec-boris).
 
 We can see how fragmented the raw predictions are by counting contiguous runs of `mount`
