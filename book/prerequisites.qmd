@@ -138,7 +138,7 @@ Animals-in-Motion_2025-08/
   - **mouse026_task1_annotator1.slp**: Fully annotated SLEAP labels file (converted from `calms21_task1_train.json`).
   - **mouse026_task1_mount_events_boris.tsv**: Ground-truth annotations of "mount" events, extracted from `calms21_task1_train.json` to a BORIS-compatible TSV format.
   - **mouse044_task1_annotator1.mp4**: Video file.
-  - **mouse044_task1_annotator1.slp**: Fully annotated SLEAP labels file containing 3394 labelled frames (converted from `calms21_task1_train.json`). The train/test splits above were derived from this file using a 20:80 random partition.
-  - **mouse044_task1_mount_events_boris.tsv**: Ground-truth annotations of "mount" events in the video, extracted from `calms21_task1_train.json` to a BORIS-compatible TSV format.
+  - **mouse044_task1_annotator1.slp**: Fully annotated SLEAP labels file (converted from `calms21_task1_train.json`). The train/test splits above were derived from this file using a 20:80 random partition.
+  - **mouse044_task1_mount_events_boris.tsv**: Ground-truth annotations of "mount" events, extracted from `calms21_task1_train.json` to a BORIS-compatible TSV format.
   - **readme.md**: Information about the dataset (from the CalMS21 dataset).
 - **Smart-Kages.zip**: Not used in this iteration of the course.
