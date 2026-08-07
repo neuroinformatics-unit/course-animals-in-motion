@@ -185,7 +185,7 @@ print(herd_vector)
 
 The resulting array has `(time, space)` dimensions, which means that we have a single herd vector defined at each timestep.
 
-The norm of the herd vector will be bounded between 0 and 1, because it is the mean of a set of unit vectors. This is convenient because it already gives us an intuition of how aligned the whole herd is. When the herd vector norm is close to 1, it means that the majority of the unit body vectors are aligned. When its norm is close to 0, it means that the unit body vectors are dispersed. The norm of the herd vector is sometimes called **polarization**.
+The norm of the herd vector will be bounded between 0 and 1, because it is the mean of a set of unit vectors. This is convenient because it already gives us an intuition of how aligned the whole herd is. When the herd vector norm is close to 1, it means that the majority of the unit body vectors are aligned. When its norm is close to 0, it means that the unit body vectors are dispersed. The norm of the herd vector is sometimes called **polarisation**.
 
 ```{python}
 polarization = compute_norm(herd_vector)
@@ -206,12 +206,12 @@ ax.grid()
 
 The plot suggests that the herd alternates between periods of higher and lower polarization.
 
-To visually check this matches the input data, we can plot polarization in time along with the unit body vectors per individual, the herd vector and the drone video. We did that in the animated plot below. The plot on the top right shows the unit body vectors (in black) and the herd vector (in red), whose norm is the polarization value. The purple line under the herd vector is the equivalent unit vector.
+To confirm that these fluctuations correspond to the herd's actual orientations, we can additionally create an animation that plots each individual's unit body vector and the herd vector for every frame, and present this alongside the polarisation-over-time plot and the drone footage. The resulting video is shown below. The top-left panel shows the polarisation trace, while the top-right panel shows the per-frame visualisation of the herd's orientation: the black arrows are the unit body vectors, the red arrow is the herd vector (whose norm is the polarisation value), and the purple line under the herd vector is the equivalent unit vector.
 
 ::: {#fig-zebras-polarization}
 <video src="https://github.com/neuroinformatics-unit/zebras-stitching/releases/download/zebras-clip/zebras_20250912_174038_w1440_crf23.mp4" autoplay loop muted playsinline width="100%"></video>
 
-Polarization over time alongside the unit body vectors, the herd vector and the drone video.
+Polarisation over time alongside the unit body vectors, the herd vector and the drone footage.
 :::
 
 ## Compute average speed of the herd
@@ -266,7 +266,7 @@ We can see that there are four periods in the dataset in which the speed of the 
 
 :::
 
-We can now plot the speed of each individual over time as an array.
+We can now plot the speed of each individual over time.
 
 ```{python}
 #| code-fold: true
@@ -297,11 +297,11 @@ cbar.set_label("speed (BL/s)")
 ax.get_images()[0].set_clim(0, 6) # cap values at 6 BL/s
 ```
 
-The plot suggests that the individuals are quite coordinated also in their change of speed. We can clearly see the four periods of higher speed, which correspond to the four simulated escape events. The white gaps correspond to the samples we discarded, either because the individual was not detected or because its body length fell outside the range we defined above.
+The plot suggests that the individuals change speed in a coordinated way, with four clear peaks matching the four simulated escape events. The white gaps are the samples we discarded, either because the individual was not detected or because its body length fell outside the range we defined above.
 
 ## Polarization vs speed
 
-Let's put it all together and inspect how polarization changes with the speed of the herd.
+Let's now bring everything together and examine how polarisation varies with the herd's speed.
 
 The distribution of herd speeds is skewed towards low values, so we use the
 logarithm of the speed to better resolve differences across the lower and
