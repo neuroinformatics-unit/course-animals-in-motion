@@ -20,11 +20,13 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-      - uses: neuroinformatics-unit/actions/lint@v2
+      - uses: neuroinformatics-unit/actions/lint@v3
 
   build:
     name: Build Quarto book
     runs-on: ubuntu-latest
+    permissions:
+      actions: write # needed for caching
     defaults:
       run:
         # use a login shell to ensure conda is activated

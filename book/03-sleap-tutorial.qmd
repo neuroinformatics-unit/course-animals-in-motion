@@ -187,7 +187,7 @@ Remember to save your progress frequently by clicking "File" → "Save" (or with
 You may also find the following keyboard shortcuts and mouse actions helpful (go to "Help" → "Keyboard Shortcuts" for the full list and optionally customise them):
 
 | Function | Keyboard shortcut/Mouse actions |
-|----------|---------------------------------|
+| ---------- | --------------------------------- |
 | Add instance | <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>I</kbd> |
 | Add new track | <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>0</kbd> |
 | Assign track | Select instance, then <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>1-9</kbd> (number = track ID) |
@@ -335,7 +335,7 @@ To resume training, go to "Predict" → "Run Training" as before, then on the "M
 You can then choose one of three options:
 
 | Option | What it does | When to use it |
-|---|---|---|
+| --- | --- | --- |
 | **Reuse config (train from scratch)** | Keeps the previous run's settings but discards its weights, training a new model from a random initialisation on all currently available labelled frames. | You've added new labelled frames since the last run—especially early on, while your dataset is still small. Full retrains are fast at this scale, and starting fresh avoids inheriting weaknesses from a model trained on very little data. |
 | **Resume training (fine-tune)** | Initialises the new model with the previous run's weights, then trains further on all currently available labelled frames. | You stopped early and want to resume the same run with no new data; your dataset/model has grown large enough that a full retrain would be slow; you proofread predictions and corrected a systematic mistake (e.g. a consistently misplaced tail) and want the model to learn from those specific corrections; or you want transfer learning—adapting an accurate model from one setting (e.g. black mice) to a related one (e.g. white mice in the same cage). |
 | **Reuse model (don't retrain)** | Uses the previous run's weights as-is, with no further training | For top-down approaches: e.g. you're satisfied with the centroid model and only want to retrain the top‑down ID model. |
