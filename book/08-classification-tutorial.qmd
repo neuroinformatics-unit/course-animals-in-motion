@@ -599,20 +599,115 @@ to the bout-style annotations from @sec-boris.
 
 ## The real test: a new video
 
-Now we apply the trained model to a **different** video it has never seen — with its own
-BORIS ground-truth annotations (provided). We compute the same features, predict, and
-compare.
+The validation score told us how well the model does on the *tail of the same video* it was
+trained on. The honest question is different: how well does it do on a **completely new
+video**, with different animals, that it has never seen? That is the real test we alluded to
+when we were careful to call the held-out tail a *validation* set.
 
-Use mouse0026 (already locally), make sure to put on dropbox and pre-requisites.
+We have exactly such a video to hand: `mouse026_task1_annotator1`, with its own SLEAP pose
+tracks and its own BORIS `mount` annotations (see [@sec-data]). Because the model was trained
+purely on `mouse044`, nothing about `mouse026` leaked into it—this is a fair test.
 
-Expect the scores to **drop** relative to validation. That gap is the honest measure of
-how well the model generalises, and a teaching moment in itself: differences in lighting,
-animals, and behaviour between videos (**domain shift**), combined with training on a
-single video and few positive examples, all hurt generalisation.
+To apply the model we need to put the new video through **exactly the same pipeline**: load
+and smooth the tracks, expand the BORIS bouts into per-frame labels, and compute the same
+three features. Rather than repeat all those steps by hand, let's collect them into a single
+function—it's the very same code we already walked through, just gathered in one place.
 
-```{.python}
-# load new video's tracks + BORIS labels -> same feature pipeline -> clf.predict -> metrics
+```{python}
+from movement.kinematics import (
+    compute_pairwise_distances,
+    compute_forward_vector_angle,
+    compute_speed,
+)
+
+
+def compute_features(slp_name, tsv_name):
+    """Run the full pipeline for one video and return its dataset, X and y."""
+    # Load pose tracks and smooth them
+    ds = load_dataset(data_dir / slp_name, source_software="SLEAP", fps=30)
+    ds.update({"position": rolling_filter(ds.position, window=7, min_periods=2)})
+
+    # Expand BORIS bouts into per-frame labels
+    boris_df = pd.read_csv(data_dir / tsv_name, sep="\t")
+    ds["is_mount"] = xr.zeros_like(ds.time, dtype=bool)
+    for _, ev in boris_df.iterrows():
+        ds["is_mount"][ev["Image index start"]:ev["Image index stop"]] = True
+
+    # Compute the three features
+    centroid_pos = ds.position.mean("keypoint")
+    inter_mouse_distance = compute_pairwise_distances(
+        centroid_pos, dim="individual", pairs={"resident_b": "intruder_w"}
+    )
+    resident_c = centroid_pos.sel(individual="resident_b")
+    intruder_c = centroid_pos.sel(individual="intruder_w")
+    angle = abs(compute_forward_vector_angle(
+        data=ds.position.sel(individual="intruder_w"),
+        left_keypoint="left_ear",
+        right_keypoint="right_ear",
+        camera_view="top_down",
+        reference_vector=resident_c - intruder_c,
+        in_degrees=True,
+    ))
+    resident_speed = compute_speed(resident_c)
+
+    X = pd.DataFrame({
+        "inter_mouse_distance": inter_mouse_distance.values,
+        "intruder_facing_resident_angle": angle.values,
+        "resident_speed": resident_speed.values,
+    })
+    y = ds.is_mount.values
+    return ds, X, y
 ```
+
+Now we run the new video through it and let the (already trained) classifier predict.
+
+```{python}
+ds_new, X_new, y_new = compute_features(
+    "mouse026_task1_annotator1.slp",
+    "mouse026_task1_mount_events_boris.tsv",
+)
+
+print(f"New video: {len(y_new)} frames ({y_new.mean():.1%} mount)")
+
+y_new_pred = clf.predict(X_new)
+```
+
+Let's evaluate exactly as we did on the validation set, with a classification report and a
+confusion matrix.
+
+```{python}
+print(classification_report(
+    y_new,
+    y_new_pred,
+    labels=[True, False],  # mount first
+    target_names=["mount", "not mount"],
+))
+```
+
+```{python}
+#| label: fig-confusion-matrix-newvideo
+#| fig-cap: "Confusion matrix on the new video (mouse026)"
+ConfusionMatrixDisplay.from_predictions(
+    y_new, y_new_pred,
+    labels=[True, False],
+    display_labels=["mount", "not mount"],
+    normalize="true",
+    values_format=".0%",
+    cmap="Blues",
+)
+plt.show()
+```
+
+Encouragingly, the model **held up well**—in fact the `mount` scores are *higher*
+here than on our validation set. That's a nice result, but let's not over-read it: this new
+video simply happens to be favourable (its mounts are frequent and clearly separated), and a
+single lucky video is not proof of a robust classifier.
+
+It could easily have gone the other way. Differences in lighting, animals, and behaviour
+between videos (**domain shift**), combined with training on a single video with few positive
+examples, are exactly the kind of thing that *usually* makes performance drop on new data. The
+lesson is not "our model is great", but that **the only honest measure of generalisation is a
+genuinely unseen video**—and that you need many of them before you can trust the number.
 
 ## Good practice, limitations, and where to go next
 
