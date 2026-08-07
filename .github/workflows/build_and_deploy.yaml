@@ -25,6 +25,8 @@ jobs:
   build:
     name: Build Quarto book
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
     defaults:
       run:
         # use a login shell to ensure conda is activated
