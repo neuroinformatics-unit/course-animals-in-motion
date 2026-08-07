@@ -72,7 +72,7 @@ We can compute the body length of each individual by computing the norm of the b
 body_length = compute_norm(body_vector)
 ```
 
-It would be useful to check if there are missing values in the body length array. We can quickly inspect this using `movement`'s `report_nan_values` function.
+It would be useful to check if there are missing values in the body length array. We can quickly inspect this using `movement`'s [`report_nan_values()`](https://movement.neuroinformatics.dev/latest/api/movement.utils.reports.report_nan_values.html) function.
 
 ```{python}
 print(report_nan_values(body_length))
@@ -163,7 +163,7 @@ body_vector_filtered = position_filtered.sel(
 
 We would now like to inspect the orientation of each individual in relation to the group while the simulated escape events take place.
 
-For this, we first compute each animal's **unit body vector**. These are a scaled version of the body vectors we just computed, normalised to have unit length. `movement` provides a convenience function to do this:
+For this, we first compute each animal's **unit body vector**. These are a scaled version of the body vectors we just computed, normalised to have unit length. `movement` provides a convenience function to do this, [`convert_to_unit()`](https://movement.neuroinformatics.dev/latest/api/movement.utils.vector.convert_to_unit.html):
 
 ```{python}
 body_vector_filtered_unit = convert_to_unit(body_vector_filtered)
@@ -218,7 +218,7 @@ Polarisation over time alongside the unit body vectors, the herd vector and the 
 
 We can also inspect how the speed of the herd changes over the course of the simulated escape events.
 
-First, let's scale the filtered position data to express it in units of body lengths (BL). This will make the results more interpretable. We can use `movement`'s `scale` function to do this.
+First, let's scale the filtered position data to express it in units of body lengths (BL). This will make the results more interpretable. We can use `movement`'s [`scale()`](https://movement.neuroinformatics.dev/latest/api/movement.transforms.scale.html) function to do this.
 
 ```{python}
 position_scaled = scale(
