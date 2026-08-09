@@ -189,7 +189,7 @@ For the rest of this chapter, we encourage you to follow along in a Jupyter note
 `movement` supports many popular animal tracking frameworks and file formats,
 in 2D and 3D, for single or multiple animals of any species.
 
-This makes analysis pipelines input‑agnostic rather than tied to a specific tool or data format. 
+This makes analysis pipelines input‑agnostic rather than tied to a specific tool or data format.
 `movement` includes input/output functions that translate between various [external formats](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-supported-formats) and its native `xarray`‑based data structure (explained later in this chapter).
 
 ![Overview of `movement`'s input/output capabilities.](img/movement_io.png){#fig-movement-io}
