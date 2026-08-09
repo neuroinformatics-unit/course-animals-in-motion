@@ -846,9 +846,13 @@ bouts_df_predicted.to_csv(save_path, index=False)
 ## Where to go next
 
 - **More data and better splits**: many videos, multiple animals, and ideally, cross-validation that splits by *video*, never mixing frames from one video across folds.
-- **Richer features**: compute many diverse features, closer to how tools like SimBA, MARS and JABS operate. For example, see MARS paper table 3. Better to cast our net wide and let the model learn which features are useful, rather than hand-picking a few.
-- **Use more than just the current frame**: See @sun_caltech_2021 figure 5. Sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour.
-- **Off-the-shelf tools** built for supervised classification workflow (but some may be species-specific, or require a certain set of keypoints/skeleton):
-  - [SimBA](https://github.com/sgoldenlab/simba)
-  - [MARS](https://github.com/neuroethology/MARS)
-- **Diffrenet features source**: models like FERAL for direct video-to-behaviour classification.
+- **Richer kinematic features**: compute many diverse features, closer to how off-the-shelf superised classifiers operate. For example, see *Table 3* in @mars2021 and *Table S4* in @choudhary_jax_2025. Better to cast our net wide and let the model learn which features are useful, rather than hand-picking a few.
+- **Off-the-shelf tools** built for similar supervised classification workflows basd on motion tracks and kinematic features (but some may be species-specific, or require a certain set of keypoints/skeleton):
+  - [JABS](https://github.com/KumarLabJax/JABS-behavior-classifier) @choudhary_jax_2025
+  - [SimBA](https://simba-uw-tf-dev.readthedocs.io/en/latest/) @goodwin_simple_2024
+  - [MARS](https://neuroethology.github.io/MARS/) @mars2021
+  - [DeepOF](https://deepof.readthedocs.io/en/latest/) @Miranda2023
+  - [A-SOiD](https://github.com/YttriLab/A-SOID) @schweihoff_-soid_2022
+  - [DLC2action](https://github.com/amathislab/DLC2action)
+- **Use more than just the current frame**: See *Figure 5* in @sun_caltech_2021. Sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour.
+- **Features direct from video**: use tools like [FERAL](https://www.getferal.ai) [@skovorodnikov_feral_2026] and [DeepEthogram](https://github.com/jbohnslav/deepethogram) [@bohnslav_deepethogram_2021] for direct video-to-behaviour classification, without the intermediate step of pose estimation.

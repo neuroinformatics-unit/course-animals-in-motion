@@ -208,8 +208,9 @@ If you'd like to add a tool you've built or enjoy using, please [open an issue](
 - [LISBET](https://github.com/BelloneLab/lisbet) @chindemi2023lisbet
 - [DLC2action](https://github.com/amathislab/DLC2action)
 - [LabGym](https://github.com/umyelab/LabGym) @hu_labgym_2023
-- [JABS](https://github.com/KumarLabJax/JABS-behavior-classifier) @beane_jax_2023
+- [JABS](https://github.com/KumarLabJax/JABS-behavior-classifier) @choudhary_jax_2025
 - [JAABA](https://jaaba.sourceforge.net/) @kabra_jaaba_2013
 - [MotionMapper](https://github.com/gordonberman/MotionMapper) @berman_mapping_2014
 - [BORIS](https://www.boris.unito.it/) @friard_boris_2016
 - [MARS](https://neuroethology.github.io/MARS/) @mars2021
+- [FERAL](https://www.getferal.ai) @skovorodnikov_feral_2026
