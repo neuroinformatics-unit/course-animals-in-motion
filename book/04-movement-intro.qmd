@@ -37,7 +37,7 @@ The extraction of pose tracks is often just the beginning of the analysis.
 Researchers use these tracks to investigate various aspects of animal behaviour, such as kinematics, spatial navigation, and social interactions, as part of the *motion quantification* step shown in @fig-ethology-workflow.
 Typically, these analyses involve custom, project-specific scripts that are hard to reuse across different projects and are rarely maintained after the project's conclusion.
 
-In response to these challenges, we saw the need for a versatile and easy-to-use toolbox that is compatible with a range of ML-based motion tracking frameworks and supports interactive data exploration and analysis.
+In response to these challenges, we recognised the need for a versatile, easy-to-use toolbox that is compatible with modern ML-based motion-tracking frameworks and supports interactive data exploration and analysis.
 `movement` fills that gap—it answers the question: **what can I do with these tracks?**
 
 ::: {.callout-note title="movement's mission"}
