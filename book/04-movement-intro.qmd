@@ -34,11 +34,11 @@ We saw how SLEAP and similar tools—like
 group the keypoints into poses, and connect their identities across time into sequential collections we call pose tracks.
 
 The extraction of pose tracks is often just the beginning of the analysis.
-Researchers use these tracks to investigate various aspects of animal behaviour, such as kinematics, spatial navigation, social interactions, etc. (the *motion quantification* step from @fig-ethology-workflow).
+Researchers use these tracks to investigate various aspects of animal behaviour, such as kinematics, spatial navigation, and social interactions, as part of the *motion quantification* step shown in @fig-ethology-workflow.
 Typically, these analyses involve custom, project-specific scripts that are hard to reuse across different projects and are rarely maintained after the project's conclusion.
 
 In response to these challenges, we saw the need for a versatile and easy-to-use toolbox that is compatible with a range of ML-based motion tracking frameworks and supports interactive data exploration and analysis.
-That's where `movement` comes in—it answers the question **what can I do with these tracks?**
+`movement` fills that gap—it answers the question: **what can I do with these tracks?**
 
 ::: {.callout-note title="movement's mission"}
 
@@ -54,23 +54,23 @@ See [movement's mission and scope statement](https://movement.neuroinformatics.d
 
 You can interface with `movement` in two ways:
 
-1. Use the [graphical user interface (GUI)](https://movement.neuroinformatics.dev/latest/user_guide/gui.html) to interactively explore motion tracks overlaid on video frames, and to define regions of interest (ROIs) for further analysis
-2. Use the [programmatic interface (Python API)](https://movement.neuroinformatics.dev/latest/api_index.html) to call `movement` functions from your own scripts and Jupyter notebooks, accessing its full capabilities for cleaning, plotting and analysing motion tracks.
+- [**Graphical user interface (GUI)**](https://movement.neuroinformatics.dev/latest/user_guide/gui.html): interactively explore motion tracks overlaid on video frames and define regions of interest (ROIs) for further analysis.
+- [**Programmatic interface (Python API)**](https://movement.neuroinformatics.dev/latest/api_index.html): call `movement` functions from your own scripts or Jupyter notebooks, accessing the full set of tools for cleaning, plotting and analysing motion tracks.
 
-This tutorial will introduce both approaches.
+This tutorial introduces both approaches.
 
 ## Visualise data in the GUI {#sec-movement-gui}
 
-The `movement` [graphical user interface (GUI)](https://movement.neuroinformatics.dev/latest/user_guide/gui.html),
+The `movement` [GUI](https://movement.neuroinformatics.dev/latest/user_guide/gui.html),
 powered by our custom plugin for [napari](https://napari.org/dev/),
-makes it easy to view and explore motion tracks.
-You can use it to visualise 2D (`x,y`) motion tracking data as points, tracks,
-and rectangular bounding boxes (if defined) overlaid on video frames.
+provides an intuitive way to view and explore motion tracks.
+It allows you to visualise 2D (`x,y`) motion-tracking data as points, tracks,
+and rectangular bounding boxes (when available), all overlaid on the corresponding video frames.
 
-Let's use it to look at the predictions we generated in @sec-sleap!
+Now let's use it to explore the predictions we generated in @sec-sleap!
 
 ::: {.callout-note}
-The workflow described here closely follows the [`movement` GUI guide](https://movement.neuroinformatics.dev/latest/user_guide/gui.html), adapted to our dataset. Refer to the `movement` docs for additional details.
+The workflow described here is a simplified adaptation of the [`movement` GUI guide](https://movement.neuroinformatics.dev/latest/user_guide/gui.html), focused on the steps relevant to our dataset. For full details, refer to the GUI guide.
 :::
 
 ### Launch the GUI
@@ -87,34 +87,34 @@ You will see a window like the one below.
 
 ### Load a video
 
-Though not strictly necessary, it is informative to view the motion tracks overlaid on a background that provides some spatial context. You can either load the video corresponding to the dataset, or load a single image (e.g., a still frame derived from that video).
+Though not strictly necessary, it is often helpful to view the motion tracks overlaid on a background that provides spatial context. You can either load the video corresponding to the dataset, or a single image (e.g. a still frame extracted from that video).
 
-Here we will load `mouse044_task1_annotator1.mp4` from the CalMS21 dataset, i.e., the video we used in @sec-sleap to generate pose tracks.
+Here we will load `mouse044_task1_annotator1.mp4` from the CalMS21 dataset—the same video for which we generated pose tracks in @sec-sleap.
 
-Drag and drop the video file directly onto the `napari` viewer, or by using the "File" > "Open File(s)" menu option.
-You will be prompted via a pop-up dialog to select the reader. Choose "video" and click "OK".
-You can optionally select to remember this reader for all files with the same extension.
+Drag and drop the video file directly onto the `napari` viewer, or click "File" → "Open File(s)".
+A pop-up dialog will prompt you to select the reader. Choose "video" and click "OK".
+You can optionally choose to remember this choice for future files with the same extension.
 
-The video will be loaded as an [image layer](https://napari.org/stable/howtos/layers/image.html) with a slider at the bottom that you can use to navigate through frames.
-You may also use the left and right arrow keys to navigate frame-by-frame.
+The video will be loaded as an [image layer](https://napari.org/stable/howtos/layers/image.html) with a slider at the bottom for navigating through frames.
+You may also use the <kbd>←</kbd> and <kbd>→</kbd> arrow keys for precise control.
 
 ![A video loaded into `napari` as an image layer.](img/movement/2_load_video.png){width=100%}
 
-Clicking on the play button will start the video playback at a default rate of 10 frames per second.
-You can adjust the playback speed by right-clicking on the play button.
+Clicking the play button starts the video playback at a default rate of 10 frames per second.
+You can adjust this by right-clicking on the play button.
 
 ### Load motion tracks
 
 Now you are ready to load some motion tracks over the video.
 
-On the right-hand side of the window you should see an expanded "Load tracked data" menu.
+On the right-hand side of the window you will see the "Load tracked data" menu.
 You can load data from one of the [supported third-party formats](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-supported-formats) or from a [netCDF file](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-netcdf) saved with `movement`.
 
 To load tracked data in napari:
 
-1. From the "source software" dropdown menu select the name of the tracking software you used to generate the data (in this case `SLEAP`).
-2. Set the "fps" (frames per second) of the video the data corresponds to (in this case `30`).
-3. Click the "Browse" button to select a file containing the tracked data—i.e. one of the predictions .slp files you generated in @sec-sleap, or the `mouse044_task1_annotator1.slp` file that came with the CalMS21 dataset ([prerequisites @sec-data]).
+1. From the "source software" dropdown, select the tracking software you used to generate the data (e.g. `SLEAP`).
+2. Specify the video's "fps" (frames per second) value (e.g. `30`).
+3. Click "Browse" and select a file containing the tracked data. This can be the predictions .slp file you generated in @sec-sleap or the `mouse044_task1_annotator1.slp` file provided with the CalMS21 dataset ([prerequisites @sec-data]).
 4. Click "Load".
 
 The data will be loaded into the viewer as a [points layer](https://napari.org/stable/howtos/layers/points.html) and as a [tracks layer](https://napari.org/stable/howtos/layers/tracks.html).
@@ -140,23 +140,21 @@ The important layer types for `movement` are:
 ### Explore motion tracks
 
 Let's focus on the points layer first (make sure it's selected), which shows the keypoints detected on the current frame.
-You may turn off the visibility of the tracks layer for now, to reduce visual clutter.
+To reduce visual clutter, you may turn off the visibility of the tracks layer for now by clicking on the eye icon next to the layer name.
 
 Video frames and keypoints are synchronised, so you can see how the keypoints move across frames as you navigate through the video.
 
 Enabling the "display text" option in the layer controls panel will show the keypoint names next to each point.
 
-Hovering with your mouse over a point will bring up a tooltip containing the properties of that point:
-individual identity, keypoint name, time (in seconds), and the confidence score.
+Hovering your mouse over a point displays a tooltip containing the properties of that point:
+individual name, keypoint name, time (in seconds), and confidence score.
 
 ![Tooltip showing the properties of a tracked point.](img/movement/4_explore_points.png){width=100%}
 
 Now select the tracks layer and turn its visibility back on.
 
-The tracks layer allows us to visualise the positions of a keypoint before (the **tail**) and after the current frame (the **head**).
+The tracks layer lets you to visualise past (**tail**) and future (**head**) points relative to the current frame. You can adjust how far these extend using the "tail length" and the "head length" sliders in the tracks layer controls panel.
 This view is especially useful for identifying tracking errors, such as identity swaps, which are often hard to spot when looking at a single frame.
-
-The tail and head lengths can be adjusted independently in the tracks layer controls panel, using the "tail length" and "head length" sliders, respectively.
 
 ![Customising the tracks view via head and tail length sliders.](img/movement/5_explore_tracks.png){width=100%}
 
@@ -172,14 +170,14 @@ The tail and head lengths can be adjusted independently in the tracks layer cont
 Apart from what we covered above, the `movement` GUI also allows you to:
 
 - [visualise tracked bounding boxes](https://movement.neuroinformatics.dev/latest/user_guide/gui.html#the-boxes-layer) (for the formats that support them), and
-- define regions of interest (ROIs) and export them for further analysis (we will cover this in  @sec-movement-mouse).
+- define ROIs and export them for further analysis (covered in @sec-movement-mouse).
 
 We are also actively working on adding more features to the GUI, including the ability to manually fix tracking errors.
 
 ::: {.callout-tip title="Discuss"}
 What features would **you** like to see in the `movement` GUI?
 
-Visit the [movement community page](https://movement.neuroinformatics.dev/latest/community) to find about ways to let us know and get involved.
+Visit the [movement community page](https://movement.neuroinformatics.dev/latest/community) to discover ways to connect with us, share your ideas, and get involved.
 :::
 
 ## Analyse data in Python {#sec-movement-python}
@@ -189,18 +187,17 @@ For the rest of this chapter, we encourage you to follow along in a Jupyter note
 ### Load a dataset
 
 `movement` supports many popular animal tracking frameworks and file formats,
-in 2D and 3D, tracking single or multiple animals of any species.
+in 2D and 3D, for single or multiple animals of any species.
 
-This allows for analysis pipelines that are input-agnostic, meaning they are not tied to a specific motion tracking tool or data format.
-To achieve this, `movement` includes input/output functions that facilitate data flows between various [third-party formats](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-supported-formats) and `movement`'s own native data structure based on `xarray`
-(more on that structure later in this chapter).
+This makes analysis pipelines input‑agnostic rather than tied to a specific tool or data format. 
+`movement` includes input/output functions that translate between various [external formats](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-supported-formats) and its native `xarray`‑based data structure (explained later in this chapter).
 
 ![Overview of `movement`'s input/output capabilities.](img/movement_io.png){#fig-movement-io}
 
 Let's see these capabilities in action, by loading the same SLEAP predictions file we explored in the GUI, but this time in Python.
 
 First, let's define the path to the file we want to load.
-Here we choose to express the path relative to our home directory, but you can also use an absolute path.
+Here we use a path relative to our home directory, but an absolute path works just as well.
 
 ```{python}
 from pathlib import Path
@@ -221,9 +218,8 @@ ds = load_dataset(file_path, fps=30)
 ::: {.callout-note}
 When we loaded this file in the GUI, this same `load_dataset` function was called behind the scenes to parse the data into a standardised format that `movement` can work with.
 
-Note that we didn't have to specify the source software (`SLEAP`) this time;
-`movement` can automatically infer that from the file's extension and contents, and in most cases it will do the right thing.
-That said, you can also be explicit if you want to:
+`load_dataset` defaults to `source_software="auto"`, which automatically infers the source software (here SLEAP) from the file's extension and contents.
+You can override this behaviour by specifying `source_software` explicitly if you prefer:
 
 ```{.python}
 ds = load_dataset(file_path, source_software="SLEAP", fps=30)
@@ -239,12 +235,13 @@ Let's look into the dataset we just loaded.
 ds
 ```
 
-We see an interactive description of a so-called `xarray.Dataset`.
+We are looking at the interactive representation of an `xarray.Dataset`.
 *What is that?*
-It's okay if you've never worked with such data before, we will build some understanding as we go along.
+If you've never worked with this type of data before, that's completely fine — we will build up the necessary understanding as we go.
 
 The dataset description refers to **dimensions**, **coordinates**, **data variables**, and **attributes**.
-Expand the following boxes to read about each element.
+The representation shows the dataset's **dimensions**, **coordinates**, **data variables**, and **attributes**.
+Use the expandable boxes below to learn what each element means.
 
 ::: {.callout-note title="Dimensions" appearance="minimal" collapse="true"}
 These are the axes along which the data can vary.
@@ -279,13 +276,13 @@ These are the actual data arrays (matrices) that hold the measurements we are in
 ds.position
 ```
 
-`position` is a 4-dimensional array with all the same dimensions as the dataset itself. Its values are the `(x,y)` spatial coordinates of each keypoint, for each individual, at each time point.
+`position` is a 4-dimensional array that uses all of the dataset's dimensions. Its values are the `(x,y)` spatial coordinates of each keypoint, for each individual, at each time point.
 
 ```{python}
 ds.confidence
 ```
 
-`confidence` is a 3-dimensional array, with the same dimensions minus `space`. Its values are the confidence scores associated with each keypoint, for each individual, at each time point.
+`confidence` is a 3-dimensional array, with the same dimensions as the dataset, except it does not include `space`. Its values are the confidence scores associated with each keypoint, for each individual, at each time point.
 :::
 
 ::: {.callout-note title="Attributes" appearance="minimal" collapse="true"}
@@ -305,19 +302,19 @@ print(ds.fps)
 
 :::
 
-Putting it all together, a **dataset** (`xarray.Dataset`) is a collection of **data variables** that share some **dimensions** and **coordinates**, and may come with some metadata as **attributes**. Each **data variable** is a multi-dimensional array (`xarray.DataArray`) that holds the actual measurements.
+Putting it all together, a **dataset** (`xarray.Dataset`) is a collection of **data variables** that share some **dimensions** and **coordinates**, and may come with some metadata as **attributes**. Each **data variable** is a multi-dimensional **array** (`xarray.DataArray`) that holds the actual measurements.
 
 ![A schematic representation of a `movement` dataset containing pose tracks for 3 mice (6 keypoints).](img/movement_poses_dataset_card.png){#fig-movement-ds-poses}
 
-What we just described is a so-called `movement` **poses dataset**, for representing pose tracking data.
-`movement` also supports **bounding boxes datasets**, consisting of boxes that enclose animals, tracked over time.
+What we just described is a `movement` **poses dataset**, for representing pose tracking data.
+`movement` also supports **bounding boxes datasets**, in which each animal is represented by a box that is tracked over time.
 
-The dataset structure is similar for both types, with a few differences. See [the documentation on movement datasets](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html).
+The [movement dataset guide](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html) explains how these dataset types are structured and where they differ.
 
 ::: {.callout-tip title="Discuss"}
 
 - How would we represent 3D pose tracks in a `movement` dataset? What would change?
-- What of tracking data with only one individual, or one keypoint?
+- How about tracking data with only one individual, or one keypoint?
 - Can you think of a pose tracking scenario that would not fit into this dataset structure?
 :::
 
@@ -356,8 +353,7 @@ Since `movement` represents motion tracking data as `xarray` objects, we can use
 [built-in functionalities](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html#using-xarrays-built-in-functionality)
 for data handling.
 
-We can select a subset of data along any dimension in a variety of ways,
-by integer index (order) or coordinate label.
+We can select a subset of data along any dimension, either by integer index (position) or by coordinate label (name).
 
 ```{python}
 # First individual, first time point
@@ -377,7 +373,7 @@ ds.position.sel(individual="resident_b")
 We can do all sorts of [computations](https://docs.xarray.dev/en/stable/user-guide/computation.html)
 on the data, along any dimension.
 
-For example, it's often useful to compute the **centroid** (centre-of-mass) trajectories of the tracked individuals. If we were to do this 'by hand', we would have to average the `x` and `y` coordinates of all keypoints for each individual, at each time point. With `xarray`, we can do this in one line of code, with `xarray` handling the dimensionality for us.
+For example, it's often useful to compute the **centroid** (centre-of-mass) trajectories of the tracked individuals. Doing this 'by hand' would mean averaging the `x` and `y` coordinates of all keypoints for each individual at each time point. With `xarray`, we can express this in a single line of code and `xarray` handles the dimensionality for us.
 
 ```{python}
 centroid_position = ds.position.mean(dim="keypoint")
@@ -391,8 +387,8 @@ ds.position.mean(dim="time")
 ```
 
 ::: {.callout-note}
-Note that the dimension being averaged disappears from the output.
-In other words: the average position across time no longer varies with time.
+Averaging over a dimension removes it from the output.
+In other words, if we average over time, the resulting position no longer varies with time.
 :::
 
 We can take a similar approach with many common statistical operators, including minimum (`min`), maximum (`max`) and median (`median`).
@@ -403,11 +399,11 @@ min_x = ds.position.sel(space="x").min(dim="time")
 min_x
 ```
 
-`xarray` also provides a rich set of built-in [plotting methods](https://docs.xarray.dev/en/stable/user-guide/plotting.html) for quickly visualising the data. Let's use them to create some line plots.
+`xarray` also provides a rich set of built-in [plotting methods](https://docs.xarray.dev/en/stable/user-guide/plotting.html) for quickly visualising the data. Let's use [`xarray.plot.line`](https://docs.xarray.dev/en/stable/generated/xarray.plot.line.html) to create some line plots.
 
 ```{python}
 #| label: fig-plot-tail-base-pos
-#| fig-cap: "The x,y spatial coordinates of the tail_base keypoint across time."
+#| fig-cap: "The x, y spatial coordinates of the `tail_base` keypoint across time."
 
 tail_base_pos = ds.sel(keypoint="tail_base").position
 tail_base_pos.plot.line(
@@ -415,15 +411,15 @@ tail_base_pos.plot.line(
 )
 ```
 
-::: {.callout-note title="Understanding the plot.line command" collapse="true"}
-The data variable named before `.plot.line`—in this case `tail_base_pos`—corresponds to the y-axis of the figure.
+::: {.callout-note title="Understanding the `plot.line` method" collapse="true"}
+The data array before `.plot.line`—in this case `tail_base_pos`—provides the values for the **y-axis** of the figure.
 
-You can understand the rest of the command as mapping dataset dimensions to various features of the figure.
+The rest of the arguments map dataset dimensions to visual elements of the plot:
 
-- `time` is mapped onto the x-axis.
-- Each `individual` is plotted with a different colour (hue).
-- `space` coordinates `x` and `y` appear on different subplots (rows).
-- We don't have to map the `keypoint` dimension, because we've only selected one keypoint.
+- `time` is mapped to the **x-axis**.
+- `individual` is mapped to **hue**, so each individual is shown in a different colour.
+- `space` (the `x` and `y` coordinates) is mapped to **row**, producing separate subplots for each spatial coordinate.
+- We don't need to map the `keypoint` dimension, because we already selected a single keypoint (`tail_base`) when creating `tail_base_pos`.
 
 Experiment with the `plot.line` command by swapping these mappings around.
 
@@ -435,13 +431,13 @@ via the formula `figsize = (aspect * size, size)`.
 Keep working with the loaded dataset `ds` and try the following:
 
 1. Select the position of the `neck` keypoint for the first 60 seconds of the recording.
-2. Compute the median position of the `neck` across the selected time window, for each individual. Which individual is closer to the left side (`x` closer to zero) of the arena?
-3. Show the centroid position of both individuals as a line plot across time. Plot the `x` and `y` positions on different subplots and give a different colour to each individual.
+2. Compute the median position of the `neck` across the selected time window, for each individual. Which individual is closer to the left side of the arena (i.e. where `x` is zero)?
+3. Show the centroid position of both individuals as a line plot across time. Plot the `x` and `y` positions on different subplots and assign a different colour to each individual.
 
 **Bonus**
 
 1. Select 3 keypoints of `resident_b`, and show their confidence values across time as a line plot. Plot each keypoint on a different subplot.
-2. Visualise the overall distribution of confidence scores in the dataset, using the `plot.hist` method. Does anything surprise you about the distribution?
+2. Visualise the overall distribution of confidence scores in the dataset, using [`plot.hist`](https://docs.xarray.dev/en/latest/generated/xarray.plot.hist.html). Does anything surprise you about the distribution?
 :::
 
 ::: {.exercise-solution}
@@ -502,7 +498,7 @@ Referring back to @fig-plot-tail-base-pos, we can see that the position trajecto
 - There are a few sudden jumps in the trajectories, which look implausible. These can occur when the pose estimation model misidentifies a keypoint, or when the tracking algorithm swaps the identities of two individuals.
 
 `movement` offers several methods for dealing with errors in motion tracking, as part of its
-[`movement.filtering`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.html) module.
+[`filtering`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.html) module.
 These include functions for:
 
 - identifying and removing outliers
@@ -855,14 +851,13 @@ We will also cover some more advanced kinematic analyses in the next two chapter
 
 This chapter does not represent a full list of `movement`'s current and future capabilities.
 The package will continue to evolve as it's being actively developed by a core team of engineers
-(aka the authors of this book) supported by a growing, global
+(the authors of this book) supported by a growing, global
 [community of contributors](https://movement.neuroinformatics.dev/latest/community/people.html).
 
 We are committed to openness and transparency and always welcome feedback and contributions from the community,
 especially from practising animal behaviour researchers, to shape the project's direction.
 
-Visit the [movement community page](https://movement.neuroinformatics.dev/latest/community)
-to find about ways to get help and get involved.
+Visit the [movement community page](https://movement.neuroinformatics.dev/latest/community) to discover ways to connect with us, share your ideas, and get involved.
 
 ::: {.callout-tip}
 If you have ideas for improving `movement`, you can suggest them for the collaboration days!
