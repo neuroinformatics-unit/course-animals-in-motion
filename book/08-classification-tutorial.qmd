@@ -352,7 +352,7 @@ intruder_to_resident_vector = resident_c - intruder_c
 
 ::: {.callout-note title="Understanding vector subtraction" collapse="true"}
 Note that any position data point can be seen as a point $𝑈$ in the 2D plane,
-or as a 2D vector $\vec{u}$ that goes from the image coordinate system origin 
+or as a 2D vector $\vec{u}$ that goes from the image coordinate system origin
 (by default, the centre of the top-left pixel) to the point $𝑈$ (see left subplot).
 
 The vector that goes from point $𝑈$ to point $𝑉$ can be computed as the difference  $\vec{v} - \vec{u}$ (see right subplot).
@@ -371,8 +371,6 @@ Then, we compute the intruder's forward-facing direction, using [`compute_forwar
 ```{python}
 from movement.kinematics import compute_forward_vector_angle
 
-# We compute intruder's forward-facing angle
-# relative to the above vector.
 intruder_facing_resident_angle = compute_forward_vector_angle(
     data=ds.position.sel(individual="intruder_w"),  # all intruder keypoints,
     left_keypoint="left_ear",
@@ -392,6 +390,8 @@ You can think about it in this way: in order to uniquely determine which way is 
 The forward vector angle, is the signed angle between the animal's forward-facing vector and a reference vector—by default the positive x-axis `[1, 0]`.
 In our case, we use the intruder-to-resident vector as a reference, which is itself a time-varying variable.
 The result is the angle between these two vectors, at each frame, in degrees (because we explicitly set `in_degrees=True`).
+
+Read more about the forward vector and its angle in the [`movement` example about head direction](https://movement.neuroinformatics.dev/latest/examples/compute_head_direction.html).
 :::
 
 This is a signed angle, with 0° meaning the intruder is facing towards the resident
@@ -517,7 +517,7 @@ print(f"Validation: {len(X_val)} frames ({y_val.sum()} mount)")
 ```
 
 Both splits contain mount bouts, so the model has positive examples to learn from and we
-have some to evaluate on. This is worth checking rather than assuming: a purely temporal
+have some to evaluate on. This is worth checking: a purely temporal
 split gives no guarantee that a rare behaviour appears on both sides of the cut.
 
 ## Train and evaluate the model
@@ -611,7 +611,7 @@ individual prediction to its features.
 ## Test on a new video
 
 The validation score told us how well the model does on the *tail of the same video* it was
-trained on. How well does it do on a **completely new video**, with different animals, that it has never seen?
+trained on. How well does it perform on a **completely new video**, with different animals, that it has never seen?
 That is the real test we alluded to earlier.
 
 We have data from exactly such a video to hand—`mouse026_task1_annotator1`—with its own SLEAP pose
@@ -694,7 +694,8 @@ video may happen to be favourable (its mounts could be frequent and clearly sepa
 single lucky video is not proof of a robust classifier.
 
 It could easily have gone the other way. Differences in lighting, animal appearance, and behavioural patterns
-between videos (**domain shift**) may make performance drop on other videos. You need test on many videos, that represent the full diversity of your datast, before you can trust the number.
+between videos (**domain shift**) may make performance drop on other videos.
+You need to test on many videos, that represent the full diversity of your datast, before you can trust the number.
 
 ## From frame predictions to behaviour bouts
 
@@ -706,6 +707,7 @@ We can see how fragmented the raw predictions are by counting contiguous runs of
 frames, and comparing that to the number of ground-truth bouts.
 
 ```{python}
+#| code-fold: true
 import numpy as np
 
 
@@ -778,8 +780,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-The smoothed bouts line up with the ground-truth bouts far better than the ragged raw predictions.
-
 ::: {.callout-note title="Choosing the window is a trade-off" collapse="true"}
 A wider window removes more flicker but also erases actual short bouts, while a narrow one leaves more noise.
 The right choice depends on the timescale of your behaviour; here a one-second window is a reasonable choice, since real mounts typically last longer than that.
@@ -790,22 +790,28 @@ with a start and stop time for each contiguous run of `mount` frames.
 This is similar to the original BORIS annotations, but now produced automatically by our classifier.
 
 Let's implement this as a function, `extract_bouts()`, that takes a boolean mask and returns a tidy table of bouts.
-Each bout begins where the mask flips from `False` to `True` and ends at the last `True` frame before it flips back.
+Each bout begins where the mask flips from `False` to `True` and ends at the first `False` frame after the run.
+We deliberately treat `stop_frame` as *exclusive*, following the same half-open `[start, stop)`
+convention we used to read the BORIS labels into `is_mount` earlier.
 
 ```{python}
 def extract_bouts(mask):
-    """Turn a boolean DataArray mask over time into a table of [start, stop] bouts."""
+    """Turn a boolean DataArray mask over time into a table of [start, stop) bouts."""
     values = mask.values.astype(int)
-    starts = np.where(np.diff(values, prepend=0) == 1)[0]  # False -> True
-    stops = np.where(np.diff(values, append=0) == -1)[0]   # last True of each run
-    times = mask.time.values # seconds are read from the time coordinate of the DataArray
+    starts = np.where(np.diff(values, prepend=0) == 1)[0]      # first True frame of each run
+    stops = np.where(np.diff(values, append=0) == -1)[0] + 1   # first False frame after the run
+    times = mask.time.values  # seconds, from the DataArray's time coordinate
+    dt = times[1] - times[0]  # duration of a single frame in seconds
+    start_time_s = times[starts]
+    duration_s = (stops - starts) * dt
+    stop_time_s = start_time_s + duration_s
     return pd.DataFrame({
         "behaviour": "mount",
         "start_frame": starts,
-        "stop_frame": stops,
-        "start_time_s": times[starts].round(2),
-        "stop_time_s": times[stops].round(2),
-        "duration_s": (times[stops] - times[starts]).round(2),
+        "stop_frame": stops,  # exclusive: mask[start_frame:stop_frame] is the bout
+        "start_time_s": start_time_s.round(2),
+        "stop_time_s": stop_time_s.round(2),
+        "duration_s": duration_s.round(2),
     })
 
 
@@ -813,29 +819,36 @@ bouts_df_predicted = extract_bouts(y_new_smoothed)
 bouts_df_predicted
 ```
 
+::: {.callout-note title="Why are some bouts shorter than the smoothing window?" collapse="true"}
+You might expect a one-second median filter to guarantee bouts at least a second long; yet the
+table still holds a few very short ones. A rolling median only cleanly removes flips where the
+window is lopsided. In an ambiguous stretch where the raw predictions flip back and forth
+between `mount` and `non-mount`—typically the messy boundary between two real bouts—the majority
+vote can still leave isolated one- or two-frame runs.
+
+If you prefer to *impose a minimum bout length*, drop short bouts explicitly as a final step:
+
+```{.python}
+bouts_df_predicted = bouts_df_predicted[
+    bouts_df_predicted["duration_s"] >= 1.0
+].reset_index(drop=True)
+```
+
+:::
+
 We can save the dataframe to a CSV file for later analysis, or to share with collaborators.
 
 ```{.python}
 save_path = data_dir / "mouse026_task1_mount_bouts_predicted.csv"
 bouts_df_predicted.to_csv(save_path, index=False)
-``` 
+```
 
-## Good practice, limitations, and where to go next
+## Where to go next
 
-What we would do to build a classifier worth trusting:
-
-- **More data**: many videos, multiple animals, and ideally multiple annotators (and
-  measure inter-annotator agreement).
-- **Better validation**: cross-validation that splits by *video*, never mixing frames
-  from one video across folds.
-- **Richer features**: compute many diverse features — closer to how tools like SimBA, MARS and JABS operate.
-- **Use more than just the current frame**: I think CalMS21 paper may have a good figure on this.
-- **Handle imbalance** deliberately (class weights, resampling, threshold tuning on the
-  precision/recall trade-off).
-- **Off-the-shelf tools** built for this: [SimBA](https://github.com/sgoldenlab/simba),
-  [MARS](https://github.com/neuroethology/MARS),
-  [DeepEthogram](https://github.com/jbohnslav/deepethogram),
-  [keypoint-MoSeq](https://keypoint-moseq.readthedocs.io/), and
-  [A-SOiD](https://github.com/YttriLab/A-SOID).
-- **Different architectures**: sequence models like RNNs and Transformers that can learn from the temporal structure of behaviour.
-- **Diffrenet features source**: models like FERAL for direct video-to-behaviour classification, or sequence models like RNNs and Transformers that can learn from the temporal structure of behaviour.
+- **More data and better splits**: many videos, multiple animals, and ideally, cross-validation that splits by *video*, never mixing frames from one video across folds.
+- **Richer features**: compute many diverse features, closer to how tools like SimBA, MARS and JABS operate. For example, see MARS paper table 3. Better to cast our net wide and let the model learn which features are useful, rather than hand-picking a few.
+- **Use more than just the current frame**: See @sun_caltech_2021 figure 5. Sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour.
+- **Off-the-shelf tools** built for supervised classification workflow (but some may be species-specific, or require a certain set of keypoints/skeleton):
+  - [SimBA](https://github.com/sgoldenlab/simba)
+  - [MARS](https://github.com/neuroethology/MARS)
+- **Diffrenet features source**: models like FERAL for direct video-to-behaviour classification.
