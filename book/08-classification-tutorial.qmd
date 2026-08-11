@@ -13,6 +13,7 @@ Both packages are included in the `animals-in-motion-env` environment (see
 [@sec-install-movement]), so make sure you have that environment activated before proceeding.
 
 We will also use:
+
 * the manually annotated SLEAP file (`mouse044_task1_annotator1.slp`) containing pose tracks, and
 * the BORIS ground-truth behaviour annotations (`mouse044_task1_mount_events_boris.tsv`) (see [@sec-data]).
 
@@ -29,7 +30,7 @@ graph LR
 The goal here is to teach the **workflow and the main concepts**, not to train a
 production-grade classifier. We deliberately use a single annotated video and a
 handful of interpretable features. A good model would need far more data, as we
-discuss at the end. In most real scenarios, we would also use predicted pose tracks 
+discuss at the end. In most real scenarios, we would also use predicted pose tracks
 rather than manually annotated ones, since manual annotation is so costly to produce.
 :::
 
@@ -292,10 +293,10 @@ $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
 
 Focusing on the `mount` class:
 
-- **Recall ≈ 0.76**: the distance rule misses about 1/4 of all true `mount` frames.
-- **Precision ≈ 0.58**: more than 40% of frames flagged as `mount` are false alarms.
-- **F1 ≈ 0.66**: a convenient single-number summary that balances the two types of mistakes.
-- **Accuracy ≈ 0.84**: overall, it gets 84% of frames right; but see below for why this is misleading.
+* **Recall ≈ 0.76**: the distance rule misses about 1/4 of all true `mount` frames.
+* **Precision ≈ 0.58**: more than 40% of frames flagged as `mount` are false alarms.
+* **F1 ≈ 0.66**: a convenient single-number summary that balances the two types of mistakes.
+* **Accuracy ≈ 0.84**: overall, it gets 84% of frames right; but see below for why this is misleading.
 
 ::: {.callout-warning title="Accuracy can be misleading" collapse="true"}
 Only ~21% of frames are mounts, so a lazy classifier that *always* predicts `non-mount`
@@ -308,8 +309,8 @@ problems like this, precision, recall and F1 are far more informative than accur
 In real life, we will want to analyse more than 1.5 minutes of video, and apply the classifier to new videos.
 So let's think about generalisation:
 
-- Do you expect the above distance threshold to perform well on a new video? Why or why not?
-- How would you go about picking the threshold more systematically, rather than by eye?
+* Do you expect the above distance threshold to perform well on a new video? Why or why not?
+* How would you go about picking the threshold more systematically, rather than by eye?
 :::
 
 ## Add more features
@@ -318,8 +319,8 @@ A single hand-tuned distance threshold got us surprisingly far, but that's not g
 There are many situations—other than the resident mounting the intruder—in which the two mice are close together.
 For example:
 
-- the intruder could be mounting the resident.
-- the two mice could be interacting in other ways (sniffing, fighting, play).
+* the intruder could be mounting the resident.
+* the two mice could be interacting in other ways (sniffing, fighting, play).
 
 We don't have many such examples in this single video, but we are likely to encounter them in other videos.
 
@@ -373,9 +374,9 @@ The vector that goes from point $𝑈$ to point $𝑉$ can be computed as the di
 
 In the above computation:
 
-- $V$ and $\vec{v}$ represent the resident's centroid position,
-- $U$ and $\vec{u}$ represent the intruder's centroid position, and
-- $\vec{v} - \vec{u}$ is the vector pointing from the intruder to the resident.
+* $V$ and $\vec{v}$ represent the resident's centroid position,
+* $U$ and $\vec{u}$ represent the intruder's centroid position, and
+* $\vec{v} - \vec{u}$ is the vector pointing from the intruder to the resident.
 :::
 
 Then, we compute the intruder's forward-facing direction, using [`compute_forward_vector_angle()`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_forward_vector_angle.html) with respect to that intruder-to-resident vector.
@@ -464,8 +465,8 @@ X.head()
 
 ::: {.callout-tip title="Discuss"}
 
-- Here we hand-picked three features that we *arbitrarily* thought would be useful. Can you think of any others that might help distinguish mounts from non-mounts?
-- What if we were trying to distinguish between many different behaviours?
+* Here we hand-picked three features that we *arbitrarily* thought would be useful. Can you think of any others that might help distinguish mounts from non-mounts?
+* What if we were trying to distinguish between many different behaviours?
 :::
 
 ## What is a random forest?
@@ -857,14 +858,14 @@ bouts_df_predicted.to_csv(save_path, index=False)
 
 ## Where to go next
 
-- **More data and better splits**: many videos, multiple animals, and ideally, cross-validation that splits by *video*, never mixing frames from one video across folds.
-- **Richer kinematic features**: compute many diverse features, closer to how off-the-shelf superised classifiers operate. For example, see *Table 3* in @mars2021 and *Table S4* in @choudhary_jax_2025. Better to cast our net wide and let the model learn which features are useful, rather than hand-picking a few.
-- **Off-the-shelf tools** built for similar supervised classification workflows basd on motion tracks and kinematic features (but some may be species-specific, or require a certain set of keypoints/skeleton):
-  - [JABS](https://github.com/KumarLabJax/JABS-behavior-classifier) @choudhary_jax_2025
-  - [SimBA](https://simba-uw-tf-dev.readthedocs.io/en/latest/) @goodwin_simple_2024
-  - [MARS](https://neuroethology.github.io/MARS/) @mars2021
-  - [DeepOF](https://deepof.readthedocs.io/en/latest/) @Miranda2023
-  - [A-SOiD](https://github.com/YttriLab/A-SOID) @schweihoff_-soid_2022
-  - [DLC2action](https://github.com/amathislab/DLC2action)
-- **Use more than just the current frame**: See *Figure 5* in @sun_caltech_2021. Sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour.
-- **Features direct from video**: use tools like [FERAL](https://www.getferal.ai) [@skovorodnikov_feral_2026] and [DeepEthogram](https://github.com/jbohnslav/deepethogram) [@bohnslav_deepethogram_2021] for direct video-to-behaviour classification, without the intermediate step of pose estimation.
+* **More data and better splits**: many videos, multiple animals, and ideally, cross-validation that splits by *video*, never mixing frames from one video across folds.
+* **Richer kinematic features**: compute many diverse features, closer to how off-the-shelf superised classifiers operate. For example, see *Table 3* in @mars2021 and *Table S4* in @choudhary_jax_2025. Better to cast our net wide and let the model learn which features are useful, rather than hand-picking a few.
+* **Off-the-shelf tools** built for similar supervised classification workflows basd on motion tracks and kinematic features (but some may be species-specific, or require a certain set of keypoints/skeleton):
+  * [JABS](https://github.com/KumarLabJax/JABS-behavior-classifier) @choudhary_jax_2025
+  * [SimBA](https://simba-uw-tf-dev.readthedocs.io/en/latest/) @goodwin_simple_2024
+  * [MARS](https://neuroethology.github.io/MARS/) @mars2021
+  * [DeepOF](https://deepof.readthedocs.io/en/latest/) @Miranda2023
+  * [A-SOiD](https://github.com/YttriLab/A-SOID) @schweihoff_-soid_2022
+  * [DLC2action](https://github.com/amathislab/DLC2action)
+* **Use more than just the current frame**: See *Figure 5* in @sun_caltech_2021. Sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour.
+* **Features direct from video**: use tools like [FERAL](https://www.getferal.ai) [@skovorodnikov_feral_2026] and [DeepEthogram](https://github.com/jbohnslav/deepethogram) [@bohnslav_deepethogram_2021] for direct video-to-behaviour classification, without the intermediate step of pose estimation.
