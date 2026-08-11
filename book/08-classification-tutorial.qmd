@@ -167,8 +167,6 @@ What is the simplest classifier we could define, given the pose tracks for both 
 
 One option could be to compute a variable from the pose tracks that has a distinct value when the animals are mounting and not mounting.
 
-<!-- *What would be a good set of features to distinguish `mount` from `non-mount` frames?* -->
-
 For example, this could be the **distance between the two mice's centroids**. During a mount, the resident is on top of the intruder, so their centroids should be very close together.
 
 We can compute the inter-mouse distance in `movement` similarly to what we did in @sec-movement-intro.
@@ -1052,14 +1050,16 @@ bouts_df_predicted.to_csv(save_path, index=False)
 
 ## Where to go next
 
-* **More data and better splits**: many videos, multiple animals, and ideally, cross-validation that splits by *video*, never mixing frames from one video across folds.
-* **Richer kinematic features**: compute many diverse features, closer to how off-the-shelf supervised classifiers operate. For example, see *Table 3* in @mars2021 and *Table S4* in @choudhary_jax_2025. Better to cast our net wide and let the model learn which features are useful, rather than hand-picking a few.
-* **Off-the-shelf tools**: built for supervised classification workflows, based on pose tracks and derived kinematic features. Some may be species-specific, or require a certain set of keypoints/skeleton:
+* **Add more data**: many videos, multiple animals, and ideally more than one annotator, so you can also measure how consistent the labels themselves are.
+* **Define splits that generalise**: with several videos, you can hold out *whole videos* rather than frames, and rotate which ones are held out (cross-validation) to see how much performance varies.
+* **Consider richer features**: consider tens or hundreds of features and let the model learn which ones matter. For representative sets, see *Table 3* in @mars2021 and *Table S4* in @choudhary_jax_2025.
+* **Add temporal features**: consider including features that summarise other feature values over a window around the current frame (mean, standard deviation, min, max).
+* **Consider off-the-shelf tools**: consider using existing tools built for supervised classification. The following also take in kinematic features computed from pose tracks. However, some may be species-specific, or require a certain set of keypoints/skeleton:
   * [JABS](https://github.com/KumarLabJax/JABS-behavior-classifier) @choudhary_jax_2025
   * [SimBA](https://simba-uw-tf-dev.readthedocs.io/en/latest/) @goodwin_simple_2024
   * [MARS](https://neuroethology.github.io/MARS/) @mars2021
   * [DeepOF](https://deepof.readthedocs.io/en/latest/) @Miranda2023
   * [A-SOiD](https://github.com/YttriLab/A-SOID) @schweihoff_-soid_2022
   * [DLC2action](https://github.com/amathislab/DLC2action)
-* **Beyond the current frame**: sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour. For example, see *Figure 5* in @sun_caltech_2021.
-* **Features computed directly from pixels**: use tools like [FERAL](https://www.getferal.ai) [@skovorodnikov_feral_2026] and [DeepEthogram](https://github.com/jbohnslav/deepethogram) [@bohnslav_deepethogram_2021] for direct video-to-behaviour classification, without the intermediate step of pose estimation.
+* **Explore temporal models**: sequence models such as RNNs and Transformers can learn the temporal structure of a behaviour directly, instead of classifying frames independently. For example, see @sun_caltech_2021 (*Figure 5*).
+* **Compute features directly from pixels**: tools like [FERAL](https://www.getferal.ai) [@skovorodnikov_feral_2026] and [DeepEthogram](https://github.com/jbohnslav/deepethogram) [@bohnslav_deepethogram_2021] compute features directly from the video data without the intermediate pose estimation step.
