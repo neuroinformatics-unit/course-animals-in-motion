@@ -898,11 +898,7 @@ Differences in lighting, animal appearance, and behaviour can make the pose trac
 
 ## From frame predictions to behaviour bouts
 
-Our model classifies each frame **independently**, so its predictions flicker:
-a single `mount` event gets split into several fragments by a few stray `non-mount` frames, and vice-versa. However, we expect this behaviour to appear in continuous **bouts**, just like the ones we annotated in BORIS (@sec-boris).
-
-We can see how fragmented the raw predictions are by counting contiguous runs of `mount`
-frames, and comparing that to the number of ground-truth bouts.
+Our model classifies each frame **independently**, so its predictions flicker: a few stray `non-mount` frames split a single `mount` event into fragments, and vice-versa. We can see this happening if count contiguous runs of `mount` frames and compare them to the ground-truth bouts.
 
 ```{python}
 #| code-fold: true
@@ -919,18 +915,13 @@ print(f"Predicted mount bouts:    {count_bouts(y_new_pred)}")
 print(f"Ground-truth mount bouts: {count_bouts(y_new)}")
 ```
 
-That's far more predicted bouts than there really are.
-A simple fix is to **smooth the predictions in time**:
-decide each frame's label by a majority vote over a short sliding window around it,
-so isolated flips get overruled by their neighbours.
+That's far more predicted bouts than there really are. Since we expect this behaviour to have a much longer timescale than a single frame (just like we annotated it in BORIS, @sec-boris), we can try to **smooth the predictions in time**.
 
-We can do this with the very same [`rolling_filter`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html)
-we used to smooth the pose tracks at the start—only now we apply it to the predictions.
-The statistic we would want to use is the **median**: over a window of 0s and 1s, it comes out on the
-`mount` side only when most frames in the window are mounts, which is exactly a majority vote.
+The idea is to decide each frame's label by a majority vote over a small moving window, so isolated flips get "overruled" by their neighbours. We can do this with the same [`rolling_filter`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html) we used on the pose tracks, using the **median** as the statistic: over a window of 0s and 1s, the median sets a frame as `mount` only if most frames in the window are also classified as `mount`—exactly a majority vote. 
 
-The filter works on time-aware `movement` arrays, so we first wrap `y_new_pred` as a
-`DataArray` along the same time axis.
+Note that with an even-sized window the vote can tie. In this case the median will come out at 0.5. We can resolve ties by rounding the output with `.round()`, which follows NumPy's convention of rounding halves to the nearest even number (so 0.5 becomes 0, and therefore `non-mount`).
+
+The filter works on time-aware `movement` arrays, so we first wrap `y_new_pred` as a `DataArray` along the same time axis.
 
 ```{python}
 # Wrap the predictions as a DataArray on the time axis so movement can filter them
@@ -1063,13 +1054,13 @@ bouts_df_predicted.to_csv(save_path, index=False)
 ## Where to go next
 
 * **More data and better splits**: many videos, multiple animals, and ideally, cross-validation that splits by *video*, never mixing frames from one video across folds.
-* **Richer kinematic features**: compute many diverse features, closer to how off-the-shelf superised classifiers operate. For example, see *Table 3* in @mars2021 and *Table S4* in @choudhary_jax_2025. Better to cast our net wide and let the model learn which features are useful, rather than hand-picking a few.
-* **Off-the-shelf tools** built for similar supervised classification workflows basd on motion tracks and kinematic features (but some may be species-specific, or require a certain set of keypoints/skeleton):
+* **Richer kinematic features**: compute many diverse features, closer to how off-the-shelf supervised classifiers operate. For example, see *Table 3* in @mars2021 and *Table S4* in @choudhary_jax_2025. Better to cast our net wide and let the model learn which features are useful, rather than hand-picking a few.
+* **Off-the-shelf tools**: built for supervised classification workflows, based on pose tracks and derived kinematic features. Some may be species-specific, or require a certain set of keypoints/skeleton:
   * [JABS](https://github.com/KumarLabJax/JABS-behavior-classifier) @choudhary_jax_2025
   * [SimBA](https://simba-uw-tf-dev.readthedocs.io/en/latest/) @goodwin_simple_2024
   * [MARS](https://neuroethology.github.io/MARS/) @mars2021
   * [DeepOF](https://deepof.readthedocs.io/en/latest/) @Miranda2023
   * [A-SOiD](https://github.com/YttriLab/A-SOID) @schweihoff_-soid_2022
   * [DLC2action](https://github.com/amathislab/DLC2action)
-* **Use more than just the current frame**: See *Figure 5* in @sun_caltech_2021. Sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour.
-* **Features direct from video**: use tools like [FERAL](https://www.getferal.ai) [@skovorodnikov_feral_2026] and [DeepEthogram](https://github.com/jbohnslav/deepethogram) [@bohnslav_deepethogram_2021] for direct video-to-behaviour classification, without the intermediate step of pose estimation.
+* **Beyond the current frame**: sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour. For example, see *Figure 5* in @sun_caltech_2021. 
+* **Features computed directly from pixels**: use tools like [FERAL](https://www.getferal.ai) [@skovorodnikov_feral_2026] and [DeepEthogram](https://github.com/jbohnslav/deepethogram) [@bohnslav_deepethogram_2021] for direct video-to-behaviour classification, without the intermediate step of pose estimation.
