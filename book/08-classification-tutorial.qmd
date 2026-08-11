@@ -344,25 +344,21 @@ In a real scenario, we would probably want to analyse more than 1.5 minutes of v
 * How would you go about picking the threshold more systematically, rather than by eye?
 :::
 
-<!-- Our second classifier: a random forest -->
-<!-- * What is a random forest? -->
-<!-- * Why not pass raw keypoints? (features, feature engineering) -->
-## Add more features
+## A simple decision tree
 
-A single hand-tuned distance threshold got us surprisingly far, but that's not going to be good enough.
-There are many situations—other than the resident mounting the intruder—in which the two mice are close together.
-For example:
+The classifier based on thresholding a single variable got us surprisingly far. But we can quickly think of many situations in which the centroids of the two mice are close together, but the resident is not mounting the intruder. These would be incorrectly classified as "mounting" by the threshold-based classifier. For example:
 
 * the intruder could be mounting the resident.
 * the two mice could be interacting in other ways (sniffing, fighting, play).
 
 We don't have many such examples in this single video, but we are likely to encounter them in other videos.
 
-One way to improve the classifier is to add more features so the model can learn a more nuanced decision boundary than a single yes/no threshold.
-Think of each additional feature as a new yes/no question the model can ask about each frame,
-e.g. "are the mice close together?", "is the intruder facing away from the resident?", "is the resident moving fast?", etc.
-That's the exact intuition behind **tree-based models** (which include random forests):
-each **tree** is a cascade of yes/no questions that splits the data into smaller and smaller subsets (*branches*),
+So, how can we improve our classifier?
+
+One possibility would be to add more variables, so that the model can learn a more nuanced decision boundary based on thresholding a subset of variables rather than a single one. Think of each additional variable representing a new yes/no question the model can ask about each frame, e.g. "are the mice close together?", "is the intruder facing away from the resident?", "is the resident moving fast?", etc.
+
+This is the intuition behind **decision tree-based models**:
+each [**decision tree**](https://en.wikipedia.org/wiki/Decision_tree_learning) is a cascade of yes/no questions that split the data into smaller and smaller subsets (*branches*),
 ideally until each *leaf* contains only one class.
 
 ```{mermaid}
@@ -381,13 +377,16 @@ graph TD
     class n1,n2 notmount;
 ```
 
-So let's compute a few more features.
+We can explore this approach by computing a few more variables.
 
-We've seen in the video that mounting typically involves the resident being on top and behind the intruder, while the intruder is facing away.
-This suggests that **orientation** features could be useful, in addition to the inter-mouse distance we already have.
-Let's compute one such feature with `movement`; we call it the **intruder-facing-resident angle**.
+We've seen in the video that mounting typically involves the resident being on top and behind the intruder, with the intruder facing away.
+This suggests that a variable that captures the orientation of the intruder relative to the resident could be useful, in addition to the inter-mouse distance we already have.
 
-We'll do that in two steps:
+We can compute this variable in `movement` as the angle between:
+* the line going from the intruder to the resident's centroids, and 
+* the line perpendicular to the intruder's left and right ears (i.e. the intruder's head direction)
+
+When this angle is 0°, the resident is in front of the intruder. When this angle is 180°, the resident is behind the intruder. We call this angle the **intruder-facing-resident angle**. Note that this angle does not involve the head orientation of the *resident*. But for now, let's calculate it slowly in two steps.
 
 First, we compute the vector pointing from the intruder's centroid to the resident's centroid.
 
@@ -413,7 +412,7 @@ In the above computation:
 * $\vec{v} - \vec{u}$ is the vector pointing from the intruder to the resident.
 :::
 
-Then, we compute the intruder's forward-facing direction, using [`compute_forward_vector_angle()`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_forward_vector_angle.html) with respect to that intruder-to-resident vector.
+Then, we use [`compute_forward_vector_angle()`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_forward_vector_angle.html), which does two things in one go: it derives the intruder's forward-facing direction (its "head vector") from the left and right ear keypoints, and then measures the angle between that head vector and a reference vector. By passing `reference_vector=intruder_to_resident_vector`, we get exactly the angle we are after.
 
 ```{python}
 from movement.kinematics import compute_forward_vector_angle
@@ -430,7 +429,7 @@ intruder_facing_resident_angle
 ```
 
 ::: {.callout-note title="Understanding forward vector angle" collapse="true"}
-You can think about it in this way: in order to uniquely determine which way is forward for an animal, we need to know the orientation of the other two body axes: left-right and up-down. The left-right axis is specified by the left and right keypoints passed to the function, while we use the `camera_view` parameter to determine the upward direction (see image). The default view is "top_down", but it can also be "bottom-up".
+You can think about it in this way: in order to uniquely determine which way is forward for an animal, we need to know the orientation of the other two body axes: left-right and up-down. The left-right axis is specified by the left and right keypoints passed to the function, while we use the `camera_view` parameter to determine the upward direction in the 2D image (see below). The default view is "top_down", but it can also be "bottom-up".
 
 ![Schematic showing forward vector computation from two left-right symmetric keypoints and a known camera view: top-down or bottom up.](img/Forward-Vector.png)
 
@@ -441,9 +440,7 @@ The result is the angle between these two vectors, at each frame, in degrees (be
 Read more about the forward vector and its angle in the [`movement` example about head direction](https://movement.neuroinformatics.dev/latest/examples/compute_head_direction.html).
 :::
 
-This is a signed angle, with 0° meaning the intruder is facing towards the resident
-and ±180° meaning facing directly away.
-Here we don't care about the sign, so we take the absolute value to get a range from 0° to 180°.
+The `intruder_facing_resident_angle` is a signed angle, with 0° meaning the resident is aligned with the intruder's head direction, and ±180° meaning the resident is diametrically opposite to the intruder's head direction. The sign tells us which side of the intruder the resident is on (left or right). We don't particularly care about the sign here, so we can take the absolute value, leaving us with a range from 0° to 180°.
 
 ```{python}
 intruder_facing_resident_angle = abs(intruder_facing_resident_angle)
@@ -456,12 +453,20 @@ intruder_facing_resident_angle = abs(intruder_facing_resident_angle)
 plot_over_time(intruder_facing_resident_angle, ds.is_mount, ylabel="angle (deg)", ymax=180)
 ```
 
-Our intuition is confirmed: during many mounts the angle is near 180°.
+Our intuition is confirmed: during many mounts the angle is close to 180°, indicating the resident is behind the intruder.
 
-Let's add one last feature: the resident's centroid **speed**.
-During a mount, the resident should be relatively stationary—hunched over the intruder rather than
-travelling across the arena—so its speed should be low. We compute it from the resident
-centroid with [`compute_speed`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_speed.html).
+Let's compute one last variable to build decisions from: the resident's centroid **speed**.
+During a mount event, the resident should be relatively stationary, so its speed should be low. 
+
+::: {.exercise-prompt}
+
+Compute `resident_speed`, the speed of the resident's centroid, using
+[`compute_speed()`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_speed.html).
+
+Remember: we already have the resident's centroid trajectory stored in `resident_c`.
+:::
+
+::: {.exercise-solution}
 
 ```{python}
 from movement.kinematics import compute_speed
@@ -470,6 +475,12 @@ resident_speed = compute_speed(resident_c)
 resident_speed
 ```
 
+The result is a data array with one value per time frame: the speed of the
+resident's centroid in pixels per second.
+:::
+
+We can now again plot this variable with the frames labelled "mount" highlighted:
+
 ```{python}
 #| label: fig-resident-speed
 #| fig-cap: "Resident speed over time, with mount frames highlighted."
@@ -477,14 +488,11 @@ resident_speed
 plot_over_time(resident_speed, ds.is_mount, ylabel="speed (px/s)")
 ```
 
-The signal here is weaker than for the other two features: the resident does tend to slow
-down during mounts, but it also slows down at plenty of other times, so speed alone would
-make a poor classifier. It may still help the model in combination with distance and
+The resident does slow down during mounts, but it also slows down plenty of other times, so speed alone would make a poor classifier. It may still help the decision tree model in combination with distance and
 orientation though.
 
-We now have three features. Following the `scikit-learn` convention, we collect them into a
-feature matrix `X`—one row per frame, one column per feature—alongside the label vector `y`
-(our `is_mount` ground truth).
+We now have three variables our decision tree can split on. Following the `scikit-learn` convention, we can collect them into a
+feature matrix `X`—one row per frame, one column per feature—and a label vector `y`. The label vector holds the ground-truth, i.e. the manual behaviour labels per frame.
 
 ```{python}
 X = pd.DataFrame({
@@ -494,6 +502,7 @@ X = pd.DataFrame({
 })
 y = ds.is_mount.values
 
+# Visualise the first few rows of X
 X.head()
 ```
 
@@ -503,7 +512,10 @@ X.head()
 * What if we were trying to distinguish between many different behaviours?
 :::
 
-## What is a random forest?
+
+
+
+## A random forest classifier
 
 As feature numbers grow, it's no longer practical to eyeball each one individually and hand-pick thresholds.
 Instead, we will let a machine learning model learn the best decision boundary from the data.
@@ -595,7 +607,7 @@ confusion matrix, precision, recall, and F1 score.
 ```{python}
 #| label: fig-confusion-matrix
 #| fig-cap: "Confusion matrix on the validation set."
-ConfusionMatrixDisplay.from_predictions(
+disp = ConfusionMatrixDisplay.from_predictions(
     y_val, y_pred,
     labels=[True, False],
     display_labels=["mount", "not mount"],
@@ -603,6 +615,8 @@ ConfusionMatrixDisplay.from_predictions(
     values_format=".0%",
     cmap="magma",
 )
+disp.ax_.set_xlabel("Predicted class")
+disp.ax_.set_ylabel("Ground-truth class")
 plt.show()
 ```
 
