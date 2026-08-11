@@ -163,22 +163,35 @@ This situation—often referred to as **class imbalance**—is quite common in b
 
 ## Our first classifier: a distance threshold
 
-A classifier can only be as good as the data we give it.
-In machine learning terms, the data variables we feed into the model are called **features**.
-Rather than throwing raw keypoint coordinates at the model, let's derive a small set of **interpretable features**,
-each motivated by what mounting actually looks like in the resident–intruder assay.
+What is the simplest classifier we could define, given the pose tracks for both mice? 
 
-*What would be a good set of features to distinguish `mount` from `non-mount` frames?*
+One option could be to compute a variable from the pose tracks that has a distinct value when the animals are mounting and not mounting.
 
-Let's start with an obvious one: the **distance between the two mice**.
-During a mount, the resident is on top of the intruder, so their centroids should be very close together.
+<!-- *What would be a good set of features to distinguish `mount` from `non-mount` frames?* -->
 
-We compute the inter-mouse distance (as we did in @sec-movement-intro).
+For example, this could be the **distance between the two mice's centroids**. During a mount, the resident is on top of the intruder, so their centroids should be very close together.
+
+We can compute the inter-mouse distance in `movement` similarly to what we did in @sec-movement-intro.
+
+::: {.exercise-prompt}
+
+Using the `position` data array of our dataset `ds`:
+
+1. Compute `centroid_pos`, the trajectory of each mouse's centroid (i.e. the mean
+   across all its keypoints), with [`xarray's DataArray mean()`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.mean.html).
+2. Compute `inter_mouse_distance`, the distance between the two centroids, with
+   [`compute_pairwise_distances()`](https://movement.neuroinformatics.dev/latest/api/movement.kinematics.compute_pairwise_distances.html). You will need to tell it to compare data along the `individual` dimension.
+:::
+
+::: {.exercise-solution}
 
 ```{python}
 from movement.kinematics import compute_pairwise_distances
 
-centroid_pos = ds.position.mean("keypoint")  # one point per mouse
+# Compute the centroid of each mouse: one point per mouse and time frame
+centroid_pos = ds.position.mean("keypoint")
+
+# Compute the distance between the two centroids
 inter_mouse_distance = compute_pairwise_distances(
     centroid_pos,
     dim="individual",
@@ -187,7 +200,11 @@ inter_mouse_distance = compute_pairwise_distances(
 inter_mouse_distance
 ```
 
-Let's plot it across time, while highlighting the `mount` frames (expand the code block if you want to see the plotting function).
+The result is a data array with a single value per time frame: the distance in
+pixels between the resident's and the intruder's centroids.
+:::
+
+Let's plot the distance between centroids across time, and highlight the `mount` frames (expand the code block if you want to see the plotting function).
 
 ```{python}
 #| label: fig-inter-mouse-distance
@@ -207,20 +224,26 @@ def plot_over_time(data_array, mount, ylabel, ymax=None):
     plt.figure(figsize=(7, 3))
     plt.plot(data_array.time, data_array)
     plt.fill_between(
-        data_array.time, 0, ymax,
-        where=mount, color="orange", edgecolor=None, alpha=0.3,
+        data_array.time,
+        0,
+        ymax,
+        where=mount,
+        color="orange",
+        edgecolor=None,
+        alpha=0.3,
     )
     plt.xlabel("time (s)")
     plt.ylabel(ylabel)
     plt.tight_layout()
     plt.show()
 
+
 plot_over_time(inter_mouse_distance, ds.is_mount, ylabel="distance (px)")
 ```
 
-That looks very promising: the inter-mouse distance is clearly low during mounts.
+That looks very promising: the inter-mouse distance is clearly lower during mounts. 
 
-How far can this single feature take us? Let's turn the inter-mouse distance into a simple yes/no rule by choosing an arbitrary threshold of 100 pixels (based on eye-balling the above plot), and see how well it separates the two classes.
+We can turn the inter-mouse distance into a binary yes/no variable by choosing an arbitrary threshold of 100 pixels (based on eye-balling the above plot).
 
 ```{python}
 distance_threshold = 100  # pixels
@@ -229,17 +252,19 @@ ds["predicted_mount"] = inter_mouse_distance < distance_threshold
 ds.predicted_mount
 ```
 
-This single rule is already a "classifier", if a crude one.
-To see how good it is, we compare its predictions against the ground-truth labels.
-A **confusion matrix** is the clearest place to start: it counts how many frames fall into each combination of predicted vs. actual state.
-We normalise the counts per row (`normalize="true"`), so every *true* class sums to 100%.
+This single rule is already a "classifier", even if a slightly crude one.
+
+To evaluate how good this classifier is, we can compare its predictions against the ground-truth labels.
+A [**confusion matrix**](https://en.wikipedia.org/wiki/Confusion_matrix) is a convenient way to do this: it shows as a table the number of frames that fall into each combination of predicted vs. ground-truth class.
+
+By default in `scikit-learn`, the cells in the table hold the raw frame counts for each combination of predicted and ground-truth class. With `normalize="true"`, we divide each cell by its row total. That is, each cell shows the percentage of frames relative to the the total number of frames for that ground-truth class 
 
 ```{python}
 #| label: fig-threshold-confusion
 #| fig-cap: "Row-normalised confusion matrix for the distance-threshold baseline (all frames)."
 from sklearn.metrics import ConfusionMatrixDisplay
 
-ConfusionMatrixDisplay.from_predictions(
+disp = ConfusionMatrixDisplay.from_predictions(
     ds.is_mount.values,
     ds.predicted_mount.values,
     labels=[True, False],  # mount first
@@ -248,12 +273,16 @@ ConfusionMatrixDisplay.from_predictions(
     values_format=".0%",
     cmap="magma",
 )
+disp.ax_.set_xlabel("Predicted class")
+disp.ax_.set_ylabel("Ground-truth class")
 plt.show()
 ```
 
-To boil these results down to a few numbers, we use `scikit-learn`'s
+We can see that 76% of the frames that were manually labelled as "mount" were also classified as "mount" with our simple threshold-based classifier. The remaining 24% of the true "mount" frames where classified incorrectly as "non-mount".
+
+To further inspect these results we can compute a few more evaluation metrics using `scikit-learn`'s
 [`classification_report`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html),
-which reports **precision**, **recall** and **F1-score** for each class.
+which calculates **precision**, **recall** and **F1-score** for each class.
 
 ```{python}
 from sklearn.metrics import classification_report
@@ -268,7 +297,7 @@ print(classification_report(
 
 ::: {.callout-note title="Understanding the classification report" collapse="true"}
 All metrics are built from just four counts, obtained by comparing predictions
-against the ground truth. Taking `mount` as the "positive" class:
+and ground truth. Taking `mount` as the "positive" class:
 
 | | Predicted `mount` | Predicted `non-mount` |
 | --- | --- | --- |
@@ -277,42 +306,48 @@ against the ground truth. Taking `mount` as the "positive" class:
 
 These are exactly the four cells of the confusion matrix above. From them:
 
-**Precision** (a.k.a. *positive predictive value*): of everything flagged as `mount`, what fraction really was?
+**Precision**: of all frames predicted as `mount`, what fraction of them really was `mount`?
 $$\text{Precision} = \frac{TP}{TP + FP}$$
 
-**Recall** (a.k.a. *sensitivity*, *true positive rate*, *hit rate*): of all true `mount` frames, what fraction did we catch?
+**Recall**: of all frames manually labelled as `mount` frames, what fraction did we predict correctly?
 $$\text{Recall} = \frac{TP}{TP + FN}$$
 
-**F1 score**: the harmonic mean of precision and recall; high only when *both* are high.
+**F1 score**: the [harmonic mean](https://en.wikipedia.org/wiki/Harmonic_mean) of precision and recall; high only when *both* are high.
 $$F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} = \frac{2\,TP}{2\,TP + FP + FN}$$
 
-**Accuracy**: the fraction of *all* frames classified correctly. Easily
-inflated when one class dominates (see below).
+**Accuracy**: considering *all* frames, what fraction was classified correctly? Unlike the
+metrics above, it is a single number for the whole dataset rather than one per class, so it is
+easily inflated when one class dominates.
 $$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+**Support**: refers to the number of frames that truly belong to each class
+(`mount`: $TP + FN$; `non-mount`: $TN + FP$). It tells us how much data each row's metrics
+are based on.
+
+**Macro average**: refers to the *unweighted* mean of the two class rows (e.g. `(0.58 + 0.93)/2` for precision). Every class counts equally regardless of its size, so the rare "mount" class gets equal say. This is usually considered an honest summary in an imbalanced problem.
+
+**Weighted average**: refers to the mean of the metric *weighted by the size of the class*. Big classes dominate, so it tracks accuracy closely (0.84 vs 0.84 here) and hides poor performance on the rare class.
 :::
 
 Focusing on the `mount` class:
 
-* **Recall ≈ 0.76**: the distance rule misses about 1/4 of all true `mount` frames.
-* **Precision ≈ 0.58**: more than 40% of frames flagged as `mount` are false alarms.
-* **F1 ≈ 0.66**: a convenient single-number summary that balances the two types of mistakes.
-* **Accuracy ≈ 0.84**: overall, it gets 84% of frames right; but see below for why this is misleading.
+- **Precision ≈ 0.58**: more than 40% of frames flagged as `mount` are false alarms.
+- **Recall ≈ 0.76**: the distance rule misses about 1/4 of all true `mount` frames.
+- **F1 ≈ 0.66**: a convenient single-number summary that balances the two types of mistakes.
 
-::: {.callout-warning title="Accuracy can be misleading" collapse="true"}
-Only ~21% of frames are mounts, so a lazy classifier that *always* predicts `non-mount`
-would already score ~79% on accuracy—while catching zero mounts. Our distance threshold scores only a
-little higher on accuracy, yet it actually finds most of the mounts. For imbalanced
-problems like this, precision, recall and F1 are far more informative than accuracy alone.
-:::
+Overall, we get an **accuracy** of about **84%**, meaning our classifier gets 84% of frames right. But note this can be misleading in an imbalanced dataset like ours. Since only ~21% of frames are mounts, a classifier that *always* predicts "non mount" would already have ~79% accuracy, even if predicted incorrectly all "mount" frames. This is way for imbalanced datasets, precision, recall and F1 are more informative than accuracy alone. 
+
 
 ::: {.callout-tip title="Discuss"}
-In real life, we will want to analyse more than 1.5 minutes of video, and apply the classifier to new videos.
-So let's think about generalisation:
+In a real scenario, we would probably want to analyse more than 1.5 minutes of video, and consider applying the classifier to new videos. So let's think about how well we expect our classifier to do in these new, unseen videos (this is often called ["generalisation"](https://en.wikipedia.org/wiki/Generalization_error) in machine learning):
 
 * Do you expect the above distance threshold to perform well on a new video? Why or why not?
 * How would you go about picking the threshold more systematically, rather than by eye?
 :::
 
+<!-- Our second classifier: a random forest -->
+<!-- * What is a random forest? -->
+<!-- * Why not pass raw keypoints? (features, feature engineering) -->
 ## Add more features
 
 A single hand-tuned distance threshold got us surprisingly far, but that's not going to be good enough.
