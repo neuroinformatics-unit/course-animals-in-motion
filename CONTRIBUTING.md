@@ -65,7 +65,7 @@ quarto preview book
 Note that `quarto preview` still executes code cells and uses the cache, so the first preview after a change may take a moment.
 
 Some chapters (e.g. `04-movement-intro.qmd`, `07-boris-tutorial.qmd`) execute code cells that read the `CalMS21` dataset from `~/.movement/CalMS21/`.
-`movement`'s own sample datasets are fetched automatically, but `CalMS21` needs to be manually downloaded from Dropbox and placed at that path (see [prerequisites @sec-data](book/prerequisites.qmd) for the link and folder structure), otherwise rendering those chapters will fail with a missing-file error.
+`movement`'s own sample datasets are fetched automatically, but `CalMS21` needs to be manually downloaded from Dropbox and placed at that path (see [prerequisites](https://animals-in-motion.neuroinformatics.dev/latest/prerequisites.html#sec-data) for the link and folder structure), otherwise rendering those chapters will fail with a missing-file error.
 
 ## Authoring content
 
