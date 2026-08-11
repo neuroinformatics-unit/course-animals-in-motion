@@ -257,7 +257,7 @@ This single rule is already a "classifier", even if a slightly crude one.
 To evaluate how good this classifier is, we can compare its predictions against the ground-truth labels.
 A [**confusion matrix**](https://en.wikipedia.org/wiki/Confusion_matrix) is a convenient way to do this: it shows as a table the number of frames that fall into each combination of predicted vs. ground-truth class.
 
-By default in `scikit-learn`, the cells in the table hold the raw frame counts for each combination of predicted and ground-truth class. With `normalize="true"`, we divide each cell by its row total. That is, each cell shows the percentage of frames relative to the the total number of frames for that ground-truth class
+By default in `scikit-learn`, the cells in the table hold the raw frame counts for each combination of predicted and ground-truth class. With `normalize="true"`, we divide each cell by its row total. That is, each cell shows the percentage of frames relative to the total number of frames for that ground-truth class.
 
 ```{python}
 #| label: fig-threshold-confusion
@@ -278,7 +278,7 @@ disp.ax_.set_ylabel("Ground-truth class")
 plt.show()
 ```
 
-We can see that 76% of the frames that were manually labelled as `mount` were also classified as `mount` with our simple threshold-based classifier. The remaining 24% of the true `mount` frames where classified incorrectly as "non-mount".
+We can see that 76% of the frames that were manually labelled as `mount` were also classified as `mount` with our simple threshold-based classifier. The remaining 24% of the true `mount` frames were classified incorrectly as "non-mount".
 
 To further inspect these results we can compute a few more evaluation metrics using `scikit-learn`'s
 [`classification_report`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html),
@@ -402,7 +402,7 @@ Note that any position data point can be seen as a point $𝑈$ in the 2D plane,
 or as a 2D vector $\vec{u}$ that goes from the image coordinate system origin
 (by default, the centre of the top-left pixel) to the point $𝑈$ (see left subplot).
 
-The vector that goes from point $𝑈$ to point $𝑉$ can be computed as the difference  $\vec{v} - \vec{u}$ (see right subplot).
+The vector that goes from point $𝑈$ to point $𝑉$ can be computed as the difference $\vec{v} - \vec{u}$ (see right subplot).
 
 ![Schematics representing the 2D image coordinate system (left) and vector subtraction in that system (right).](img/Vector-Subtraction.png)
 
@@ -430,7 +430,7 @@ intruder_facing_resident_angle
 ```
 
 ::: {.callout-note title="Understanding forward vector angle" collapse="true"}
-You can think about it in this way: in order to uniquely determine which way is forward for an animal, we need to know the orientation of the other two body axes: left-right and up-down. The left-right axis is specified by the left and right keypoints passed to the function, while we use the `camera_view` parameter to determine the upward direction in the 2D image (see below). The default view is "top_down", but it can also be "bottom-up".
+You can think about it in this way: in order to uniquely determine which way is forward for an animal, we need to know the orientation of the other two body axes: left-right and up-down. The left-right axis is specified by the left and right keypoints passed to the function, while we use the `camera_view` parameter to determine the upward direction in the 2D image (see below). The default view is "top_down", but it can also be "bottom_up".
 
 ![Schematic showing forward vector computation from two left-right symmetric keypoints and a known camera view: top-down or bottom up.](img/Forward-Vector.png)
 
@@ -763,7 +763,7 @@ print(classification_report(
 ))
 ```
 
-The scores are modest—a recall of round 0.70 means we still miss about 30% of frames classified as `mount`,
+The scores are modest—a recall of around 0.70 means we still miss about 30% of frames classified as `mount`,
 and precision around 0.67 means roughly a third of the predicted mount frames are false positives.
 That's about what we should expect from three hand-picked features and a single training
 video.
@@ -897,7 +897,7 @@ Differences in lighting, animal appearance, and behaviour can make the pose trac
 
 ## From frame predictions to behaviour bouts
 
-Our model classifies each frame **independently**, so its predictions flicker: a few stray `non-mount` frames split a single `mount` event into fragments, and vice-versa. We can see this happening if count contiguous runs of `mount` frames and compare them to the ground-truth bouts.
+Our model classifies each frame **independently**, so its predictions flicker: a few stray `non-mount` frames split a single `mount` event into fragments, and vice-versa. We can see this happening if we count contiguous runs of `mount` frames and compare them to the ground-truth bouts.
 
 ```{python}
 #| code-fold: true
