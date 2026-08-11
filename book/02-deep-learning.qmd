@@ -1,6 +1,9 @@
 # Deep learning for computer vision primer {#sec-dl-cv}
 
 All you need to know about deep learning and its applications to computer vision to understand the rest of the course.
-This chapter is available as a slides deck:
 
-[Deep learning for computer vision: a primer for the animal behaviour scientist](https://sfmig.github.io/slides-dl-for-cv-primer).
+[Deep learning for computer vision: a primer for the animal behaviour scientist](https://sfmig.github.io/slides-dl-for-cv-primer)
+
+```{=html}
+<iframe src="https://sfmig.github.io/slides-dl-for-cv-primer/" title="Deep Learning for Computer Vision" style="width:100%; aspect-ratio: 16 / 9;"></iframe>
+```
