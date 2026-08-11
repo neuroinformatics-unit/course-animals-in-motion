@@ -566,7 +566,7 @@ each extra question makes it harder for a frame to be classified as `mount` (mor
 Everything above was hand-picked: we chose the questions, their thresholds, and the shape of the tree. However with `scikit-learn` we can select a decision tree that *learns* all three from the data, with
 [`DecisionTreeClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html).
 
-How does the treen learn from the data? At each node, it tries every feature and threshold, and keeps the split that leaves the two
+How does the tree learn from the data? At each node, it tries every feature and threshold, and keeps the split that leaves the two
 groups as close to a single class as possible. The search is greedy: it never revisits
 earlier splits, so the result is a good tree rather than a guaranteed best one.
 
@@ -636,6 +636,7 @@ Note we fitted this tree on *all* frames purely to illustrate its structure, so 
 
 With three variables there are already many possible thresholds and tree shapes we can select by hand. Intuitively, we can also see that having many variables (or "features" as they are called in machine learning) can help us distinguish between more behaviours. But with ten or fifty features, hand-tuning the sequence of decisions and thresholds would be very tedious.
 
+<!-- markdownlint-disable-next-line MD051 -->
 In fact, letting the model *learn* the splits, rather than hand-picking them, is how decision trees are used in practice (see [the note above](#fitted-tree) for a way to do this). However, a single learnt tree tends to **overfit**: if we let it grow deep enough, it ends up memorising
 the training data, rather than the general underlying pattern that distinguishes behaviours. It then performs well on the training set or very similar datasets, but it won't generalise well to new datasets.
 
