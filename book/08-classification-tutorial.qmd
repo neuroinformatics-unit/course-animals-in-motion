@@ -335,8 +335,7 @@ Focusing on the `mount` class:
 * **Recall ≈ 0.76**: the distance rule misses about 1/4 of all true `mount` frames.
 * **F1 ≈ 0.66**: a convenient single-number summary that balances the two types of mistakes.
 
-Overall, we get an **accuracy** of about **0.84**, meaning our classifier predicts 84% of frames correctly. But note this can be misleading in an imbalanced dataset like ours. Since only ~21% of frames are classified as `mount`, a classifier that *always* predicts `not mount` would already be right ~79% of the time, even if it predicted incorrectly all `mount` frames. This is why for imbalanced datasets, precision, recall and F1 are more informative than accuracy alone. 
-
+Overall, we get an **accuracy** of about **0.84**, meaning our classifier predicts 84% of frames correctly. But note this can be misleading in an imbalanced dataset like ours. Since only ~21% of frames are classified as `mount`, a classifier that *always* predicts `not mount` would already be right ~79% of the time, even if it predicted incorrectly all `mount` frames. This is why for imbalanced datasets, precision, recall and F1 are more informative than accuracy alone.
 
 ::: {.callout-tip title="Discuss"}
 In a real scenario, we would probably want to analyse more than 1.5 minutes of video, and consider applying the classifier to new videos. So let's think about how well we expect our classifier to do in these new, unseen videos (this is often called ["generalisation"](https://en.wikipedia.org/wiki/Generalization_error) in machine learning):
@@ -385,7 +384,7 @@ This suggests that a variable that captures the orientation of the intruder rela
 
 We can compute this variable in `movement` as the angle between:
 
-* the line going from the intruder to the resident's centroids, and 
+* the line going from the intruder to the resident's centroids, and
 * the line perpendicular to the intruder's left and right ears (i.e. the intruder's head direction)
 
 When this angle is 0°, the resident is in front of the intruder. When this angle is 180°, the resident is behind the intruder. We call this angle the **intruder-facing-resident angle**. Note that this angle does not involve the head orientation of the *resident*. But for now, let's calculate it slowly in two steps.
@@ -448,8 +447,8 @@ The `intruder_facing_resident_angle` is a signed angle, with 0° meaning the res
 intruder_facing_resident_angle = abs(intruder_facing_resident_angle)
 ```
 
-
 We can plot the absolute value of the angle over time, highlighting frames that are labelled as `mount` in yellow:
+
 ```{python}
 #| label: fig-intruder-facing-resident-angle
 #| fig-cap: "Intruder-facing-resident angle over time, with mount frames highlighted."
@@ -460,7 +459,7 @@ plot_over_time(intruder_facing_resident_angle, ds.is_mount, ylabel="angle (deg)"
 Our intuition is confirmed: during many mounts the angle is close to 180°, indicating the resident is behind the intruder.
 
 Let's compute one last variable to help us in our classification decisions: the resident's centroid **speed**.
-During a mount event, the resident should be relatively stationary, so its speed should be low. 
+During a mount event, the resident should be relatively stationary, so its speed should be low.
 
 ::: {.exercise-prompt}
 
@@ -493,7 +492,6 @@ plot_over_time(resident_speed, ds.is_mount, ylabel="speed (px/s)")
 ```
 
 The resident does slow down during mounts, but it also slows down plenty of other times, so speed alone would make a poor classifier. It may still help the decision tree model in combination with distance and orientation though.
-
 
 We can now have a go at building the decision tree of @fig-decision-tree by hand, with the additional speed variable. Follow the hints in the exercise below to guide you.
 
@@ -556,6 +554,7 @@ each extra question makes it harder for a frame to be classified as `mount` (mor
 :::
 
 ::: {.callout-tip title="Discuss"}
+
 * We picked 100 px, 90° and 200 px/s by eye. How much do the scores change if you nudge them?
 * Does the *order* of the three questions change the predictions?
 * What other tree shapes could you build from the same three variables? For example if we used an "OR" branch, how would you expect recall and precision to change?
@@ -635,7 +634,7 @@ Note we fitted this tree on *all* frames purely to illustrate its structure, so 
 
 ## A random forest classifier
 
-With three variables there are already many possible thresholds and tree shapes we can select by hand. Intuitively, we can also see that having many variables (or "features" as they are called in machine learning) can help us distinguish between more behaviours. But with ten or fifty features, hand-tuning the sequence of decisions and thresholds would be very tedious. 
+With three variables there are already many possible thresholds and tree shapes we can select by hand. Intuitively, we can also see that having many variables (or "features" as they are called in machine learning) can help us distinguish between more behaviours. But with ten or fifty features, hand-tuning the sequence of decisions and thresholds would be very tedious.
 
 In fact, letting the model *learn* the splits, rather than hand-picking them, is how decision trees are used in practice (see [the note above](#fitted-tree) for a way to do this). However, a single learnt tree tends to **overfit**: if we let it grow deep enough, it ends up memorising
 the training data, rather than the general underlying pattern that distinguishes behaviours. It then performs well on the training set or very similar datasets, but it won't generalise well to new datasets.
@@ -870,7 +869,6 @@ ds_new, X_new, y_new = compute_features(
 print(f"Ground-truth labels in new video: {len(y_new)} frames ({y_new.mean():.1%} mount)")
 ```
 
-
 We can now pass these features to our already trained classifier and get its predictions.
 Applying a trained model to new data like this is often called **running inference**.
 
@@ -917,7 +915,7 @@ print(f"Ground-truth mount bouts: {count_bouts(y_new)}")
 
 That's far more predicted bouts than there really are. Since we expect this behaviour to have a much longer timescale than a single frame (just like we annotated it in BORIS, @sec-boris), we can try to **smooth the predictions in time**.
 
-The idea is to decide each frame's label by a majority vote over a small moving window, so isolated flips get "overruled" by their neighbours. We can do this with the same [`rolling_filter`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html) we used on the pose tracks, using the **median** as the statistic: over a window of 0s and 1s, the median sets a frame as `mount` only if most frames in the window are also classified as `mount`—exactly a majority vote. 
+The idea is to decide each frame's label by a majority vote over a small moving window, so isolated flips get "overruled" by their neighbours. We can do this with the same [`rolling_filter`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html) we used on the pose tracks, using the **median** as the statistic: over a window of 0s and 1s, the median sets a frame as `mount` only if most frames in the window are also classified as `mount`—exactly a majority vote.
 
 Note that with an even-sized window the vote can tie. In this case the median will come out at 0.5. We can resolve ties by rounding the output with `.round()`, which follows NumPy's convention of rounding halves to the nearest even number (so 0.5 becomes 0, and therefore `non-mount`).
 
@@ -1062,5 +1060,5 @@ bouts_df_predicted.to_csv(save_path, index=False)
   * [DeepOF](https://deepof.readthedocs.io/en/latest/) @Miranda2023
   * [A-SOiD](https://github.com/YttriLab/A-SOID) @schweihoff_-soid_2022
   * [DLC2action](https://github.com/amathislab/DLC2action)
-* **Beyond the current frame**: sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour. For example, see *Figure 5* in @sun_caltech_2021. 
+* **Beyond the current frame**: sequence models with different architectures like RNNs and Transformers that can learn from the temporal structure of behaviour. For example, see *Figure 5* in @sun_caltech_2021.
 * **Features computed directly from pixels**: use tools like [FERAL](https://www.getferal.ai) [@skovorodnikov_feral_2026] and [DeepEthogram](https://github.com/jbohnslav/deepethogram) [@bohnslav_deepethogram_2021] for direct video-to-behaviour classification, without the intermediate step of pose estimation.
