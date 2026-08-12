@@ -1,5 +1,3 @@
-<!-- markdownlint-disable MD045 -->
-
 # Training a supervised behaviour classifier {#sec-classification}
 
 In @sec-boris we used BORIS to annotate `mount` events on the video
