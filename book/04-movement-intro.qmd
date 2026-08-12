@@ -184,7 +184,7 @@ Visit the [movement community page](https://movement.neuroinformatics.dev/latest
 
 For the rest of this chapter, we encourage you to follow along in a Jupyter notebook or in your favourite Python IDE (see @sec-install-devtools), using the `animals-in-motion-env` environment as your Python kernel (see @sec-install-movement).
 
-### Load a dataset
+### Load a dataset {#sec-movement-load}
 
 `movement` supports many popular animal tracking frameworks and file formats,
 in 2D and 3D, for single or multiple animals of any species.
