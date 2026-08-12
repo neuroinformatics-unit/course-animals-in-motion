@@ -1,0 +1,175 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              320.0,
+              455.0
+            ],
+            [
+              600.0,
+              455.0
+            ],
+            [
+              600.0,
+              575.0
+            ],
+            [
+              320.0,
+              575.0
+            ],
+            [
+              320.0,
+              455.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "open_arm_left",
+        "roi_type": "PolygonOfInterest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              712.0,
+              455.0
+            ],
+            [
+              990.0,
+              455.0
+            ],
+            [
+              990.0,
+              575.0
+            ],
+            [
+              712.0,
+              575.0
+            ],
+            [
+              712.0,
+              455.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "open_arm_right",
+        "roi_type": "PolygonOfInterest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              600.0,
+              170.0
+            ],
+            [
+              712.0,
+              170.0
+            ],
+            [
+              712.0,
+              455.0
+            ],
+            [
+              600.0,
+              455.0
+            ],
+            [
+              600.0,
+              170.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "closed_arm_top",
+        "roi_type": "PolygonOfInterest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              600.0,
+              575.0
+            ],
+            [
+              712.0,
+              575.0
+            ],
+            [
+              712.0,
+              870.0
+            ],
+            [
+              600.0,
+              870.0
+            ],
+            [
+              600.0,
+              575.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "closed_arm_bottom",
+        "roi_type": "PolygonOfInterest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              600.0,
+              455.0
+            ],
+            [
+              712.0,
+              455.0
+            ],
+            [
+              712.0,
+              575.0
+            ],
+            [
+              600.0,
+              575.0
+            ],
+            [
+              600.0,
+              455.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "centre",
+        "roi_type": "PolygonOfInterest"
+      }
+    }
+  ]
+}
