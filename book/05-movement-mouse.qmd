@@ -212,7 +212,7 @@ The steps below are a condensed version of the [define regions of interest](http
 :::
 
 ::: {.exercise-solution}
-You can compare your `geojson` file with the set of regions we prepared earlier: [EPM_rois.geojson](data/EPM_rois.geojson){download="EPM_rois.geojson"}. Since drawing regions is a manual task, there will be differences. To see how the boundaries compare, you can load both files into the GUI with "Load layer".
+You can compare your `geojson` file with the set of regions we prepared earlier: [EPM_rois.geojson](data/EPM_rois.geojson){download="EPM_rois.geojson"}. Since drawing regions is a manual task, there will be differences. To see how the boundaries compare, you can load both files into the GUI with ["Load layer"](https://movement.neuroinformatics.dev/latest/user_guide/gui.html#save-and-load-regions).
 :::
 
 ::: {.callout-note title="`napari` shapes and `movement` regions"}
