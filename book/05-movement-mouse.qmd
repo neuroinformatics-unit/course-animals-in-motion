@@ -167,3 +167,69 @@ The logarithmic colour scale is worth the extra argument here: without it, the f
 
 The plus shape of the maze emerges clearly from the data alone, and the centre of the maze stands out as the most visited area.
 To say anything about the arms, though, we need to define them explicitly.
+
+## Define ROIs in napari {#sec-epm-napari}
+
+A region of interest (ROI) is a shape in the same pixel coordinates as the tracking data, which we can then ask questions about—for example, whether the mouse was inside it at a given time.
+The easiest way to define one is to draw it on top of the video, in the `movement` GUI we met in @sec-movement-gui.
+
+::: {.callout-note}
+The steps below are a condensed version of the [define regions of interest](https://movement.neuroinformatics.dev/latest/user_guide/gui.html#define-regions-of-interest) section of the `movement` GUI guide, which happens to use this very dataset for its screenshots. Refer to the guide for the full details.
+:::
+
+1. Launch the GUI from the command line with `movement launch`.
+2. Load a background layer: drag and drop either the video or the still frame onto the viewer, using the paths we printed above.
+3. Expand the "Define regions of interest" menu on the right-hand side, and click "Add new layer". This adds a napari [shapes layer](https://napari.org/stable/howtos/layers/shapes.html) named "regions", managed by `movement`.
+4. With that layer selected, press <kbd>P</kbd> to activate the polygon tool and draw around one region of the maze, clicking once per vertex. Each shape you draw appears as a row in the regions table.
+5. Repeat until you have five regions: the two open arms (left and right), the two closed arms (top and bottom), and the central square.
+6. Double-click the name cell of each row to rename it. We'll use `open_arm_left`, `open_arm_right`, `closed_arm_top`, `closed_arm_bottom` and `centre`.
+7. Click "Save layer" and save the regions to a `.geojson` file.
+
+::: {.callout-note title="Shapes and regions"}
+Any napari shape can become a `movement` region, but the resulting type depends on what you drew:
+polygons, rectangles and ellipses become
+[`PolygonOfInterest`](https://movement.neuroinformatics.dev/latest/api/movement.roi.PolygonOfInterest.html) objects,
+while lines and paths become
+[`LineOfInterest`](https://movement.neuroinformatics.dev/latest/api/movement.roi.LineOfInterest.html) objects.
+The latter are useful for boundaries an animal may cross, rather than areas it may occupy.
+:::
+
+Where you place the boundaries between the arms and the centre is a judgement call, and it will affect the numbers we compute below—something to keep in mind when comparing results across studies.
+
+## Load and visualise ROIs
+
+Regions saved from the GUI are read back into Python with
+[`load_rois()`](https://movement.neuroinformatics.dev/latest/api/movement.roi.load_rois.html).
+So that the rest of this chapter runs regardless of what you drew, we'll use a set of regions we prepared earlier and stored in the book's repository.
+
+```{python}
+rois = load_rois("data/EPM_rois.geojson")
+
+[roi.name for roi in rois]
+```
+
+We get back a list of region objects, each carrying its name and its vertices:
+
+```{python}
+print(rois[0])
+```
+
+Every region can draw itself onto a `matplotlib` axes with its
+[`plot()`](https://movement.neuroinformatics.dev/latest/api/movement.roi.PolygonOfInterest.html#movement.roi.PolygonOfInterest.plot)
+method, so we can check that our regions line up with the maze.
+
+```{python}
+#| label: fig-epm-rois
+#| fig-cap: "The five regions of interest drawn over the EPM."
+
+fig, ax = plt.subplots()
+ax.imshow(frame)
+
+for roi, colour in zip(rois, plt.cm.Dark2.colors, strict=False):
+    roi.plot(ax, facecolor=colour, alpha=0.5)
+
+ax.legend(loc="upper right", fontsize="small")
+```
+
+Plotting is only the simplest thing regions can do.
+A `PolygonOfInterest` also knows how to compute the distance from a point to its boundary, the nearest point on that boundary, and the angle at which an animal approaches it—see the [`movement.roi`](https://movement.neuroinformatics.dev/latest/api/movement.roi.html) API reference and the [boundary angles example](https://movement.neuroinformatics.dev/latest/examples/boundary_angles.html) for what's possible.
