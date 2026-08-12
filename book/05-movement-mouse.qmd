@@ -322,7 +322,7 @@ This mouse spent a comparable amount of time in the open and closed arms, and a 
 ::: {.exercise-prompt}
 As discussed, the centroid is not the only way to represent the overall position of the mouse.
 
-1. Recompute the occupancy using the `tailbase` keypoint alone instead of the centroid, and plot the two sets of percentages side by side. 
+1. Recompute the occupancy using the `tailbase` keypoint alone instead of the centroid, and plot the two sets of percentages side by side.
 2. How do occupancy times change? Can you infer why?
 
 :::
@@ -353,6 +353,7 @@ The time spent in the centre region increases when using the `tailbase` keypoint
 This makes sense: the tailbase trails behind the mouse, so it is still in the centre while the snout and the rest of the keypoints in the body have already entered an arm. And the effect is strongest for the open arms, which the mouse tends to enter only partway before turning back.
 
 Note as well that the `tailbase` accounts for noticeably fewer frames:
+
 ```{python}
 print(f"centroid: {float(time_per_region.sum()):.1f}%")
 print(f"tailbase: {float(time_per_region_tailbase.sum()):.1f}%")
@@ -362,6 +363,7 @@ The centroid is the average of up to 8 keypoints and is only `NaN` when all of t
 :::
 
 ## Counting entries and exits
+
 The time spent in a region is an aggregate metric across the full trial. We may be interested in inspecting how this dwell time was accumulated throughout the trial instead. For that, the number of entries into each region is a useful complement, and it comes almost for free from the boolean array we already have.
 
 If we compute the consecutive differences of the `occupancy` array along the time dimension, we get an array that for each frame holds a `1` if that frame was an "entry", a `-1` if that frame was an "exit", or `0` if it was neither.
@@ -385,12 +387,11 @@ Entries and exits are nearly balanced for each region. This is a useful sanity c
 The centre is entered far more often than any arm, which is what you would expect from an animal that repeatedly ventures a short way into an arm and returns.
 
 ::: {.callout-note title="Spurious entries and exits"}
-Be aware that this simple count has some spurious effects. 
+Be aware that this simple count has some spurious effects.
 
-Missing data is one source of these: the centroid is `NaN` wherever the position could not be recovered after cleaning, and `compute_region_occupancy()` marks those frames as `False`. A tracking gap while the mouse sits well inside a region therefore looks exactly like a brief exit followed by a re-entry. 
+Missing data is one source of these: the centroid is `NaN` wherever the position could not be recovered after cleaning, and `compute_region_occupancy()` marks those frames as `False`. A tracking gap while the mouse sits well inside a region therefore looks exactly like a brief exit followed by a re-entry.
 
 Tracking jitter around a boundary is another: a centroid that wobbles in and out across an edge adds an entry and an exit for every wobble.
 
 Note that neither source breaks the balance we checked above, since both add entries and exits in pairs. To guard against them, we could discard visits shorter than some minimum duration, and handle gaps explicitly rather than letting them count as time spent outside.
 :::
-
