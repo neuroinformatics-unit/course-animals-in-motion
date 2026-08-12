@@ -1,60 +1,115 @@
 # A mouse in the elevated plus maze {#sec-movement-mouse}
 
-In this case study, we'll use the [`movement` package](https://movement.neuroinformatics.dev/) to analyse a mouse navigating an [elevated plus maze (EPM)](https://en.wikipedia.org/wiki/Elevated_plus_maze)—a widely used behavioural assay for measuring anxiety in rodents. Our end goal is to quantify how much time the mouse spends in each region of the maze.
+In this case study, we'll use [`movement`](https://movement.neuroinformatics.dev/) to analyse a mouse navigating an [elevated plus maze (EPM)](https://en.wikipedia.org/wiki/Elevated_plus_maze)—a widely used behavioural assay for measuring anxiety in rodents.
+Our goal is to quantify how much time the mouse spends in each region of the maze.
 
-Before you get started, make sure you've set up the `animals-in-motion-env` environment (refer to [prerequisites @sec-install-movement]) and are using it to run this code.
+We assume you are already familiar with the `movement` dataset structure and the `movement` GUI, both introduced in @sec-movement-intro.
+
+::: {.callout-note title="Using the right environment"}
+
+If you are following along this chapter on your own computer,
+make sure to run all code snippets with the `animals-in-motion-env` environment activated
+(see [prerequisites @sec-install-movement]). This also applies to launching the
+`movement` graphical user interface (@sec-movement-gui).
+
+:::
+
+```{python}
+#| include: false
+import xarray as xr
+
+xr.set_options(
+    display_expand_attrs=False,
+    display_expand_coords=False,
+    keep_attrs=True,
+)
+```
 
 ## The elevated plus maze
 
-The EPM consists of two open arms and two closed arms (enclosed by walls) arranged in a plus shape, elevated above the ground. Because of the general aversion of mice to open spaces, mice tend to prefer the closed arms of the maze. The proportion of time spent in the open arms is therefore commonly used as a measure of anxiety-like behaviour: the more time spent in the open arms, the less anxious the mouse is.
+The EPM consists of two open arms and two closed arms (enclosed by walls) arranged in a plus shape, elevated above the ground.
+Because of the general aversion of mice to open, exposed spaces, mice tend to prefer the closed arms of the maze.
+The proportion of time spent in the open arms is therefore commonly used as a measure of anxiety-like behaviour: the more time spent in the open arms, the less anxious the mouse.
 
-Let's also provide credit to Loukia for sharing the data with us.
+::: {.callout-note title="Acknowledgement"}
+Thanks to Loukia Katsouri for sharing this dataset with us.
+:::
 
-In this section we introduce the EPM paradigm and set up the analysis by importing the relevant libraries: `numpy`, `pandas`, `matplotlib`, `movement.sample_data`, `movement.filtering`, `movement.plots`, and `movement.roi`.
+Let's start by importing everything we'll need.
+Besides the usual suspects, we will use four parts of the `movement` API:
+[`movement.sample_data`](https://movement.neuroinformatics.dev/latest/api/movement.sample_data.html) to fetch the data,
+[`movement.filtering`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.html) to clean it,
+[`movement.plots`](https://movement.neuroinformatics.dev/latest/api/movement.plots.html) to visualise where the mouse spent its time,
+and [`movement.roi`](https://movement.neuroinformatics.dev/latest/api/movement.roi.html) to define and analyse regions of the maze.
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+from movement import sample_data
+from movement.filtering import filter_by_confidence, rolling_filter
+from movement.plots import plot_occupancy
+from movement.roi import compute_region_occupancy, load_rois
+```
 
 ## Load and inspect the data
 
-The EPM dataset is provided as part of `movement`'s built-in sample data and can be fetched with `sample_data.fetch_dataset("DLC_single-mouse_EPM.predictions.h5")`. Inspect the dataset structure.
+In @sec-movement-intro we loaded pose tracks from a file on disk.
+Here we'll instead use one of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-sample-data)—a curated collection of tracking outputs from various species and software, which are downloaded on demand and cached under `~/.movement/data`.
+
+We fetch the EPM dataset with
+[`fetch_dataset()`](https://movement.neuroinformatics.dev/latest/api/movement.sample_data.fetch_dataset.html),
+passing `with_video=True` so that the associated video is downloaded as well—we'll need it later.
+
+```{python}
+ds = sample_data.fetch_dataset(
+    "DLC_single-mouse_EPM.predictions.h5", with_video=True
+)
+ds
+```
+
+These are [DeepLabCut](https://www.mackenziemathislab.org/deeplabcut) predictions for a single mouse, with 8 keypoints tracked over roughly 10 minutes at 30 fps.
+
+Along with the pose tracks, this sample dataset comes with a video and a still frame extracted from it.
+Their paths are stored as attributes of the dataset:
+
+```{python}
+print(ds.frame_path)
+print(ds.video_path)
+```
+
+Take note of these paths—we'll need them when we draw regions of interest in the GUI.
 
 ## Clean the data
 
-Raw pose-estimation output inevitably contains low-confidence or erroneous predictions, especially around occluded body parts. Here we use `movement.filtering.filter_by_confidence()` with a threshold of ~0.95 to discard unreliable predictions, and then apply a rolling median filter to smooth the remaining tracks. A similar pipeline was used in @sec-movement-intro, so no need to go into detail here, just apply the filtering operations (or could have the participants do it themselves as an exercise).
+Pose estimation output inevitably contains low-confidence or erroneous predictions, especially around occluded body parts.
+In this dataset the mouse is often partly hidden by the walls of the closed arms, so some cleaning is in order before we analyse its position.
 
-## Visualise space occupancy
+We covered the tools for this in @sec-movement-intro, so this time you get to apply them yourself.
 
-Before performing any ROI-based analysis, it is useful to get a global impression of where the mouse spent its time. We use `movement.plots.plot_occupancy()` to generate a 2D histogram of the mouse's body centroid overlaid on the background frame, using a log-colour scale to reveal both high- and low-frequency regions.
+::: {.exercise-prompt}
+Clean the pose tracks:
 
-Note that `movement.plot` provides some additional plotting functionality, on top of the built-in `xarray` methods we covered in @sec-movement-intro.
+1. Discard predictions with a confidence score below `0.95`, using
+   [`filter_by_confidence()`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.filter_by_confidence.html).
+   Which keypoint loses the most data, and does that make sense given the maze?
+2. Smooth the result with a rolling median filter, using
+   [`rolling_filter()`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html).
 
-## Define ROIs in napari {#sec-epm-napari}
+Call the cleaned position array `position_clean`—we'll use it for the rest of the chapter.
+:::
 
-To formally separate the maze regions, we need to draw regions of interest (ROIs) as polygons in pixel coordinates. We do this interactively by launching the `movement` napari plugin, loading the background frame, adding an empty `Shapes` layer, and drawing five polygons—one for each maze region (left open arm, right open arm, bottom closed arm, top closed arm, and central square). Once drawn, the shapes are exported to a `.geojson` file.
+::: {.exercise-solution}
+```{python}
+position_conf = filter_by_confidence(
+    ds.position, ds.confidence, threshold=0.95, print_report=True
+)
 
-Tell learners to launch napari and load the EPM video (show them where sample data is stored locally).
-Cross-reference the napari section of precious chapter: @sec-movement-gui
-
-For this part we could straight-up link to the [movement GUI guide](https://movement.neuroinformatics.dev/latest/user_guide/gui.html#define-regions-of-interest), as it already uses screenshots from the EPM example!
-
-## Load and visualise ROIs
-
-Load the exported `.geojson` file.
-
-```{.python}
-from movement.roi import load_rois
-
-rois = load_rois("path/to/regions.geojson")
+position_clean = rolling_filter(
+    position_conf, window=5, statistic="median", min_periods=2
+)
 ```
 
-Explain briefly what the list of ROIs contains, and maybe visualise each ROI on top of the background frame using the region objects' `plot()` method. For reference, check out this [movement example](https://movement.neuroinformatics.dev/latest/examples/boundary_angles.html)
-
-## Compute time spent in each ROI
-
-With the ROIs defined, we use `movement.roi.compute_region_occupancy()` to determine, for each time point, which ROI (if any) contains the mouse's body centroid (computed as the mean position across all keypoints). The result is an `xarray.DataArray` of boolean values with a `region` dimension. Summing over time and expressing as a percentage of total frames yields the proportion of time spent in each maze region, which we could visualise as a bar chart (or export to a pandas DataFrame for further analysis).
-
-Ideas for exercises:
-
-How does the result change if you use a single keypoint (e.g. `tailbase` or `neck`) instead of the centroid of all keypoints to represent the mouse's position?
-
-## Entries and exits (optional extension)
-
-As an optional extension, we count the number of times the mouse enters and exits each ROI by detecting transitions in the boolean occupancy array. Entry/exit counts complement time-in-ROI as a measure of exploration and can reveal differences in behavioural strategy.
+The `snout` is the worst affected, followed by `tail_end` and the two lateral keypoints.
+These are the keypoints most likely to disappear behind the walls of the closed arms, or to be obscured when the mouse rears or grooms.
+:::
