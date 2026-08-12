@@ -113,3 +113,57 @@ position_clean = rolling_filter(
 The `snout` is the worst affected, followed by `tail_end` and the two lateral keypoints.
 These are the keypoints most likely to disappear behind the walls of the closed arms, or to be obscured when the mouse rears or grooms.
 :::
+
+## Visualise space occupancy
+
+Before defining any regions, it's worth getting a global impression of where the mouse spent its time.
+
+In @sec-movement-intro we relied on `xarray`'s built-in plotting methods.
+The [`movement.plots`](https://movement.neuroinformatics.dev/latest/api/movement.plots.html) module adds a few plotting functions on top of those, tailored to motion tracking data.
+One of them is
+[`plot_occupancy()`](https://movement.neuroinformatics.dev/latest/api/movement.plots.plot_occupancy.html),
+which draws a 2D histogram of position—by default for the centroid of all keypoints, aggregated over all individuals.
+
+We'll overlay the histogram on the still frame that came with the dataset, so we can see the maze underneath.
+
+```{python}
+#| code-fold: true
+#| label: fig-epm-occupancy
+#| fig-cap: "Occupancy of the mouse's centroid across the maze, on a logarithmic colour scale."
+
+frame = plt.imread(ds.frame_path)
+height, width = frame.shape[:2]
+
+# Bins of 30x30 pixels, covering the whole frame
+bin_size = 30
+bins = [
+    np.arange(0, width + bin_size, bin_size),
+    np.arange(0, height + bin_size, bin_size),
+]
+
+fig, ax = plt.subplots()
+ax.imshow(frame)
+
+plot_occupancy(
+    position_clean,
+    ax=ax,
+    bins=bins,
+    alpha=0.8,
+    cmin=10,  # hide bins with fewer than 10 frames
+    norm="log",
+)
+
+# Match the axes to the frame, keeping the image orientation
+ax.set_xlim(0, width)
+ax.set_ylim(height, 0)
+ax.set_title("Occupancy heatmap")
+ax.collections[0].colorbar.set_label("# frames")
+```
+
+Any keyword arguments beyond the first few are passed straight to
+[`matplotlib`'s `hist2d`](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.hist2d.html),
+which is where `bins`, `cmin` and `norm` come from.
+The logarithmic colour scale is worth the extra argument here: without it, the few heavily visited bins would flatten everything else to a single colour.
+
+The plus shape of the maze emerges clearly from the data alone, and the centre of the maze stands out as the most visited area.
+To say anything about the arms, though, we need to define them explicitly.
