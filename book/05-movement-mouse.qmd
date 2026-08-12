@@ -34,10 +34,10 @@ The proportion of time spent in the open arms is therefore commonly used as a me
 Thanks to Loukia Katsouri (Sainsbury Wellcome Centre) for sharing this dataset with us.
 :::
 
-
 ## Load and inspect the data
 
 First, let's import everything we need:
+
 ```{python}
 import matplotlib.pyplot as plt
 import numpy as np
@@ -49,7 +49,7 @@ from movement.roi import compute_region_occupancy, load_rois
 ```
 
 Next, let's load the data. In @sec-movement-intro we loaded pose tracks from a file on disk.
-Here, we'll get the EMP data from one of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-sample-data). 
+Here, we'll get the EMP data from one of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-sample-data).
 
 ::: {.callout-note title="Sample datasets"}
 These datasets are a curated collection of tracking outputs from various species and software, which are downloaded on demand and cached under `~/.movement/data`.
@@ -130,7 +130,7 @@ position_clean = rolling_filter(
 )
 ```
 
-In terms of number of samples dropped, the `snout` keypoint seems the worst affected, followed by `tail_end`. This makes sense: the snout could often be occluded by the mouse's head if it pitches forward, and the tail end is a fine feature that may be hard to distinguish from the background. 
+In terms of number of samples dropped, the `snout` keypoint seems the worst affected, followed by `tail_end`. This makes sense: the snout could often be occluded by the mouse's head if it pitches forward, and the tail end is a fine feature that may be hard to distinguish from the background.
 :::
 
 ## Visualise space occupancy
@@ -224,7 +224,6 @@ while lines and paths become
 The latter are useful for boundaries an animal may cross, rather than areas it may occupy.
 :::
 
-
 ## Load and visualise ROIs
 
 We can now read the regions we defined in the GUI into Python with
@@ -308,7 +307,7 @@ ax.tick_params(axis="x", rotation=30)
 ```
 
 ::: {.callout-note title="Why percentages don't add up to 100%?"}
-If you inspect the `time_per_region` variable, you may notice the percentages don't add up to 100%. 
+If you inspect the `time_per_region` variable, you may notice the percentages don't add up to 100%.
 
 ```{python}
 print(f"Accounted for: {float(time_per_region.sum()):.1f}% of frames")
@@ -319,7 +318,6 @@ The denominator is the total number of frames, but not every frame is counted in
 :::
 
 This mouse spent a comparable amount of time in the open and closed arms, and a sizeable fraction of the session in the centre.
-
 
 <!-- ------------ -->
 ::: {.exercise-prompt}
