@@ -25,9 +25,9 @@ graph LR
 ```
 
 ::: {.callout-note}
-The goal here is to illustrate the **workflow and the core concepts**, not to train a production-grade classifier. 
-We deliberately work with a single annotated video and a small set of interpretable features to keep the focus on the process rather than the model performance. 
-A robust model would require substantially more data, as we discuss at the end of this chapter. 
+The goal here is to illustrate the **workflow and the core concepts**, not to train a production-grade classifier.
+We deliberately work with a single annotated video and a small set of interpretable features to keep the focus on the process rather than the model performance.
+A robust model would require substantially more data, as we discuss at the end of this chapter.
 In most practical applications, we would also rely on predicted pose tracks rather than manually annotated ones, since manual annotation is expensive and rarely scalable.
 :::
 
@@ -63,8 +63,8 @@ ds = load_dataset(
 ds
 ```
 
-Since these pose tracks were labelled by hand rather than predicted by a model, their confidence values are undefined (`nan`) for all frames. 
-The upside is that the data quality is generally high, so we can skip most of the usual data cleaning steps. 
+Since these pose tracks were labelled by hand rather than predicted by a model, their confidence values are undefined (`nan`) for all frames.
+The upside is that the data quality is generally high, so we can skip most of the usual data cleaning steps.
 However, the tracks aren't perfectly smooth: human annotators inevitably introduce small frame-to-frame jitter.
 To address this, we will apply a rolling median filter to the position data using [`rolling_filter`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html).
 
@@ -88,8 +88,8 @@ position_smoothed = rolling_filter(ds.position, window=7, min_periods=2)
 ```
 
 :::
-Next, we load the manual BORIS annotations from the TSV file into a [pandas DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html). 
-The file uses the same BORIS export format described in @sec-boris, with one row per `mount` bout. 
+Next, we load the manual BORIS annotations from the TSV file into a [pandas DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
+The file uses the same BORIS export format described in @sec-boris, with one row per `mount` bout.
 We then select and display only the columns we are interested in, which include the start and stop times and frame indices of each `mount` bout.
 
 ```{python}
@@ -110,7 +110,7 @@ boris_df[columns_of_interest]
 
 ## Add per-frame behaviour labels
 
-Using these ground-truth behaviour labels, we construct a **per-frame boolean array**, indicating whether a `mount` is occurring (`True`) or not (`False`) at each frame. 
+Using these ground-truth behaviour labels, we construct a **per-frame boolean array**, indicating whether a `mount` is occurring (`True`) or not (`False`) at each frame.
 
 We store this boolean array in the dataset as a new **data variable** `is_mount`, alongside `position` and `confidence`, so that the behaviour labels and pose tracks live together in a single object.
 
@@ -147,8 +147,8 @@ print(f"Mount frames: {mount_fraction.item():.2%}")
 ```
 
 ::: {.callout-note title="Why did we use the mean?" collapse="true"}
-Computing a fraction involves counting how many entries satisfy a condition and dividing by the total number of entries. 
-For boolean arrays, `True` is treated as `1` and `False` as `0`, so the **mean** of a boolean array directly gives the fraction of `True` entries. 
+Computing a fraction involves counting how many entries satisfy a condition and dividing by the total number of entries.
+For boolean arrays, `True` is treated as `1` and `False` as `0`, so the **mean** of a boolean array directly gives the fraction of `True` entries.
 In contrast, the **sum** would give the total number of `True` entries.
 :::
 
@@ -250,7 +250,7 @@ To evaluate how well it performs, we can compare its predictions against the gro
 A [**confusion matrix**](https://en.wikipedia.org/wiki/Confusion_matrix) is a convenient way to do this: it summarises, in a table, how many frames fall into each combination of predicted vs. ground-truth class.
 
 To visualise this, we use `scikit-learn`'s [`ConfusionMatrixDisplay`](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.ConfusionMatrixDisplay.html), which plots the matrix from our predicted and ground-truth labels.
-By default, the cells contain the raw frame counts for each predicted/ground-truth combination. 
+By default, the cells contain the raw frame counts for each predicted/ground-truth combination.
 With `normalize="true"`, each row is scaled by its total, so every cell shows the percentage of frames relative to the total number of frames for that ground-truth class.
 
 ```{python}
@@ -340,7 +340,7 @@ In a real scenario, we would probably want to analyse more than 1.5 minutes of v
 
 ## A hand-crafted decision tree
 
-The classifier based on thresholding a single variable got us surprisingly far, but it also has clear limitations. There are many situations in which the two mice's centroids are close together even though the resident is _not_ mounting the intruder. All of these would be incorrectly labelled as "mounting" by our simple distance threshold. For example:
+The classifier based on thresholding a single variable got us surprisingly far, but it also has clear limitations. There are many situations in which the two mice's centroids are close together even though the resident is *not* mounting the intruder. All of these would be incorrectly labelled as "mounting" by our simple distance threshold. For example:
 
 * the intruder could be mounting the resident.
 * the two mice could be interacting in other ways (sniffing, fighting, playing).
@@ -439,9 +439,9 @@ Read more about the forward vector and its angle in [`movement`'s compute head d
 
 The `intruder_facing_resident_angle` is a signed angle:
 
-- **0°** means the resident is aligned with the intruder's head direction, 
-- **±180°** means the resident is diametrically opposite to the intruder's head direction, 
-- the sign indicates whether the resident is on the intruder's left or right side. 
+* **0°** means the resident is aligned with the intruder's head direction,
+* **±180°** means the resident is diametrically opposite to the intruder's head direction,
+* the sign indicates whether the resident is on the intruder's left or right side.
 
 Since we are not interested in the left–right information here, we take the absolute value, giving us an angle ranging from 0° to 180°.
 
@@ -564,7 +564,7 @@ each extra question makes it harder for a frame to be classified as `mount` (mor
 
 Everything we did above was hand-picked: we chose the questions, their thresholds, and the shape of the tree. With `scikit-learn`'s [`DecisionTreeClassifier`](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html), however, we can fit a decision tree that *learns* all three from the data.
 
-How does the tree learn from the data? 
+How does the tree learn from the data?
 At each node, it tries every feature and every possible threshold, and keeps the split that creates two groups that are as pure as possible, meaning each group contains mostly one class of data.
 The search is greedy: it never revisits earlier splits, so the final tree is usually good, but not guaranteed to be the best one.
 
@@ -708,7 +708,7 @@ print(f"Train:      {len(X_train)} frames ({y_train.sum()} mount)")
 print(f"Validation: {len(X_val)} frames ({y_val.sum()} mount)")
 ```
 
-Both splits contain frames classified as `mount`, so the model has positive examples to learn from and we have some to evaluate on. 
+Both splits contain frames classified as `mount`, so the model has positive examples to learn from and we have some to evaluate on.
 This is important to verify, because a purely temporal split does not guarantee that a rare behaviour will appear in both splits.
 
 ### Train and evaluate the model
@@ -960,7 +960,7 @@ print(f"Smoothed mount bouts: {count_bouts(y_new_smoothed)}")
 
 :::
 
-After smoothing, the bout count aligns much more closely with the ground truth, and most of the frame-level flicker has disappeared. 
+After smoothing, the bout count aligns much more closely with the ground truth, and most of the frame-level flicker has disappeared.
 The effect is easiest to see in a plot, so let's visualise the ground-truth, raw predicted, and smoothed mount bouts over time.
 
 ```{python}
