@@ -208,6 +208,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Behaviour annotation with BORIS</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-classification-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Training a supervised behaviour classifier</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -303,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Alternatively, use <code>quarto preview</code> for live-reloading during development—the book rebuilds and refreshes in the browser automatically as you save changes:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview book</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Note that <code>quarto preview</code> still executes code cells and uses the cache, so the first preview after a change may take a moment.</p>
-<p>Some chapters (e.g.&nbsp;<code>04-movement-intro.qmd</code>, <code>05-movement-mouse.qmd</code>, <code>07-boris-tutorial.qmd</code>) execute code cells that read the <code>CalMS21</code> dataset from <code>~/.movement/CalMS21/</code>. <code>movement</code>’s own sample datasets are fetched automatically, but <code>CalMS21</code> needs to be manually downloaded from Dropbox and placed at that path (see <a href="book/prerequisites.qmd">prerequisites <span class="quarto-xref"><span>Section A.4</span></span></a> for the link and folder structure), otherwise rendering those chapters will fail with a missing-file error.</p>
+<p>Some chapters (e.g.&nbsp;<code>04-movement-intro.qmd</code>, <code>07-boris-tutorial.qmd</code>) execute code cells that read the <code>CalMS21</code> dataset from <code>~/.movement/CalMS21/</code>. <code>movement</code>’s own sample datasets are fetched automatically, but <code>CalMS21</code> needs to be manually downloaded from Dropbox and placed at that path (see <a href="https://animals-in-motion.neuroinformatics.dev/latest/prerequisites.html#sec-data">prerequisites</a> for the link and folder structure), otherwise rendering those chapters will fail with a missing-file error.</p>
 </section>
 <section id="authoring-content" class="level2" data-number="B.2">
 <h2 data-number="B.2" class="anchored" data-anchor-id="authoring-content"><span class="header-section-number">B.2</span> Authoring content</h2>

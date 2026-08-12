@@ -55,7 +55,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./prerequisites.html" rel="next">
+<link href="./08-classification-tutorial.html" rel="next">
 <link href="./06-movement-zebras.html" rel="prev">
 <link href="./img/logo_niu_light.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
@@ -198,6 +198,12 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Behaviour annotation with BORIS</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-classification-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Training a supervised behaviour classifier</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -298,7 +304,7 @@ div.csl-indent {
 <h2 data-number="7.2" class="anchored" data-anchor-id="how-can-we-annotate-behaviours"><span class="header-section-number">7.2</span> How can we annotate behaviours?</h2>
 <p>There are various tools to help with behaviour annotation (refer to <a href="01-intro.html#sec-useful-tools" class="quarto-xref"><span>Section 1.6</span></a> and <span class="citation" data-cites="luxem_open-source_2023">Luxem et al. (<a href="references.html#ref-luxem_open-source_2023" role="doc-biblioref">2023</a>)</span>). Here, we introduce <a href="https://www.boris.unito.it/">BORIS</a> <span class="citation" data-cites="friard_boris_2016">(<a href="references.html#ref-friard_boris_2016" role="doc-biblioref">Friard and Gamba 2016</a>)</span>, a widely adopted, free, open-source, tool designed for this task. BORIS offers a keyboard-shortcut-based interface for annotating behaviours in video recordings, structured around a project that defines an <strong>ethogram</strong>—a catalogue of all behaviours to be annotated. Annotations can be exported in multiple formats for downstream analysis.</p>
 <p>While, in principle, one could use BORIS to manually annotate every frame of every video in a dataset, this is often impractical for large datasets. A common approach is therefore to annotate a subset of videos, train a supervised classifier on those annotations, and then use that classifier to automatically label the remaining videos—effectively teaching the computer to reproduce the annotation “style” of a human expert.</p>
-<p>Structurally, this mirrors the supervised workflow used for pose estimation in <a href="03-sleap-tutorial.html#sec-workflow-sleap" class="quarto-xref"><span>Section 3.6</span></a>: select data, annotate, train, and predict—only with behaviour labels instead of keypoints. Unlike SLEAP, which integrates this entire workflow into a single application, BORIS supports only the annotation step. Classifier training and inference are handled by separate tools, covered in a subsequent chapter.</p>
+<p>Structurally, this mirrors the supervised workflow used for pose estimation in <a href="03-sleap-tutorial.html#sec-workflow-sleap" class="quarto-xref"><span>Section 3.6</span></a>: select data, annotate, train, and predict—only with behaviour labels instead of keypoints. Unlike SLEAP, which integrates this entire workflow into a single application, BORIS supports only the annotation step. Classifier training and inference are handled separately, covered in <a href="08-classification-tutorial.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
 </section>
 <section id="dataset-and-task" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="dataset-and-task"><span class="header-section-number">7.3</span> Dataset and task</h2>
@@ -544,7 +550,7 @@ Important
 </div>
 <div class="callout-body-container callout-body">
 <p>Open the TSV file you exported in Excel, Google Sheets, LibreOffice Calc, Numbers, or any text editor. Compare it with the ground-truth annotations provided as <code>mouse044_task1_mount_events_boris.tsv</code>, which are also shown here for your convenience (only relevant columns are displayed):</p>
-<div id="0caf8a33" class="cell" data-execution_count="1">
+<div id="2a610943" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div>
 
@@ -1103,8 +1109,8 @@ Sun, Jennifer J., Tomomi Karigo, David J. Anderson, Pietro Perona, Yisong Yue, a
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./prerequisites.html" class="pagination-link" aria-label="Prerequisites">
-        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./08-classification-tutorial.html" class="pagination-link" aria-label="Training a supervised behaviour classifier">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Training a supervised behaviour classifier</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
