@@ -40,6 +40,7 @@ book:
     - 05-movement-mouse.qmd
     - 06-movement-zebras.qmd
     - 07-boris-tutorial.qmd
+    - 08-classification-tutorial.qmd
   appendices:
     - prerequisites.qmd
     - contributing.qmd

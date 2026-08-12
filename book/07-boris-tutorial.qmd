@@ -33,7 +33,7 @@ A common approach is therefore to annotate a subset of videos, train a supervise
 
 Structurally, this mirrors the supervised workflow used for pose estimation in @sec-workflow-sleap: select data, annotate, train, and predict—only with behaviour labels instead of keypoints.
 Unlike SLEAP, which integrates this entire workflow into a single application, BORIS supports only the annotation step.
-Classifier training and inference are handled by separate tools, covered in a subsequent chapter.
+Classifier training and inference are handled separately, covered in @sec-classification.
 
 ## Dataset and task
 
