@@ -49,7 +49,7 @@ from movement.roi import compute_region_occupancy, load_rois
 ```
 
 Next, let's load the data. In @sec-movement-intro we loaded pose tracks from a file on disk.
-Here, we'll get the EMP data from one of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-sample-data).
+Here, we'll get the EPM data from one of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-sample-data).
 
 ::: {.callout-note title="Sample datasets"}
 These datasets are a curated collection of tracking outputs from various species and software, which are downloaded on demand and cached under `~/.movement/data`.
@@ -206,13 +206,13 @@ The steps below are a condensed version of the [define regions of interest](http
 3. Expand the "Define regions of interest" menu on the right-hand side, and click "Add new layer". This adds a napari [shapes layer](https://napari.org/stable/howtos/layers/shapes.html) named "regions", managed by `movement`.
 4. With that layer selected, press <kbd>P</kbd> to activate the polygon tool and draw around one region of the maze, clicking once per vertex. Each shape you draw appears as a row in the regions table.
 5. Repeat until you have five regions: the two open arms (left and right), the two closed arms (top and bottom), and the central square.
-6. Double-click the name cell of each row to rename it. We'll use `open_arm_left`, `open_arm_right`, `closed_arm_top`, `closed_arm_bottom` and `centre`.
+6. Double click the name cell of each row to rename it. We'll use `open_arm_left`, `open_arm_right`, `closed_arm_top`, `closed_arm_bottom` and `centre`.
 7. Click "Save layer" and save the regions to a `.geojson` file.
 
 :::
 
 ::: {.exercise-solution}
-You can compare your `geojson` file with the set of regions we prepared earlier: [EPM_rois.geojson](data/EPM_rois.geojson){download="EPM_rois.geojson"}. Since drawing regions is a manual task, there will be differences. To compare how the boundaries compare, you can load both files into the GUI with "Load layer".
+You can compare your `geojson` file with the set of regions we prepared earlier: [EPM_rois.geojson](data/EPM_rois.geojson){download="EPM_rois.geojson"}. Since drawing regions is a manual task, there will be differences. To see how the boundaries compare, you can load both files into the GUI with "Load layer".
 :::
 
 ::: {.callout-note title="`napari` shapes and `movement` regions"}
@@ -245,7 +245,7 @@ print(rois[0])
 
 Additionally, every region can draw itself onto a `matplotlib` axes with its
 [`plot()`](https://movement.neuroinformatics.dev/latest/api/movement.roi.PolygonOfInterest.html#movement.roi.PolygonOfInterest.plot)
-method. This is very helpful to double-check that our regions line up with the maze.
+method. This is very helpful to double check that our regions line up with the maze.
 
 ```{python}
 #| label: fig-epm-rois
@@ -288,7 +288,7 @@ occupancy = compute_region_occupancy(centroid, rois)
 occupancy
 ```
 
-If you inspect closely the output, you will notice the output array mirrors the input `centroid` array, except that the `space` dimension has been replaced by a **`region` dimension**. Moreover, the coordinates of this region dimension are the **region names** we assigned in the GUI.
+If you inspect the output closely, you will notice the output array mirrors the input `centroid` array, except that the `space` dimension has been replaced by a **`region` dimension**. Moreover, the coordinates of this region dimension are the **region names** we assigned in the GUI.
 You will also notice the output `occupancy` is a boolean array: `True` where that point was inside that region at that time, `False` otherwise.
 
 We can use the `occupancy` boolean array to directly compute the proportion of time spent in each region, by summing over time and dividing by the number of frames.
@@ -306,7 +306,7 @@ ax.set_ylabel("% time spent in region")
 ax.tick_params(axis="x", rotation=30)
 ```
 
-::: {.callout-note title="Why percentages don't add up to 100%?"}
+::: {.callout-note title="Why don't the percentages add up to 100%?"}
 If you inspect the `time_per_region` variable, you may notice the percentages don't add up to 100%.
 
 ```{python}
@@ -319,13 +319,12 @@ The denominator is the total number of frames, but not every frame is counted in
 
 This mouse spent a comparable amount of time in the open and closed arms, and a sizeable fraction of the session in the centre.
 
-<!-- ------------ -->
 ::: {.exercise-prompt}
-As we discussed, the centroid is not the only way to represent the overall position of the mouse.
+As discussed, the centroid is not the only way to represent the overall position of the mouse.
 
-1. Recompute the occupancy using the `tailbase` keypoint alone instead of the centroid, and plot the two sets of percentages side by side. Which regions gain and which lose time, and why?
+1. Recompute the occupancy using the `tailbase` keypoint alone instead of the centroid, and plot the two sets of percentages side by side. 
+2. How do occupancy times change? Can you infer why?
 
-**Bonus**: what fraction of frames does each of the two representations account for, and what explains the difference?
 :::
 
 ::: {.exercise-solution}
@@ -349,25 +348,23 @@ ax.set_ylabel("% time spent in region")
 ax.legend()
 ```
 
-The centre gains time and the open arms lose it, while the closed arms are barely affected.
-The tailbase trails behind the mouse, so it is still in the centre while the snout and body have already moved into an arm.
-The effect is strongest for the open arms, which the mouse tends to enter only partway before turning back.
+The time spent in the centre region increases when using the `tailbase` keypoint rather than the centroid, whereas the time spent in the open arms decreases. The closed arms show less variation.
 
+This makes sense: the tailbase trails behind the mouse, so it is still in the centre while the snout and the rest of the keypoints in the body have already entered an arm. And the effect is strongest for the open arms, which the mouse tends to enter only partway before turning back.
+
+Note as well that the `tailbase` accounts for noticeably fewer frames:
 ```{python}
 print(f"centroid: {float(time_per_region.sum()):.1f}%")
 print(f"tailbase: {float(time_per_region_tailbase.sum()):.1f}%")
 ```
 
-The tailbase accounts for noticeably fewer frames.
-The centroid is the average of up to 8 keypoints and is only `NaN` when all of them are missing, whereas a single keypoint is unusable whenever that one keypoint was dropped during cleaning.
+The centroid is the average of up to 8 keypoints and is only `NaN` when all of them are missing, whereas a single `tailbase` keypoint missing makes that frame unusable.
 :::
 
-::: {#entries-and-exits .callout-note title="Optional: count entries and exits" collapse="true"}
+## Counting entries and exits
+The time spent in a region is an aggregate metric across the full trial. We may be interested in inspecting how this dwell time was accumulated throughout the trial instead. For that, the number of entries into each region is a useful complement, and it comes almost for free from the boolean array we already have.
 
-Time spent in a region tells us nothing about how it was accumulated: one long visit and twenty brief ones can produce the same percentage.
-The number of entries into each region is a useful complement, and it comes almost for free from the boolean array we already have.
-
-Taking the difference along time turns each transition into a `1` (entry) or a `-1` (exit).
+If we compute the consecutive differences of the `occupancy` array along the time dimension, we get an array that for each frame holds a `1` if that frame was an "entry", a `-1` if that frame was an "exit", or `0` if it was neither.
 
 ```{python}
 transitions = occupancy.astype(int).diff(dim="time")
@@ -383,9 +380,17 @@ for region in entries.region.values:
     )
 ```
 
-Entries and exits are nearly balanced for each region, as expected over a session that starts and ends outside most regions.
-The centre is entered far more often than any arm, which is what you would expect from an animal that repeatedly ventures a short way into an arm and returns—a pattern that the percentages alone would hide.
+Entries and exits are nearly balanced for each region. This is a useful sanity check: within the session, every entry into a region must be followed by an exit, and every exit preceded by an entry. The only frames that can break the pairing are the first and the last: if the mouse is already inside a region at the start of the session, its first departure is an exit with no matching entry, and if it is inside a region at the end, its last arrival is an entry with no matching exit. So the two counts should match exactly, or differ by exactly one if the pairing is broken. A larger mismatch between the counts would suggest something went wrong in how we derived the transitions.
 
-Be aware that this simple count treats every transition as real, including the ones caused by tracking jitter around a boundary.
-A more careful analysis would discard visits shorter than some minimum duration.
+The centre is entered far more often than any arm, which is what you would expect from an animal that repeatedly ventures a short way into an arm and returns.
+
+::: {.callout-note title="Spurious entries and exits"}
+Be aware that this simple count has some spurious effects. 
+
+Missing data is one source of these: the centroid is `NaN` wherever the position could not be recovered after cleaning, and `compute_region_occupancy()` marks those frames as `False`. A tracking gap while the mouse sits well inside a region therefore looks exactly like a brief exit followed by a re-entry. 
+
+Tracking jitter around a boundary is another: a centroid that wobbles in and out across an edge adds an entry and an exit for every wobble.
+
+Note that neither source breaks the balance we checked above, since both add entries and exits in pairs. To guard against them, we could discard visits shorter than some minimum duration, and handle gaps explicitly rather than letting them count as time spent outside.
 :::
+
