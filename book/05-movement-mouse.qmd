@@ -31,8 +31,9 @@ The [EPM](https://en.wikipedia.org/wiki/Elevated_plus_maze) is a simple maze in 
 The proportion of time spent in the open arms is therefore commonly used as a measure of anxiety-like behaviour: mice that spend more time exploring the open arms are interpreted as exhibiting lower anxiety.
 
 ## Dataset
+
 This tutorial uses one of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-sample-data): `DLC_single-mouse_EPM.predictions.h5`.
-The dataset consists of [DeepLabCut](https://www.mackenziemathislab.org/deeplabcut) pose‑tracking predictions for a single mouse performing an elevated plus maze task. 
+The dataset consists of [DeepLabCut](https://www.mackenziemathislab.org/deeplabcut) pose‑tracking predictions for a single mouse performing an elevated plus maze task.
 The recording is approximately 10 minutes long at 30 fps and includes eight tracked keypoints, along with the corresponding video and a representative still frame.
 
 ::: {.callout-note title="Acknowledgement"}
