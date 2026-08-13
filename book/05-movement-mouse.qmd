@@ -3,14 +3,14 @@
 In this case study, we'll use [`movement`](https://movement.neuroinformatics.dev/) to analyse a mouse navigating an elevated plus maze (EPM)—a widely used behavioural assay for measuring anxiety in rodents.
 Our goal is to quantify how much time the mouse spends in different regions of the maze.
 
-We assume you are already familiar with the [`movement` dataset structure](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html) and the [`movement` GUI](https://movement.neuroinformatics.dev/latest/user_guide/gui.html), both introduced in @sec-movement-intro.
+We assume you are already familiar with the [`movement` dataset structure](https://movement.neuroinformatics.dev/latest/user_guide/movement_dataset.html) and the [`movement` graphical user interface (GUI)](https://movement.neuroinformatics.dev/latest/user_guide/gui.html), both introduced in @sec-movement-intro.
 
 ::: {.callout-note title="Using the right environment"}
 
 If you are following along this chapter on your own computer,
 make sure to run all code snippets with the `animals-in-motion-env` environment activated
 (see [prerequisites @sec-install-movement]). This also applies to launching the
-`movement` graphical user interface (@sec-movement-gui).
+`movement` GUI (@sec-movement-gui).
 
 :::
 
@@ -28,10 +28,15 @@ xr.set_options(
 ## The elevated plus maze
 
 The [EPM](https://en.wikipedia.org/wiki/Elevated_plus_maze) is a simple maze in the shape of a plus sign, raised on a platform above the ground. It consists of four arms radiating from a central square: two opposite "open arms" (corridors without walls) and two opposite "closed arms" (corridors enclosed by walls). Mice are generally averse to open, exposed spaces, so they tend to prefer the closed arms.
-The proportion of time spent in the open arms is therefore commonly used as a measure of anxiety-like behaviour: the more time spent in the open arms, the less anxious the mouse.
+The proportion of time spent in the open arms is therefore commonly used as a measure of anxiety-like behaviour: mice that spend more time exploring the open arms are interpreted as exhibiting lower anxiety.
+
+## Dataset
+This tutorial uses one of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-sample-data): `DLC_single-mouse_EPM.predictions.h5`.
+The dataset consists of [DeepLabCut](https://www.mackenziemathislab.org/deeplabcut) pose‑tracking predictions for a single mouse performing an elevated plus maze task. 
+The recording is approximately 10 minutes long at 30 fps and includes eight tracked keypoints, along with the corresponding video and a representative still frame.
 
 ::: {.callout-note title="Acknowledgement"}
-Thanks to Loukia Katsouri (Sainsbury Wellcome Centre) for sharing this dataset with us.
+The EPM video and DeepLabCut files were kindly shared by [Loukia Katsouri](https://profiles.ucl.ac.uk/63482-loukia-katsouri) from the [Sainsbury Wellcome Centre](https://www.sainsburywellcome.org/).
 :::
 
 ## Load and inspect the data
@@ -48,15 +53,9 @@ from movement.plots import plot_occupancy
 from movement.roi import compute_region_occupancy, load_rois
 ```
 
-Next, let's load the data. In @sec-movement-intro we loaded pose tracks from a file on disk.
-Here, we'll get the EPM data from one of `movement`'s [sample datasets](https://movement.neuroinformatics.dev/latest/user_guide/input_output.html#target-sample-data).
-
-::: {.callout-note title="Sample datasets"}
-These datasets are a curated collection of tracking outputs from various species and software, which are downloaded on demand and cached under `~/.movement/data`.
-:::
-
-We use
-[`fetch_dataset()`](https://movement.neuroinformatics.dev/latest/api/movement.sample_data.fetch_dataset.html) and pass `with_video=True` so that the associated video is downloaded as well—we'll need it later.
+In @sec-movement-intro we loaded pose tracks from a file on disk using `movement`'s [`load_dataset`](https://movement.neuroinformatics.dev/latest/api/movement.io.load.load_dataset.html) function.
+Here, we will fetch the EPM dataset directly using `movement`'s [`sample_data.fetch_dataset`](https://movement.neuroinformatics.dev/latest/api/movement.sample_data.fetch_dataset.html) function, since it's one of `movement`'s curated sample datasets, which are downloaded on demand and cached under `~/.movement/data`.
+We will also pass `with_video=True` so that the associated video is downloaded as well—we'll need it later.
 
 ```{python}
 ds = sample_data.fetch_dataset(
@@ -65,8 +64,6 @@ ds = sample_data.fetch_dataset(
 )
 ds
 ```
-
-These are [DeepLabCut](https://www.mackenziemathislab.org/deeplabcut) predictions for a single mouse, with 8 keypoints tracked over roughly 10 minutes at 30 fps.
 
 Along with the pose tracks, this sample dataset comes with a video and a still frame extracted from it.
 Their paths are stored as attributes of the dataset:
@@ -78,7 +75,7 @@ print(ds.video_path)
 
 Take note of these paths—we'll need them to later draw regions of interest in the GUI.
 
-Let's also have a look at the still frame, to get a sense of the maze we are dealing with:
+Let’s also look at the still frame to visualise the maze configuration used in this dataset:
 
 ```{python}
 #| label: fig-epm-frame
@@ -89,6 +86,7 @@ frame = plt.imread(ds.frame_path)
 fig, ax = plt.subplots()
 ax.imshow(frame)
 ax.set_title("Elevated plus maze")
+plt.show()
 ```
 
 The camera looks down on the maze from above. The two closed arms run vertically, while the two open arms are the bare horizontal platforms extending left and right from the central square.
@@ -96,20 +94,20 @@ The camera looks down on the maze from above. The two closed arms run vertically
 ## Clean the data
 
 Pose estimation output inevitably contains low-confidence or erroneous predictions, especially around occluded body parts.
-This is the case for our dataset, so some cleaning is in order before we analyse the data.
+This is also true for our dataset, so some preprocessing is required before we proceed with the analysis.
 
-We saw an example of how to clean the data in @sec-movement-intro. This time we can have a go at coding the data cleaning steps ourselves.
+We saw an example of how to clean the data in @sec-movement-intro. This time we will implement the cleaning steps ourselves.
 
 ::: {.exercise-prompt}
 Clean the pose tracks:
 
 1. Discard predictions with a confidence score below `0.95`, using
-   [`filter_by_confidence()`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.filter_by_confidence.html).
+   [`filter_by_confidence`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.filter_by_confidence.html).
    Which keypoint loses the most data? Does that make sense given the geometry of the maze?
 2. Smooth the result with a rolling **median** filter, using
-   [`rolling_filter()`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html) and a window of length 5 frames. Set `min_periods=2`, so that a smoothed value is produced whenever at least 2 of the 5 frames in the window are present (rather than requiring all 5).
+   [`rolling_filter`](https://movement.neuroinformatics.dev/latest/api/movement.filtering.rolling_filter.html) and a window of length 5 frames. Set `min_periods=2`, so that a smoothed value is produced whenever at least 2 of the 5 frames in the window are present (rather than requiring all 5).
 
-Call the cleaned position array `position_clean`—we'll use it for the rest of the chapter.
+Name the resulting cleaned position array `position_clean`—we'll use it for the rest of the chapter.
 :::
 
 ::: {.exercise-solution}
@@ -130,21 +128,21 @@ position_clean = rolling_filter(
 )
 ```
 
-In terms of number of samples dropped, the `snout` keypoint seems the worst affected, followed by `tail_end`. This makes sense: the snout could often be occluded by the mouse's head if it pitches forward, and the tail end is a fine feature that may be hard to distinguish from the background.
+The `snout` keypoint shows the highest number of dropped samples, with `tail_end` following closely. This makes sense: the mouse's snout is often occluded by its head when it pitches forward, and the tail end is a fine feature that can be challenging to resolve against the background.
 :::
 
 ## Visualise space occupancy
 
-Before defining any regions of interest, it's worth getting a global impression of where the mouse spent its time.
+Before defining any regions of interest, it's useful to examine the mouse's overall occupancy to understand how it explored the maze.
 
 In @sec-movement-intro, we relied on `xarray`'s built-in plotting methods.
-The [`movement.plots`](https://movement.neuroinformatics.dev/latest/api/movement.plots.html) module adds a few convenient plotting functions on top of those, tailored to motion tracking data.
-One of them is
-[`plot_occupancy()`](https://movement.neuroinformatics.dev/latest/api/movement.plots.plot_occupancy.html),
-which draws a 2D histogram of position. With default arguments, it computes the histogram of the centroid of all keypoints.
+The [`movement.plots`](https://movement.neuroinformatics.dev/latest/api/movement.plots.html) module provides additional plotting functions designed specifically for motion-tracking data.
+Among them is
+[`plot_occupancy`](https://movement.neuroinformatics.dev/latest/api/movement.plots.plot_occupancy.html),
+which by default produces a 2D histogram of position based on the centroid of all keypoints.
 
 ::: {.callout-note title="Multiple individuals"}
-If the dataset contains more than one individual, the centroid data of all individuals is pooled before computing the histogram by default. To plot a subset instead, pass the `individuals` argument (and `keypoints`, to restrict which keypoints go into the centroid).
+If the dataset contains more than one individual, `plot_occupancy` pools the centroid positions of all individuals by default when computing the histogram. To restrict the plot to specific individuals, supply the `individuals` argument (and `keypoints` to control which keypoints are used for the centroid).
 :::
 
 We'll overlay the histogram on the still frame that came with the dataset, so we can see the maze geometry underneath.
@@ -183,12 +181,12 @@ ax.set_title("Occupancy heatmap")
 ax.collections[0].colorbar.set_label("# frames")
 ```
 
-Beyond `individuals`, `keypoints` and `ax`, any keyword arguments are passed on to
+Aside from `individuals`, `keypoints` and `ax`, all remaining keyword arguments are forwarded to
 [`matplotlib`'s `hist2d`](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.hist2d.html),
-which is where `bins`, `cmin` and `norm` come from.
-The logarithmic colour scale is worth the extra argument here: without it, the few heavily visited bins would flatten everything else to a single colour.
+which provides the `bins`, `cmin` and `norm` parameters.
+A logarithmic colour scale is recommended in this context, as the most frequently visited bins otherwise compress the dynamic range and obscure structure in the less‑visited regions.
 
-The trajectories reflect the underlying plus shape of the maze. The centre of the maze seems to be one of the most visited areas. But to inspect region occupancy in further detail, we need to define these regions explicitly.
+The trajectories reflect the plus-shaped layout of the maze, with the centre appearing as one of the most visited regions. To quantify occupancy within particular regions in further detail, we must first define these regions explicitly.
 
 ## Define ROIs in napari {#sec-epm-napari}
 
@@ -199,7 +197,7 @@ The easiest way to define a region of interest is using the `movement` GUI (see 
 ::: {.exercise-prompt}
 Draw the regions of the maze in the GUI and save them to a file.
 
-The steps below are a condensed version of the [define regions of interest](https://movement.neuroinformatics.dev/latest/user_guide/gui.html#define-regions-of-interest) section of the `movement` GUI guide, which happens to use this very dataset for its screenshots. You can refer to the guide for the more detailed steps.
+The steps below are a condensed version of the [define regions of interest](https://movement.neuroinformatics.dev/latest/user_guide/gui.html#define-regions-of-interest) section of the `movement` GUI guide. You can refer to the guide for the more detailed steps.
 
 1. Launch the GUI from the command line with `movement launch`.
 2. Load a background layer: drag and drop either the video or the still frame onto the viewer, using the paths we printed above.
@@ -227,9 +225,9 @@ The latter are useful for boundaries an animal may cross, rather than areas it m
 ## Load and visualise ROIs
 
 We can now read the regions we defined in the GUI into Python with
-[`load_rois()`](https://movement.neuroinformatics.dev/latest/api/movement.roi.load_rois.html).
+[`load_rois`](https://movement.neuroinformatics.dev/latest/api/movement.roi.load_rois.html).
 
-For reproducibility, we'll use a set of regions we prepared earlier and stored in the book's repository. But feel free to have a go with your own ROIs, the results should not change dramatically.
+For reproducibility, we'll use a set of regions we prepared earlier and stored in the book's repository. You may also use your own ROIs; the results should be comparable.
 
 ```{python}
 rois = load_rois("data/EPM_rois.geojson")
@@ -244,7 +242,7 @@ print(rois[0])
 ```
 
 Additionally, every region can draw itself onto a `matplotlib` axes with its
-[`plot()`](https://movement.neuroinformatics.dev/latest/api/movement.roi.PolygonOfInterest.html#movement.roi.PolygonOfInterest.plot)
+[`plot`](https://movement.neuroinformatics.dev/latest/api/movement.roi.PolygonOfInterest.html#movement.roi.PolygonOfInterest.plot)
 method. This is very helpful to double check that our regions line up with the maze.
 
 ```{python}
@@ -272,24 +270,24 @@ See the [`movement.roi`](https://movement.neuroinformatics.dev/latest/api/moveme
 
 ## Compute time spent in each ROI
 
-To inspect whether the mouse was in a region of space or not, we need to define what "being in a region" means. The simplest approach is to reduce the mouse to a single point. It's not the only option though: one could instead ask whether *any* keypoint falls inside a region, or what fraction of the keypoints do, for example. But reducing the mouse to a single point is simple enough, so we do that here.
+To determine whether the mouse was inside a region of interest, we first need to define what "being in a region" means. The simplest approach is to reduce the mouse to a single representative point.Other definitions are possible—for example, checking whether *any* keypoint lies inside a region, or what fraction of keypoints do—but using a single point is straightforward, and we adopt that convention here.
 
-As that point, we'll use the centroid of all keypoints, computed as we did in @sec-movement-intro.
+For this representative point, we'll use the centroid across all keypoints, computed as in @sec-movement-intro.
 
 ```{python}
 centroid = position_clean.mean(dim="keypoint")
 ```
 
 We can now compute the occupancy in each of the ROIs we defined, by passing the centroid and the regions to
-[`compute_region_occupancy()`](https://movement.neuroinformatics.dev/latest/api/movement.roi.compute_region_occupancy.html).
+[`compute_region_occupancy`](https://movement.neuroinformatics.dev/latest/api/movement.roi.compute_region_occupancy.html).
 
 ```{python}
 occupancy = compute_region_occupancy(centroid, rois)
 occupancy
 ```
 
-If you inspect the output closely, you will notice the output array mirrors the input `centroid` array, except that the `space` dimension has been replaced by a **`region` dimension**. Moreover, the coordinates of this region dimension are the **region names** we assigned in the GUI.
-You will also notice the output `occupancy` is a boolean array: `True` where that point was inside that region at that time, `False` otherwise.
+If you inspect the output closely, you will notice the output array mirrors the input `centroid` array, except that the `space` dimension has been replaced by a **`region` dimension** whose coordinates are the **region names** defined in the GUI.
+You will also notice the output `occupancy` is a boolean array: `True` when the centroid lies inside a given region at a given time, and `False` otherwise.
 
 We can use the `occupancy` boolean array to directly compute the proportion of time spent in each region, by summing over time and dividing by the number of frames.
 
@@ -306,8 +304,10 @@ ax.set_ylabel("% time spent in region")
 ax.tick_params(axis="x", rotation=30)
 ```
 
+We can see that the mouse spent a comparable amount of time in the open and closed arms, and a sizeable fraction of the session in the centre.
+
 ::: {.callout-note title="Why don't the percentages add up to 100%?"}
-If you inspect the `time_per_region` variable, you may notice the percentages don't add up to 100%.
+If you inspect `time_per_region`, you may notice the percentages don't add up to 100%.
 
 ```{python}
 print(f"Accounted for: {float(time_per_region.sum()):.1f}% of frames")
@@ -317,12 +317,10 @@ The denominator is the total number of frames, but not every frame is counted in
 
 :::
 
-This mouse spent a comparable amount of time in the open and closed arms, and a sizeable fraction of the session in the centre.
-
 ::: {.exercise-prompt}
 As discussed, the centroid is not the only way to represent the overall position of the mouse.
 
-1. Recompute the occupancy using the `tailbase` keypoint alone instead of the centroid, and plot the two sets of percentages side by side.
+1. Recompute the occupancy using only the `tailbase` keypoint in place of the centroid, and plot the resulting percentages alongside those obtained from the centroid.
 2. How do occupancy times change? Can you infer why?
 
 :::
@@ -336,7 +334,7 @@ tailbase_occupancy = compute_region_occupancy(
     position_clean.sel(keypoint="tailbase"), rois
 )
 time_per_region_tailbase = (
-    100 * tailbase_occupancy.sum("time") / tailbase_occupancy.sizes["time"]
+    100 * tailbase_occupancy.mean("time")
 ).squeeze()
 
 x = np.arange(time_per_region.sizes["region"])
@@ -364,9 +362,9 @@ The centroid is the average of up to 8 keypoints and is only `NaN` when all of t
 
 ## Counting entries and exits
 
-The time spent in a region is an aggregate metric across the full trial. We may be interested in inspecting how this dwell time was accumulated throughout the trial instead. For that, the number of entries into each region is a useful complement, and it comes almost for free from the boolean array we already have.
+The time spent in a region is an aggregate metric across the entire session. To understand how this dwell time accumulated over the course of the session, the number of entries into each region offers a useful complementary measure—one that can be extracted almost trivially from the boolean `occupancy` array.
 
-If we compute the consecutive differences of the `occupancy` array along the time dimension, we get an array that for each frame holds a `1` if that frame was an "entry", a `-1` if that frame was an "exit", or `0` if it was neither.
+If we compute the consecutive differences of the `occupancy` array along the time dimension, we get an array that identifies, for each frame, whether it corresponds to an entry (`1`), an exit (`-1`), or neither (`0`). We can then count the number of entries and exits per region by summing over time.
 
 ```{python}
 transitions = occupancy.astype(int).diff(dim="time")
@@ -382,16 +380,16 @@ for region in entries.region.values:
     )
 ```
 
-Entries and exits are nearly balanced for each region. This is a useful sanity check: within the session, every entry into a region must be followed by an exit, and every exit preceded by an entry. The only frames that can break the pairing are the first and the last: if the mouse is already inside a region at the start of the session, its first departure is an exit with no matching entry, and if it is inside a region at the end, its last arrival is an entry with no matching exit. So the two counts should match exactly, or differ by exactly one if the pairing is broken. A larger mismatch between the counts would suggest something went wrong in how we derived the transitions.
+Entries and exits are almost perfectly balanced for each region, which provides a useful consistency check: over the course of a session, every entry into a region must be paired with a subsequent exit, and every exit must correspond to a prior entry. Only the first and last frames can violate this pairing: an initial exit without a matching entry occurs if the mouse begins the session inside a region, and a final entry without a matching exit occurs if the mouse ends the session inside a region. So the two counts should either be identical, or differ by exactly one in these boundary cases. Any larger discrepancy indicates a problem in how we derived the transitions.
 
-The centre is entered far more often than any arm, which is what you would expect from an animal that repeatedly ventures a short way into an arm and returns.
+The centre is entered far more often than the arms, reflecting the typical pattern in which the mouse probes an arm briefly and then retreats back to the centre.
 
 ::: {.callout-note title="Spurious entries and exits"}
-Be aware that this simple count has some spurious effects.
+This simple countis subject to a few spurious effects.
 
-Missing data is one source of these: the centroid is `NaN` wherever the position could not be recovered after cleaning, and `compute_region_occupancy()` marks those frames as `False`. A tracking gap while the mouse sits well inside a region therefore looks exactly like a brief exit followed by a re-entry.
+One arises from missing data:  The centroid becomes `NaN` wherever the position could not be recovered after cleaning, and `compute_region_occupancy` marks those frames as `False`. A tracking gap that occurs while the mouse is clearly inside a region will therefore appear as a brief exit followed by a re-entry.
 
-Tracking jitter around a boundary is another: a centroid that wobbles in and out across an edge adds an entry and an exit for every wobble.
+Another arises from boundary jitter: small fluctuations of the centroid around a region boundary generate an entry and an exit for every crossing.
 
-Note that neither source breaks the balance we checked above, since both add entries and exits in pairs. To guard against them, we could discard visits shorter than some minimum duration, and handle gaps explicitly rather than letting them count as time spent outside.
+Importantly, neither effect disrupts the entry–exit balance discussed above, since both introduce transitions in matched pairs. To mitigate these artefacts, we could discard visits shorter than a chosen minimum duration and handle gaps explicitly rather than counting them as time spent outside.
 :::

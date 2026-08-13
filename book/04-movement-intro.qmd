@@ -207,7 +207,7 @@ predictions_dir = Path.home() / ".movement" / "CalMS21" / "better_model" / "pred
 file_path = predictions_dir / file_name
 ```
 
-To load the data, we pass the above path to `movement`'s [`load_dataset()` function](https://movement.neuroinformatics.dev/latest/api/movement.io.load.load_dataset.html).
+To load the data, we pass the above path to `movement`'s [`load_dataset`](https://movement.neuroinformatics.dev/latest/api/movement.io.load.load_dataset.html) function.
 
 ```{python}
 from movement.io import load_dataset
