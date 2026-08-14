@@ -307,7 +307,7 @@ ax.tick_params(axis="x", rotation=30)
 ```
 
 ::: {.callout-tip title="`mean` instead of `sum` and divide"}
-Here taking the mean over time is the same as summing over time and dividing by the number of frames: `occupancy.mean("time")` is equivalent to `occupancy.sum("time") / occupancy.sizes["time"]`. But this equivalence holds here because `occupancy` is a boolean array, which cannot contain `NaN` values. 
+Here taking the mean over time is the same as summing over time and dividing by the number of frames: `occupancy.mean("time")` is equivalent to `occupancy.sum("time") / occupancy.sizes["time"]`. But this equivalence holds here because `occupancy` is a boolean array, which cannot contain `NaN` values.
 
 Be careful when applying the same shortcut to floating-point data: `xarray`'s `mean` ignores `NaN` values by default, so they are dropped from both the sum *and* the count. The denominator is then the number of valid frames rather than the total number of frames.
 :::
