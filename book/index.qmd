@@ -15,21 +15,17 @@ Feedback and contributions to the handbook are always welcome, see @sec-contribu
 
 ## Schedule
 
-The workshop on **October 8th, 2025**, for students of the [SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme) will cover the following chapters of this handbook:
+The workshop starting on **August 17th, 2026**,
+as part of the [Neuroinformatics Unit Open Software Summer School](https://neuroinformatics.dev/open-software-summer-school/index.html),
+will cover the following chapters of this handbook:
 
 | Time      | Topics                     |
 |-----------|----------------------------|
-| Morning   | @sec-intro <br> @sec-sleap |
-| Afternoon | @sec-movement-intro        |
-
-: Workshop schedule {.striped #tbl-schedule}
-
-Students may also review the following chapters after the workshop, depending on their interests:
-
-- @sec-dl-cv
-- Case studies applying the `movement` package to real-world datasets:
-  - @sec-movement-mouse
-  - @sec-movement-zebras
+| Day 1: morning   | @sec-intro <br> @sec-dl-cv |
+| Day 2: morning | @sec-sleap        |
+| Day 2: afternoon | @sec-movement-intro |
+| Day 3: morning | @sec-boris <br> @sec-classification     |
+| Day 3: afternoon | @sec-movement-mouse <br> @sec-movement-zebras |
 
 ## Versions {#sec-versions}
 
