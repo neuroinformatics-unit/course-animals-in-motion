@@ -37,8 +37,9 @@ To view other versions, replace `latest` in the URL with one of the following ve
 
 | Version | Description |
 | --------- | ------------- |
-| [dev](https://animals-in-motion.neuroinformatics.dev/dev/) | development version, corresponding to the `main` branch |
-| [v2025.10](https://animals-in-motion.neuroinformatics.dev/v2025.10/)^*^ | version taught as part of the [2025 SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme) |
+| [dev](https://animals-in-motion.neuroinformatics.dev/dev/) | development version, corresponding to the `main` branch. |
+| [v2026.08](https://animals-in-motion.neuroinformatics.dev/v2026.08/) | version used during the [2026 Open Software Summer School](https://neuroinformatics.dev/open-software-summer-school/index.html). |
+| [v2025.10](https://animals-in-motion.neuroinformatics.dev/v2025.10/)^*^ | version taught as part of the [2025 SWC Systems Neurscience PhD Programme](https://www.sainsburywellcome.org/web/content/systems-neuroscience-phd-programme). |
 | [v2025.08](https://animals-in-motion.neuroinformatics.dev/v2025.08/)^*^ | version used during the inaugural [2025 Open Software Week](https://neuroinformatics.dev/open-software-summer-school/2025/index.html). |
 
 ^*^*A companion `-answers` build, containing solutions to exercises, is also available for these versions, e.g. [v2025.10-answers](https://animals-in-motion.neuroinformatics.dev/v2025.10-answers/). Solutions are now included at the end of each chapter instead.*
