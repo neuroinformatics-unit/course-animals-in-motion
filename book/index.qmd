@@ -10,7 +10,7 @@
 Whether you are attending a workshop in person, or following along the materials at your own pace, be sure to check out @sec-prerequisites.
 
 All materials are shared under the [CC-BY-4.0 license](https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/LICENSE.md) so you are welcome to use and adapt them for your own workshops.
-There is no need to ask for permission, but we'd love to hear about it if you do!
+There is no need to ask for permission, but we'd love to [hear about it](https://neuroinformatics.zulipchat.com/) if you do!
 Feedback and contributions to the handbook are always welcome, see @sec-contributing.
 
 ## Schedule
