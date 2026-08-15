@@ -7,7 +7,7 @@ Measuring animal behaviour often comes down to measuring movement, whether of th
 Advances in computer vision, particularly deep learning-based markerless motion tracking, have transformed how we study animal behaviour, bridging traditions from multiple scientific disciplines.
 These methods now underpin the emerging field of computational (neuro)ethology, enabling researchers to extract precise motion data from videos, quantify behavioural features, and (in neuroscience) relate them directly to neural activity.
 
-In this handbook, we focus on two key steps in this workflow: pose estimation and motion quantification, while recognising the broader ecosystem of open-source tools available.
+In this handbook, we focus on three key steps in this workflow—pose estimation, motion quantification, and supervised behaviour classification—while recognising the broader ecosystem of open-source tools available.
 
 ## Measuring behaviour as movement
 
@@ -107,7 +107,7 @@ The rise of markerless methods has reconfigured the data acquisition and analysi
 
 ![An overview of modern computational ethology workflows](img/ethology_workflow.png){#fig-ethology-workflow}
 
-An ecosystem of open-source tools has emerged to support this workflow. See @luxem_open-source_2023, @pereira_quantifying_2020, @blau_study_2024 for comprehensive reviews. We also provide a non-exhaustive list of open-source tools in [@sec-useful-tools].
+An ecosystem of open-source tools has emerged to support this workflow. See @luxem_open-source_2023, @pereira_quantifying_2020, @blau_study_2024, @mlost_evaluation_2025 for relevant reviews. We also provide a non-exhaustive list of open-source tools in [@sec-useful-tools].
 
 ::: {.callout-note title="Where does the 'neuro' come in?" collapse=true}
 
@@ -119,8 +119,7 @@ Neuroscientists are increasingly interested in precisely quantifying naturalisti
 >
 > The behavioral work needs to be as fine-grained as work at the neural level. Otherwise one is imperiled by a granularity mismatch between levels… [@krakauer_neuroscience_2017].
 
-This shift in focus within neuroscience has been a major driver for the rapid development of the computational approaches described above.
-Some refer to this field as **computational neuroethology**—the science of quantifying naturalistic behaviours to understand the brain [@datta_computational_2019].
+This shift in focus within neuroscience has been a major driver for the rapid development of **computational neuroethology**—the science of quantifying naturalistic behaviours to understand the brain [@datta_computational_2019].
 
 The data acquisition and analysis workflows used in computational neuroethology are similar to those shown in @fig-ethology-workflow.
 The key difference is that derived measures of behaviour—whether continuous variables like speed or discrete actions such as "grooming"—are ultimately analysed alongside neural data, such as spike trains or calcium imaging traces (@fig-neuroethology-workflow).
@@ -177,6 +176,7 @@ If you'd like to add a tool you've built or enjoy using, please [open an issue](
 - [LightningPose](https://lightning-pose.readthedocs.io/en/latest/) @biderman_lightning_2024
 - [TRex](https://trex.run/) @walter_trex_2021
 - [idtracker.ai](https://idtrackerai.readthedocs.io/en/latest/) @romero-ferrero_idtrackerai_2019
+- [OCTRON](https://octron-tracking.github.io/OCTRON-docs/) @jacobsen_octron_2025
 - [Anipose](https://anipose.readthedocs.io/en/latest/) @karashchuk_anipose_2021
 - [DANNCE](https://github.com/spoonsso/dannce/) @dunn_geometric_2021
 - [DeepPoseKit](https://github.com/jgraving/deepposekit) @graving_deepposekit_2019
