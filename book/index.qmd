@@ -19,12 +19,12 @@ The workshop starting on **August 17th, 2026**,
 as part of the [Neuroinformatics Unit Open Software Summer School](https://neuroinformatics.dev/open-software-summer-school/index.html),
 will cover the following chapters of this handbook:
 
-| Time      | Topics                     |
-|-----------|----------------------------|
-| Day 1: morning   | @sec-intro <br> @sec-dl-cv |
-| Day 2: morning | @sec-sleap        |
-| Day 2: afternoon | @sec-movement-intro |
-| Day 3: morning | @sec-boris <br> @sec-classification     |
+| Time             | Topics                                        |
+|------------------|-----------------------------------------------|
+| Day 1: morning   | @sec-intro <br> @sec-dl-cv                    |
+| Day 2: morning   | @sec-sleap                                    |
+| Day 2: afternoon | @sec-movement-intro                           |
+| Day 3: morning   | @sec-boris <br> @sec-classification           |
 | Day 3: afternoon | @sec-movement-mouse <br> @sec-movement-zebras |
 
 ## Versions {#sec-versions}
