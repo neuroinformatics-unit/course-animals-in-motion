@@ -138,13 +138,16 @@ Highly **recommended readings**:
 
 - @sec-dl-cv: A primer on deep learning for computer vision, going over the key concepts and technologies that underpin most markerless tracking approaches.
 - @sec-sleap: Pose estimation and tracking with [SLEAP](https://sleap.ai/) [@pereira_sleap_2022]. We chose SLEAP because we know it best, but the knowledge gained should be applicable to most other pose estimation tools.
-- @sec-movement-intro: An introduction into analysing motion tracks with [movement](https://movement.neuroinformatics.dev/)—a Python package we develop [@sirmpilatze_movement_2025]—followed by two case studies applying `movement` to real-world datasets:
-  - @sec-movement-mouse: Continuous home cage monitoring of mouse activity levels for weeks.
+- @sec-movement-intro: Analysing motion tracks with [movement](https://movement.neuroinformatics.dev/)—a Python package we develop [@sirmpilatze_movement_2025]. Two more chapters contain case studies applying `movement` to real-world datasets:
+  - @sec-movement-mouse: A mouse navigating an elevated plus maze.
   - @sec-movement-zebras: Collective escape behaviour in a herd of zebras.
+- Supervised behaviour segmentation in two parts:
+  - @sec-boris: Annotating behaviours with [BORIS](https://www.boris.unito.it/) [@friard_boris_2016].
+  - @sec-classification: Training a behaviour classifier with [scikit-learn](https://scikit-learn.org/stable/) [@scikit-learn].
 
-This leaves out some key stages of the computational ethology workflow [@fig-ethology-workflow], most notably video acquisition and behaviour segmentation, which may be covered in future versions of this handbook.
+This leaves out some key parts of the computational neuroethology workflow [@fig-neuroethology-workflow], most notably video acquisition, unsupervised behaviour segmentation, and integration of neural and behavioural data. These topics may be covered in future versions of this handbook.
 
-![What is covered in this handbook](img/SLEAP_and_movement.png){#fig-sleap-movement}
+![What is covered in this handbook.](img/handbook-scope.png){#fig-handbook-scope}
 
 ::: {.callout-tip}
 We want to emphasise that there are many excellent open-source tools beyond those we focus on here.
@@ -214,3 +217,4 @@ If you'd like to add a tool you've built or enjoy using, please [open an issue](
 - [BORIS](https://www.boris.unito.it/) @friard_boris_2016
 - [MARS](https://neuroethology.github.io/MARS/) @mars2021
 - [FERAL](https://www.getferal.ai) @skovorodnikov_feral_2026
+- [scikit-learn](https://scikit-learn.org/stable/) @scikit-learn.
