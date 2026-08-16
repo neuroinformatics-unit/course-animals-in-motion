@@ -5,7 +5,7 @@
 Before we proceed, make sure you have installed [BORIS](https://www.boris.unito.it/) (see [prerequisites @sec-install-boris]).
 You will also need the files `mouse044_task1_annotator1.mp4` and `mouse044_task1_mount_events_boris.tsv` downloaded from [Dropbox](https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&st=xni448zl&dl=0) (see [prerequisites @sec-data]).
 
-## Supervised behaviour classification
+## Supervised behaviour classification {#sec-supervised-classification}
 
 Pose estimation tools such as SLEAP (see @sec-sleap) reveal *where* animals are, while motion quantification tools like `movement` (see @sec-movement-intro) show us *how* they move. Neither category tells us *what* behaviour is occurring at any given moment.
 
@@ -22,26 +22,30 @@ Behaviour segmentation typically operates on one or more of the following **feat
 **Supervised behaviour classifiers** learn to map these features to discrete behavioural states based on labelled examples provided by a human expert. Such **labels** indicate which behavioural states occur at each time point or frame. Their quality and quantity directly determine what the classifier can learn, making careful, consistent annotation a foundational requirement for any supervised behaviour analysis workflow.
 
 ::: {.callout-note title="Approaches to behaviour segmentation" collapse="true"}
-There are various ways to segment continuous motion into discrete behavioural states, including:
+Supervised classification is not the only way to segment behaviour. Other approaches include:
 
-- **Human annotation**: a human observer watches videos and annotates frames with behaviours of interest. You will get a taste of this in this chapter.
+- **Manual annotation**: a human observer watches videos and annotates frames with behaviours of interest. You will get a taste of this in this chapter, but annotating every frame of every video in a large dataset is usually impractical.
 - **Rule-based**: a fixed set of rules to describe the criteria that must be met to determine a behaviour's occurrence, e.g. a speed threshold above which an animal is considered to be "locomoting". We will touch on this in @sec-classification.
-- **Supervised classification**, already explained above. We will go through this in detail in @sec-classification.
-- **Unsupervised methods**: the model discovers behavioural states from the data, without any user-defined examples. These methods often employ dimensionality reduction followed by clustering, as in [MotionMapper](https://github.com/gordonberman/MotionMapper) [@berman_mapping_2014] and [B-SOID](https://github.com/YttriLab/B-SOID) [@hsu_b-soid_2021]. Some tools also rely on state-space models, such as hidden Markov models (HMMs) and auto-regressive HMMs; see [VAME](https://ethoml.github.io/VAME/) [@luxem_identifying_2022] and [Keypoint MoSeq](https://dattalab.github.io/moseq2-website/index.html) [@weinreb_keypoint-moseq_2024].
-- Hybrid approaches:
-  - self-supervised. Example tools include [LISBET](https://github.com/BelloneLab/lisbet) [@chindemi2023lisbet].
-  - semi-supervised.
+- **Unsupervised methods**: the model discovers behavioural states from the data, without any user-defined examples. These methods often employ dimensionality reduction followed by clustering, as in [MotionMapper](https://github.com/gordonberman/MotionMapper) [@berman_mapping_2014] and [B-SOID](https://github.com/YttriLab/B-SOID) [@hsu_b-soid_2021]. Some tools also rely on state-space models, such as hidden Markov models (HMMs); see [VAME](https://ethoml.github.io/VAME/) [@luxem_identifying_2022] and [Keypoint MoSeq](https://dattalab.github.io/moseq2-website/index.html) [@weinreb_keypoint-moseq_2024].
 
-![Supervised and unsupervised approaches to behavioural segmentation. Figure adapted from @luxem_open-source_2023 licensed under CC BY 4.0.](img/supervised_vs_unsupervised.jpg){#fig-behav-segmentation width=100%}
+![Supervised and unsupervised approaches to behavioural segmentation. Figure adapted from @luxem_open-source_2023, licensed under CC BY 4.0.](img/supervised_vs_unsupervised.jpg){#fig-behav-segmentation width=100%}
 
-Table 1 in @goodwin_simple_2024 offers a nice overview of open-source tools for behaviour segmentation, grouped by approach.
-See Figure 3 in @pereira_quantifying_2020 for segmentation schematics.
+See also:
 
-Challenges:
+- *Figure 3* in @pereira_quantifying_2020 for an alternative schematic representation of supervised and unsupervised approaches.
+- *Table 1* in @goodwin_simple_2024 for an overview of open-source tools for behaviour segmentation, grouped by approach.
+
+Whichever approach you choose, segmenting behaviour is hard and presents two kinds of **challenges**.
+
+First, behaviour itself resists tidy labels:
 
 - Behaviour is hierarchical and operates at multiple timescales, e.g. a walking bout alternates between swinging and stance phases.
-- Many behaviours can co-occur simultaneously, e.g. walking and sniffing,
+- Many behaviours can co-occur simultaneously, e.g. walking and sniffing.
 - Human annotators often disagree on what constitutes a behaviour, and how to label it.
+
+Second, each family of methods comes with its own limitation:
+
+- Rule-based methods rely on hand-picked thresholds that often fail to generalise across datasets.
 - Supervised methods often inherit the biases of human annotators.
 - Behavioural states output by unsupervised methods are often difficult to interpret.
 :::
@@ -244,4 +248,20 @@ df[show_columns]
 - Did you miss any bouts or find extra ones?
 - Did you annotate the start and stop times differently?
 
+:::
+
+## Choosing a behaviour segmentation approach
+
+We have now glimpsed how manual annotation works in practice. The next chapter (@sec-classification) covers rule-based and supervised classification, building on the annotations we have just produced. Unsupervised methods are not covered in this current version of the handbook, but they remain a valuable part of the toolkit.
+
+Whichever tools you end up using, the more important skill is knowing how to choose the right behaviour segmentation approach for the question at hand.
+
+::: {.callout-tip title="Discuss"}
+Which behaviour segmentation approach (see the *Approaches to behaviour segmentation* note in @sec-supervised-classification) would you choose in the following scenarios, and why?
+
+1. You captured a single 5-minute video of a rare species in the wild and want to isolate a particular behaviour of interest.
+2. You have a large dataset comparing two groups of mice and want to determine if they spend different amounts of time grooming.
+3. You have videos tracking a few mice in their home cages over a period of weeks, and want to quantify how much time they spend locomoting vs being stationary.
+4. You have created a new mutant fly line and want to characterise its behaviour repertoire, and compare it to wild-type flies.
+5. You have hundreds of hours of video of primates in a zoo and want to find every occurrence of a specific, well-defined social interaction, even though it happens only rarely.
 :::
