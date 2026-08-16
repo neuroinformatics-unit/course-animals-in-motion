@@ -17,6 +17,32 @@ This approach is simpler and faster to train and run.
 **Multi-animal pose estimation** aims to detect and track multiple animals simultaneously within the same frame.
 This is essential for studying social behaviours, group dynamics, or any scenario where animals interact, as it addresses the unique challenges of assigning detections reliably to individuals both within an image (part-grouping problem) and across frames (identity-tracking problem).
 
+::: {.callout-note title="A side note on 2D vs 3D pose estimation" collapse="true"}
+
+This tutorial focuses on **2D pose estimation**: locating each keypoint within the flat image plane of a single camera. This is the most common approach, and sufficient to answer many behavioural questions.
+However, a camera image is only a projection of the real, 3D world onto a 2D sensor:
+real-world distances and angles are distorted, and depth information is lost.
+
+When behaviours inherently span three dimensions—such as reaching, climbing, rearing, or flight—we may need full **3D pose estimation**. This is achieved by combining videos from multiple synchronised camera views to reconstruct 3D coordinates. There are two main markerless approaches:
+
+1. The first approach is to do 'regular' 2D pose estimation in each camera view,
+   then triangulate across camera views to estimate 3D pose. The triangulation
+   relies on known parameters about the cameras and their relative positions
+   and orientations. [Anipose](https://anipose.readthedocs.io/en/latest/)
+   [@karashchuk_anipose_2021] is a popular open-source toolkit that
+   implements this approach.
+
+   ![Source: @pereira_quantifying_2020](img/pose_estimation_3D.png)
+
+2. The second approach, implemented in [DANNCE](https://github.com/spoonsso/dannce)
+   [@dunn_geometric_2021], is to use a fully 3D convolutional neural network (CNN) that
+   can learn about 3D image features and how cameras and landmarks
+   relate to one another in 3D space.
+
+   ![Source: <https://github.com/spoonsso/dannce>](img/DANNCE.png)
+
+:::
+
 ## Top-down vs bottom-up approaches
 
 For multi-animal pose estimation, SLEAP offers both top-down and bottom-up approaches.

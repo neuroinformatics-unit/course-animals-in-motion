@@ -7,7 +7,7 @@ Measuring animal behaviour often comes down to measuring movement, whether of th
 Advances in computer vision, particularly deep learning-based markerless motion tracking, have transformed how we study animal behaviour, bridging traditions from multiple scientific disciplines.
 These methods now underpin the emerging field of computational (neuro)ethology, enabling researchers to extract precise motion data from videos, quantify behavioural features, and (in neuroscience) relate them directly to neural activity.
 
-In this handbook, we focus on two key steps in this workflow: pose estimation and motion quantification, while recognising the broader ecosystem of open-source tools available.
+In this handbook, we focus on three key steps in this workflow—pose estimation, motion quantification, and supervised behaviour classification—while recognising the broader ecosystem of open-source tools available.
 
 ## Measuring behaviour as movement
 
@@ -45,12 +45,6 @@ There are two main ways to extract motion from videos:
 ![Source: @mathis_primer_2020](img/from_pixels_to_keypoints.png)
 
 Examples of marker-based (top row) and markerless (bottom row) methods.
-:::
-
-::: {.callout-tip title="Discuss"}
-
-- What are some advantages and disadvantages of marker-based vs. markerless methods?
-- In which cases would you use one over the other?
 :::
 
 ## The rise of markerless methods
@@ -107,7 +101,7 @@ The rise of markerless methods has reconfigured the data acquisition and analysi
 
 ![An overview of modern computational ethology workflows](img/ethology_workflow.png){#fig-ethology-workflow}
 
-An ecosystem of open-source tools has emerged to support this workflow. See @luxem_open-source_2023, @pereira_quantifying_2020, @blau_study_2024 for comprehensive reviews. We also provide a non-exhaustive list of open-source tools in [@sec-useful-tools].
+An ecosystem of open-source tools has emerged to support this workflow. See @luxem_open-source_2023, @pereira_quantifying_2020, @blau_study_2024, @mlost_evaluation_2025 for relevant reviews. We also provide a non-exhaustive list of open-source tools in [@sec-useful-tools].
 
 ::: {.callout-note title="Where does the 'neuro' come in?" collapse=true}
 
@@ -119,8 +113,7 @@ Neuroscientists are increasingly interested in precisely quantifying naturalisti
 >
 > The behavioral work needs to be as fine-grained as work at the neural level. Otherwise one is imperiled by a granularity mismatch between levels… [@krakauer_neuroscience_2017].
 
-This shift in focus within neuroscience has been a major driver for the rapid development of the computational approaches described above.
-Some refer to this field as **computational neuroethology**—the science of quantifying naturalistic behaviours to understand the brain [@datta_computational_2019].
+This shift in focus within neuroscience has been a major driver for the rapid development of **computational neuroethology**—the science of quantifying naturalistic behaviours to understand the brain [@datta_computational_2019].
 
 The data acquisition and analysis workflows used in computational neuroethology are similar to those shown in @fig-ethology-workflow.
 The key difference is that derived measures of behaviour—whether continuous variables like speed or discrete actions such as "grooming"—are ultimately analysed alongside neural data, such as spike trains or calcium imaging traces (@fig-neuroethology-workflow).
@@ -139,13 +132,16 @@ Highly **recommended readings**:
 
 - @sec-dl-cv: A primer on deep learning for computer vision, going over the key concepts and technologies that underpin most markerless tracking approaches.
 - @sec-sleap: Pose estimation and tracking with [SLEAP](https://sleap.ai/) [@pereira_sleap_2022]. We chose SLEAP because we know it best, but the knowledge gained should be applicable to most other pose estimation tools.
-- @sec-movement-intro: An introduction into analysing motion tracks with [movement](https://movement.neuroinformatics.dev/)—a Python package we develop [@sirmpilatze_movement_2025]—followed by two case studies applying `movement` to real-world datasets:
-  - @sec-movement-mouse: Continuous home cage monitoring of mouse activity levels for weeks.
+- @sec-movement-intro: Analysing motion tracks with [movement](https://movement.neuroinformatics.dev/)—a Python package we develop [@sirmpilatze_movement_2025]. Two more chapters contain case studies applying `movement` to real-world datasets:
+  - @sec-movement-mouse: A mouse navigating an elevated plus maze.
   - @sec-movement-zebras: Collective escape behaviour in a herd of zebras.
+- Supervised behaviour segmentation in two parts:
+  - @sec-boris: Annotating behaviours with [BORIS](https://www.boris.unito.it/) [@friard_boris_2016].
+  - @sec-classification: Training a behaviour classifier with [scikit-learn](https://scikit-learn.org/stable/) [@scikit-learn].
 
-This leaves out some key stages of the computational ethology workflow [@fig-ethology-workflow], most notably video acquisition and behaviour segmentation, which may be covered in future versions of this handbook.
+This leaves out some key parts of the computational neuroethology workflow [@fig-neuroethology-workflow], most notably video acquisition, unsupervised behaviour segmentation, and integration of neural and behavioural data. These topics may be covered in future versions of this handbook.
 
-![What is covered in this handbook](img/SLEAP_and_movement.png){#fig-sleap-movement}
+![What is covered in this handbook.](img/handbook-scope.png){#fig-handbook-scope}
 
 ::: {.callout-tip}
 We want to emphasise that there are many excellent open-source tools beyond those we focus on here.
@@ -177,6 +173,7 @@ If you'd like to add a tool you've built or enjoy using, please [open an issue](
 - [LightningPose](https://lightning-pose.readthedocs.io/en/latest/) @biderman_lightning_2024
 - [TRex](https://trex.run/) @walter_trex_2021
 - [idtracker.ai](https://idtrackerai.readthedocs.io/en/latest/) @romero-ferrero_idtrackerai_2019
+- [OCTRON](https://octron-tracking.github.io/OCTRON-docs/) @jacobsen_octron_2025
 - [Anipose](https://anipose.readthedocs.io/en/latest/) @karashchuk_anipose_2021
 - [DANNCE](https://github.com/spoonsso/dannce/) @dunn_geometric_2021
 - [DeepPoseKit](https://github.com/jgraving/deepposekit) @graving_deepposekit_2019
@@ -214,3 +211,4 @@ If you'd like to add a tool you've built or enjoy using, please [open an issue](
 - [BORIS](https://www.boris.unito.it/) @friard_boris_2016
 - [MARS](https://neuroethology.github.io/MARS/) @mars2021
 - [FERAL](https://www.getferal.ai) @skovorodnikov_feral_2026
+- [scikit-learn](https://scikit-learn.org/stable/) @scikit-learn.

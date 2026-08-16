@@ -152,7 +152,7 @@ For boolean arrays, `True` is treated as `1` and `False` as `0`, so the **mean**
 In contrast, the **sum** would give the total number of `True` entries.
 :::
 
-::: {.callout-tip title="note"}
+::: {.callout-tip title="Class imbalance"}
 We have much fewer `mount` frames than `non-mount` frames.
 This situation—often referred to as **class imbalance**—is quite common in behaviour classification scenarios.
 :::

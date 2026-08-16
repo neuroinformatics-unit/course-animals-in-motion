@@ -52,12 +52,28 @@ jobs:
           fi
 
       - name: Cache movement sample data
+        id: cache-sample-data
         uses: actions/cache@v6
         with:
           path: |
             ~/.movement/data/*
-          key: cached-sample-data
-          restore-keys: cached-sample-data
+          key: cached-sample-data-v2
+          restore-keys: cached-sample-data-v2
+
+      # Seed the cache from Google Drive while GIN is down. movement's fetch
+      # works offline once these files (with matching hashes) are in
+      # ~/.movement/data. Runs only on cache miss; actions/cache saves it for
+      # subsequent runs. The confirm=t endpoint bypasses Drive's virus-scan
+      # page, which curl would otherwise download instead of the file.
+      - name: Seed movement sample data (GIN fallback)
+        if: steps.cache-sample-data.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.movement/data
+          curl -L -o /tmp/movement-data.zip \
+            "https://drive.usercontent.google.com/download?id=1nvvYOZmCgu3rjzIh6ksOM3tiL7hCaSee&export=download&confirm=t"
+          unzip -o /tmp/movement-data.zip -d ~/.movement/data
+          rm /tmp/movement-data.zip
+          ls -lR ~/.movement/data
 
       - name: Cache CalMS21 data
         id: cache-calms21
