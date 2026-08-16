@@ -21,6 +21,31 @@ Behaviour segmentation typically operates on one or more of the following **feat
 
 **Supervised behaviour classifiers** learn to map these features to discrete behavioural states based on labelled examples provided by a human expert. Such **labels** indicate which behavioural states occur at each time point or frame. Their quality and quantity directly determine what the classifier can learn, making careful, consistent annotation a foundational requirement for any supervised behaviour analysis workflow.
 
+::: {.callout-note title="Approaches to behaviour segmentation" collapse="true"}
+There are various ways to segment continuous motion into discrete behavioural states, including:
+
+- **Human annotation**: a human observer watches videos and annotates frames with behaviours of interest. You will get a taste of this in this chapter.
+- **Rule-based**: a fixed set of rules to describe the criteria that must be met to determine a behaviour's occurrence, e.g. a speed threshold above which an animal is considered to be "locomoting". We will touch on this in @sec-classification.
+- **Supervised classification**, already explained above. We will go through this in detail in @sec-classification.
+- **Unsupervised methods**: the model discovers behavioural states from the data, without any user-defined examples. These methods often employ dimensionality reduction followed by clustering, as in [MotionMapper](https://github.com/gordonberman/MotionMapper) [@berman_mapping_2014] and [B-SOID](https://github.com/YttriLab/B-SOID) [@hsu_b-soid_2021]. Some tools also rely on state-space models, such as hidden Markov models (HMMs) and auto-regressive HMMs; see [VAME](https://ethoml.github.io/VAME/) [@luxem_identifying_2022] and [Keypoint MoSeq](https://dattalab.github.io/moseq2-website/index.html) [@weinreb_keypoint-moseq_2024].
+- Hybrid approaches:
+  - self-supervised. Example tools include [LISBET](https://github.com/BelloneLab/lisbet) [@chindemi2023lisbet].
+  - semi-supervised.
+
+![Supervised and unsupervised approaches to behavioural segmentation. Figure adapted from @luxem_open-source_2023 licensed under CC BY 4.0.](img/supervised_vs_unsupervised.jpg){#fig-behav-segmentation width=100%}
+
+Table 1 in @goodwin_simple_2024 offers a nice overview of open-source tools for behaviour segmentation, grouped by approach.
+See Figure 3 in @pereira_quantifying_2020 for segmentation schematics.
+
+Challenges:
+
+- Behaviour is hierarchical and operates at multiple timescales, e.g. a walking bout alternates between swinging and stance phases.
+- Many behaviours can co-occur simultaneously, e.g. walking and sniffing,
+- Human annotators often disagree on what constitutes a behaviour, and how to label it.
+- Supervised methods often inherit the biases of human annotators.
+- Behavioural states output by unsupervised methods are often difficult to interpret.
+:::
+
 ## How can we annotate behaviours?
 
 There are various tools to help with behaviour annotation (refer to @sec-useful-tools and @luxem_open-source_2023).
