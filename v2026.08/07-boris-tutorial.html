@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Behaviour annotation with BORIS – Animals In Motion</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08-classification-tutorial.html" rel="next">
+<link href="./06-movement-zebras.html" rel="prev">
+<link href="./img/logo_niu_light.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-6453dac79e1d50bfdfa0bb70d43e08c2.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-65e54a43dc45ff0e44849b2a8dfdc316.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-6453dac79e1d50bfdfa0bb70d43e08c2.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c8fe09a765ab1a151b11ddf0550421e1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2f0954a64e76e716682b04e6bd9451a3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c8fe09a765ab1a151b11ddf0550421e1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-boris-tutorial.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Behaviour annotation with BORIS</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./img/animals-in-motion-logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Animals In Motion</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/tree/main/book/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code" target="_blank"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-deep-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Deep learning for computer vision primer</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-sleap-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pose estimation with SLEAP</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-movement-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analysing tracks with movement</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-movement-mouse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A mouse in the elevated plus maze</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-movement-zebras.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-boris-tutorial.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Behaviour annotation with BORIS</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-classification-tutorial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Training a supervised behaviour classifier</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Prerequisites</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./contributing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Contributing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-supervised-classification" id="toc-sec-supervised-classification" class="nav-link active" data-scroll-target="#sec-supervised-classification"><span class="header-section-number">7.1</span> Supervised behaviour classification</a></li>
+  <li><a href="#how-can-we-annotate-behaviours" id="toc-how-can-we-annotate-behaviours" class="nav-link" data-scroll-target="#how-can-we-annotate-behaviours"><span class="header-section-number">7.2</span> How can we annotate behaviours?</a></li>
+  <li><a href="#dataset-and-task" id="toc-dataset-and-task" class="nav-link" data-scroll-target="#dataset-and-task"><span class="header-section-number">7.3</span> Dataset and task</a></li>
+  <li><a href="#boris-workflow" id="toc-boris-workflow" class="nav-link" data-scroll-target="#boris-workflow"><span class="header-section-number">7.4</span> BORIS workflow</a>
+  <ul class="collapse">
+  <li><a href="#create-a-new-project" id="toc-create-a-new-project" class="nav-link" data-scroll-target="#create-a-new-project"><span class="header-section-number">7.4.1</span> Create a new project</a></li>
+  <li><a href="#define-the-ethogram" id="toc-define-the-ethogram" class="nav-link" data-scroll-target="#define-the-ethogram"><span class="header-section-number">7.4.2</span> Define the ethogram</a></li>
+  <li><a href="#add-subjects" id="toc-add-subjects" class="nav-link" data-scroll-target="#add-subjects"><span class="header-section-number">7.4.3</span> Add subjects</a></li>
+  <li><a href="#start-an-observation" id="toc-start-an-observation" class="nav-link" data-scroll-target="#start-an-observation"><span class="header-section-number">7.4.4</span> Start an observation</a></li>
+  <li><a href="#annotate-events" id="toc-annotate-events" class="nav-link" data-scroll-target="#annotate-events"><span class="header-section-number">7.4.5</span> Annotate events</a></li>
+  <li><a href="#export-the-data" id="toc-export-the-data" class="nav-link" data-scroll-target="#export-the-data"><span class="header-section-number">7.4.6</span> Export the data</a></li>
+  </ul></li>
+  <li><a href="#choosing-a-behaviour-segmentation-approach" id="toc-choosing-a-behaviour-segmentation-approach" class="nav-link" data-scroll-target="#choosing-a-behaviour-segmentation-approach"><span class="header-section-number">7.5</span> Choosing a behaviour segmentation approach</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/edit/main/book/07-boris-tutorial.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/book/07-boris-tutorial.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-boris" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Behaviour annotation with BORIS</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- markdownlint-disable MD045 -->
+<p>Before we proceed, make sure you have installed <a href="https://www.boris.unito.it/">BORIS</a> (see <a href="prerequisites.html#sec-install-boris" class="quarto-xref">prerequisites&nbsp;<span>A.3.4</span></a>). You will also need the files <code>mouse044_task1_annotator1.mp4</code> and <code>mouse044_task1_mount_events_boris.tsv</code> downloaded from <a href="https://www.dropbox.com/scl/fo/81ug5hoy9msc7v7bteqa0/AH32RLdbZqWZJstIeR4YHZY?rlkey=blgagtaizw8aac5areja6h7q1&amp;st=xni448zl&amp;dl=0">Dropbox</a> (see <a href="prerequisites.html#sec-data" class="quarto-xref">prerequisites&nbsp;<span>A.4</span></a>).</p>
+<section id="sec-supervised-classification" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="sec-supervised-classification"><span class="header-section-number">7.1</span> Supervised behaviour classification</h2>
+<p>Pose estimation tools such as SLEAP (see <a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a>) reveal <em>where</em> animals are, while motion quantification tools like <code>movement</code> (see <a href="04-movement-intro.html" class="quarto-xref"><span>Chapter 4</span></a>) show us <em>how</em> they move. Neither category tells us <em>what</em> behaviour is occurring at any given moment.</p>
+<p>Supervised behaviour classification addresses this gap: a <strong>behaviour classifier</strong> learns to assign discrete behavioural states—e.g.&nbsp;grooming, investigation, chasing—to each frame or time point. In practice, this is often framed as <strong>behaviour segmentation</strong>, since the classifier must segment a continuous stream of video or motion data into labelled behavioural states.</p>
+<p>Behaviour segmentation typically operates on one or more of the following <strong>features</strong> as inputs:</p>
+<ul>
+<li>video segments</li>
+<li>the associated motion-tracking data</li>
+<li>kinematic variables derived from motion-tracking data.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ethology_workflow.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption><a href="01-intro.html#fig-ethology-workflow" class="quarto-xref">Figure&nbsp;<span>1.5</span></a>, revisited. Behaviour segmentation can be based on videos, motion tracks or kinematic features.</figcaption>
+</figure>
+</div>
+<p><strong>Supervised behaviour classifiers</strong> learn to map these features to discrete behavioural states based on labelled examples provided by a human expert. Such <strong>labels</strong> indicate which behavioural states occur at each time point or frame. Their quality and quantity directly determine what the classifier can learn, making careful, consistent annotation a foundational requirement for any supervised behaviour analysis workflow.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Approaches to behaviour segmentation">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Approaches to behaviour segmentation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Supervised classification is not the only way to segment behaviour. Other approaches include:</p>
+<ul>
+<li><strong>Manual annotation</strong>: a human observer watches videos and annotates frames with behaviours of interest. You will get a taste of this in this chapter, but annotating every frame of every video in a large dataset is usually impractical.</li>
+<li><strong>Rule-based</strong>: a fixed set of rules to describe the criteria that must be met to determine a behaviour’s occurrence, e.g.&nbsp;a speed threshold above which an animal is considered to be “locomoting”. We will touch on this in <a href="08-classification-tutorial.html" class="quarto-xref"><span>Chapter 8</span></a>.</li>
+<li><strong>Unsupervised methods</strong>: the model discovers behavioural states from the data, without any user-defined examples. These methods often employ dimensionality reduction followed by clustering, as in <a href="https://github.com/gordonberman/MotionMapper">MotionMapper</a> <span class="citation" data-cites="berman_mapping_2014">(<a href="references.html#ref-berman_mapping_2014" role="doc-biblioref">Berman et al. 2014</a>)</span> and <a href="https://github.com/YttriLab/B-SOID">B-SOID</a> <span class="citation" data-cites="hsu_b-soid_2021">(<a href="references.html#ref-hsu_b-soid_2021" role="doc-biblioref">Hsu and Yttri 2021</a>)</span>. Some tools also rely on state-space models, such as hidden Markov models (HMMs); see <a href="https://ethoml.github.io/VAME/">VAME</a> <span class="citation" data-cites="luxem_identifying_2022">(<a href="references.html#ref-luxem_identifying_2022" role="doc-biblioref">Luxem et al. 2022</a>)</span> and <a href="https://dattalab.github.io/moseq2-website/index.html">Keypoint MoSeq</a> <span class="citation" data-cites="weinreb_keypoint-moseq_2024">(<a href="references.html#ref-weinreb_keypoint-moseq_2024" role="doc-biblioref">Weinreb 2024</a>)</span>.</li>
+</ul>
+<div id="fig-behav-segmentation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-behav-segmentation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="img/supervised_vs_unsupervised.jpg" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-behav-segmentation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.1: Supervised and unsupervised approaches to behavioural segmentation. Figure adapted from <span class="citation" data-cites="luxem_open-source_2023">Luxem et al. (<a href="references.html#ref-luxem_open-source_2023" role="doc-biblioref">2023</a>)</span>, licensed under CC BY 4.0.
+</figcaption>
+</figure>
+</div>
+<p>See also:</p>
+<ul>
+<li><em>Figure 3</em> in <span class="citation" data-cites="pereira_quantifying_2020">Pereira et al. (<a href="references.html#ref-pereira_quantifying_2020" role="doc-biblioref">2020</a>)</span> for an alternative schematic representation of supervised and unsupervised approaches.</li>
+<li><em>Table 1</em> in <span class="citation" data-cites="goodwin_simple_2024">Goodwin et al. (<a href="references.html#ref-goodwin_simple_2024" role="doc-biblioref">2024</a>)</span> for an overview of open-source tools for behaviour segmentation, grouped by approach.</li>
+</ul>
+<p>Whichever approach you choose, segmenting behaviour is hard and presents two kinds of <strong>challenges</strong>.</p>
+<p>First, behaviour itself resists tidy labels:</p>
+<ul>
+<li>Behaviour is hierarchical and operates at multiple timescales, e.g.&nbsp;a walking bout alternates between swinging and stance phases.</li>
+<li>Many behaviours can co-occur simultaneously, e.g.&nbsp;walking and sniffing.</li>
+<li>Human annotators often disagree on what constitutes a behaviour, and how to label it.</li>
+</ul>
+<p>Second, each family of methods comes with its own limitation:</p>
+<ul>
+<li>Rule-based methods rely on hand-picked thresholds that often fail to generalise across datasets.</li>
+<li>Supervised methods often inherit the biases of human annotators.</li>
+<li>Behavioural states output by unsupervised methods are often difficult to interpret.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="how-can-we-annotate-behaviours" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="how-can-we-annotate-behaviours"><span class="header-section-number">7.2</span> How can we annotate behaviours?</h2>
+<p>There are various tools to help with behaviour annotation (refer to <a href="01-intro.html#sec-useful-tools" class="quarto-xref"><span>Section 1.6</span></a> and <span class="citation" data-cites="luxem_open-source_2023">Luxem et al. (<a href="references.html#ref-luxem_open-source_2023" role="doc-biblioref">2023</a>)</span>). Here, we introduce <a href="https://www.boris.unito.it/">BORIS</a> <span class="citation" data-cites="friard_boris_2016">(<a href="references.html#ref-friard_boris_2016" role="doc-biblioref">Friard and Gamba 2016</a>)</span>, a widely adopted, free, open-source, tool designed for this task. BORIS offers a keyboard-shortcut-based interface for annotating behaviours in video recordings, structured around a project that defines an <strong>ethogram</strong>—a catalogue of all behaviours to be annotated. Annotations can be exported in multiple formats for downstream analysis.</p>
+<p>While, in principle, one could use BORIS to manually annotate every frame of every video in a dataset, this is often impractical for large datasets. A common approach is therefore to annotate a subset of videos, train a supervised classifier on those annotations, and then use that classifier to automatically label the remaining videos—effectively teaching the computer to reproduce the annotation “style” of a human expert.</p>
+<p>Structurally, this mirrors the supervised workflow used for pose estimation in <a href="03-sleap-tutorial.html#sec-workflow-sleap" class="quarto-xref"><span>Section 3.6</span></a>: select data, annotate, train, and predict—only with behaviour labels instead of keypoints. Unlike SLEAP, which integrates this entire workflow into a single application, BORIS supports only the annotation step. Classifier training and inference are handled separately, covered in <a href="08-classification-tutorial.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
+</section>
+<section id="dataset-and-task" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="dataset-and-task"><span class="header-section-number">7.3</span> Dataset and task</h2>
+<p>The <a href="https://sites.google.com/view/computational-behavior/our-datasets/calms21-dataset">CalMS21 dataset</a> <span class="citation" data-cites="sun_caltech_2021">(<a href="references.html#ref-sun_caltech_2021" role="doc-biblioref">Sun et al. 2021</a>)</span>, as introduced in <a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a>, captures interactions between two mice in a <strong>resident–intruder assay</strong> <span class="citation" data-cites="jove4367">(<a href="references.html#ref-jove4367" role="doc-biblioref"><span class="nocase">Koolhaas Jaap M.</span> 2013</a>)</span>: a black resident mouse and a white intruder mouse.</p>
+<p>For simplicity, this tutorial focuses on annotating a single, easily identifiable behaviour—the resident mounting the intruder—on the same video used in <a href="03-sleap-tutorial.html" class="quarto-xref"><span>Chapter 3</span></a>: <code>mouse044_task1_annotator1.mp4</code>. These annotations can then be used to train a <strong>binary classifier</strong>, where each frame is labelled as either “mounting” or “not mounting”.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The original “Task 1” defined by <span class="citation" data-cites="sun_caltech_2021">Sun et al. (<a href="references.html#ref-sun_caltech_2021" role="doc-biblioref">2021</a>)</span> is a <strong>multi-class classification problem</strong> aiming to identify four behavioural states—<code>attack</code>, <code>investigation</code>, <code>mount</code> and <code>other</code>. Although we annotate only <code>mount</code> here, the same workflow can be extended by adding more behaviours to the ethogram.</p>
+</div>
+</div>
+</section>
+<section id="boris-workflow" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="boris-workflow"><span class="header-section-number">7.4</span> BORIS workflow</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The workflow described here follows the <a href="https://www.boris.unito.it/user_guide/">official user guide</a> for BORIS v9.x, adapted to our dataset and task. The interface may differ slightly in other versions. Our example is intentionally simple—refer to the official documentation for richer examples, advanced options, and more complex annotation workflows.</p>
+</div>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+   project("Project&lt;br&gt;(ethogram + subjects)") --&gt; obs
+    video("Video") --&gt; obs[/Observation/]
+    obs --&gt; |"annotate&lt;br&gt;behaviours"| events[/Event&lt;br&gt;annotations/]
+    events --&gt; |export| tsv[/TSV file/]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Our annotation workflow consists of the following key steps:</p>
+<ol type="1">
+<li><strong>Create a project</strong>: start a new BORIS project and configure its basic settings.</li>
+<li><strong>Define the ethogram</strong>: add the behaviours to be annotated and assign keyboard shortcuts.</li>
+<li><strong>Add subjects</strong>: specify the individual animals whose behaviour will be annotated.</li>
+<li><strong>Start an observation</strong>: create an observation for the video file.</li>
+<li><strong>Annotate events</strong>: step through the video and use keyboard shortcuts to mark behaviour onsets and offsets.</li>
+<li><strong>Export the data</strong>: save the annotations as a tab-separated values (TSV) file for downstream analysis.</li>
+</ol>
+<section id="create-a-new-project" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="create-a-new-project"><span class="header-section-number">7.4.1</span> Create a new project</h3>
+<p><a href="https://www.boris.unito.it/user_guide/start/">Open BORIS</a> and create a new project via “Project” → “New project”. This brings up the project dialog, which contains multiple tabs that we will work through to configure the project.</p>
+<p>On the “Project” tab:</p>
+<ul>
+<li>Set a “Project name”, e.g.&nbsp;<code>calms21_resident_intruder</code>.</li>
+<li>Optionally add a “Project description”.</li>
+<li>Set “Time format” to “Seconds”.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/BORIS/1_new_project.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Creating a new BORIS project</figcaption>
+</figure>
+</div>
+</section>
+<section id="define-the-ethogram" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="define-the-ethogram"><span class="header-section-number">7.4.2</span> Define the ethogram</h3>
+<p>Navigate to the “Ethogram” tab. The ethogram lists all behaviours to be annotated.</p>
+<p>We will add a single behaviour: <code>mount</code>.</p>
+<ol type="1">
+<li>Click “Behaviour” → “Add new behaviour”.</li>
+<li>Under “Behaviour type”, select “State event”—a state event has a start and an end, whereas a point event is instantaneous.</li>
+<li>Set “Code” to <code>mount</code>.</li>
+<li>(Optional) Assign a “Key”, e.g.&nbsp;<code>m</code>. A keyboard shortcut lets you code events quickly.</li>
+<li>(Optional) Add a description. For example, you may include the following excerpt from <span class="citation" data-cites="sun_caltech_2021">Sun et al. (<a href="references.html#ref-sun_caltech_2021" role="doc-biblioref">2021</a>)</span>:</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Mount</strong>: behavior in which the resident is hunched over the intruder, typically from the rear, and grasping the sides of the intruder using forelimbs. Early-stage copulation is accompanied by rapid pelvic thrusting, while later-stage copulation (sometimes annotated separately as intromission) has a slower rate of pelvic thrusting with some pausing: for the purpose of this analysis, both behaviors should be counted as mounting, however periods where the resident is climbing on the intruder but not attempting to grasp the intruder or initiate thrusting should not.</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/BORIS/2_ethogram.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Ethogram configuration in BORIS</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exclusion matrix">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Exclusion matrix
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a single behaviour there is no need to configure an “Exclusion matrix” (which specifies behaviours that cannot co-occur). If you later extend the ethogram—for example by adding <code>attack</code> or <code>investigation</code>—you can return to the “Ethogram” tab and define which pairs are mutually exclusive. When you set up this matrix, starting a new coded behaviour automatically stops any ongoing conflicting behaviour. This helps you code more quickly and keeps your annotations consistent</p>
+<p>For a more complex worked example that uses the “Exclusion matrix” extensively, see <a href="https://movement.neuroinformatics.dev/dev/examples/advanced/annotate_boris_events.html"><code>movement</code>’s Annotate and load events with BORIS example</a>.</p>
+</div>
+</div>
+</section>
+<section id="add-subjects" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="add-subjects"><span class="header-section-number">7.4.3</span> Add subjects</h3>
+<p>Navigate to the “Subjects” tab.</p>
+<p>BORIS allows coding behaviours for different subjects within a single observation. By defining “Subjects”, you can specify which individual is performing each behaviour. Because <code>mount</code> is defined in the ethogram as a behaviour performed by the resident mouse, we only need to add a single subject to represent the resident mouse. If you wish to annotate the intruder mounting the resident mouse, you can add a second subject representing the intruder (and update the behaviour description in the ethogram accordingly).</p>
+<p>Click “Subject” → “Add a new subject” and add a subject named <code>resident_b</code>. Optionally assign the “Key” <code>b</code> as a keyboard shortcut and add a description.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/BORIS/3_subjects.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Adding subjects to a BORIS project</figcaption>
+</figure>
+</div>
+<p>Click “OK” to close the project dialog. Save the project via “Project” → “Save project” (or <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>), choosing a location and filename such as <code>calms21_resident_intruder.boris</code>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>BORIS does not auto-save by default. Get into the habit of saving frequently throughout the annotation session with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>.</p>
+</div>
+</div>
+</section>
+<section id="start-an-observation" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="start-an-observation"><span class="header-section-number">7.4.4</span> Start an observation</h3>
+<p>Create a new observation via “Observations” → “New observation”.</p>
+<ul>
+<li>Set an “Observation ID”, e.g.&nbsp;<code>mouse044_task1</code>.</li>
+<li>Select “Observation from media file(s)”.</li>
+<li>Click “Add media” → “with absolute path” and navigate to <code>mouse044_task1_annotator1.mp4</code>.</li>
+<li>Click “Start”.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/BORIS/4_new_observation.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Adding a new BORIS observation</figcaption>
+</figure>
+</div>
+<p>The video will open in the main BORIS window alongside the ethogram and subjects panels.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/BORIS/5_observation_view.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Observation view in BORIS</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="For macOS users">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>For macOS users
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On macOS, the video will appear in a separate floating window alongside the main BORIS GUI. You can resize and reposition the video window as needed.</p>
+<p>Remember to click on the main BORIS window during annotation, otherwise key presses will not be recorded.</p>
+</div>
+</div>
+</section>
+<section id="annotate-events" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="annotate-events"><span class="header-section-number">7.4.5</span> Annotate events</h3>
+<p>You are now ready to annotate the video. The following steps describe the basic annotation cycle:</p>
+<ol type="1">
+<li><strong>Select the focal subject</strong> by double-clicking <code>resident_b</code> in the Subjects panel. If you assigned a key (e.g.&nbsp;<kbd>b</kbd>), you can also press it to select the subject.</li>
+<li><strong>Step through the video</strong> frame by frame using the <kbd>←</kbd> and <kbd>→</kbd> arrow keys, or use the step buttons and slider in the video playback controls at the top of the observation window. You can also press the <kbd>Space</kbd> bar to play or pause the video. For brief or fast-moving events, reducing playback speed (e.g.&nbsp;to 0.5×) can make them easier to identify.</li>
+<li><strong>Annotate the start of a mount event</strong> by pressing <kbd>m</kbd> at the frame where mounting begins. The annotated event appears in the event log at the bottom-right of the window with its “Time” recorded and its “Type” marked as “START”.</li>
+<li><strong>Annotate the end of the mount event</strong> by pressing <kbd>m</kbd> again at the frame where mounting ends. Another event entry is added to the event log with its “Time” recorded and its “Type” marked as “STOP”, completing the mount event.</li>
+<li>Repeat steps 3–4 for each mounting bout throughout the video.</li>
+</ol>
+<div class="callout callout-style-default callout-warning callout-titled" title="Arrow keys on macOS">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Arrow keys on macOS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <kbd>←</kbd>/<kbd>→</kbd> arrow keys may not work for frame stepping on macOS—BORIS can misidentify them as numpad keys, which are unassigned by default. If this happens, use the step buttons in the video playback controls instead.</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/BORIS/6_annotating.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Annotating events in BORIS</figcaption>
+</figure>
+</div>
+<p>After a first pass through the video, you may want to review your annotations and make adjustments. You can double-click a row in the event log to jump to an event’s frame, and right-click the row to reveal some helpful options, such as:</p>
+<ul>
+<li>“Edit selected event(s)”</li>
+<li>“Shift time of selected event(s)”</li>
+<li>“Delete selected event(s)”</li>
+<li>“Check state events” (to ensure that all state events have both a start and a stop time)</li>
+<li>“Fix unpaired events” (to automatically close any open state events at the end of the video).</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Frame indexes">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Frame indexes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you notice any event lacking a “Frame index” in the event log, you can populate the corresponding column by running “Observations” → “Add frame indexes”. Typically, this is only necessary if you are implicitly closing one behaviour by starting another mutually exclusive behaviour. This should not be an issue in our single-behaviour example.</p>
+</div>
+</div>
+<p>You may also visualise your annotations in BORIS. Try the “Plot current observation” and “Plot current time budget” buttons in the top toolbar.</p>
+</section>
+<section id="export-the-data" class="level3" data-number="7.4.6">
+<h3 data-number="7.4.6" class="anchored" data-anchor-id="export-the-data"><span class="header-section-number">7.4.6</span> Export the data</h3>
+<p>Export your annotations via “Observations” → “Export events” → “Aggregated events”. In the dialog:</p>
+<ul>
+<li>Select your observation (<code>mouse044_task1</code>) and click “OK”.</li>
+<li>Select the observed subject (<code>resident_b</code>) and behaviour (<code>mount</code>) to export, then click “OK”.</li>
+<li>Choose a destination and filename, e.g.&nbsp;<code>mouse044_task1_mount.tsv</code>. Leave the format as “Tab Separated Values (*.tsv)“.</li>
+</ul>
+<p>The exported file contains one row per annotated event, with relevant columns including “Subject”, “Behavior”, “Start (s)”, “Stop (s)”, “Duration (s)”, “Image index start”, and “Image index stop”.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Discuss
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Open the TSV file you exported in Excel, Google Sheets, LibreOffice Calc, Numbers, or any text editor. Compare it with the ground-truth annotations provided as <code>mouse044_task1_mount_events_boris.tsv</code>, which are also shown here for your convenience (only relevant columns are displayed):</p>
+<div id="97a129c9" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Subject</th>
+<th data-quarto-table-cell-role="th">Behavior</th>
+<th data-quarto-table-cell-role="th">Start (s)</th>
+<th data-quarto-table-cell-role="th">Stop (s)</th>
+<th data-quarto-table-cell-role="th">Duration (s)</th>
+<th data-quarto-table-cell-role="th">Image index start</th>
+<th data-quarto-table-cell-role="th">Image index stop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>0.033</td>
+<td>1.767</td>
+<td>1.733</td>
+<td>1</td>
+<td>53</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>17.667</td>
+<td>22.467</td>
+<td>4.800</td>
+<td>530</td>
+<td>674</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>29.733</td>
+<td>32.500</td>
+<td>2.767</td>
+<td>892</td>
+<td>975</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>33.700</td>
+<td>36.000</td>
+<td>2.300</td>
+<td>1011</td>
+<td>1080</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>48.467</td>
+<td>50.267</td>
+<td>1.800</td>
+<td>1454</td>
+<td>1508</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>52.800</td>
+<td>54.233</td>
+<td>1.433</td>
+<td>1584</td>
+<td>1627</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>59.900</td>
+<td>62.633</td>
+<td>2.733</td>
+<td>1797</td>
+<td>1879</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>88.767</td>
+<td>91.833</td>
+<td>3.067</td>
+<td>2663</td>
+<td>2755</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>92.267</td>
+<td>93.000</td>
+<td>0.733</td>
+<td>2768</td>
+<td>2790</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>resident_b</td>
+<td>mount</td>
+<td>102.600</td>
+<td>104.500</td>
+<td>1.900</td>
+<td>3078</td>
+<td>3135</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ul>
+<li>How did your annotations differ from the ground truth?</li>
+<li>Did you miss any bouts or find extra ones?</li>
+<li>Did you annotate the start and stop times differently?</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="choosing-a-behaviour-segmentation-approach" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="choosing-a-behaviour-segmentation-approach"><span class="header-section-number">7.5</span> Choosing a behaviour segmentation approach</h2>
+<p>We have now glimpsed how manual annotation works in practice. The next chapter (<a href="08-classification-tutorial.html" class="quarto-xref"><span>Chapter 8</span></a>) covers rule-based and supervised classification, building on the annotations we have just produced. Unsupervised methods are not covered in this current version of the handbook, but they remain a valuable part of the toolkit.</p>
+<p>Whichever tools you end up using, the more important skill is knowing how to choose the right behaviour segmentation approach for the question at hand.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Discuss">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Discuss
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Which behaviour segmentation approach (see the <em>Approaches to behaviour segmentation</em> note in <a href="#sec-supervised-classification" class="quarto-xref"><span>Section 7.1</span></a>) would you choose in the following scenarios, and why?</p>
+<ol type="1">
+<li>You captured a single 5-minute video of a rare species in the wild and want to isolate a particular behaviour of interest.</li>
+<li>You have a large dataset comparing two groups of mice and want to determine if they spend different amounts of time grooming.</li>
+<li>You have videos tracking a few mice in their home cages over a period of weeks, and want to quantify how much time they spend locomoting vs being stationary.</li>
+<li>You have created a new mutant fly line and want to characterise its behaviour repertoire, and compare it to wild-type flies.</li>
+<li>You have hundreds of hours of video of primates in a zoo and want to find every occurrence of a specific, well-defined social interaction, even though it happens only rarely.</li>
+</ol>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-berman_mapping_2014" class="csl-entry" role="listitem">
+Berman, Gordon J., Daniel M. Choi, William Bialek, and Joshua W. Shaevitz. 2014. <span>“Mapping the Stereotyped Behaviour of Freely Moving Fruit Flies.”</span> <em>Journal of The Royal Society Interface</em> 11 (99): 20140672. <a href="https://doi.org/10.1098/rsif.2014.0672">https://doi.org/10.1098/rsif.2014.0672</a>.
+</div>
+<div id="ref-friard_boris_2016" class="csl-entry" role="listitem">
+Friard, Olivier, and Marco Gamba. 2016. <span>“<span>BORIS</span>: A Free, Versatile Open-Source Event-Logging Software for Video/Audio Coding and Live Observations.”</span> <em>Methods in Ecology and Evolution</em> 7 (11): 1325–30. <a href="https://doi.org/10.1111/2041-210X.12584">https://doi.org/10.1111/2041-210X.12584</a>.
+</div>
+<div id="ref-goodwin_simple_2024" class="csl-entry" role="listitem">
+Goodwin, Nastacia L., Jia J. Choong, Sophia Hwang, et al. 2024. <span>“Simple <span>Behavioral</span> <span>Analysis</span> (<span>SimBA</span>) as a Platform for Explainable Machine Learning in Behavioral Neuroscience.”</span> <em>Nature Neuroscience</em>, May, 1–14. <a href="https://doi.org/10.1038/s41593-024-01649-9">https://doi.org/10.1038/s41593-024-01649-9</a>.
+</div>
+<div id="ref-hsu_b-soid_2021" class="csl-entry" role="listitem">
+Hsu, Alexander I., and Eric A. Yttri. 2021. <span>“B-<span>SOiD</span>, an Open-Source Unsupervised Algorithm for Identification and Fast Prediction of Behaviors.”</span> <em>Nature Communications</em> 12 (1): 5188. <a href="https://doi.org/10.1038/s41467-021-25420-x">https://doi.org/10.1038/s41467-021-25420-x</a>.
+</div>
+<div id="ref-jove4367" class="csl-entry" role="listitem">
+<span class="nocase">Koolhaas Jaap M., de Boer Sietse F., Coppens Caroline M.</span> 2013. <span>“The Resident-Intruder Paradigm: A Standardized Test for Aggression, Violence and Social Stress.”</span> <em>JoVE</em>, no. 77: e4367. <a href="https://doi.org/doi:10.3791/4367">https://doi.org/doi:10.3791/4367</a>.
+</div>
+<div id="ref-luxem_identifying_2022" class="csl-entry" role="listitem">
+Luxem, Kevin, Petra Mocellin, Falko Fuhrmann, et al. 2022. <span>“Identifying Behavioral Structure from Deep Variational Embeddings of Animal Motion.”</span> <em>Communications Biology</em> 5 (1): 1–15. <a href="https://doi.org/10.1038/s42003-022-04080-7">https://doi.org/10.1038/s42003-022-04080-7</a>.
+</div>
+<div id="ref-luxem_open-source_2023" class="csl-entry" role="listitem">
+Luxem, Kevin, Jennifer J Sun, Sean P Bradley, et al. 2023. <span>“Open-Source Tools for Behavioral Video Analysis: <span>Setup</span>, Methods, and Best Practices.”</span> <em>eLife</em> 12 (March): e79305. <a href="https://doi.org/10.7554/eLife.79305">https://doi.org/10.7554/eLife.79305</a>.
+</div>
+<div id="ref-pereira_quantifying_2020" class="csl-entry" role="listitem">
+Pereira, Talmo D., Joshua W. Shaevitz, and Mala Murthy. 2020. <span>“Quantifying Behavior to Understand the Brain.”</span> <em>Nature Neuroscience</em> 23 (12): 1537–49. <a href="https://doi.org/10.1038/s41593-020-00734-z">https://doi.org/10.1038/s41593-020-00734-z</a>.
+</div>
+<div id="ref-sun_caltech_2021" class="csl-entry" role="listitem">
+Sun, Jennifer J., Tomomi Karigo, David J. Anderson, Pietro Perona, Yisong Yue, and Ann Kennedy. 2021. <em>Caltech Mouse Social Interactions (CalMS21) Dataset</em>. CaltechDATA. <a href="https://doi.org/10.22002/D1.1991">https://doi.org/10.22002/D1.1991</a>.
+</div>
+<div id="ref-weinreb_keypoint-moseq_2024" class="csl-entry" role="listitem">
+Weinreb, Caleb. 2024. <span>“Keypoint-<span>MoSeq</span>: Parsing Behavior by Linking Point Tracking to Pose Dynamics.”</span> <em>Nature Methods</em> 21.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./06-movement-zebras.html" class="pagination-link" aria-label="Zebra escape trajectories">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Zebra escape trajectories</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08-classification-tutorial.html" class="pagination-link" aria-label="Training a supervised behaviour classifier">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Training a supervised behaviour classifier</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>This website is made with <a href="https://quarto.org/docs/books">Quarto Book</a>, see <a href="contributing.html" class="quarto-xref"><span>Appendix B</span></a>.</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/edit/main/book/07-boris-tutorial.qmd" target="_blank" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/book/07-boris-tutorial.qmd" target="_blank" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/neuroinformatics-unit/course-animals-in-motion/issues/new" target="_blank" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
