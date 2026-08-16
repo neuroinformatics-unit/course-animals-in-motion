@@ -228,7 +228,8 @@ The latter are useful for boundaries an animal may cross, rather than areas it m
 We can now read the regions we defined in the GUI into Python with
 [`load_rois`](https://movement.neuroinformatics.dev/latest/api/movement.roi.load_rois.html).
 
-For reproducibility, we'll use the [EPM_rois.geojson](https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/book/data/EPM_rois.geojson) file provided in the course materials.
+For reproducibility, we'll use the [EPM_rois.geojson](https://github.com/neuroinformatics-unit/course-animals-in-motion/blob/main/book/data/EPM_rois.geojson) file provided in the course materials
+(it's included in the `course-animals-in-motion` GitHub repository you cloned in @sec-install-movement).
 You may also use your own `geojson` file created in @sec-epm-napari; the results should be comparable.
 
 ```{python}
