@@ -335,6 +335,39 @@ div.csl-indent {
 </figure>
 </div>
 <p><strong>Multi-animal pose estimation</strong> aims to detect and track multiple animals simultaneously within the same frame. This is essential for studying social behaviours, group dynamics, or any scenario where animals interact, as it addresses the unique challenges of assigning detections reliably to individuals both within an image (part-grouping problem) and across frames (identity-tracking problem).</p>
+<div class="callout callout-style-default callout-note callout-titled" title="A side note on 2D vs 3D pose estimation">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>A side note on 2D vs 3D pose estimation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This tutorial focuses on <strong>2D pose estimation</strong>: locating each keypoint within the flat image plane of a single camera. This is the most common approach, and sufficient to answer many behavioural questions. However, a camera image is only a projection of the real, 3D world onto a 2D sensor: real-world distances and angles are distorted, and depth information is lost.</p>
+<p>When behaviours inherently span three dimensions—such as reaching, climbing, rearing, or flight—we may need full <strong>3D pose estimation</strong>. This is achieved by combining videos from multiple synchronised camera views to reconstruct 3D coordinates. There are two main markerless approaches:</p>
+<ol type="1">
+<li><p>The first approach is to do ‘regular’ 2D pose estimation in each camera view, then triangulate across camera views to estimate 3D pose. The triangulation relies on known parameters about the cameras and their relative positions and orientations. <a href="https://anipose.readthedocs.io/en/latest/">Anipose</a> <span class="citation" data-cites="karashchuk_anipose_2021">(<a href="references.html#ref-karashchuk_anipose_2021" role="doc-biblioref">Karashchuk et al. 2021</a>)</span> is a popular open-source toolkit that implements this approach.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/pose_estimation_3D.png" class="img-fluid figure-img"></p>
+<figcaption>Source: <span class="citation" data-cites="pereira_quantifying_2020">Pereira et al. (<a href="references.html#ref-pereira_quantifying_2020" role="doc-biblioref">2020</a>)</span></figcaption>
+</figure>
+</div></li>
+<li><p>The second approach, implemented in <a href="https://github.com/spoonsso/dannce">DANNCE</a> <span class="citation" data-cites="dunn_geometric_2021">(<a href="references.html#ref-dunn_geometric_2021" role="doc-biblioref">Dunn et al. 2021</a>)</span>, is to use a fully 3D convolutional neural network (CNN) that can learn about 3D image features and how cameras and landmarks relate to one another in 3D space.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/DANNCE.png" class="img-fluid figure-img"></p>
+<figcaption>Source: <a href="https://github.com/spoonsso/dannce" class="uri">https://github.com/spoonsso/dannce</a></figcaption>
+</figure>
+</div></li>
+</ol>
+</div>
+</div>
+</div>
 </section>
 <section id="top-down-vs-bottom-up-approaches" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="top-down-vs-bottom-up-approaches"><span class="header-section-number">3.2</span> Top-down vs bottom-up approaches</h2>
@@ -767,6 +800,12 @@ Tip
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-dunn_geometric_2021" class="csl-entry" role="listitem">
+Dunn, Timothy W., Jesse D. Marshall, Kyle S. Severson, et al. 2021. <span>“Geometric Deep Learning Enables <span>3D</span> Kinematic Profiling Across Species and Environments.”</span> <em>Nature Methods</em> 18 (5): 564–73. <a href="https://doi.org/10.1038/s41592-021-01106-6">https://doi.org/10.1038/s41592-021-01106-6</a>.
+</div>
+<div id="ref-karashchuk_anipose_2021" class="csl-entry" role="listitem">
+Karashchuk, Pierre, Katie L. Rupp, Evyn S. Dickinson, et al. 2021. <span>“Anipose: <span>A</span> Toolkit for Robust Markerless <span>3D</span> Pose Estimation.”</span> <em>Cell Reports</em> 36 (13): 109730. <a href="https://doi.org/10.1016/j.celrep.2021.109730">https://doi.org/10.1016/j.celrep.2021.109730</a>.
+</div>
 <div id="ref-jove4367" class="csl-entry" role="listitem">
 <span class="nocase">Koolhaas Jaap M., de Boer Sietse F., Coppens Caroline M.</span> 2013. <span>“The Resident-Intruder Paradigm: A Standardized Test for Aggression, Violence and Social Stress.”</span> <em>JoVE</em>, no. 77: e4367. <a href="https://doi.org/doi:10.3791/4367">https://doi.org/doi:10.3791/4367</a>.
 </div>
