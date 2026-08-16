@@ -214,7 +214,7 @@ The steps below are a condensed version of the [define regions of interest](http
 You can compare your `geojson` file with the set of regions we prepared earlier: [EPM_rois.geojson](data/EPM_rois.geojson){download="EPM_rois.geojson"}. Since drawing regions is a manual task, there will be differences. To see how the boundaries compare, you can load both files into the GUI with ["Load layer"](https://movement.neuroinformatics.dev/latest/user_guide/gui.html#save-and-load-regions).
 :::
 
-::: {.callout-note title="`napari` shapes and `movement` regions"}
+::: {.callout-note title="napari shapes and movement regions" collapse="true"}
 Any [`napari` shape](https://napari.org/stable/howtos/layers/shapes.html) can become a `movement` region, but the resulting object in `movement` depends on what you drew:
 polygons, rectangles and ellipses become
 [`PolygonOfInterest`](https://movement.neuroinformatics.dev/latest/api/movement.roi.PolygonOfInterest.html) objects,
@@ -260,7 +260,7 @@ for roi, colour in zip(rois, plt.cm.Dark2.colors, strict=False):
 ax.legend(loc="upper right", fontsize="small")
 ```
 
-::: {.callout-note title="Beyond plotting: geometric variables"}
+::: {.callout-note title="Beyond plotting: geometric variables" collapse="true"}
 A `PolygonOfInterest` also has methods to compute convenient geometric variables such as:
 
 * the distance from a point to a region's boundary,
@@ -306,7 +306,7 @@ ax.set_ylabel("% time spent in region")
 ax.tick_params(axis="x", rotation=30)
 ```
 
-::: {.callout-tip title="`mean` instead of `sum` and divide"}
+::: {.callout-note title="mean instead of sum and divide" collapse="true"}
 Here taking the mean over time is the same as summing over time and dividing by the number of frames: `occupancy.mean("time")` is equivalent to `occupancy.sum("time") / occupancy.sizes["time"]`. But this equivalence holds here because `occupancy` is a boolean array, which cannot contain `NaN` values.
 
 Be careful when applying the same shortcut to floating-point data: `xarray`'s `mean` ignores `NaN` values by default, so they are dropped from both the sum *and* the count. The denominator is then the number of valid frames rather than the total number of frames.
@@ -314,7 +314,7 @@ Be careful when applying the same shortcut to floating-point data: `xarray`'s `m
 
 We can see that the mouse spent a comparable amount of time in the open and closed arms, and a sizeable fraction of the session in the centre.
 
-::: {.callout-note title="Why don't the percentages add up to 100%?"}
+::: {.callout-note title="Why don't the percentages add up to 100%?" collapse="true"}
 If you inspect `time_per_region`, you may notice the percentages don't add up to 100%.
 
 ```{python}
@@ -370,7 +370,7 @@ The centroid is the average of up to 8 keypoints and is only `NaN` when all of t
 
 ## Counting entries and exits
 
-The time spent in a region is an aggregate metric across the entire session. To understand how this dwell time accumulated over the course of the session, the number of entries into each region offers a useful complementary measure—one that can be extracted almost trivially from the boolean `occupancy` array.
+The time spent in a region is an aggregate metric across the entire session. To understand how this dwell time accumulated over the course of the session, the number of entries into each region offers a useful complementary measure—one that can be extracted from the boolean `occupancy` array.
 
 If we compute the consecutive differences of the `occupancy` array along the time dimension, we get an array that identifies, for each frame, whether it corresponds to an entry (`1`), an exit (`-1`), or neither (`0`). We can then count the number of entries and exits per region by summing over time.
 
@@ -393,7 +393,7 @@ Entries and exits are almost perfectly balanced for each region, which provides 
 The centre is entered far more often than the arms, reflecting the typical pattern in which the mouse probes an arm briefly and then retreats back to the centre.
 
 ::: {.callout-note title="Spurious entries and exits"}
-This simple countis subject to a few spurious effects.
+This simple count is subject to a few spurious effects.
 
 One arises from missing data:  The centroid becomes `NaN` wherever the position could not be recovered after cleaning, and `compute_region_occupancy` marks those frames as `False`. A tracking gap that occurs while the mouse is clearly inside a region will therefore appear as a brief exit followed by a re-entry.
 
