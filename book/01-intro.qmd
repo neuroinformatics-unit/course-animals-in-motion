@@ -47,12 +47,6 @@ There are two main ways to extract motion from videos:
 Examples of marker-based (top row) and markerless (bottom row) methods.
 :::
 
-::: {.callout-tip title="Discuss"}
-
-- What are some advantages and disadvantages of marker-based vs. markerless methods?
-- In which cases would you use one over the other?
-:::
-
 ## The rise of markerless methods
 
 There have broadly been two traditions in the study of animal behaviour [@datta_computational_2019]:
